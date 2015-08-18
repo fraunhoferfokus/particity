@@ -10,10 +10,10 @@
 
 	<licenses>
 		<license>
-			<name>BSD 4-clause</name>
-			<url>LICENSE.txt</url>
+			<name>BSD 3-clause</name>
+			<url>LICENSE</url>
 			<distribution>repo</distribution>
-			<comments>http://www.opensource.org/licenses/bsd-license.php</comments>
+			<comments>http://opensource.org/licenses/BSD-3-Clause</comments>
 		</license>
 	</licenses>
 
@@ -26,8 +26,8 @@
 		<developer>
 			<id>sma</id>
 			<name>Maximilian Schmidt</name>
-			<email>m.schmidt@fu-berlin.de</email>
-			<url>http://page.mi.fu-berlin.de/kazcor/</url>
+			<email>stampedev@kopfgarn.de</email>
+			<url>http://www.kopfgarn.de/</url>
 			<organization>Fraunhofer FOKUS</organization>
 			<organizationUrl>http://www.fokus.fraunhofer.de</organizationUrl>
 			<roles>
@@ -61,6 +61,7 @@
 		<!-- themes/layout -->
 		<module>ah_layout_2col</module>
 		<module>ah_layout_3col</module>
+		<module>ah_oefit_theme</module>
 		<module>ah_theme</module>
 	</modules>
 
