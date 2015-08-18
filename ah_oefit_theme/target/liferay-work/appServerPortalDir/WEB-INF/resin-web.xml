@@ -1,0 +1,8 @@
+<web-app xmlns="http://caucho.com/ns/resin">
+	<authenticator type="com.caucho.server.security.JaasAuthenticator">
+		<init>
+			<login-module>com.liferay.portal.security.jaas.PortalLoginModule</login-module>
+			<password-digest>none</password-digest>
+		</init>
+	</authenticator>
+</web-app>

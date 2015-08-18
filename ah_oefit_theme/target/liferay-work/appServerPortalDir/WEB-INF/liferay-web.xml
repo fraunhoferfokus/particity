@@ -1,0 +1,1072 @@
+<?xml version="1.0"?>
+
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<filter>
+		<filter-name>Absolute Redirects Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.absoluteredirects.AbsoluteRedirectsFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>^/html/.+\.(css|gif|html|ico|jpg|js|png)(\?.*)?$</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Aggregate Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.aggregate.AggregateFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Aggregate Filter - JSP</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.aggregate.AggregateFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-pattern</param-name>
+			<param-value>.+/(aui_lang|barebone|css|everything|main)\.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Atom Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.authverifier.AuthVerifierFilter</filter-class>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>atom.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Audit Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.audit.AuditFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>^/html/.+\.(css|gif|html|ico|jpg|js|png)(\?.*)?$</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Auto Login Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.autologin.AutoLoginFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Axis Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.authverifier.AuthVerifierFilter</filter-class>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>axis.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Cache Filter - Friendly</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.cache.CacheFilter</filter-class>
+		<init-param>
+			<param-name>pattern</param-name>
+			<param-value>0</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Cache Filter - Layout</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.cache.CacheFilter</filter-class>
+		<init-param>
+			<param-name>pattern</param-name>
+			<param-value>1</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Cache Filter - Resource</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.cache.CacheFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>.+/-/.+</param-value>
+		</init-param>
+		<init-param>
+			<param-name>pattern</param-name>
+			<param-value>2</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Cache Filter - Resource JSP</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.cache.CacheFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-pattern</param-name>
+			<param-value>.+/(barebone|css|everything|main)\.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>pattern</param-name>
+			<param-value>2</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Char Buffer Pool Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.charbufferpool.CharBufferPoolFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Compound Session Id Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.compoundsessionid.CompoundSessionIdFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Dynamic CSS Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.dynamiccss.DynamicCSSFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Dynamic CSS Filter - JSP</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.dynamiccss.DynamicCSSFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-pattern</param-name>
+			<param-value>.+/(css|main)\.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>ETag Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.etag.ETagFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>.+/-/.+</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>ETag Filter - JSP</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.etag.ETagFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-pattern</param-name>
+			<param-value>.+/(barebone|css|everything|main)\.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Fragment Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.fragment.FragmentFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>GZip Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.gzip.GZipFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>^(/c/document_library/get_file|/c/message_boards/get_message_attachment|/c/wiki/get_page_attachment)(\?.*)?$</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>GZip Filter - Theme PNG</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.gzip.GZipFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-pattern</param-name>
+			<param-value>.+/themes/.*/images/.*\.png</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Header Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.header.HeaderFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>.+/-/.+</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Cache-Control</param-name>
+			<param-value>max-age=315360000, public</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Expires</param-name>
+			<param-value>315360000</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Vary</param-name>
+			<param-value>Accept-Encoding</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Header Filter - JSP</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.header.HeaderFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-pattern</param-name>
+			<param-value>.+/(barebone|css|everything|main)\.jsp</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Cache-Control</param-name>
+			<param-value>max-age=315360000, no-cache="Set-Cookie", public</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Expires</param-name>
+			<param-value>315360000</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Vary</param-name>
+			<param-value>Accept-Encoding</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Header Filter - No Cache</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.header.HeaderFilter</filter-class>
+		<init-param>
+			<param-name>Cache-Control</param-name>
+			<param-value>no-cache</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Expires</param-name>
+			<param-value>-1</param-value>
+		</init-param>
+		<init-param>
+			<param-name>Pragma</param-name>
+			<param-value>no-cache</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Ignore Filter - FTL</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.ignore.IgnoreFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Ignore Filter - JSPF</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.ignore.IgnoreFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Ignore Filter - VM</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.ignore.IgnoreFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>I18n Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.i18n.I18nFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>JSON Content Type Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.jsoncontenttype.JSONContentTypeFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>JSON Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.authverifier.AuthVerifierFilter</filter-class>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>json.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>JSON Web Service Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.authverifier.AuthVerifierFilter</filter-class>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>jsonws.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Language Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.language.LanguageFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Language Filter - JSP</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.language.LanguageFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-pattern</param-name>
+			<param-value>.+/(barebone|everything)\.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Monitoring Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.monitoring.MonitoringFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Remoting Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.authverifier.AuthVerifierFilter</filter-class>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>spring.remoting.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Secure Main Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.secure.SecureFilter</filter-class>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>main.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Secure RSS Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.secure.SecureFilter</filter-class>
+		<init-param>
+			<param-name>basic_auth</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>rss.feeds.</param-value>
+		</init-param>
+		<init-param>
+			<param-name>url-regex-pattern</param-name>
+			<param-value>.+/(activities|asset_publisher/\p{Alnum}{4,12}|blogs|journal|message_boards|wiki)/rss.*</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Servlet Context Include Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.servletcontextinclude.ServletContextIncludeFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>.*/WEB-INF/jsp/_servlet_context_include.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Session Id Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.sessionid.SessionIdFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Session Max Allowed Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.sessionmaxallowed.SessionMaxAllowedFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Sharepoint Filter</filter-name>
+		<filter-class>com.liferay.portal.sharepoint.SharepointFilter</filter-class>
+		<init-param>
+			<param-name>digest_auth</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>webdav.servlet.</param-value>
+		</init-param>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>^/html/.+\.(css|gif|html|ico|jpg|js|png)(\?.*)?$</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>SSO CAS Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.sso.cas.CASFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>SSO Ntlm Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.sso.ntlm.NtlmFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>SSO Ntlm Post Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.sso.ntlm.NtlmPostFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>SSO Open SSO Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.sso.opensso.OpenSSOFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Strip Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.strip.StripFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Theme Preview Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.themepreview.ThemePreviewFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Thread Dump Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.threaddump.ThreadDumpFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>^/html/.+\.(css|gif|html|ico|jpg|js|png)(\?.*)?$</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Thread Local Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.threadlocal.ThreadLocalFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Tunnel Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.authverifier.AuthVerifierFilter</filter-class>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>tunnel.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>UnsyncPrintWriter Pool Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.unsyncprintwriterpool.UnsyncPrintWriterPoolFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>URL Rewrite Filter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>logLevel</param-name>
+			<param-value>ERROR</param-value>
+		</init-param>
+		<init-param>
+			<param-name>statusEnabled</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>^/html/.+\.(css|gif|html|ico|jpg|js|png)(\?.*)?$</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>Valid Host Name Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.validhostname.ValidHostNameFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Valid Html Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.validhtml.ValidHtmlFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>Virtual Host Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.virtualhost.VirtualHostFilter</filter-class>
+		<init-param>
+			<param-name>url-regex-ignore-pattern</param-name>
+			<param-value>^/html/.+\.(css|gif|html|ico|jpg|js|png)(\?.*)?$</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>WebDAV Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.secure.SecureFilter</filter-class>
+		<init-param>
+			<param-name>digest_auth</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>webdav.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>XML-RPC Servlet Filter</filter-name>
+		<filter-class>com.liferay.portal.servlet.filters.authverifier.AuthVerifierFilter</filter-class>
+		<init-param>
+			<param-name>portal_property_prefix</param-name>
+			<param-value>xml-rpc.servlet.</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Ignore Filter - FTL</filter-name>
+		<url-pattern>*.ftl</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Ignore Filter - JSPF</filter-name>
+		<url-pattern>*.jspf</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Ignore Filter - VM</filter-name>
+		<url-pattern>*.vm</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Valid Host Name Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Thread Dump Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Thread Local Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Thread Local Filter</filter-name>
+		<url-pattern>/c/portal/resiliency</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Char Buffer Pool Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>UnsyncPrintWriter Pool Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>URL Rewrite Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Compound Session Id Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Session Id Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Session Max Allowed Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Audit Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Absolute Redirects Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Virtual Host Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Sharepoint Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Sharepoint Filter</filter-name>
+		<url-pattern>/_vti_inf.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Sharepoint Filter</filter-name>
+		<url-pattern>/_vti_bin/shtml.dll/_vti_rpc</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Sharepoint Filter</filter-name>
+		<url-pattern>/sharepoint/_vti_bin/_vti_aut/author.dll</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Sharepoint Filter</filter-name>
+		<url-pattern>/sharepoint/_vti_bin/owssvr.dll</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SSO CAS Filter</filter-name>
+		<url-pattern>/c/portal/login</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SSO CAS Filter</filter-name>
+		<url-pattern>/c/portal/logout</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SSO Ntlm Filter</filter-name>
+		<url-pattern>/c/portal/login</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SSO Ntlm Post Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SSO Open SSO Filter</filter-name>
+		<url-pattern>/c/portal/login</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SSO Open SSO Filter</filter-name>
+		<url-pattern>/c/portal/logout</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/c/portal/fckeditor</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/c/portal/login</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/c/portal/render_portlet</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/c/portal/update_password</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/c/portal/update_reminder_query</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/documents/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Auto Login Filter</filter-name>
+		<url-pattern>/widget/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>/combo/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>/image/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>/language/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.gif</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.ico</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.jpg</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter - JSP</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Header Filter - No Cache</filter-name>
+		<url-pattern>/c/portal/logout</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JSON Content Type Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>^(/c/document_library/get_file|/c/message_boards/get_message_attachment|/c/wiki/get_page_attachment)(\?.*)?$</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>/combo/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>/image/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>/language/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>*.gif</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>*.ico</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>*.jpg</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ETag Filter - JSP</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Monitoring Filter</filter-name>
+		<url-pattern>/c/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Monitoring Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Monitoring Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Monitoring Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Friendly</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Friendly</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Friendly</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Layout</filter-name>
+		<url-pattern>/c/portal/layout</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Resource</filter-name>
+		<url-pattern>/combo/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Resource</filter-name>
+		<url-pattern>/language/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Resource</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Resource</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Cache Filter - Resource JSP</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>I18n Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>I18n Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>I18n Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Secure Main Servlet Filter</filter-name>
+		<url-pattern>/c/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Secure Main Servlet Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Secure Main Servlet Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Secure Main Servlet Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Secure RSS Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Secure RSS Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>/c/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>/combo/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>/language/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>GZip Filter - Theme PNG</filter-name>
+		<url-pattern>*.png</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Theme Preview Filter</filter-name>
+		<url-pattern>/c/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Theme Preview Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Theme Preview Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Theme Preview Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<!--<filter-mapping>
+		<filter-name>Fragment Filter</filter-name>
+		<url-pattern>/c/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>-->
+	<filter-mapping>
+		<filter-name>Strip Filter</filter-name>
+		<url-pattern>/c/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Strip Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Strip Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Strip Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Valid Html Filter</filter-name>
+		<url-pattern>/c/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Valid Html Filter</filter-name>
+		<url-pattern>/group/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Valid Html Filter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Valid Html Filter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Language Filter</filter-name>
+		<url-pattern>/combo/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Language Filter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Language Filter - JSP</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Aggregate Filter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Aggregate Filter</filter-name>
+		<url-pattern>*.js</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Aggregate Filter - JSP</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Dynamic CSS Filter</filter-name>
+		<url-pattern>*.css</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Dynamic CSS Filter - JSP</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Servlet Context Include Filter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Atom Servlet Filter</filter-name>
+		<url-pattern>/api/atom/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Axis Servlet Filter</filter-name>
+		<url-pattern>/api/axis/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JSON Servlet Filter</filter-name>
+		<url-pattern>/api/json/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>JSON Web Service Servlet Filter</filter-name>
+		<url-pattern>/api/jsonws/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Remoting Servlet Filter</filter-name>
+		<url-pattern>/api/spring/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>Tunnel Servlet Filter</filter-name>
+		<url-pattern>/api/liferay/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>WebDAV Servlet Filter</filter-name>
+		<url-pattern>/webdav/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>XML-RPC Servlet Filter</filter-name>
+		<url-pattern>/xmlrpc/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+</web-app>

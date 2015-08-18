@@ -1,0 +1,141 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<c:if test="<%= marketplaceURL != null %>">
+
+	<%
+	String taglibOnClick = "submitForm(document." + renderResponse.getNamespace() + "fm , '" + marketplaceURL.toString() +"');";
+	%>
+
+	<aui:button onClick="<%= taglibOnClick %>" value="install-more-themes" />
+
+	<br /><br />
+</c:if>
+
+<%
+List<String> headerNames = new ArrayList<String>();
+
+headerNames.add("theme");
+headerNames.add("active");
+headerNames.add("roles");
+
+SearchContainer searchContainer = new SearchContainer(renderRequest, null, null, SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, headerNames, null);
+
+List themes = ThemeLocalServiceUtil.getThemes(company.getCompanyId());
+
+int total = themes.size();
+
+searchContainer.setTotal(total);
+
+List results = ListUtil.subList(themes, searchContainer.getStart(), searchContainer.getEnd());
+
+searchContainer.setResults(results);
+
+List resultRows = searchContainer.getResultRows();
+
+for (int i = 0; i < results.size(); i++) {
+	Theme theme2 = (Theme)results.get(i);
+
+	PluginPackage pluginPackage = theme2.getPluginPackage();
+	PluginSetting pluginSetting = PluginSettingLocalServiceUtil.getPluginSetting(company.getCompanyId(), theme2.getThemeId(), Plugin.TYPE_THEME);
+
+	ResultRow row = new ResultRow(theme2, theme2.getThemeId(), i);
+
+	PortletURL rowURL = renderResponse.createRenderURL();
+
+	rowURL.setParameter("struts_action", "/plugins_admin/edit_plugin");
+	rowURL.setParameter("redirect", currentURL);
+
+	if (pluginPackage != null) {
+		rowURL.setParameter("moduleId", pluginPackage.getModuleId());
+	}
+
+	rowURL.setParameter("pluginId", theme2.getThemeId());
+	rowURL.setParameter("pluginType", Plugin.TYPE_THEME);
+	rowURL.setParameter("title", theme2.getName());
+
+	// Name and thumbnail
+
+	StringBundler sb = new StringBundler();
+
+	if (showEditPluginHREF) {
+		sb.append("<a href=\"");
+		sb.append(rowURL.toString());
+		sb.append("\">");
+	}
+
+	sb.append("<img align=\"left\" src=\"");
+	sb.append(theme2.getStaticResourcePath());
+	sb.append(HtmlUtil.escapeAttribute(theme2.getImagesPath()));
+	sb.append("/thumbnail.png\" style=\"margin-right: 10px\" />");
+	sb.append(HtmlUtil.escape(theme2.getName()));
+
+	if (showEditPluginHREF) {
+		sb.append("</a>");
+	}
+
+	sb.append("<br />");
+	sb.append(LanguageUtil.get(pageContext, "package"));
+	sb.append(": ");
+
+	if (pluginPackage == null) {
+		sb.append(LanguageUtil.get(pageContext, "unknown"));
+	}
+	else {
+		sb.append(HtmlUtil.escape(pluginPackage.getName()));
+
+		if (pluginPackage.getContext() != null) {
+			sb.append(" (");
+			sb.append(pluginPackage.getContext());
+			sb.append(StringPool.CLOSE_PARENTHESIS);
+		}
+	}
+
+	List colorSchemes = theme2.getColorSchemes();
+
+	if (!colorSchemes.isEmpty()) {
+		sb.append("<br />");
+		sb.append(LanguageUtil.get(pageContext, "color-schemes"));
+		sb.append(": ");
+
+		for (int j = 0; j < colorSchemes.size(); j++) {
+			ColorScheme colorScheme2 = (ColorScheme)colorSchemes.get(j);
+
+			sb.append(HtmlUtil.escape(colorScheme2.getName()));
+
+			if ((j + 1) < colorSchemes.size()) {
+				sb.append(", ");
+			}
+		}
+	}
+
+	row.addText(sb.toString());
+
+	// Active
+
+	row.addText(LanguageUtil.get(pageContext, (pluginSetting.isActive() ? "yes" : "no")));
+
+	// Roles
+
+	row.addText(HtmlUtil.escape(StringUtil.merge(pluginSetting.getRolesArray(), ", ")));
+
+	// Add result row
+
+	resultRows.add(row);
+}
+%>
+
+<liferay-ui:search-iterator searchContainer="<%= searchContainer %>" />

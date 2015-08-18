@@ -1,0 +1,91 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+if (!useNamespace) {
+	namespace = StringPool.BLANK;
+}
+
+String baseType = GetterUtil.getString((String)request.getAttribute("aui:input:baseType"));
+String forLabel = namespace + GetterUtil.getString((String)request.getAttribute("aui:input:forLabel"));
+boolean wrappedField = GetterUtil.getBoolean(String.valueOf(request.getAttribute("aui:input:wrappedField")));
+
+if (Validator.isNull(label) && changesContext) {
+	StringBundler sb = new StringBundler(5);
+
+	sb.append(LanguageUtil.get(pageContext, title));
+	sb.append(StringPool.SPACE);
+	sb.append(StringPool.OPEN_PARENTHESIS);
+	sb.append(LanguageUtil.get(pageContext, "changing-the-value-of-this-field-will-reload-the-page"));
+	sb.append(StringPool.CLOSE_PARENTHESIS);
+
+	title = sb.toString();
+}
+else if (Validator.isNotNull(title)) {
+	title = LanguageUtil.get(pageContext, title);
+}
+
+boolean checkboxField = baseType.equals("checkbox") || baseType.equals("boolean");
+boolean radioField = baseType.equals("radio");
+
+boolean showForLabel = true;
+
+if (type.equals("assetCategories") || baseType.equals(Date.class.getName())) {
+	showForLabel = false;
+}
+
+if (type.equals("assetTags")) {
+	forLabel += "assetTagNames";
+}
+
+if (checkboxField) {
+	forLabel += "Checkbox";
+}
+
+if ((radioField || checkboxField) && Validator.isNull(inlineLabel)) {
+	inlineLabel = "right";
+}
+
+String addOnCssClass = StringPool.BLANK;
+
+if (helpTextCssClass.equals("add-on")) {
+	if (Validator.isNotNull(prefix)) {
+		addOnCssClass = addOnCssClass.concat("input-prepend ");
+	}
+
+	if (Validator.isNotNull(suffix)) {
+		addOnCssClass = addOnCssClass.concat("input-append");
+	}
+}
+
+String controlGroupCssClass = "control-group";
+
+if (inlineField) {
+	controlGroupCssClass = controlGroupCssClass.concat(" control-group-inline");
+}
+
+if (Validator.isNotNull(inlineLabel)) {
+	controlGroupCssClass = controlGroupCssClass.concat(" form-inline");
+}
+
+if (Validator.isNotNull(wrapperCssClass)) {
+	controlGroupCssClass = controlGroupCssClass.concat(StringPool.SPACE).concat(wrapperCssClass);
+}
+
+String baseTypeCssClass = TextFormatter.format(StringUtil.toLowerCase(baseType), TextFormatter.K);
+String fieldCssClass = AUIUtil.buildCss(AUIUtil.FIELD_PREFIX, disabled, first, last, cssClass);
+String labelTag = AUIUtil.buildLabel(baseTypeCssClass, inlineField, showForLabel, forLabel);
+%>

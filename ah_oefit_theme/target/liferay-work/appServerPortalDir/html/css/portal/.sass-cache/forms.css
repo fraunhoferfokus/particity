@@ -1,0 +1,181 @@
+.control-group-inline {
+  display: inline-block; }
+
+.button-holder {
+  margin: 20px 0; }
+
+.form-search .input-append {
+  position: relative; }
+  .form-search .input-append .advanced-search .search-query {
+    padding-left: 40px;
+    z-index: 0; }
+  .form-search .input-append .advanced-search .toggle-advanced {
+    cursor: pointer;
+    left: 0;
+    line-height: 1;
+    padding: 8px 10px;
+    position: absolute;
+    top: 0; }
+    .form-search .input-append .advanced-search .toggle-advanced .caret {
+      margin-top: 7px; }
+    .form-search .input-append .advanced-search .toggle-advanced .icon-search {
+      font-size: 14px; }
+
+.input-flex-add-on {
+  width: 100%; }
+  .input-flex-add-on.input-append input[type="text"] {
+    margin-bottom: 0;
+    margin-left: -1px; }
+  .input-flex-add-on.input-prepend input[type="text"] {
+    margin-bottom: 0; }
+  .input-flex-add-on.input-prepend .add-on {
+    height: auto;
+    text-align: left;
+    white-space: normal;
+    word-break: break-all; }
+  .input-flex-add-on input {
+    float: left;
+    margin-top: -1px; }
+  .input-flex-add-on .add-on {
+    float: left;
+    margin-top: -1px; }
+  .input-flex-add-on .input-localized-content {
+    clear: both;
+    padding-top: 10px; }
+
+.lfr-ddm-container .control-group label {
+  margin-left: 0; }
+.lfr-ddm-container .field-wrapper {
+  position: relative; }
+  .lfr-ddm-container .field-wrapper .aui-field-wrapper {
+    margin-left: 20px; }
+  .lfr-ddm-container .field-wrapper .datepicker-display {
+    float: none; }
+    .lfr-ddm-container .field-wrapper .datepicker-display .datepicker-button-wrapper, .lfr-ddm-container .field-wrapper .datepicker-display .datepicker-select-wrapper {
+      display: inline;
+      float: none; }
+  .lfr-ddm-container .field-wrapper .lfr-ddm-repeatable-add-button, .lfr-ddm-container .field-wrapper .lfr-ddm-repeatable-delete-button {
+    display: block;
+    height: 16px;
+    position: absolute;
+    top: 4px;
+    width: 16px; }
+    .lfr-ddm-container .field-wrapper .lfr-ddm-repeatable-add-button.lfr-ddm-repeatable-add-button, .lfr-ddm-container .field-wrapper .lfr-ddm-repeatable-delete-button.lfr-ddm-repeatable-add-button {
+      right: 4px; }
+    .lfr-ddm-container .field-wrapper .lfr-ddm-repeatable-add-button.lfr-ddm-repeatable-delete-button, .lfr-ddm-container .field-wrapper .lfr-ddm-repeatable-delete-button.lfr-ddm-repeatable-delete-button {
+      right: 24px; }
+.lfr-ddm-container .field-wrapper-content {
+  margin-bottom: 6px; }
+  .lfr-ddm-container .field-wrapper-content label {
+    font-weight: bold;
+    margin-left: 0; }
+
+.field-wrapper .btn {
+  margin-top: 6px; }
+
+.lfr-input-resource {
+  width: 350px; }
+
+.lfr-input-text, .form .fieldset .lfr-input-text-container input {
+  max-width: 350px;
+  width: 100%; }
+
+.lfr-textarea, .form .fieldset .lfr-textarea-container textarea {
+  height: 100px;
+  max-width: 500px;
+  width: 100%; }
+
+@media (max-width: 979px) {
+  .aui input[type="color"],
+  .aui input[type="date"],
+  .aui input[type="datetime"],
+  .aui input[type="datetime-local"],
+  .aui input[type="email"],
+  .aui input[type="month"],
+  .aui input[type="number"],
+  .aui input[type="password"],
+  .aui input[type="search"],
+  .aui input[type="tel"],
+  .aui input[type="text"],
+  .aui input[type="time"],
+  .aui input[type="url"],
+  .aui input[type="week"],
+  .aui select,
+  .aui textarea,
+  .aui .input-prepend .add-on,
+  .aui .navbar-search .search-query,
+  .aui .uneditable-input {
+    font-size: 18px;
+    height: auto;
+    line-height: normal; }
+  .aui fieldset {
+    min-width: 0;
+    width: 100%; }
+  .aui input, .aui input.input-large, .aui textarea, .aui .uneditable-input {
+    max-width: 100%;
+    width: auto; }
+  .aui select {
+    max-width: 100%; }
+  .aui.firefox fieldset {
+    display: table-cell; }
+  .aui.ios input, .aui.ios input.input-large, .aui.ios textarea, .aui.ios .uneditable-input {
+    max-width: 90% !important; }
+  .aui.ie input[type="color"],
+  .aui.ie input[type="date"],
+  .aui.ie input[type="datetime"],
+  .aui.ie input[type="datetime-local"],
+  .aui.ie input[type="email"],
+  .aui.ie input[type="month"],
+  .aui.ie input[type="number"],
+  .aui.ie input[type="password"],
+  .aui.ie input[type="search"],
+  .aui.ie input[type="tel"],
+  .aui.ie input[type="text"],
+  .aui.ie input[type="time"],
+  .aui.ie input[type="url"],
+  .aui.ie input[type="week"],
+  .aui.ie select,
+  .aui.ie textarea,
+  .aui.ie .uneditable-input {
+    max-width: 90%;
+    width: 180px; }
+    .aui.ie input[type="color"].input-medium,
+    .aui.ie input[type="date"].input-medium,
+    .aui.ie input[type="datetime"].input-medium,
+    .aui.ie input[type="datetime-local"].input-medium,
+    .aui.ie input[type="email"].input-medium,
+    .aui.ie input[type="month"].input-medium,
+    .aui.ie input[type="number"].input-medium,
+    .aui.ie input[type="password"].input-medium,
+    .aui.ie input[type="search"].input-medium,
+    .aui.ie input[type="tel"].input-medium,
+    .aui.ie input[type="text"].input-medium,
+    .aui.ie input[type="time"].input-medium,
+    .aui.ie input[type="url"].input-medium,
+    .aui.ie input[type="week"].input-medium,
+    .aui.ie select.input-medium,
+    .aui.ie textarea.input-medium,
+    .aui.ie .uneditable-input.input-medium {
+      width: 150px; }
+    .aui.ie input[type="color"].input-small,
+    .aui.ie input[type="date"].input-small,
+    .aui.ie input[type="datetime"].input-small,
+    .aui.ie input[type="datetime-local"].input-small,
+    .aui.ie input[type="email"].input-small,
+    .aui.ie input[type="month"].input-small,
+    .aui.ie input[type="number"].input-small,
+    .aui.ie input[type="password"].input-small,
+    .aui.ie input[type="search"].input-small,
+    .aui.ie input[type="tel"].input-small,
+    .aui.ie input[type="text"].input-small,
+    .aui.ie input[type="time"].input-small,
+    .aui.ie input[type="url"].input-small,
+    .aui.ie input[type="week"].input-small,
+    .aui.ie select.input-small,
+    .aui.ie textarea.input-small,
+    .aui.ie .uneditable-input.input-small {
+      width: 90px; } }
+@media (max-width: 979px) and (max-width: 767px) {
+  .aui input.input-large {
+    width: 100%; } }
+

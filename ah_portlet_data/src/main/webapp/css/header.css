@@ -1,0 +1,64 @@
+/*
+* HEADER PORTLET
+*/
+.header {
+	width: 100%;
+	padding: 0px !important;
+	margin: 0px;
+}
+
+.header .headertop {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 1;
+}
+
+.header .headertop>div {
+	padding: 0px !important;
+	margin: 0px !important;
+}
+
+.header .headertop .sitelogo>img, .header .headertop .sitelogo .journal-content-article img
+	{
+	height: 70px !important;
+	width: auto !important;
+	border-radius: 0px 0px 2px 0px;
+	padding: 5px;
+	background-color: #fff;
+}
+
+.header .headertop .login .portlet-body {
+	border-radius: 2px;
+	padding: 5px;
+}
+
+.header .loginWrapper {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	background-color: #fff;
+	padding: 10px;
+	min-height: 50px;
+	border-radius: 0px 0px 0px 2px;
+}
+
+.header .loginWrapper form {
+	margin: 0px !important;
+}
+
+.header .headerback {
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	min-height: 100px;
+}
+
+.header .headerback .portlet-body>.alert {
+	min-height: 90px;
+}
+
+.header .headertop .login {
+	
+}

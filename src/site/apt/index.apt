@@ -1,0 +1,46 @@
+------------
+Adhoc Börse
+------------
+
+ Welcome to the project Adhoc Börse!
+
+ The term "Adhoc Börse" could be translated as "spontaneus engagement exchange" and refers to platforms that provide information on want ads and requests for help in the area of social engagement.
+ This project aims to supply an open-source variant of such an exchange platform, based on Liferay CMS. 
+ 
+ << Note: Site documentation is in English, although some basic aspects (like portlet names and the default translation) are in German. >>
+ 
+Navigation
+
+ This main section carries information about:
+ 
+ * Usage information
+ 
+   * Brief {{{./about.html}description}} of the project
+   
+   * {{{./install.html}Installation}} notes for installation and deployment
+   
+   []
+  
+ * Various development notes
+  
+  * A {{{./changelog.html}changelog}} on recent changes
+  
+  * A {{{./todo.html}list}} of things to be done
+  
+  * {{{./contact.html}Contact}} details, on how to become part of the project
+  
+  * For more detailed documentation have a look at the project modules
+  
+  []
+  
+ []
+
+ On the left you'll find all modules related to this project. Each module
+ (as well as this main section) contains a menu "Project Documentation" where
+ you can find:
+ 
+ * Project information (dependencies, license, modules)
+ 
+ * (Aggregated) Project reports (JavaDoc, NCSS metrics, PMD report, browsable sources)
+ 
+ []

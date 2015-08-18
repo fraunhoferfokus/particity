@@ -1,0 +1,32 @@
+------------
+Adhoc Börse
+------------
+
+ The term "Adhoc Börse" could be translated as "spontaneus engagement exchange" and refers to platforms that provide information on want ads and requests for help in the area of social engagement.
+ This project aims to supply an open-source variant of such an exchange platform, based on Liferay CMS. 
+
+ Some of our exciting features for <<organisations>>:
+  
+  * Visitors can register on site as so called "owners" of an organisation
+  
+  * Owners of organisations may edit organisation details and add additional restricted editors
+  
+  * Editors and owners of organisations can add want ads (offers/requests for help)
+  
+  * Get notifications for new/changed/accepted want ads
+  
+ Some convincing features for <<service providers>>:
+  
+  * Moderate requests for new organisations and want ads
+  
+  * Export contacts of organisations and newsletter-readers alike
+  
+  * Use one click to publish new offers using your Twitter or Facebook account
+
+ Some undeniable features for <<visitors>>:
+  
+  * Find want ads taylored to your needs and interests
+  
+  * Stay informed and sign up with your email for a personalized newsletter 
+
+ []

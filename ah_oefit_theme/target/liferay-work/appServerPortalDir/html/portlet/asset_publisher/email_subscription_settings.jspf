@@ -1,0 +1,202 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+String emailFromName = ParamUtil.getString(request, "preferences--emailFromName--", AssetPublisherUtil.getEmailFromName(portletPreferences, company.getCompanyId()));
+String emailFromAddress = ParamUtil.getString(request, "preferences--emailFromAddress--", AssetPublisherUtil.getEmailFromAddress(portletPreferences, company.getCompanyId()));
+
+boolean emailAssetEntryAddedEnabled = ParamUtil.getBoolean(request, "preferences--emailAssetEntryAddedEnabled--", AssetPublisherUtil.getEmailAssetEntryAddedEnabled(portletPreferences));
+
+String emailParam = (String)request.getAttribute("configuration.jsp-emailParam");
+String defaultEmailSubject = ContentUtil.get(PropsValues.ASSET_PUBLISHER_EMAIL_ASSET_ENTRY_ADDED_SUBJECT);
+String defaultEmailBody = ContentUtil.get(PropsValues.ASSET_PUBLISHER_EMAIL_ASSET_ENTRY_ADDED_BODY);
+
+String currentLanguageId = LanguageUtil.getLanguageId(request);
+
+String emailSubjectParam = (String)request.getAttribute("configuration.jsp-emailSubjectParam");
+String emailBodyParam = (String)request.getAttribute("configuration.jsp-emailBodyParam");
+
+String emailSubject = PrefsParamUtil.getString(portletPreferences, request, emailSubjectParam, defaultEmailSubject);
+String emailBody = PrefsParamUtil.getString(portletPreferences, request, emailBodyParam, defaultEmailBody);
+%>
+
+<liferay-ui:error key="emailAssetEntryAddedBody" message="please-enter-a-valid-body" />
+<liferay-ui:error key="emailAssetEntryAddedSubject" message="please-enter-a-valid-subject" />
+<liferay-ui:error key="emailFromAddress" message="please-enter-a-valid-email-address" />
+<liferay-ui:error key="emailFromName" message="please-enter-a-valid-name" />
+
+<aui:fieldset>
+	<aui:input id="enableEmailSubscription" label="enable-email-subscription" name="preferences--emailAssetEntryAddedEnabled--" type="checkbox" value="<%= emailAssetEntryAddedEnabled %>" />
+
+	<div class='<%= emailAssetEntryAddedEnabled ? StringPool.BLANK : "hide" %>' id="<portlet:namespace />emailSubscriptionSettings">
+		<aui:input cssClass="lfr-input-text-container" label="name" name="preferences--emailFromName--" value="<%= emailFromName %>" />
+
+		<aui:input cssClass="lfr-input-text-container" label="address" name="preferences--emailFromAddress--" value="<%= emailFromAddress %>" />
+
+		<aui:select label="language" name="languageId">
+
+			<%
+			Locale[] locales = LanguageUtil.getAvailableLocales(themeDisplay.getSiteGroupId());
+
+			for (int i = 0; i < locales.length; i++) {
+				String style = StringPool.BLANK;
+
+				if (Validator.isNotNull(portletPreferences.getValue(emailParam + "Subject_" + LocaleUtil.toLanguageId(locales[i]), StringPool.BLANK)) ||
+					Validator.isNotNull(portletPreferences.getValue(emailParam + "Body_" + LocaleUtil.toLanguageId(locales[i]), StringPool.BLANK))) {
+
+					style = "font-weight: bold;";
+				}
+			%>
+
+				<aui:option label="<%= locales[i].getDisplayName(locale) %>" selected="<%= currentLanguageId.equals(LocaleUtil.toLanguageId(locales[i])) %>" style="<%= style %>" value="<%= LocaleUtil.toLanguageId(locales[i]) %>" />
+
+			<%
+			}
+			%>
+
+		</aui:select>
+
+		<aui:input cssClass="lfr-input-text-container" label="subject" name='<%= "preferences--" + emailSubjectParam + "--" %>' value="<%= emailSubject %>" />
+
+		<aui:field-wrapper label="body">
+			<liferay-ui:input-editor editorImpl="<%= EDITOR_WYSIWYG_IMPL_KEY %>" />
+
+			<aui:input name='<%= "preferences--" + emailBodyParam + "--" %>' type="hidden" />
+		</aui:field-wrapper>
+
+		<div class="definition-of-terms">
+			<h4><liferay-ui:message key="definition-of-terms" /></h4>
+
+			<dl>
+				<dt>
+					[$ASSET_ENTRIES$]
+				</dt>
+				<dd>
+					<liferay-ui:message key="the-list-of-assets" />
+				</dd>
+				<dt>
+					[$COMPANY_ID$]
+				</dt>
+				<dd>
+					<liferay-ui:message key="the-company-id-associated-with-the-assets" />
+				</dd>
+				<dt>
+					[$COMPANY_MX$]
+				</dt>
+				<dd>
+					<liferay-ui:message key="the-company-mx-associated-with-the-assets" />
+				</dd>
+				<dt>
+					[$COMPANY_NAME$]
+				</dt>
+				<dd>
+					<liferay-ui:message key="the-company-name-associated-with-the-assets" />
+				</dd>
+				<dt>
+				<dt>
+					[$FROM_ADDRESS$]
+				</dt>
+				<dd>
+					<%= HtmlUtil.escape(emailFromAddress) %>
+				</dd>
+				<dt>
+					[$FROM_NAME$]
+				</dt>
+				<dd>
+					<%= HtmlUtil.escape(emailFromName) %>
+				</dd>
+				<dt>
+					[$PORTAL_URL$]
+				</dt>
+				<dd>
+					<%= company.getVirtualHostname() %>
+				</dd>
+				<dt>
+					[$PORTLET_NAME$]
+				</dt>
+				<dd>
+					<%= PortalUtil.getPortletTitle(renderResponse) %>
+				</dd>
+				<dt>
+					[$SITE_NAME$]
+				</dt>
+				<dd>
+					<liferay-ui:message key="the-site-name-associated-with-the-assets" />
+				</dd>
+				<dt>
+					[$TO_ADDRESS$]
+				</dt>
+				<dd>
+					<liferay-ui:message key="the-address-of-the-email-recipient" />
+				</dd>
+				<dt>
+					[$TO_NAME$]
+				</dt>
+				<dd>
+					<liferay-ui:message key="the-name-of-the-email-recipient" />
+				</dd>
+			</dl>
+		</div>
+	</div>
+</aui:fieldset>
+
+<aui:script>
+	function <portlet:namespace />initEditor() {
+		return "<%= UnicodeFormatter.toString(emailBody) %>";
+	}
+</aui:script>
+
+<aui:script use="aui-base">
+	var enableEmailSubscription = A.one('#<portlet:namespace />enableEmailSubscriptionCheckbox');
+
+	enableEmailSubscription.on(
+		'change',
+		function(event) {
+			var emailSubscriptionSettings = A.one('#<portlet:namespace />emailSubscriptionSettings');
+
+			emailSubscriptionSettings.toggle();
+		}
+	);
+
+	var languageSelector = A.one('#<portlet:namespace />languageId');
+
+	var currentLanguageIndex = languageSelector.attr('selectedIndex');
+
+	var subjectInput = A.one('#<portlet:namespace /><%= emailParam + "Subject_" + currentLanguageId %>');
+
+	var originalEmailSubject = subjectInput.val();
+
+	languageSelector.on(
+		'change',
+		function(event) {
+			if (CKEDITOR.instances.<portlet:namespace />editor.checkDirty() || originalEmailSubject !== subjectInput.val()) {
+				if (!confirm('<%= UnicodeLanguageUtil.get(pageContext, "are-you-sure-you-want-to-switch-the-languages-view") %>')) {
+					languageSelector.attr('selectedIndex', currentLanguageIndex);
+
+					return false;
+				}
+			}
+
+			document.<portlet:namespace />fm.<portlet:namespace /><%= Constants.CMD %>.value = '<%= Constants.TRANSLATE %>';
+
+			submitForm(document.<portlet:namespace />fm);
+		}
+	);
+</aui:script>
+
+<%!
+public static final String EDITOR_WYSIWYG_IMPL_KEY = "editor.wysiwyg.portal-web.docroot.html.portlet.asset_publisher.configuration.jsp";
+%>

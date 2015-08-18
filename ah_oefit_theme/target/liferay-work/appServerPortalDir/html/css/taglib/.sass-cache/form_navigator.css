@@ -1,0 +1,102 @@
+.taglib-form-navigator ul.form-navigator.well {
+  float: right; }
+.taglib-form-navigator .error-notice, .taglib-form-navigator .modified-notice {
+  display: none; }
+.taglib-form-navigator > .form-steps {
+  position: relative; }
+  .taglib-form-navigator > .form-steps > ul.form-navigator.well {
+    border-width: 0;
+    clear: both;
+    float: none;
+    overflow: visible;
+    padding: 0;
+    width: 100%; }
+    @media (max-width: 979px) {
+      .taglib-form-navigator > .form-steps > ul.form-navigator.well {
+        overflow: auto;
+        white-space: nowrap; } }
+    .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab {
+      display: inline-block;
+      overflow: visible;
+      position: relative;
+      text-align: center;
+      white-space: nowrap;
+      z-index: 50; }
+      .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active:last-child .tab-label .tab-icon {
+        display: none; }
+      .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active .tab-label {
+        position: relative; }
+        .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active .tab-label .message {
+          display: inline-block; }
+        .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active .tab-label .tab-icon {
+          display: inline-block; }
+      .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label {
+        display: block;
+        margin: 0 5px 0 -5px;
+        outline: 0;
+        padding: 0; }
+        .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label .error-notice {
+          display: none; }
+        .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label .number {
+          clear: both;
+          display: inline-block;
+          margin: 5px;
+          width: 30px; }
+        .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label .message {
+          margin-left: -5px; }
+        .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label .modified-notice {
+          display: none; }
+        .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label .tab-icon {
+          display: none; }
+.taglib-form-navigator .form-navigator-content {
+  overflow: visible; }
+  .taglib-form-navigator .form-navigator-content[class*="span"] {
+    margin-left: 0; }
+  .taglib-form-navigator .form-navigator-content .form-section {
+    display: none; }
+    .taglib-form-navigator .form-navigator-content .form-section.active {
+      display: block; }
+.taglib-form-navigator .section-modified .modified-notice {
+  display: inline-block; }
+.taglib-form-navigator .section-error .error-notice {
+  display: inline-block;
+  margin-right: 5px; }
+
+/* Skin */
+.taglib-form-navigator > .form-steps > ul.form-navigator.well {
+  background: transparent; }
+  .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1; }
+    .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active .tab-label:hover, .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active .tab-label:focus {
+      background: transparent; }
+    .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active .tab-label .message {
+      color: #000;
+      filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+      opacity: 0.7; }
+    .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active .tab-label .number {
+      background: #333;
+      font-size: 18px;
+      filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+      opacity: 1; }
+    .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab.active .tab-label .tab-icon {
+      color: #333; }
+  .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label {
+    background: transparent; }
+    .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label:hover, .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label:focus {
+      text-decoration: none; }
+      .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label:hover .number, .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label:focus .number {
+        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+        opacity: 1; }
+    .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label .number {
+      background: #CCC;
+      color: #FFF;
+      font-size: 14px;
+      font-weight: bold;
+      filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+      opacity: 0.6;
+      text-decoration: none; }
+    .taglib-form-navigator > .form-steps > ul.form-navigator.well .tab .tab-label .message {
+      color: #000;
+      font-size: 12px; }
+

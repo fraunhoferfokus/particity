@@ -1,0 +1,177 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+String curParam = SearchContainer.DEFAULT_CUR_PARAM;
+
+if (type.equals("assigned-to-me")) {
+	curParam = "cur1";
+}
+else if (type.equals("assigned-to-my-roles")) {
+	curParam = "cur2";
+}
+%>
+
+<liferay-ui:search-container
+	searchContainer="<%= new WorkflowTaskSearch(renderRequest, curParam, currentURLObj) %>"
+>
+
+	<%
+	boolean allTasks = false;
+	%>
+
+	<liferay-ui:search-container-results>
+		<%@ include file="/html/portlet/workflow_tasks/workflow_search_results.jspf" %>
+	</liferay-ui:search-container-results>
+
+	<liferay-ui:search-container-row
+		className="com.liferay.portal.kernel.workflow.WorkflowTask"
+		modelVar="workflowTask"
+		stringKey="<%= true %>"
+	>
+		<liferay-ui:search-container-row-parameter
+			name="workflowTask"
+			value="<%= workflowTask %>"
+		/>
+
+		<%
+		WorkflowInstance workflowInstance = WorkflowInstanceManagerUtil.getWorkflowInstance(company.getCompanyId(), workflowTask.getWorkflowInstanceId());
+
+		Map<String, Serializable> workflowContext = workflowInstance.getWorkflowContext();
+
+		String className = (String)workflowContext.get(WorkflowConstants.CONTEXT_ENTRY_CLASS_NAME);
+		long classPK = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_ENTRY_CLASS_PK));
+
+		WorkflowHandler workflowHandler = WorkflowHandlerRegistryUtil.getWorkflowHandler(className);
+		%>
+
+		<portlet:renderURL var="rowURL">
+			<portlet:param name="struts_action" value="/workflow_tasks/edit_workflow_task" />
+			<portlet:param name="redirect" value="<%= currentURL %>" />
+			<portlet:param name="workflowTaskId" value="<%= String.valueOf(workflowTask.getWorkflowTaskId()) %>" />
+		</portlet:renderURL>
+
+		<c:if test="<%= allTasks %>">
+			<liferay-ui:search-container-column-text
+				buffer="buffer"
+			>
+
+				<%
+				if (workflowTask.isAssignedToSingleUser() && (workflowTask.getAssigneeUserId() > 0)) {
+					User assigneeUser = UserLocalServiceUtil.getUser(workflowTask.getAssigneeUserId());
+
+					buffer.append("<img alt=\"");
+					buffer.append(HtmlUtil.escape(assigneeUser.getFullName()));
+					buffer.append("\" class=\"user-avatar\" src=\"");
+					buffer.append(assigneeUser.getPortraitURL(themeDisplay));
+					buffer.append("\" title=\"");
+					buffer.append(HtmlUtil.escape(assigneeUser.getFullName()));
+					buffer.append("\" />");
+				}
+				%>
+
+			</liferay-ui:search-container-column-text>
+		</c:if>
+
+		<liferay-ui:search-container-column-text
+			buffer="buffer"
+			href="<%= rowURL %>"
+			name="task"
+		>
+
+			<%
+			buffer.append("<span class=\"task-name\" id=\"");
+			buffer.append(workflowTask.getWorkflowTaskId());
+			buffer.append("\">");
+			buffer.append(LanguageUtil.get(pageContext, HtmlUtil.escape(workflowTask.getName())));
+			buffer.append("</span>");
+			%>
+
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text
+			buffer="buffer"
+			href="<%= rowURL %>"
+			name="asset-title"
+		>
+
+			<%
+			buffer.append(HtmlUtil.escape(workflowHandler.getTitle(classPK, locale)));
+			%>
+
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text
+			buffer="buffer"
+			href="<%= rowURL %>"
+			name="asset-type"
+		>
+
+			<%
+			buffer.append(workflowHandler.getType(locale));
+			%>
+
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text
+			buffer="buffer"
+			href="<%= rowURL %>"
+			name="last-activity-date"
+		>
+
+			<%
+			List<WorkflowLog> workflowLogs = WorkflowLogManagerUtil.getWorkflowLogsByWorkflowInstance(company.getCompanyId(), workflowTask.getWorkflowInstanceId(), null, 0, 1, WorkflowComparatorFactoryUtil.getLogCreateDateComparator());
+
+			if (workflowLogs.isEmpty()) {
+				buffer.append(LanguageUtil.get(pageContext, "never"));
+			}
+			else {
+				WorkflowLog workflowLog = workflowLogs.get(0);
+
+				buffer.append(dateFormatDateTime.format(workflowLog.getCreateDate()));
+			}
+			%>
+
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text
+			buffer="buffer"
+			href="<%= rowURL %>"
+			name="due-date"
+			orderable="<%= true %>"
+		>
+
+			<%
+			if (workflowTask.getDueDate() == null) {
+				buffer.append(LanguageUtil.get(pageContext, "never"));
+			}
+			else {
+				buffer.append(dateFormatDateTime.format(workflowTask.getDueDate()));
+			}
+			%>
+
+		</liferay-ui:search-container-column-text>
+
+		<c:if test='<%= !allTasks && !tabs1.equals("completed") %>'>
+			<liferay-ui:search-container-column-jsp
+				align="right"
+				path="/html/portlet/workflow_tasks/workflow_task_action.jsp"
+			/>
+		</c:if>
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator />
+</liferay-ui:search-container>

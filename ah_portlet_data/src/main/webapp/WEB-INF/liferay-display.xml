@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE display PUBLIC "-//Liferay//DTD Display 6.1.0//EN" "http://www.liferay.com/dtd/liferay-display_6_1_0.dtd">
+
+<display>
+	<category name="AdHoc">
+		<portlet id="ahadmin">Admin. Backend</portlet>
+		<portlet id="ahorgregistration">Org. Registration Form</portlet>
+		<portlet id="ahorgmain">Org. Backend</portlet>
+		<portlet id="ahmgmt">Management</portlet>
+		<portlet id="ahusermain">Newsletter Configuration</portlet>
+		<portlet id="ahuserregistration">Newsletter Registration Form</portlet>
+		<portlet id="ahsearch">Search</portlet>
+		<portlet id="ahloginredirect">Login Redirect</portlet>
+		<portlet id="ahloginprofile">Login Profile</portlet>
+		<portlet id="ahlogin">Login Form</portlet>
+		<portlet id="ahheader">Site Header</portlet>
+		<portlet id="ahlatest">Latest Offers</portlet>
+	</category>
+</display>
