@@ -54,22 +54,24 @@
 
 <%
       
-        List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategoriesByIdStr(rCatParam);
-        List<AHCategories> morecats = AHCategoriesLocalServiceUtil.getCategoriesByInverseIdStr(rCatParam);
+        List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH);
+        //List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategoriesByIdStr(rCatParam);
+        //List<AHCategories> morecats = AHCategoriesLocalServiceUtil.getCategoriesByInverseIdStr(rCatParam);
         
         List<AHCatEntries> childs;
         String rCatId;
         AHCategories rootcat;
         boolean isMore = false;
-        for (int i=0; i<rootcats.size()+morecats.size();i++) {
-          if (i < rootcats.size())
+        for (int i=0; i<rootcats.size();i++) {
+          //if (i < rootcats.size())
             rootcat = rootcats.get(i);
-          else {
-            rootcat = morecats.get(i-rootcats.size());
-            isMore = true;
-          }
-          if (rootcat.getType() != E_CategoryType.SEARCH.getIntValue())
-            continue;
+          //else {
+            //rootcat = morecats.get(i-rootcats.size());
+          //log.info(rootcat.getCatId()+" =? "+rCatParam);
+          isMore = !Long.toString(rootcat.getCatId()).equals(rCatParam);
+          //}
+          //if (rootcat.getType() != E_CategoryType.SEARCH.getIntValue())
+            //continue;
           childs = AHCatEntriesLocalServiceUtil.getCategoryEntriesChildsSorted(rootcat.getCatId());
           rCatId = Long.toString(rootcat.getCatId());
           if (childs != null && childs.size() > 0) {
@@ -82,7 +84,7 @@
             %>
 
 
-	<div class="panel panel-default">
+	<div class="panel panel-default searchpanel">
 		<div class="panel-heading" role="tab" id="heading<%= rCatId %>">
 			<h4 class="panel-title">
 				<a data-toggle="collapse" href="#collapse<%= rCatId %>"

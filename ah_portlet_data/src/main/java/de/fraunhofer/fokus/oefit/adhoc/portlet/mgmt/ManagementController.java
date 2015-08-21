@@ -56,6 +56,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.theme.ThemeDisplay;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomLockServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomOrgServiceHandler;
@@ -185,8 +186,17 @@ public class ManagementController extends BaseController {
 	@ActionMapping(params = "action=deleteOrg")
 	public void deleteOrg(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("deleteOrg::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		m_objLog.debug("deleteOrg::start");
 
+		
+		
 		final Long l_orgId = this.getOrgId(request);
 		if (l_orgId != null) {
 			AHOrgLocalServiceUtil.deleteOrganisation(l_orgId);
@@ -244,6 +254,12 @@ public class ManagementController extends BaseController {
 	@ActionMapping(params = "action=disableOrg")
 	public void disableOrg(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("disableOrg::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		m_objLog.debug("disableOrg::start");
 
 		final Long l_orgId = this.getOrgId(request);
@@ -317,6 +333,12 @@ public class ManagementController extends BaseController {
 	@ActionMapping(params = "action=exportUser")
 	public void exportUser(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("exportUser::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		m_objLog.debug("exportUser::start");
 
 		this.copyRenderParameter("page", request, response);
@@ -341,6 +363,13 @@ public class ManagementController extends BaseController {
 	@ActionMapping(params = "action=publishSocial")
 	private void publishSocial(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("publishSocial::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		final Long offerId = this.getOfferId(request);
 		final String strType = request.getParameter("type");
 		m_objLog.debug("publishSocial::start(" + offerId + "," + strType + ")");
@@ -429,6 +458,13 @@ public class ManagementController extends BaseController {
 	@ActionMapping(params = "action=saveCfg")
 	private void saveCfg(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("saveCfg::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		m_objLog.debug("saveCfg::start()");
 		response.setRenderParameter("tabId", "cfg");
 		// response.setRenderParameter("cfgId",

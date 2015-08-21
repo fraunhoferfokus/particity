@@ -12,6 +12,11 @@
 </portlet:actionURL>
 
 <div class="container" style="margin-top: 50px;">
+  <!-- if demo-mode enabled, notify about denied actions -->
+  <liferay-ui:error key="common.demo.denied">
+       <spring:message code="common.demo.denied" />
+   </liferay-ui:error>
+
 	<div class="jumbotron">
 		<h1>
 			<spring:message code="common.profile.title" />
@@ -22,16 +27,18 @@
 
 		<form:form modelAttribute="profileData" id="saveProfileForm"
 			data-ajax="false" method="post" action="<%= saveUrl %>">
-			<bform:bffield path="mail" label="common.form.profile.field.mail"
-				type="text" required="true" />
-			<bform:bffield path="pass1" label="common.form.profile.field.pass1"
-				type="password" required="true" />
-			<bform:bffield path="pass2" label="common.form.profile.field.pass2"
-				type="password" required="true" />
-			<button type="submit" class="btn btn-lg btn-primary">
-				<span class="glyphicon glyphicon-ok"></span>&nbsp;
-				<spring:message code="common.form.profile.submit" />
-			</button>
+			<fieldset <%= demoDisabled %>>
+				<bform:bffield path="mail" label="common.form.profile.field.mail"
+					type="text" required="true" />
+				<bform:bffield path="pass1" label="common.form.profile.field.pass1"
+					type="password" required="true" />
+				<bform:bffield path="pass2" label="common.form.profile.field.pass2"
+					type="password" required="true" />
+				<button type="submit" class="btn btn-lg btn-primary">
+					<span class="glyphicon glyphicon-ok"></span>&nbsp;
+					<spring:message code="common.form.profile.submit" />
+				</button>
+			</fieldset>
 		</form:form>
 
 	</div>

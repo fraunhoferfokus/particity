@@ -23,7 +23,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Admin</title>
+			<title>Particity Admin</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -69,7 +69,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Organisation Registration</title>
+			<title>Particity Organisation Registration</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -115,7 +115,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Organisation Intern</title>
+			<title>Particity Organisation Intern</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -161,7 +161,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Verwaltung</title>
+			<title>Particity Verwaltung</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -207,7 +207,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Nutzer Intern</title>
+			<title>Particity Nutzer Intern</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -253,7 +253,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Nutzer Registrierung</title>
+			<title>Particity Nutzer Registrierung</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -302,7 +302,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Suche</title>
+			<title>Particity Suche</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -351,7 +351,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Login Form</title>
+			<title>Particity Login Form</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -396,7 +396,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Login/Redirect</title>
+			<title>Particity Login/Redirect</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -441,7 +441,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Login/Profile</title>
+			<title>Particity Login/Profile</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -486,7 +486,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Site Header</title>
+			<title>Particity Site Header</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
@@ -531,7 +531,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>AdHoc Latest Entries</title>
+			<title>Particity Latest Entries</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>

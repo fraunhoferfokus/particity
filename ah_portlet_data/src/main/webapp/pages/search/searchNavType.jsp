@@ -1,3 +1,4 @@
+<%@page import="javax.portlet.PortletPreferences"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHAddr"%>
@@ -35,6 +36,8 @@
 
   String parentClass = request.getParameter("parentClass");
 
+  PortletPreferences prefs = renderRequest.getPreferences();
+  String rCatParam = prefs.getValue("categoryId", "-1");
 
   String[] paramValues = request.getParameterValues("types");
   StringBuffer paramSb = new StringBuffer(" ");
@@ -52,7 +55,7 @@
     }
   %>
 
-	<div class="panel panel-default">
+	<div class="panel panel-default searchpanel">
 		<div class="panel-heading" role="tab" id="heading1">
 			<h4 class="panel-title">
 				<a data-toggle="collapse" href="#collapse1" aria-expanded="true"
@@ -62,7 +65,7 @@
 				</a>
 			</h4>
 		</div>
-		<div id="collapse1" class="panel-collapse collapse" role="tabpanel"
+		<div id="collapse1" class="panel-collapse collapse <%= rCatParam.equals("-1") ? "in" : ""%>" role="tabpanel"
 			aria-labelledby="heading1">
 			<ul class="list-group">
 				<%

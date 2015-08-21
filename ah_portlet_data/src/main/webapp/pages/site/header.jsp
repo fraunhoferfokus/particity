@@ -24,9 +24,9 @@
 
 <div class="container-fluid header">
 
-	<div class="row headertop">
+	<div class="row headerback">
 
-		<div class="col-md-6 sitelogo">
+		<div class="col-sm-4 sitelogo">
 			<%
 		  // show site logo, if configured
 		  if( logoPath != null ) {
@@ -42,15 +42,14 @@
 		  }
 		  %>
 		</div>
-		<div class="col-md-6 login text-right">
+		<div class="col-sm-4">
+		  <liferay-portlet:runtime portletName="56_INSTANCE_head2" />
+		</div>
+		<div class="col-sm-4 login text-right">
 			<liferay-portlet:runtime portletName="ahlogin_WAR_adhocdataportlet"
 				queryString="?hide=true&_ahlogin_WAR_adhocdataportlet_hide=true" />
 		</div>
 
-	</div>
-
-	<div class="row headerback">
-		<liferay-portlet:runtime portletName="56_INSTANCE_head2" />
 	</div>
 
 

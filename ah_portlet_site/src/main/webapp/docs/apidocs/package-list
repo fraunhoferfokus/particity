@@ -6,6 +6,8 @@ de.fraunhofer.fokus.oefit.adhoc.model.custom
 de.fraunhofer.fokus.oefit.adhoc.model.impl
 de.fraunhofer.fokus.oefit.adhoc.portlet
 de.fraunhofer.fokus.oefit.adhoc.portlet.admin
+de.fraunhofer.fokus.oefit.adhoc.portlet.header
+de.fraunhofer.fokus.oefit.adhoc.portlet.latest
 de.fraunhofer.fokus.oefit.adhoc.portlet.login.form
 de.fraunhofer.fokus.oefit.adhoc.portlet.login.profile
 de.fraunhofer.fokus.oefit.adhoc.portlet.login.redirect

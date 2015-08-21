@@ -1,5 +1,15 @@
 Release Notes
 
+ 0.9.2 (20.08.2015)
+ 
+  * Migration internal SVN -> public GitHub
+  
+  * Rename: particity
+  
+  * Use English as primary language throughout the documentation
+  
+  * Implement demonstration-mode with restricted/limited functionality
+
  0.9.1 (03.06.2015)
  
   * Design/Layout der Suche überarbeitet
@@ -116,7 +126,7 @@ ah_portlet_site  -  developer documentation
  << Format >>
  
 -------------------
- yyyy-MM-dd / version of trunk before commit (+optional: release version):
+ yyyy-MM-dd (<optional version string, if bound to release/tag>)
   * [module] description of change
   * [module] description of change
 -------------------
@@ -125,6 +135,12 @@ ah_portlet_site  -  developer documentation
  << History >>
  
 -------------------
+2015-08-20 (0.9.2):
+ * C [ah_portlet_site] Rename project to particity
+ * C [ah_portlet_data] Include Constants.RESTRICT_TO_DEMO for demo purposes
+   and implement restrictions all over the place
+ * F [ah_portlet_data] Cosmetic changes to fix CSS & XML validation
+
 2015-07-24 / 700:
  * A [ah_portlet_data] Add portlet for latest offers
  * A [ah_portlet_data] Add portlet for site header display

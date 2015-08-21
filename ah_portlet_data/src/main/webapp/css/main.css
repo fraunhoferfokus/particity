@@ -187,7 +187,7 @@ tr {
 	margin-left: 0px;
 }
 
-.ahsearch #searchForm .list-group .list-group-item:not (.search ) {
+.ahsearch #searchForm .list-group .list-group-item:not(.search) {
 	background-color: #eee;
 	font-weight: bold;
 	padding-left: 30px;
@@ -206,6 +206,24 @@ tr {
 .ahsearch .panel-group .panel-title a:hover, .ahsearch .panel-group .panel-title a:focus
 	{
 	text-decoration: none;
+}
+
+.ahsearch .searchpanel .panel-collapse {
+	position: absolute;
+	z-index: 1000;
+	width: 90%;
+	border-left: 1px solid #D5D5D5;
+	border-right: 1px solid #D5D5D5;
+	border-bottom: 1px solid #D5D5D5;
+	border-radius: 3px;
+	/*-webkit-box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);
+	-moz-box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);
+	box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);*/
+}
+
+.ahsearch .searchpanel .panel-heading {
+	padding: 5px 15px;
+	text-align: center;
 }
 
 .ahsearch #searchForm .filterlabel {

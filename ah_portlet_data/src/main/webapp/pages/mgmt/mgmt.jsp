@@ -110,6 +110,11 @@
 
 <div class="container-fluid">
 
+  <!-- if demo-mode enabled, notify about denied actions -->
+  <liferay-ui:error key="common.demo.denied">
+       <spring:message code="common.demo.denied" />
+   </liferay-ui:error>
+
 	<div class="page-header">
 		<h1>
 			<spring:message code="mgmt.jsp.title" />
@@ -408,7 +413,7 @@
 										onclick="createModal('#modal','<spring:message code="mgmt.tabs.org.item.action.deleteHeader"/>','<spring:message code="mgmt.tabs.org.item.action.deleteBody"/><%= organisation.getName().replaceAll("'","") %>','<spring:message code="mgmt.tabs.org.item.action.deleteAbort"/>','<spring:message code="mgmt.tabs.org.item.action.deleteOk"/>','<portlet:actionURL>
                          <portlet:param name="action" value="deleteOrg" />
                          <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
-                       </portlet:actionURL>')"><span
+                       </portlet:actionURL>')" class="<%= demoDisabled %>"><span
 											class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<spring:message
 												code="mgmt.tabs.org.item.action.delete" /></a></li>
 								</ul>
@@ -805,7 +810,7 @@
 			                         <portlet:param name="column" value="<%= offerColumn %>" />
 			                         <portlet:param name="order" value="<%= orderStr %>" />
 			                       </portlet:actionURL>"
-							class="smicon active"><%= smLogo %></a> <%
+							class="smicon active <%= demoDisabled %>"><%= smLogo %></a> <%
               }
             }
             %>
@@ -1082,6 +1087,7 @@
 				</portlet:actionURL>
 
 				<form:form data-ajax="false" method="post" action="${saveCfgUrl}">
+				  <fieldset <%= demoDisabled %>>
 					<div class="row">
 						<div class="col-md-3">
 							<ul class="nav nav-pills nav-stacked">
@@ -1099,7 +1105,7 @@
 		      %>
 							</ul>
 							<hr />
-							<button type="submit" class="btn btn-success">
+							<button type="submit" class="btn btn-success <%= demoDisabled %>">
 								<span class="glyphicon glyphicon-ok"></span>&nbsp;
 								<spring:message code="mgmt.cfg.form.submit" />
 							</button>
@@ -1193,6 +1199,7 @@
           %>
 						</div>
 					</div>
+					</fieldset>
 				</form:form>
 			</div>
 			<!-- CFG END -->

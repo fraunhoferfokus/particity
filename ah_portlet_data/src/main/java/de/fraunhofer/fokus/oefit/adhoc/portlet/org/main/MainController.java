@@ -62,6 +62,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.theme.ThemeDisplay;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomLockServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomOrgServiceHandler;
@@ -224,6 +225,14 @@ public class MainController extends BaseController {
 	@ActionMapping(params = "action=deleteOffer")
 	public void deleteOffer(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("deleteOffer::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+			
+		
 		final Long offerId = this.getOfferId(request);
 		m_objLog.debug("deleteOffer::start(" + offerId + ")");
 
@@ -255,6 +264,12 @@ public class MainController extends BaseController {
 	@ActionMapping(params = "action=deleteOrganisation")
 	public void deleteOrganisation(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("deleteOrganisation::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		final Long orgId = this.getOrgId(request);
 		m_objLog.debug("deleteOrganisation::start(" + orgId + ")");
 

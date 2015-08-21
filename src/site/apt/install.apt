@@ -14,20 +14,20 @@ Prerequisites:
 
  * (optional for building) Maven 3.x (http://maven.apache.org/download.html)
 
- * Project sources located at ADHOC_SUITE
+ * Project sources located at PARTICITY_SUITE
 
  
  []
 
 Build (optional):
 
-  If for some reason you are required to build from the sources, run the following in ADHOC_SUITE:
+  If for some reason you are required to build from the sources, run the following in PARTICITY_SUITE:
 
 +-------------------------------+
 # mvn clean package
 +-------------------------------+
 
-  The resulting binaries can be found as WARs in the various submodules at ADHOC_SUITE/module/target
+  The resulting binaries can be found as WARs in the various submodules at PARTICITY_SUITE/module/target
   
   To additionally build this documentation, do 
 
@@ -35,7 +35,7 @@ Build (optional):
 # mvn jxr:jxr site site:stage
 +-------------------------------+
 
-  with the results at ADHOC_SUITE/target/staging
+  with the results at PARTICITY_SUITE/target/staging
   
 Setup:
 

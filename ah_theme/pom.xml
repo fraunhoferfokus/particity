@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 	  <groupId>de.fraunhofer.fokus.oefit</groupId>
-	  <artifactId>adhoc-suite</artifactId>
+	  <artifactId>particity-suite</artifactId>
 	  <version>${global.version}</version>
 	  <relativePath>../pom.xml</relativePath>
 	</parent>

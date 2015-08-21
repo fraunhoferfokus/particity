@@ -4,7 +4,7 @@
 
 	<parent>
 	  <groupId>de.fraunhofer.fokus.oefit</groupId>
-	  <artifactId>adhoc-suite</artifactId>
+	  <artifactId>particity-suite</artifactId>
 	  <version>${global.version}</version>
 	  <relativePath>../pom.xml</relativePath>
 	</parent>

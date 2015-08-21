@@ -51,10 +51,12 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.theme.ThemeDisplay;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
@@ -152,7 +154,13 @@ public class ProfileController extends BaseController {
 	        @Valid @ModelAttribute("profileData") final ProfileForm data,
 	        final BindingResult result, final ActionRequest request,
 	        final ActionResponse response, final Model model) {
-		m_objLog.debug("addOffer::start");
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("saveProfile::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
+		m_objLog.debug("saveProfile::start");
 
 		final ThemeDisplay themeDisplay = (ThemeDisplay) request
 		        .getAttribute(WebKeys.THEME_DISPLAY);

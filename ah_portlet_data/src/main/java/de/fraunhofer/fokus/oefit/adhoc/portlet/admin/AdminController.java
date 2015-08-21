@@ -48,7 +48,9 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
@@ -88,6 +90,13 @@ public class AdminController extends BaseController {
 	        @ModelAttribute("data") final CategoryForm data,
 	        final ActionRequest request, final ActionResponse response,
 	        final Model model) {
+		
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("addCategoryEntry::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		m_objLog.debug("addCategoryEntry::start");
 
 		if (data != null) {
@@ -118,6 +127,12 @@ public class AdminController extends BaseController {
 	        @ModelAttribute("data") final CategoryForm data,
 	        final ActionRequest request, final ActionResponse response,
 	        final Model model) {
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("addMainCategory::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		m_objLog.debug("addMainCategory::start");
 
 		if (data != null) {
@@ -172,6 +187,12 @@ public class AdminController extends BaseController {
 	@ActionMapping(params = "action=removeCategory")
 	public void removeCategory(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("removeCategory::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		m_objLog.debug("removeCategory::start");
 
 		final String catId = request.getParameter("catId");
@@ -198,6 +219,12 @@ public class AdminController extends BaseController {
 	@ActionMapping(params = "action=removeCategoryEntry")
 	public void removeCategoryEntry(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
+		if (Constants.RESTRICT_TO_DEMO) {
+			m_objLog.debug("removeCategoryEntry::denied()");
+			SessionErrors.add(request, "common.demo.denied");
+			return;
+		}
+		
 		m_objLog.debug("removeCategoryEntry::start");
 
 		final String catId = request.getParameter("catId");

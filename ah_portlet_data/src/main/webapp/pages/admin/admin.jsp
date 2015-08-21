@@ -1,4 +1,5 @@
 
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.Constants"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil"%>
@@ -33,9 +34,15 @@
   String requestCatId = request.getParameter("catId");
   if (requestCatId == null)
 	  requestCatId = "-1";
+  
   %>
 
 <div class="container-fluid">
+
+  <!-- if demo-mode enabled, notify about denied actions -->
+  <liferay-ui:error key="common.demo.denied">
+       <spring:message code="common.demo.denied" />
+   </liferay-ui:error>
 
 	<div class="page-header">
 		<h1>
@@ -111,7 +118,7 @@
                          <portlet:param name="action" value="removeCategory" />
                          <portlet:param name="catId" value="<%= Long.toString(category.getCatId()) %>" />
                        </portlet:actionURL>"
-										class="btn btn-default" <%= disabledStr %>><spring:message
+										class="btn btn-default <%=demoDisabled %>" <%= disabledStr %>><spring:message
 											code="admin.panel.category.delete" /></a>
 								</div>
 							</div>
@@ -126,6 +133,7 @@
 								</portlet:actionURL>
 								<form:form modelAttribute="data" id="addCategoryEntryForm"
 									data-ajax="false" method="post" action="${addCategoryEntryUrl}">
+									<fieldset <%= demoDisabled %>>
 									<bform:bffield path="type" type="hidden"
 										value="<%= ctype.name() %>" />
 
@@ -211,6 +219,7 @@
 										</tr>
 
 									</table>
+									</fieldset>
 								</form:form>
 							</div>
 						</div>
@@ -235,18 +244,20 @@
 						</portlet:actionURL>
 						<form:form modelAttribute="data" id="addMainCategoryForm"
 							data-ajax="false" method="post" action="${addCategoryUrl}">
-							<bform:bffield path="type" type="hidden"
-								value="<%= ctype.name() %>" />
-							<bform:bffield path="name"
-								label="admin.form.addMainCat.field.name" type="text"
-								required="true" />
-							<bform:bffield path="descr"
-								label="admin.form.addMainCat.field.descr" cssClass="input-lg"
-								type="textarea" required="true" />
-							<button type="submit" class="btn btn-lg btn-default">
-								<span class="glyphicon glyphicon-ok"></span>&nbsp;
-								<spring:message code="admin.form.addMainCat.submit" />
-							</button>
+						  <fieldset <%= demoDisabled %>>
+								<bform:bffield path="type" type="hidden"
+									value="<%= ctype.name() %>" />
+								<bform:bffield path="name"
+									label="admin.form.addMainCat.field.name" type="text"
+									required="true" />
+								<bform:bffield path="descr"
+									label="admin.form.addMainCat.field.descr" cssClass="input-lg"
+									type="textarea" required="true" />
+								<button type="submit" class="btn btn-lg btn-default">
+									<span class="glyphicon glyphicon-ok"></span>&nbsp;
+									<spring:message code="admin.form.addMainCat.submit" />
+								</button>
+							</fieldset>
 						</form:form>
 					</p>
 				</div>

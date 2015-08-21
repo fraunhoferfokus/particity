@@ -1,3 +1,4 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.Constants"%>
 <%@page contentType="text/html" isELIgnored="false"%>
 <%@page pageEncoding="UTF-8"%>
 
@@ -27,3 +28,8 @@
 
 <portlet:defineObjects />
 
+<%
+	String demoDisabled = "";
+	if (Constants.RESTRICT_TO_DEMO)
+	  demoDisabled = "disabled";
+%>

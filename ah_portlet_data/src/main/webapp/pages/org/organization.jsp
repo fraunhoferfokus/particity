@@ -91,6 +91,11 @@
 
 <div class="container-fluid">
 
+  <!-- if demo-mode enabled, notify about denied actions -->
+  <liferay-ui:error key="common.demo.denied">
+       <spring:message code="common.demo.denied" />
+   </liferay-ui:error>
+
 	<div class="page-header">
 		<div class="row">
 			<div class="col-md-8">
@@ -457,7 +462,7 @@
                        </portlet:actionURL>"><span
 											class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>&nbsp;&nbsp;<spring:message
 												code="org.intern.tabs.offer.item.action.copy" /></a></li>
-									<li class="<%=textClass%>"><a
+									<li class="<%=textClass%>"><a class="<%= demoDisabled %>" 
 										onclick="createModal('#modal','<spring:message code="org.intern.tabs.offer.item.action.deleteHeader"/>','<spring:message code="org.intern.tabs.offer.item.action.deleteBody"/><%= offer.getTitle().replaceAll("'","") %>','<spring:message code="org.intern.tabs.offer.item.action.deleteAbort"/>','<spring:message code="org.intern.tabs.offer.item.action.deleteOk"/>','<portlet:actionURL>
                          <portlet:param name="action" value="deleteOffer" />
                          <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
@@ -594,18 +599,20 @@
 						</portlet:actionURL>
 						<form:form modelAttribute="userData" id="addUserForm"
 							data-ajax="false" method="post" action="${addUserUrl}">
-							<bform:bffield path="forename"
-								label="org.intern.tabs.user.form.addUser.field.forename"
-								type="text" />
-							<bform:bffield path="forename"
-								label="org.intern.tabs.user.form.addUser.field.surname"
-								type="text" />
-							<bform:bffield path="mail"
-								label="org.intern.tabs.user.form.addUser.field.mail" type="text" />
-							<button type="submit" class="btn btn-lg btn-default">
-								<span class="glyphicon glyphicon-ok"></span>&nbsp;
-								<spring:message code="org.intern.tabs.user.form.addUser.submit" />
-							</button>
+							<fieldset <%= demoDisabled %>>
+								<bform:bffield path="forename"
+									label="org.intern.tabs.user.form.addUser.field.forename"
+									type="text" />
+								<bform:bffield path="forename"
+									label="org.intern.tabs.user.form.addUser.field.surname"
+									type="text" />
+								<bform:bffield path="mail"
+									label="org.intern.tabs.user.form.addUser.field.mail" type="text" />
+								<button type="submit" class="btn btn-lg btn-default">
+									<span class="glyphicon glyphicon-ok"></span>&nbsp;
+									<spring:message code="org.intern.tabs.user.form.addUser.submit" />
+								</button>
+							</fieldset>
 						</form:form>
 					</p>
 				</div>

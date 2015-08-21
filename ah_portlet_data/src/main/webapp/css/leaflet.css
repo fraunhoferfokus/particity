@@ -389,13 +389,13 @@
 	background: rgba(255, 255, 255, 0.5);
 }
 
-.leaflet-control-scale-line:not (:first-child ) {
+.leaflet-control-scale-line:not(:first-child) {
 	border-top: 2px solid #777;
 	border-bottom: none;
 	margin-top: -2px;
 }
 
-.leaflet-control-scale-line:not (:first-child ):not (:last-child ) {
+.leaflet-control-scale-line:not(:first-child):not(:last-child) {
 	border-bottom: 2px solid #777;
 }
 

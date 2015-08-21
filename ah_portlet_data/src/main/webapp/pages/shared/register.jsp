@@ -77,6 +77,12 @@
 
 <div class="container-fluid">
 
+  <!-- if demo-mode enabled, notify about denied actions -->
+  <liferay-ui:error key="common.demo.denied">
+       <spring:message code="common.demo.denied" />
+   </liferay-ui:error>
+
+
 	<%
   if (actionType.equals("create")) {
  %>
@@ -137,16 +143,18 @@
         %>
 					</div>
 					<div class="col-xs-4">
+					 <fieldset <%= demoDisabled %>>
 						<liferay-ui:error key="org.form.addOrg.field.logoFile.exceed">
 							<spring:message code="org.form.addOrg.field.logoFile.exceed" />
 						</liferay-ui:error>
 						<% if (actionType.equals("edit"))  { %>
 						<bform:bffield path="logoFile"
 							label="org.form.addOrg.field.logoFile" type="file"
-							required="false" />
+							required="false"/>
 						<% 
             }
           %>
+            </fieldset>
 					</div>
 				</div>
 			</div>
@@ -299,7 +307,7 @@
 					</div>
 					<div class="col-xs-6" style="text-align: center;">
 						<a href="#" data-toggle="modal" data-target="#deleteModal"
-							class="btn btn-lg btn-danger"><span
+							class="btn btn-lg btn-danger <%= demoDisabled %>"><span
 							class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;<spring:message
 								code="org.form.addOrg.deleteSubmit" /></a>
 					</div>

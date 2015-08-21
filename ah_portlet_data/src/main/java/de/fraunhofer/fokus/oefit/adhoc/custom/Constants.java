@@ -64,5 +64,8 @@ public class Constants {
 
 	/** The directory to upload logos to (created automatically on login of a user with DEFAULT_ROLE_ADMINISTRATION */
 	public static final String	ORGANISATION_LOGO_FOLDER	 = "Organisations-Logos";
+	
+	/** For demonstration purposes, the platform is restricted in various ways to prevent SPAM, tampering with liferay, etc */
+	public static final boolean RESTRICT_TO_DEMO = true;
 
 }

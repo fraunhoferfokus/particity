@@ -46,11 +46,11 @@
   if (hide) {
 	  %>
 	<div id="loginBtn">
-		<button onclick="hideLoginBtn();" class="btn btn-default btn-sm"
-			type="button" data-toggle="collapse" data-target="#loginForm"
+		<spring:message code="common.form.login.orgintro" /> <a onclick="hideLoginBtn();" 
+			data-toggle="collapse" data-target="#loginForm"
 			aria-expanded="false" aria-controls="loginForm">
-			Anmelden&nbsp;<span class="glyphicon glyphicon-log-in"></span>
-		</button>
+			<spring:message code="common.form.login.preform" />
+		</a>
 	</div>
 	<%
   }
@@ -83,10 +83,16 @@
     url.write(sw);
     String defOrgUrl = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.MGMT_PATH_ORG_REGISTRATION);
     %>
-	<small><a href="<%= sw.toString() %>"><spring:message
-				code="common.form.pass.forgot" /></a>&nbsp;/&nbsp;<a
-		href="<%= defOrgUrl %>"><spring:message
-				code="common.form.register" /></a></small>
+	<small>
+	
+	  <% if (demoDisabled.length() == 0) { %>
+		  <a href="<%= sw.toString() %>"><spring:message
+					code="common.form.pass.forgot" /></a>&nbsp;/&nbsp;
+		<%
+	  }
+		%>
+		<a href="<%= defOrgUrl %>">
+		<spring:message code="common.form.register" /></a></small>
 
 	<%
  } else {

@@ -113,7 +113,8 @@
 						<form:input path="${path}" type="${type}" value="${value}" />
 					</c:when>
 					<c:when test="${type == 'file'}">
-						<form:input path="${path}" type="${type}" />
+						<form:input cssClass="form-control ${empty cssClass ? 'input-lg' : cssClass}"
+              disabled="${disabled}" path="${path}" type="${type}" />
 					</c:when>
 					<c:when test="${type == 'checkbox'}">
 						<div class="checkbox">
