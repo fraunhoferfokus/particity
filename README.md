@@ -2,7 +2,7 @@
 Participatory marketplace for voluntary services/donations
 
 ## Notes
-See site documentation for further documentation.
+See [site documentation](https://fraunhoferfokus.github.io/particity/index.html) for further documentation.
    
 ## How to generate site documentation
 For generating the site documentation (results in target/staging), do a
