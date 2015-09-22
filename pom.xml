@@ -558,10 +558,14 @@
   </scm>
 
 	<distributionManagement>
-		<site>
+		<!-- >site>
 			<id>staging</id>
 			<url>file://${project.build.directory}/target/staging</url>
-		</site>
+		</site-->
+		<site>
+        <id>${project.artifactId}-site</id>
+        <url>${project.baseUri}</url>
+     </site>
 	</distributionManagement>
 
 

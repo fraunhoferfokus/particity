@@ -197,6 +197,7 @@ function loadModal(orgUrl, offerUrl, count, offerId) {
 }
 
  function triggerModal(orgUrl, offerUrl, count, offerId, maxcount) {
+	 console.log("Triggering modal #modal"+count);
 	 var modalelem = $("#modal"+count);
 	 if (modalelem.children().length == 0) {
 		 loadModal(orgUrl, offerUrl, count,offerId);
@@ -243,9 +244,17 @@ function loadModal(orgUrl, offerUrl, count, offerId) {
 			    icon:	new L.NumberedDivIcon({number: i,
 			    iconUrl: markerbase+"/images/marker_hole.png"}),
 			});
-		marker.on('click',function() {
+		 
+		
+		/*marker.on('click',function() {
 			//showModal(i);
 			console.log("Klick on marker "+i);
+			$("#offerdetails"+(i-1)).click();
+		})*/
+		
+		map.on('click',function() {
+			//showModal(i);
+			console.log("Click on map "+i);
 			$("#offerdetails"+(i-1)).click();
 		})
 		marker.addTo(map);

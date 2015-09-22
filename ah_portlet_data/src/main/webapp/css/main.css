@@ -85,9 +85,11 @@ tr {
 }
 
 .row.offer .offerdate {
-	font-weight: bolder;
+	/*font-weight: bolder;*/
+	font-size: small;
 	position: absolute;
 	bottom: 0px;
+	background-color: #f0f0f0;
 }
 
 .row.offer .offerheading div {
@@ -105,6 +107,9 @@ tr {
 
 .row.offer .offerorg, .row.offer .offermap {
 	min-height: 170px;
+	max-height: 180px;
+  overflow: hidden;
+  padding: 0px;
 }
 
 .row.offer .offerorg .offerorgtitle {
@@ -113,13 +118,13 @@ tr {
 }
 
 .row.offer .offerorg .offerorgimg {
-	padding: 15px;
+	/*padding: 15px;*/
 	text-align: center;
 }
 
 .row.offer .offerorg .offerorgimg img {
-	max-height: 100px;
-	max-width: 100px;
+	max-height: 80px;
+	max-width: 160px;
 }
 
 .row.offer .offerheading .offertitlenum .leaflet-marker-icon {
@@ -224,6 +229,7 @@ tr {
 .ahsearch .searchpanel .panel-heading {
 	padding: 5px 15px;
 	text-align: center;
+	word-wrap: break-word;
 }
 
 .ahsearch #searchForm .filterlabel {

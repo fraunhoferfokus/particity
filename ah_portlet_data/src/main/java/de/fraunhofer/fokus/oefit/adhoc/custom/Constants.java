@@ -65,7 +65,19 @@ public class Constants {
 	/** The directory to upload logos to (created automatically on login of a user with DEFAULT_ROLE_ADMINISTRATION */
 	public static final String	ORGANISATION_LOGO_FOLDER	 = "Organisations-Logos";
 	
+	/** Portal mode for demonstration purposes (e.g. restricted) */
+	public static final int PORTAL_MODE_DEMO = -1;
+	/** Portal mode for development (e.g. full functionality with debugging) */
+	public static final int PORTAL_MODE_DEV = 0;
+	/** Portal mode for production (e.g. full functionality, no debugging)) */
+	public static final int PORTAL_MODE_PRODUCTION = 1;
+	/** Portal mode for showcases (e.g. full functionality, no online map-services)) */
+	public static final int PORTAL_MODE_OFFLINE = -2;
+	
+	/** Currently active portal mode */
+	public static int PORTAL_MODE = PORTAL_MODE_DEMO;
+	
 	/** For demonstration purposes, the platform is restricted in various ways to prevent SPAM, tampering with liferay, etc */
-	public static final boolean RESTRICT_TO_DEMO = true;
+	public static final boolean RESTRICT_TO_DEMO = PORTAL_MODE == PORTAL_MODE_DEMO;
 
 }

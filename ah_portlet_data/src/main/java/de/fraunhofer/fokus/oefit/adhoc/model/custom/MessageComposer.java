@@ -40,8 +40,11 @@ import java.util.regex.Matcher;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.model.Company;
 import com.liferay.portal.service.CompanyLocalServiceUtil;
+import com.liferay.portal.service.VirtualHostLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
@@ -145,9 +148,12 @@ public class MessageComposer {
 			this.m_objDefCompany = CompanyLocalServiceUtil
 			        .getCompany(PortalUtil
 			                .getDefaultCompanyId());
+			if (this.m_objDefCompany == null)
+				this.m_objDefCompany = CompanyLocalServiceUtil.getCompanyByMx(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
 			this.m_strPortalURL = PortalUtil.getPortalURL(
 			        this.m_objDefCompany.getVirtualHostname(),
 			        PortalUtil.getPortalPort(), false);
+			m_objLog.info("Portal URL is "+this.m_strPortalURL);
 		} catch (final Throwable e) {
 			m_objLog.error(e);
 		}

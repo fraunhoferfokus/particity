@@ -78,12 +78,12 @@
 		  <liferay-util:include page="/pages/search/searchNavCat.jsp"
         portletId="<%= portletDisplay.getId() %>"
         servletContext="<%= this.getServletContext() %>">
-        <liferay-util:param name="parentClass" value="col-md-2"></liferay-util:param>
+        <liferay-util:param name="parentClass" value="col-md-3"></liferay-util:param>
       </liferay-util:include>
 			<liferay-util:include page="/pages/search/searchNavType.jsp"
 				portletId="<%= portletDisplay.getId() %>"
 				servletContext="<%= this.getServletContext() %>">
-				<liferay-util:param name="parentClass" value="col-md-2"></liferay-util:param>
+				<liferay-util:param name="parentClass" value="col-md-3"></liferay-util:param>
 			</liferay-util:include>
 
 			<div class="row">

@@ -123,19 +123,19 @@
     }
   }
   
-  log.info("Got category "+rCatParam);
+  /*log.info("Got category "+rCatParam);
   log.info("Got resultskip "+resultSkipStr);
   log.info("Got orgId "+orgIdStr);
   log.info("Got itemIds "+itemIdSb.toString());
-  log.info("Got types "+typeSb.toString());
+  log.info("Got types "+typeSb.toString());*/
   
   List<AHOffer> results = null;
   Integer resultSize = -1;
   results = CustomSearchServiceHandler.searchByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId, resultSkip, resultSkip+maxOffers);
   resultSize = CustomSearchServiceHandler.countByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId);
   
-  log.debug("Resultsize is "+resultSize);
-  log.debug("Result list is #"+results.size());
+  /*log.debug("Resultsize is "+resultSize);
+  log.debug("Result list is #"+results.size());*/
   
   /*if (types != null && types.size() > 0) {
 	  results = CustomServiceHandler.searchByOfferTypes(types.toArray(new E_OfferType[0]), resultSkip, resultSkip+maxOffers);
@@ -286,7 +286,7 @@
 			    %>
 			<div id="modal<%=count%>" class="searchmodal"></div>
 			<div id="offer<%=skipCount %>" class="row offer">
-				<div class="col-xs-9">
+				<div class="col-xs-9" style="padding: 0px;">
 					<div class="row">
 						<div class="col-md-3 offerorg hidden-xs hidden-sm">
 							<div class="row">
@@ -338,9 +338,24 @@
 					</div>
 				</div>
 				<div id="offermap<%= skipCount %>" class="col-xs-3 offermap">
+				<% if (Constants.PORTAL_MODE == Constants.PORTAL_MODE_OFFLINE) {
+					%>
+					 <a
+                    id="offerdetails<%= count %>"
+                    onclick="return triggerModal('<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(results.size())%>); "
+                    href="<portlet:actionURL>
+                        <portlet:param name="action" value="showOffer" />
+                        <portlet:param name="offerId" value="<%= offerId %>" />
+                        <portlet:param name="modal" value="false" />
+                        </portlet:actionURL>"
+                    target="_blank">
+					   <img src="<%= ctxPth+"/images/map_demo.png" %>">
+					 </a>
+					<%
+				} %>
 				</div>
 			</div>
-			<% if (addr != null && addr.getCoordLat() != null && addr.getCoordLat().trim().length() != 0 && addr.getCoordLon() != null && addr.getCoordLon().trim().length() != 0) { %>
+			<% if (Constants.PORTAL_MODE != Constants.PORTAL_MODE_OFFLINE && addr != null && addr.getCoordLat() != null && addr.getCoordLat().trim().length() != 0 && addr.getCoordLon() != null && addr.getCoordLon().trim().length() != 0) { %>
 			<script>
 				    $(function() {
 				    	var imgelem = addSearchMap(<%=  skipCount %>,<%= addr.getCoordLat() %>,<%= addr.getCoordLon() %>);

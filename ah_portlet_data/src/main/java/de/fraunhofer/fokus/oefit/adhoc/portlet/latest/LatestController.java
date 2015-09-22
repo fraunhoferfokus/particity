@@ -33,12 +33,15 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.portlet.latest;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.log.Log;
@@ -98,6 +101,30 @@ public class LatestController extends BaseController {
 		}
 		m_objLog.trace("render::end(" + page + ")");
 		return page;
+	}
+	
+	/**
+	 * Show offer.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param model the model
+	 */
+	@ActionMapping(params = "action=showOffer")
+	public void showOffer(final ActionRequest request,
+	        final ActionResponse response, final Model model) {
+		m_objLog.debug("showOffer::start()");
+
+		final Long offerId = this.getOfferId(request);
+		if (offerId != null) {
+			// OfferForm form = CustomServiceHandler.getOffer(offerId);
+			// model.addAttribute("data",form);
+			this.copyRenderParameter("offerId", request, response);
+			this.copyRenderParameter("modal", request, response);
+			response.setRenderParameter("jspPage", "searchresult");
+		}
+
+		m_objLog.debug("showOffer::end");
 	}
 
 }

@@ -81,31 +81,31 @@ public class MailListener implements I_ModelListener {
 		return m_objSelf;
 	}
 
-	private Company	        m_objDefCompany	= null;
-	private String	        m_strPortalURL	= null;
-	private String	        m_strPortalName	= null;
+	//private Company	        m_objDefCompany	= null;
+	//private String	        m_strPortalURL	= null;
+	//private String	        m_strPortalName	= null;
 
 	private String	        m_strPortalMail	= null;
 
-	private MessageComposer	m_objComposer	= null;
 
 	private MailListener() {
 		try {
-			this.m_objComposer = MessageComposer.getInstance();
+			//this.m_objComposer = MessageComposer.getInstance();
 			this.m_strPortalMail = CustomPortalServiceHandler
 			        .getConfigValue(E_ConfigKey.MGMT_CONTACT_MAIL);
-			this.m_strPortalName = CustomPortalServiceHandler
-			        .getConfigValue(E_ConfigKey.MGMT_CONTACT_NAME);
-			this.m_objDefCompany = CompanyLocalServiceUtil
-			        .getCompany(PortalUtil.getDefaultCompanyId());
-			this.m_strPortalURL = PortalUtil.getPortalURL(
-			        this.m_objDefCompany.getVirtualHostname(),
-			        PortalUtil.getPortalPort(), false);
+			//this.m_strPortalName = CustomPortalServiceHandler
+			  //      .getConfigValue(E_ConfigKey.MGMT_CONTACT_NAME);
+			//this.m_objDefCompany = CompanyLocalServiceUtil
+			  //      .getCompany(PortalUtil.getDefaultCompanyId());
+			//this.m_strPortalURL = PortalUtil.getPortalURL(
+			  //      this.m_objDefCompany.getVirtualHostname(),
+			    //    PortalUtil.getPortalPort(), false);
 		} catch (final Throwable e) {
 			m_objLog.error(e);
 		}
 	}
 
+	
 	private void notify(final String className, final Object clazz) {
 		if (className.equals(ORG_CLASS)) {
 			String subj = null;
@@ -286,7 +286,7 @@ public class MailListener implements I_ModelListener {
 					        .getConfigValue(E_ConfigKey.ORG_EXPIRED_OFFER_SUBJ);
 					body = CustomPortalServiceHandler
 					        .getConfigValue(E_ConfigKey.ORG_EXPIRED_OFFER_BODY);
-					body = this.m_objComposer.replaceOfferList(body, clazz);
+					body = MessageComposer.getInstance().replaceOfferList(body, clazz);
 				} catch (final Throwable t) {
 					m_objLog.error(t);
 				}
@@ -340,9 +340,9 @@ public class MailListener implements I_ModelListener {
 		msg.setHTMLFormat(true);
 		msg.setFrom(from);
 		msg.setTo(to);
-		msg.setSubject(this.m_objComposer.replaceCommon(from.toString(),
+		msg.setSubject(MessageComposer.getInstance().replaceCommon(from.toString(),
 		        to.toString(), subj));
-		msg.setBody(this.m_objComposer.replaceCommon(from.toString(),
+		msg.setBody(MessageComposer.getInstance().replaceCommon(from.toString(),
 		        to.toString(), body));
 		m_objLog.info("Sending mail from " + from + " to " + to + " about "
 		        + subj);
@@ -353,19 +353,19 @@ public class MailListener implements I_ModelListener {
 	        final InternetAddress to, final String subjSrc,
 	        final String bodySrc, final AHSubscription sub) {
 		this.sendMail(from, to,
-		        this.m_objComposer.replaceNewsValues(subjSrc, sub),
-		        this.m_objComposer.replaceNewsValues(bodySrc, sub));
+				MessageComposer.getInstance().replaceNewsValues(subjSrc, sub),
+				MessageComposer.getInstance().replaceNewsValues(bodySrc, sub));
 	}
 
 	private void sendNewsMail(final InternetAddress from,
 	        final InternetAddress to, String subjSrc, String bodySrc,
 	        final AHSubscription sub, final List<AHOffer> offers) {
-		subjSrc = this.m_objComposer.replaceOfferSize(subjSrc, offers);
-		bodySrc = this.m_objComposer.replaceOfferSize(bodySrc, offers);
-		bodySrc = this.m_objComposer.replaceOfferList(bodySrc, offers);
+		subjSrc = MessageComposer.getInstance().replaceOfferSize(subjSrc, offers);
+		bodySrc = MessageComposer.getInstance().replaceOfferSize(bodySrc, offers);
+		bodySrc = MessageComposer.getInstance().replaceOfferList(bodySrc, offers);
 		this.sendMail(from, to,
-		        this.m_objComposer.replaceNewsValues(subjSrc, sub),
-		        this.m_objComposer.replaceNewsValues(bodySrc, sub));
+				MessageComposer.getInstance().replaceNewsValues(subjSrc, sub),
+				MessageComposer.getInstance().replaceNewsValues(bodySrc, sub));
 	}
 
 	/**
@@ -395,13 +395,13 @@ public class MailListener implements I_ModelListener {
 	private void sendOfferMail(final InternetAddress from,
 	        final InternetAddress to, final String subjSrc,
 	        final String bodySrc, final AHOffer offer, final AHOrg org) {
-		String subj = this.m_objComposer.replaceOfferValues(subjSrc, offer);
+		String subj = MessageComposer.getInstance().replaceOfferValues(subjSrc, offer);
 		if (org != null) {
-			subj = this.m_objComposer.replaceOrgValues(subj, org);
+			subj = MessageComposer.getInstance().replaceOrgValues(subj, org);
 		}
-		String body = this.m_objComposer.replaceOfferValues(bodySrc, offer);
+		String body = MessageComposer.getInstance().replaceOfferValues(bodySrc, offer);
 		if (org != null) {
-			body = this.m_objComposer.replaceOrgValues(body, org);
+			body = MessageComposer.getInstance().replaceOrgValues(body, org);
 		}
 		this.sendMail(from, to, subj, body);
 	}
@@ -410,8 +410,8 @@ public class MailListener implements I_ModelListener {
 	        final InternetAddress to, final String subjSrc,
 	        final String bodySrc, final AHOrg org) {
 		this.sendMail(from, to,
-		        this.m_objComposer.replaceOrgValues(subjSrc, org),
-		        this.m_objComposer.replaceOrgValues(bodySrc, org));
+				MessageComposer.getInstance().replaceOrgValues(subjSrc, org),
+				MessageComposer.getInstance().replaceOrgValues(bodySrc, org));
 	}
 
 }

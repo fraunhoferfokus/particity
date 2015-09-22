@@ -12,7 +12,7 @@ For generating the site documentation (results in target/staging), do a
 
 Optionally, for using the site documentation within the (unofficial) site portlet do
 ```
-  cp -R target/staging ah_portlet_site/src/main/webapp/docs/
+  cp -R target/staging/* ah_portlet_site/src/main/webapp/docs/
   cd ah_portlet_site
   mvn clean package
 ```

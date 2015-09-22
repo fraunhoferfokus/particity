@@ -46,7 +46,7 @@
   if (hide) {
 	  %>
 	<div id="loginBtn">
-		<spring:message code="common.form.login.orgintro" /> <a onclick="hideLoginBtn();" 
+		<spring:message code="common.form.login.orgintro" /> <a class="btn btn-adhoc btn-sm" onclick="hideLoginBtn();" 
 			data-toggle="collapse" data-target="#loginForm"
 			aria-expanded="false" aria-controls="loginForm">
 			<spring:message code="common.form.login.preform" />
@@ -64,7 +64,7 @@
 			<bform:bffield path="pass1" cssClass="input-sm" insetLabel="true"
 				label="common.form.profile.field.pass1" type="password"
 				required="true" />
-	    &nbsp;<button type="submit" class="btn btn-default btn-sm">
+	    &nbsp;<button type="submit" class="btn btn-adhoc btn-sm">
 				<span class="glyphicon glyphicon-log-in"></span>
 			</button>
 			<br />
@@ -100,7 +100,7 @@
 	 %>
 	<spring:message code="common.form.logout.intro" />
 	<strong>&nbsp;<%= name %></strong><br />
-	<a href="/c/portal/logout" class="btn btn-default btn-sm"><span
+	<a href="/c/portal/logout" class="btn btn-adhoc btn-sm"><span
 		class="glyphicon glyphicon-log-out"></span>&nbsp;<spring:message
 			code="common.form.logout.submit" /></a>
 	<%

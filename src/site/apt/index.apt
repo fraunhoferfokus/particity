@@ -10,6 +10,7 @@ Particity
 
  
  << Note: Site documentation is in English, although some basic aspects (like portlet names and the default translation) are in German. >>
+ << Note2: Site documentation is still rudimentary and in very early stages. Expect more details on the upcoming roadmap - when it's done ;)  >>
  
 Navigation
 
@@ -37,9 +38,7 @@ Navigation
   
  []
 
- On the left you'll find all modules related to this project. Each module
- (as well as this main section) contains a menu "Project Documentation" where
- you can find:
+ On the left you'll find a menu "Project Documentation" where you can find:
  
  * Project information (dependencies, license, modules)
  

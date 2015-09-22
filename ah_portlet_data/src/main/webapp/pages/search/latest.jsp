@@ -1,3 +1,4 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomSearchServiceHandler"%>
 <%@page
@@ -75,11 +76,18 @@
 				<%
 			  if (offers.size() > 0 ) {
 				  String count;
+				  String skipCount;
 				  AHOffer offer;
+				  AHOrg org;
 				  for (int i=0; i<offers.size(); i++) {
 					  offer = offers.get(i);
-					  count = Integer.toString(i+1);
+					  org = AHOrgLocalServiceUtil.getAHOrg(offer.getOrgId());
+					  count = Integer.toString(i);
+					  skipCount = Integer.toString(i+1);
 			      String offerId = Long.toString(offer.getOfferId());
+			      //E_OfferType ofType = E_OfferType.findByValue(offer.getType());
+			      E_OfferWorkType ofWType = E_OfferWorkType.findByValue(offer.getWorkType());
+			      String ofWHours = offer.getWorkTime();
 			      AHAddr addr = null;
 			      try {
 			        addr = AHAddrLocalServiceUtil.getAHAddr(offer.getAdressId());
@@ -98,16 +106,40 @@
 					      <portlet:param name="modal" value="false" />
 					      </portlet:actionURL>"
 						target="_blank"><%= offer.getTitle() %></a><br />
-					<div id="offermap<%= count %>" class="offermap"></div>
+					<div id="offermap<%= skipCount %>" class="offermap">
+					<% if (Constants.PORTAL_MODE == Constants.PORTAL_MODE_OFFLINE) {
+		          %>
+		          <a id="offerdetails<%= count %>"
+			            onclick="return triggerModal('<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(offers.size())%>); "
+			            href="<portlet:actionURL>
+			                <portlet:param name="action" value="showOffer" />
+			                <portlet:param name="offerId" value="<%= offerId %>" />
+			                <portlet:param name="modal" value="false" />
+			                </portlet:actionURL>"
+			            target="_blank">
+		            <img src="<%= ctxPth+"/images/map_demo.png" %>">
+		           </a>
+		          <%
+		        } %>
+					</div>
+					<% if (Constants.PORTAL_MODE != Constants.PORTAL_MODE_OFFLINE) {
+              %>
 					<script>
 			            $(function() {
-			              var imgelem = addSearchMap(<%=  count %>,<%= addr.getCoordLat() %>,<%= addr.getCoordLon() %>);
+			              var imgelem = addSearchMap(<%=  skipCount %>,<%= addr.getCoordLat() %>,<%= addr.getCoordLon() %>);
 			              if (imgelem != undefined) {
 			                $("#offer<%=count %> .offertitlenum").empty();
 			                $("#offer<%=count %> .offertitlenum").append(imgelem);
 			              }
 			            })
-			            </script>
+			    </script>
+			    <%
+            } %>
+			    <div class="row">
+				    <div class="col-xs-12 text-center">
+				      <spring:message code="<%= ofWType.getMsgProperty() %>" /> / <%= ofWHours %>
+				    </div>
+			    </div>
 				</div>
 				<%
 			      }

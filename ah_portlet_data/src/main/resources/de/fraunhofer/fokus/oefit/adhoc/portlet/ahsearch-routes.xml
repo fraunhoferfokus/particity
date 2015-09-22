@@ -6,24 +6,38 @@
 		<pattern>/results</pattern>
 		<implicit-parameter name="p_p_id">ahsearch_WAR_adhocdataportlet</implicit-parameter>
 		<implicit-parameter name="p_p_col_id">column-1</implicit-parameter>
-		<implicit-parameter name="p_p_col_count">2</implicit-parameter>
-		<implicit-parameter name="p_p_col_pos">1</implicit-parameter>
+		<implicit-parameter name="p_p_col_count">3</implicit-parameter>
+		<implicit-parameter name="p_p_col_pos">2</implicit-parameter>
 		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>
 		<implicit-parameter name="p_p_state">normal</implicit-parameter>
 		<implicit-parameter name="p_p_mode">view</implicit-parameter>
 		<implicit-parameter name="action">search</implicit-parameter>
 	</route>
 
+	
 	<route>
-		<pattern>/search</pattern>
-		<implicit-parameter name="p_p_id">ahsearch_WAR_adhocdataportlet</implicit-parameter>
-		<implicit-parameter name="p_p_col_id">column-1</implicit-parameter>
-		<implicit-parameter name="p_p_col_count">2</implicit-parameter>
-		<implicit-parameter name="p_p_col_pos">1</implicit-parameter>
-		<implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
-		<implicit-parameter name="p_p_mode">view</implicit-parameter>
-	</route>
+    <pattern>/search/{orgId}</pattern>
+    <generated-parameter name="orgId">{orgId}</generated-parameter>
+    <implicit-parameter name="p_p_id">ahsearch_WAR_adhocdataportlet</implicit-parameter>
+    <implicit-parameter name="p_p_col_id">column-1</implicit-parameter>
+    <implicit-parameter name="p_p_col_count">3</implicit-parameter>
+    <implicit-parameter name="p_p_col_pos">2</implicit-parameter>
+    <implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+    <implicit-parameter name="p_p_state">normal</implicit-parameter>
+    <implicit-parameter name="p_p_mode">view</implicit-parameter>
+  </route>
+
+
+  <route>
+    <pattern>/search</pattern>
+    <implicit-parameter name="p_p_id">ahsearch_WAR_adhocdataportlet</implicit-parameter>
+    <implicit-parameter name="p_p_col_id">column-1</implicit-parameter>
+    <implicit-parameter name="p_p_col_count">3</implicit-parameter>
+    <implicit-parameter name="p_p_col_pos">2</implicit-parameter>
+    <implicit-parameter name="p_p_lifecycle">0</implicit-parameter>
+    <implicit-parameter name="p_p_state">normal</implicit-parameter>
+    <implicit-parameter name="p_p_mode">view</implicit-parameter>
+  </route>
 
 	<route>
 		<pattern>/result/{offerId}</pattern>
@@ -31,11 +45,12 @@
 		<ignored-parameter name="modal" />
 		<implicit-parameter name="p_p_id">ahsearch_WAR_adhocdataportlet</implicit-parameter>
 		<implicit-parameter name="p_p_col_id">column-1</implicit-parameter>
-		<implicit-parameter name="p_p_col_count">2</implicit-parameter>
-		<implicit-parameter name="p_p_lifecycle">1</implicit-parameter>
-		<implicit-parameter name="p_p_state">normal</implicit-parameter>
-		<implicit-parameter name="p_p_mode">view</implicit-parameter>
-		<implicit-parameter name="action">showOffer</implicit-parameter>
+    <implicit-parameter name="p_p_col_count">3</implicit-parameter>
+    <implicit-parameter name="p_p_col_pos">2</implicit-parameter>
+    <implicit-parameter name="p_p_lifecycle">1</implicit-parameter>
+    <implicit-parameter name="p_p_state">normal</implicit-parameter>
+    <implicit-parameter name="p_p_mode">view</implicit-parameter>
+    <implicit-parameter name="action">showOffer</implicit-parameter>
 	</route>
 
 </routes> 
