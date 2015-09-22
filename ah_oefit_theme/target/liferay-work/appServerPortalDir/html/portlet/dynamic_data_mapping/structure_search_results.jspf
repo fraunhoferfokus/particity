@@ -1,0 +1,54 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+StructureSearchTerms searchTerms = (StructureSearchTerms)searchContainer.getSearchTerms();
+
+long[] groupIds = new long[] {groupId};
+
+if (showGlobalScope) {
+	groupIds = PortalUtil.getSiteAndCompanyGroupIds(groupId);
+}
+
+if (searchTerms.isAdvancedSearch()) {
+	total = DDMStructureServiceUtil.searchCount(company.getCompanyId(), groupIds, new long[] {searchTerms.getClassNameId()}, searchTerms.getName(), searchTerms.getDescription(), searchTerms.getStorageType(), DDMStructureConstants.TYPE_DEFAULT, searchTerms.isAndOperator());
+
+	searchContainer.setTotal(total);
+
+	results = DDMStructureServiceUtil.search(company.getCompanyId(), groupIds, new long[] {searchTerms.getClassNameId()}, searchTerms.getName(), searchTerms.getDescription(), searchTerms.getStorageType(), DDMStructureConstants.TYPE_DEFAULT, searchTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+}
+else {
+	long[] scopeClassNameIds = null;
+
+	if (scopeClassNameId > 0) {
+		scopeClassNameIds = new long[] {scopeClassNameId};
+	}
+
+	String[] storageTypes = null;
+
+	if (Validator.isNotNull(storageTypeValue)) {
+		storageTypes = new String[] {storageTypeValue};
+	}
+
+	total = DDMStructureServiceUtil.searchCount(company.getCompanyId(), groupIds, scopeClassNameIds, searchTerms.getKeywords());
+
+	searchContainer.setTotal(total);
+
+	results = DDMStructureServiceUtil.search(company.getCompanyId(), groupIds, scopeClassNameIds, searchTerms.getKeywords(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+}
+
+searchContainer.setResults(results);
+%>

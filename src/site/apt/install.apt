@@ -1,0 +1,122 @@
+------------
+Installation
+------------
+  The following steps describe how to get the system up and running.
+
+
+Prerequisites:
+
+ * JDK 1.8.xy (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+
+ * Liferay Portal 6.2CE GA4 (https://www.liferay.com/de/downloads/liferay-portal/available-releases) located at LIFERAY_HOME
+ 
+ * (optional for Liferay) RDBMS of your choice, e.g. MySQL, Oracle, Postgres, etc.
+
+ * (optional for building) Maven 3.x (http://maven.apache.org/download.html)
+
+ * Project sources located at PARTICITY_SUITE
+
+ 
+ []
+
+Build (optional):
+
+  If for some reason you are required to build from the sources, run the following in PARTICITY_SUITE:
+
++-------------------------------+
+# mvn clean package
++-------------------------------+
+
+  The resulting binaries can be found as WARs in the various submodules at PARTICITY_SUITE/module/target
+  
+  To additionally build this documentation, do 
+
++-------------------------------+
+# mvn jxr:jxr site site:stage
++-------------------------------+
+
+  with the results at PARTICITY_SUITE/target/staging
+  
+Setup:
+
+  * Start the liferay portal and configure settings according to your needs. At install-time optionally provide details about your data storage. A detailed guide regarding setup and use of Liferay can be found in {{{https://www.liferay.com/de/documentation/liferay-portal/6.2/user-guide}the official documentation}}. 
+  
+  * Copy all binaries/WARs to LIFERAY_HOME/deploy
+  
+  * Get a coffee
+  
+  * Login as portal administrator
+  
+  * Add the following roles to liferay (consult {{{https://www.liferay.com/de/documentation/liferay-portal/6.2/user-guide/-/ai/roles-and-permissions-liferay-portal-6-2-user-guide-16-en}here}} for instructions)
+
+*-------------------------*-------*
+Engagement Organisation   | Role for organisations
+*-------------------------*-------*
+Engagement Verwaltung     | Role for management (moderators)
+*-------------------------*-------*
+Engagement Administration | Role for administration of data-structures and other administrative tasks
+*-------------------------*-------*
+
+  [[1]] Provide your portal with a basic setup (sites, content) and proper permissions. You should at least include space for
+   
+   * The search form (public)
+   
+   * The newsletter registration form (public)
+   
+   * Newsletter configuration (public)
+   
+   * The organisation registration form (public)
+   
+   * The organisation backend (restricted to role "Engagement Organisation")
+   
+   * The management backend (restricted to role "Engagement Verwaltung")
+   
+   * The administration backend (restricted to role "Engagement Administration")
+   
+   * (optional) the login profile (restricted to all members of your site, e.g. "Engagement Administration", "Engagement Organisation" and "Engagement Verwaltung")
+   
+   []
+   
+  [[2]] Configure your portal to allow login via E-Mail/Password and add "Engagement Organisation" to the default roles a newly created user gets assigned to
+   
+  [[3]] Add portlets to the sites you just created. Portlets can be found under the topic "AdHoc" and provide the following functionality
+
+*-------------------------*-------*
+Admin Backend                   | Backend GUI for role "Engagement Administration"
+*-------------------------*-------*
+Login Form                | (optional) Inline Form for Login/Registration, already included in the provided theme and visible on all sites 
+*-------------------------*-------*
+Login Profile             | Clean and simple form for changing username/password 
+*-------------------------*-------*
+Login Redirect            | (optional) When the provided login-form is not used, this portlet will redirect any user to their corresponding backend after login 
+*-------------------------*-------*
+Newsletter Registration Form      | Registration form for newsletters  
+*-------------------------*-------*
+Newsletter Configuration             | Configuration form for newsletters  
+*-------------------------*-------*
+Organisation Registration Form | Registration form for organisations  
+*-------------------------*-------*
+Organisation Backend       | Backend GUI for role "Engagement Organisation"
+*-------------------------*-------*
+Search                     | Search portlet  
+*-------------------------*-------*
+Management                | Backend GUI for role "Engagement Verwaltung"
+*-------------------------*-------*                                       
+
+  [[4]] Add a user with the role "Engagement Administration" (or supply the role to your default on-site administrator)
+  
+  [[5]] Add a user with the role "Engagement Verwaltung" (or supply the role to your default on-site administrator)
+  
+  [[6]] Login as user with the role "Engagement Administrator" and open the page, where the portlet "AdHoc Admin" is deployed
+   
+   * Add content to the basic data-lists for search, services, countries and work-times
+   
+   []
+  
+  [[7]] Login as user with the role "Engagement Verwaltung" and open the page, where the portlet "AdHoc Verwaltung" is deployed
+   
+   * Use the Configuration to tweak basic aspects of your site
+   
+   []
+   
+  [[8]] Done.  

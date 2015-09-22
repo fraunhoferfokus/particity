@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<web-app xmlns="http://geronimo.apache.org/xml/ns/j2ee/web-1.1">
+	<environment>
+		<moduleId>
+			<groupId>liferay</groupId>
+			<artifactId>liferay-portal</artifactId>
+			<version>6.1.0</version>
+			<type>car</type>
+		</moduleId>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.geronimo.configs</groupId>
+				<artifactId>j2ee-server</artifactId>
+				<type>car</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.geronimo.configs</groupId>
+				<artifactId>sharedlib</artifactId>
+				<type>car</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.geronimo.framework</groupId>
+				<artifactId>j2ee-security</artifactId>
+				<type>car</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.geronimo.framework</groupId>
+				<artifactId>rmi-naming</artifactId>
+				<type>car</type>
+			</dependency>
+		</dependencies>
+		<!--<inverse-classloading />-->
+	</environment>
+	<context-root>/</context-root>
+	<security-realm-name>PortalRealm</security-realm-name>
+	<security>
+		<default-principal>
+			<principal name="anonymous" class="com.liferay.portal.kernel.security.jaas.PortalPrincipal" />
+		</default-principal>
+		<role-mappings>
+			<role role-name="users">
+				<principal class="com.liferay.portal.kernel.security.jaas.PortalRole" name="users" />
+			</role>
+		</role-mappings>
+	</security>
+	<gbean name="PortalRealm" class="org.apache.geronimo.security.realm.GenericSecurityRealm">
+		<attribute name="realmName">PortalRealm</attribute>
+		<reference name="ServerInfo">
+			<name>ServerInfo</name>
+		</reference>
+		<!--<reference name="LoginService">
+			<name>JaasLoginService</name>
+		</reference>-->
+		<xml-reference name="LoginModuleConfiguration">
+			<log:login-config xmlns:log="http://geronimo.apache.org/xml/ns/loginconfig-2.0">
+				<log:login-module control-flag="REQUIRED" wrap-principals="false">
+					<log:login-domain-name>PortalRealm</log:login-domain-name>
+					<log:login-module-class>com.liferay.portal.security.jaas.ext.tomcat.PortalLoginModule</log:login-module-class>
+				</log:login-module>
+			</log:login-config>
+		</xml-reference>
+	</gbean>
+</web-app>

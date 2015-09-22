@@ -1,0 +1,246 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+SyndFeed feed = null;
+
+try {
+	ObjectValuePair ovp = RSSUtil.getFeed(url);
+
+	feed = (SyndFeed)ovp.getValue();
+
+	if (Validator.isNull(title)) {
+		title = feed.getTitle();
+	}
+}
+catch (Exception e) {
+}
+%>
+
+<c:choose>
+	<c:when test="<%= (Validator.isNotNull(url)) && (feed != null) %>">
+		<div class="feed">
+
+			<%
+			String baseURL = null;
+
+			String feedLink = feed.getLink();
+
+			if (Validator.isNull(feedLink) || !HttpUtil.hasDomain(feedLink)) {
+				baseURL = HttpUtil.getProtocol(url).concat(Http.PROTOCOL_DELIMITER).concat(HttpUtil.getDomain(url));
+
+				if (Validator.isNotNull(feedLink)) {
+					feedLink = baseURL.concat(feedLink);
+				}
+				else {
+					feedLink = baseURL;
+				}
+			}
+			else {
+				baseURL = HttpUtil.getProtocol(feedLink).concat(Http.PROTOCOL_DELIMITER).concat(HttpUtil.getDomain(feedLink));
+			}
+
+			Date publishedDate = feed.getPublishedDate();
+			String description = feed.getDescription();
+
+			SyndImage feedImage = feed.getImage();
+
+			String feedImageLink = StringPool.BLANK;
+			String feedImageURL = StringPool.BLANK;
+
+			if (feedImage != null) {
+				feedImageLink = feedImage.getLink();
+
+				if (!HttpUtil.hasDomain(feedImageLink)) {
+					feedImageLink = baseURL + feedImageLink;
+				}
+
+				feedImageURL = feedImage.getUrl();
+
+				if (!HttpUtil.hasDomain(feedImageURL)) {
+					feedImageURL = baseURL + feedImageURL;
+				}
+			}
+			%>
+
+			<c:if test="<%= showFeedTitle %>">
+				<div class="feed-title">
+					<aui:a href="<%= _escapeJavaScriptLink(feedLink) %>" target="_new"><%= HtmlUtil.escape(title) %></aui:a>
+				</div>
+			</c:if>
+
+			<c:if test="<%= (publishedDate != null) && showFeedPublishedDate %>">
+				<div class="feed-published-date feed-date">
+					<aui:a href="<%= _escapeJavaScriptLink(feedLink) %>" target="_new"><%= dateFormatDateTime.format(publishedDate) %></aui:a>
+				</div>
+			</c:if>
+
+			<c:if test="<%= Validator.isNotNull(description) && showFeedDescription %>">
+				<div class="feed-description">
+					<%= HtmlUtil.escape(description) %>
+				</div>
+			</c:if>
+
+			<c:if test="<%= (feedImage != null) && showFeedImage %>">
+				<div class="feed-image-<%= feedImageAlignment %>">
+					<aui:a href="<%= _escapeJavaScriptLink(feedImageLink) %>" target="_new" title="<%= HtmlUtil.escapeAttribute(feedImage.getTitle()) %>"><img alt="<%= feedImage.getDescription() %>" src="<%= HtmlUtil.escapeHREF(feedImageURL) %>" /></aui:a>
+				</div>
+			</c:if>
+
+			<div class="feed-entries">
+
+				<%
+				List entries = feed.getEntries();
+
+				for (int j = 0; j < entries.size(); j++) {
+					SyndEntry entry = (SyndEntry)entries.get(j);
+
+					String entryLink = entry.getLink();
+
+					if (Validator.isNotNull(entryLink) && !HttpUtil.hasDomain(entryLink)) {
+						entryLink = baseURL + entryLink;
+					}
+
+					String author = entry.getAuthor();
+
+					SyndContent content = entry.getDescription();
+
+					List contents = new ArrayList();
+
+					if (content == null) {
+						contents = entry.getContents();
+					}
+					else {
+						contents.add(content);
+					}
+
+					List<SyndEnclosure> enclosures = (List<SyndEnclosure>)entry.getEnclosures();
+
+					String enclosureLink = StringPool.BLANK;
+					String enclosureLinkTitle = entry.getTitle();
+
+					for (SyndEnclosure enclosure : enclosures) {
+						if (Validator.isNotNull(enclosure.getUrl())) {
+							enclosureLink = enclosure.getUrl();
+
+							int pos = enclosureLink.lastIndexOf(StringPool.FORWARD_SLASH);
+
+							if (pos > -1) {
+								enclosureLinkTitle = enclosureLink.substring(pos + 1);
+							}
+							else {
+								enclosureLinkTitle = enclosureLink;
+							}
+
+							break;
+						}
+					}
+				%>
+
+					<div class="feed-entry">
+						<img alt="<%= (windowState.equals(WindowState.MAXIMIZED) || (j < expandedEntriesPerFeed)) ? LanguageUtil.get(pageContext, "collapse") : LanguageUtil.get(pageContext, "expande") %>" class="<portlet:namespace />entry-expander feed-entry-expander" src='<%= themeDisplay.getPathThemeImage() %>/arrows/01_<%= (windowState.equals(WindowState.MAXIMIZED) || (j < expandedEntriesPerFeed)) ? "minus" : "plus" %>.png' />
+
+						<span class="feed-entry-title"><aui:a href="<%= _escapeJavaScriptLink(entryLink) %>" target="_new"><%= HtmlUtil.escape(entry.getTitle()) %></aui:a></span>
+
+						<div class="feed-entry-content <%= (windowState.equals(WindowState.MAXIMIZED) || (j < expandedEntriesPerFeed)) ? "" : "hide" %>">
+							<c:if test="<%= entry.getPublishedDate() != null %>">
+								<div class="feed-date">
+									<%= dateFormatDateTime.format(entry.getPublishedDate()) %>
+								</div>
+							</c:if>
+
+							<c:if test="<%= showFeedItemAuthor && Validator.isNotNull(author) %>">
+								<span class="feed-entry-author"><%= HtmlUtil.escape(author) %></span>
+							</c:if>
+
+							<c:if test="<%= Validator.isNotNull(enclosureLink) %>">
+								<span class="feed-entry-enclosure"><aui:a href="<%= _escapeJavaScriptLink(enclosureLink) %>" target="_new"><%= HtmlUtil.escape(enclosureLinkTitle) %></aui:a></span>
+							</c:if>
+
+							<%
+							for (int k = 0; k < contents.size(); k++) {
+								content = (SyndContent)contents.get(k);
+
+								if ((content != null) && Validator.isNotNull(content.getValue())) {
+									String value = StringUtil.replace(
+										content.getValue(),
+										new String[] {
+											"src=\"/",
+											"href=\"/"
+										},
+										new String[] {
+											"src=\"" + baseURL + "/",
+											"href=\"" + baseURL + "/"
+										});
+
+									String sanitizedValue = null;
+
+									try {
+										sanitizedValue = SanitizerUtil.sanitize(company.getCompanyId(), scopeGroupId, user.getUserId(), null, 0, ContentTypes.TEXT_HTML, Sanitizer.MODE_XSS, value, null);
+									}
+									catch (SanitizerException se) {
+										sanitizedValue = StringPool.BLANK;
+									}
+							%>
+
+									<%= sanitizedValue %>
+
+							<%
+								}
+							}
+							%>
+
+						</div>
+					</div>
+
+				<%
+					if ((j + 1) >= entriesPerFeed) {
+						break;
+					}
+				}
+				%>
+
+			</div>
+
+			<c:if test="<%= !last %>">
+				<div class="separator"><!-- --></div>
+			</c:if>
+		</div>
+	</c:when>
+	<c:otherwise>
+		<div class="alert alert-error">
+			<%= LanguageUtil.format(pageContext, "cannot-be-found", HtmlUtil.escape(urls[i]), false) %>
+		</div>
+	</c:otherwise>
+</c:choose>
+
+<%!
+private String _escapeJavaScriptLink(String link) {
+	if (Validator.isNull(link)) {
+		return StringPool.BLANK;
+	}
+
+	if (link.indexOf(StringPool.COLON) == 10) {
+		String protocol = StringUtil.toLowerCase(link.substring(0, 10));
+
+		if (protocol.equals("javascript")) {
+			link = StringUtil.replaceFirst(link, StringPool.COLON, "%3a");
+		}
+	}
+
+	return link;
+}
+%>

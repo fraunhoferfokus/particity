@@ -1,0 +1,157 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+List<Long> availableClassNameIds = new ArrayList<Long>();
+
+for (AssetRendererFactory assetRendererFactory : AssetRendererFactoryRegistryUtil.getAssetRendererFactories()) {
+	if (assetRendererFactory.isCategorizable()) {
+		availableClassNameIds.add(assetRendererFactory.getClassNameId());
+	}
+}
+
+boolean required = false;
+
+long[] selectedClassNameIds = null;
+long[] requiredClassNameIds = null;
+
+if (vocabulary != null) {
+	UnicodeProperties settingsProperties = vocabulary.getSettingsProperties();
+
+	selectedClassNameIds = StringUtil.split(settingsProperties.getProperty("selectedClassNameIds"), 0L);
+	requiredClassNameIds = StringUtil.split(settingsProperties.getProperty("requiredClassNameIds"), 0L);
+
+	if ((requiredClassNameIds != null) && _isDefaultClassNameIds(requiredClassNameIds)) {
+		required = true;
+	}
+}
+
+if (ArrayUtil.isEmpty(selectedClassNameIds)) {
+	selectedClassNameIds = new long[] {0};
+}
+
+if (ArrayUtil.isEmpty(requiredClassNameIds)) {
+	requiredClassNameIds = new long[] {0};
+}
+%>
+
+<aui:input cssClass="vocabulary-checkbox" helpMessage="multi-valued-help" label="allow-multiple-categories" name="multiValued" type="checkbox" value="<%= (vocabulary != null) ? vocabulary.isMultiValued() : true %>" />
+
+<liferay-ui:panel collapsible="<%= true %>" defaultState="closed" extended="<%= false %>" id="vocabularyExtraFieldsPanelContainer" persistState="<%= true %>" title="associated-asset-types">
+	<aui:fieldset id="extraFields">
+
+		<%
+		List<String> indexes = new ArrayList<String>();
+
+		if (_isDefaultClassNameIds(selectedClassNameIds)) {
+			indexes.add("0");
+		%>
+
+			<div class="lfr-form-row lfr-form-row-inline">
+				<div class="row-fields">
+					<aui:select label="choose-asset-type" name="classNameId0">
+						<aui:option label="all-asset-types" selected="<%= true %>" value="<%= AssetCategoryConstants.ALL_CLASS_NAME_IDS %>" />
+
+						<%
+						for (long availableClassNameId : availableClassNameIds) {
+						%>
+
+							<aui:option label="<%= ResourceActionsUtil.getModelResource(locale, PortalUtil.getClassName(availableClassNameId)) %>" selected="<%= false %>" value="<%= availableClassNameId %>" />
+
+						<%
+						}
+						%>
+
+					</aui:select>
+
+					<aui:input cssClass="vocabulary-checkbox" label="required" name="required0" type="checkbox" value="<%= required %>" />
+				</div>
+			</div>
+
+		<%
+		}
+		else {
+			for (int index = 0; index < selectedClassNameIds.length; index++) {
+				indexes.add(String.valueOf(index));
+
+				boolean requiredIndex = false;
+
+				if (ArrayUtil.contains(requiredClassNameIds, selectedClassNameIds[index])) {
+					requiredIndex = true;
+				}
+		%>
+
+				<div class="lfr-form-row lfr-form-row-inline">
+					<div class="row-fields">
+						<aui:select label="choose-asset-type" name='<%= "classNameId" + index %>'>
+							<aui:option label="all-asset-types" value="<%= AssetCategoryConstants.ALL_CLASS_NAME_IDS %>" />
+
+							<%
+							for (int i = 0; i < availableClassNameIds.size(); i++) {
+								long availableClassNameId = availableClassNameIds.get(i);
+
+								boolean selected = false;
+
+								if (availableClassNameId == selectedClassNameIds[index]) {
+									selected = true;
+								}
+							%>
+
+								<aui:option label="<%= ResourceActionsUtil.getModelResource(locale, PortalUtil.getClassName(availableClassNameId)) %>" selected="<%= selected %>" value="<%= availableClassNameId %>" />
+
+							<%
+							}
+							%>
+
+						</aui:select>
+
+						<aui:input cssClass="vocabulary-checkbox" label="required" name='<%= "required" + index %>' type="checkbox" value="<%= requiredIndex %>" />
+					</div>
+				</div>
+
+		<%
+			}
+		}
+		%>
+
+		<aui:input name="indexes" type="hidden" value="<%= indexes.toString() %>" />
+	</aui:fieldset>
+</liferay-ui:panel>
+
+<aui:script use="liferay-auto-fields">
+	var extraFields = A.one('#<portlet:namespace />extraFields');
+
+	var autoFields = new Liferay.AutoFields(
+		{
+			contentBox: '#<portlet:namespace />extraFields',
+			fieldIndexes: '<portlet:namespace />indexes',
+			namespace: '<portlet:namespace />'
+		}
+	).render();
+
+	extraFields.setData('autoFieldsInstance', autoFields);
+</aui:script>
+
+<%!
+private boolean _isDefaultClassNameIds(long[] classNameIds) {
+	if ((classNameIds.length == 1) && (classNameIds[0] == 0)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+%>

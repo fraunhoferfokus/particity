@@ -1,0 +1,131 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<c:if test="<%= MDRPermissionUtil.contains(permissionChecker, groupId, ActionKeys.ADD_RULE_GROUP_INSTANCE) %>">
+	<div class="btn-toolbar">
+		<aui:button name="saveInstance" value="select-device-family" />
+
+		<c:if test="<%= MDRRuleGroupInstanceServiceUtil.getRuleGroupInstancesCount(className, classPK) > 1 %>">
+			<aui:button name="managePriorities" value="manage-rule-priorities" />
+		</c:if>
+	</div>
+</c:if>
+
+<liferay-portlet:renderURL portletName="<%= PortletKeys.MOBILE_DEVICE_SITE_ADMIN %>" varImpl="selectRuleGroupURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+	<portlet:param name="struts_action" value="/mobile_device_rules/view" />
+	<portlet:param name="groupId" value="<%= String.valueOf(groupId) %>" />
+	<portlet:param name="className" value="<%= className %>" />
+	<portlet:param name="classPK" value="<%= String.valueOf(classPK) %>" />
+	<portlet:param name="chooseCallback" value='<%= liferayPortletResponse.getNamespace() + "saveRuleGroupInstance" %>' />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL portletName="<%= PortletKeys.MOBILE_DEVICE_SITE_ADMIN %>" varImpl="managePrioritiesURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+	<portlet:param name="struts_action" value="/mobile_device_rules/edit_rule_group_instance" />
+	<portlet:param name="groupId" value="<%= String.valueOf(groupId) %>" />
+	<portlet:param name="className" value="<%= className %>" />
+	<portlet:param name="classPK" value="<%= String.valueOf(classPK) %>" />
+	<portlet:param name="saveCallback" value='<%= liferayPortletResponse.getNamespace() + "saveRuleGroupsPriorities" %>' />
+</liferay-portlet:renderURL>
+
+<aui:script>
+	Liferay.provide(
+		window,
+		'<portlet:namespace />processDialog',
+		function(dialog) {
+			var A = AUI();
+
+			if (dialog) {
+				if (Liferay.Util.getTop() == window) {
+					dialog.plug(A.LoadingMask).render();
+				}
+				else {
+					dialog.hide();
+				}
+			}
+		},
+		['aui-loading-mask-deprecated']
+	);
+
+	function <portlet:namespace />saveRuleGroupsPriorities(dialog) {
+		<portlet:namespace />processDialog(dialog);
+	}
+
+	Liferay.provide(
+		window,
+		'<portlet:namespace />saveRuleGroupInstance',
+		function(ruleGroupId, ruleGroupName, dialog) {
+			var A = AUI();
+
+			<portlet:namespace />processDialog(dialog);
+
+			Liferay.Service(
+				'/mdrrulegroupinstance/add-rule-group-instance',
+				{
+					groupId: <%= groupId %>,
+					className: '<%= HtmlUtil.escapeJS(className) %>',
+					classPK: <%= classPK %>,
+					ruleGroupId: ruleGroupId,
+					serviceContext: A.JSON.stringify(
+						{
+							scopeGroupId: themeDisplay.getScopeGroupId(),
+							userId: themeDisplay.getUserId()
+						}
+					)
+				},
+				function(response, xhr) {
+					window.location.reload();
+				}
+			);
+		},
+		['aui-loading-mask-deprecated']
+	);
+</aui:script>
+
+<aui:script use="aui-base">
+	var saveInstance = A.one('#<portlet:namespace />saveInstance');
+
+	if (saveInstance) {
+		saveInstance.on(
+			'click',
+			function(event) {
+				Liferay.Util.openWindow(
+					{
+						id: '<portlet:namespace />ruleGroups',
+						title: '<%= UnicodeLanguageUtil.get(pageContext, "device-families") %>',
+						uri: '<%= selectRuleGroupURL %>'
+					}
+				);
+			}
+		);
+	}
+
+	var managePriorities = A.one('#<portlet:namespace />managePriorities');
+
+	if (managePriorities) {
+		managePriorities.on(
+			'click',
+			function(event) {
+				Liferay.Util.openWindow(
+					{
+						id: '<portlet:namespace />ruleGroupsPriorities',
+						title: '<%= UnicodeLanguageUtil.get(pageContext, "rule-priorities") %>',
+						uri: '<%= managePrioritiesURL %>'
+					}
+				);
+			}
+		);
+	}
+</aui:script>

@@ -1,0 +1,73 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+String collapsed = HtmlUtil.escapeJS(GetterUtil.getString(SessionClicks.get(request, _LIFERAY_JS_CONSOLE_COLLAPSED_SESSION_CLICKS_KEY, null), "false"));
+%>
+
+<div id="liferayJSConsole"></div>
+
+<aui:script>
+	AUI().use(
+		'console',
+		'console-filters',
+		'liferay-store',
+		function(A) {
+			var maxHeight = '300px';
+			var autoHeight = 'auto';
+
+			var Console = new A.Console(
+				{
+					after: {
+						collapsedChange: function(event) {
+							var instance = this;
+
+							var height = maxHeight;
+
+							if (event.newVal) {
+								height = autoHeight;
+							}
+
+							instance.set('height', height);
+
+							Liferay.Store('<%= _LIFERAY_JS_CONSOLE_COLLAPSED_SESSION_CLICKS_KEY %>', String(event.newVal));
+						}
+					},
+					collapsed: <%= collapsed %>,
+					height: (<%= collapsed %>) ? autoHeight : maxHeight,
+					logSource: A.Global,
+					newestOnTop: false,
+					plugins: [A.Plugin.ConsoleFilters],
+					strings: {
+						clear: '<%= UnicodeLanguageUtil.get(pageContext, "clear") %>',
+						collapse: '<%= UnicodeLanguageUtil.get(pageContext, "collapse") %>',
+						expand: '<%= UnicodeLanguageUtil.get(pageContext, "expand") %>',
+						pause: '<%= UnicodeLanguageUtil.get(pageContext, "pause") %>',
+						title: '<%= UnicodeLanguageUtil.get(pageContext, "console") %>'
+					},
+					style: 'block',
+					width: '100%'
+				}
+			).render('#liferayJSConsole');
+
+			Liferay.Console = Console;
+		}
+	);
+</aui:script>
+
+<%!
+private static final String _LIFERAY_JS_CONSOLE_COLLAPSED_SESSION_CLICKS_KEY = "liferay_js_console_collapsed";
+%>

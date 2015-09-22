@@ -1,0 +1,252 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<aui:fieldset cssClass="general-display-settings">
+	<c:if test="<%= !rootPortletId.equals(PortletKeys.HIGHEST_RATED_ASSETS) && !rootPortletId.equals(PortletKeys.MOST_VIEWED_ASSETS) %>">
+		<aui:input helpMessage="show-add-content-button-help" name="preferences--showAddContentButton--" type="checkbox" value="<%= showAddContentButton %>" />
+	</c:if>
+
+	<div class="display-template">
+
+		<%
+		TemplateHandler templateHandler = TemplateHandlerRegistryUtil.getTemplateHandler(AssetEntry.class.getName());
+		%>
+
+		<liferay-ui:ddm-template-selector
+			classNameId="<%= PortalUtil.getClassNameId(templateHandler.getClassName()) %>"
+			displayStyle="<%= displayStyle %>"
+			displayStyleGroupId="<%= displayStyleGroupId %>"
+			displayStyles="<%= Arrays.asList(PropsValues.ASSET_PUBLISHER_DISPLAY_STYLES) %>"
+			label="display-template"
+			refreshURL="<%= configurationRenderURL.toString() %>"
+		/>
+	</div>
+
+	<aui:select cssClass="hidden-field abstract-length" helpMessage="abstract-length-key-help" name="preferences--abstractLength--">
+		<aui:option label="100" selected="<%= abstractLength == 100 %>" />
+		<aui:option label="200" selected="<%= abstractLength == 200 %>" />
+		<aui:option label="300" selected="<%= abstractLength == 300 %>" />
+		<aui:option label="400" selected="<%= abstractLength == 400 %>" />
+		<aui:option label="500" selected="<%= abstractLength == 500 %>" />
+	</aui:select>
+
+	<aui:input cssClass="hidden-field show-asset-title" name="preferences--showAssetTitle--" type="checkbox" value="<%= showAssetTitle %>" />
+
+	<aui:input cssClass="hidden-field show-context-link" name="preferences--showContextLink--" type="checkbox" value="<%= showContextLink %>" />
+
+	<aui:select cssClass="hidden-field asset-link-behavior" name="preferences--assetLinkBehavior--">
+		<aui:option label="show-full-content" selected='<%= assetLinkBehavior.equals("showFullContent") %>' value="showFullContent" />
+		<aui:option label="view-in-context" selected='<%= assetLinkBehavior.equals("viewInPortlet") %>' value="viewInPortlet" />
+	</aui:select>
+
+	<aui:select helpMessage="number-of-items-to-display-help" label="number-of-items-to-display" name="preferences--delta--">
+
+		<%
+		for (int currentDelta : PropsValues.SEARCH_CONTAINER_PAGE_DELTA_VALUES) {
+		%>
+
+			<aui:option label="<%= currentDelta %>" selected="<%= (delta == currentDelta) %>" />
+
+		<%
+		}
+		%>
+
+	</aui:select>
+
+	<aui:select name="preferences--paginationType--">
+		<aui:option label="none" selected='<%= paginationType.equals("none") %>' />
+		<aui:option label="simple" selected='<%= paginationType.equals("simple") %>' />
+		<aui:option label="regular" selected='<%= paginationType.equals("regular") %>' />
+	</aui:select>
+
+	<c:if test="<%= !PropsValues.ASSET_PUBLISHER_SEARCH_WITH_INDEX %>">
+		<c:if test='<%= selectionStyle.equals("dynamic") %>'>
+			<aui:input label="exclude-assets-with-0-views" name="preferences--excludeZeroViewCount--" type="checkbox" value="<%= excludeZeroViewCount %>" />
+		</c:if>
+	</c:if>
+
+	<%
+	String helpMessage1 = "<em>" + LanguageUtil.format(pageContext, "content-related-to-x", StringPool.DOUBLE_PERIOD) + "</em>";
+	String helpMessage2 = "<em>" + LanguageUtil.format(pageContext, "content-with-tag-x", StringPool.DOUBLE_PERIOD) + "</em>";
+	%>
+
+	<aui:input helpMessage='<%= LanguageUtil.format(pageContext, "such-as-x-or-x", new Object[] {helpMessage1, helpMessage2}) %>' name="preferences--showMetadataDescriptions--" type="checkbox" value="<%= showMetadataDescriptions %>" />
+
+	<aui:input name="preferences--showAvailableLocales--" type="checkbox" value="<%= showAvailableLocales %>" />
+
+	<aui:input helpMessage="set-as-the-default-asset-publisher-for-this-page-help" label="set-as-the-default-asset-publisher-for-this-page" name="defaultAssetPublisher" type="checkbox" value="<%= defaultAssetPublisher %>" />
+
+	<aui:field-wrapper helpMessage='<%= !openOfficeServerEnabled ? "enabling-openoffice-integration-provides-document-conversion-functionality" : StringPool.BLANK %>' label="enable-conversion-to">
+		<div class="field-row">
+
+			<%
+			for (String conversion : conversions) {
+			%>
+
+			<aui:field-wrapper inlineField="<%= true %>" inlineLabel="left" label="<%= StringUtil.toUpperCase(conversion) %>">
+				<input <%= ArrayUtil.contains(extensions, conversion) ? "checked": "" %> <%= !openOfficeServerEnabled ? "disabled" : "" %> name="<portlet:namespace />extensions" type="checkbox" value="<%= conversion %>" />
+			</aui:field-wrapper>
+
+			<%
+			}
+			%>
+
+		</div>
+	</aui:field-wrapper>
+
+	<aui:input name="preferences--enablePrint--" type="checkbox" value="<%= enablePrint %>" />
+
+	<aui:input name="preferences--enableFlags--" type="checkbox" value="<%= enableFlags %>" />
+
+	<c:if test="<%= ASSET_PUBLISHER_PERMISSION_CHECKING_CONFIGURABLE || !PropsValues.ASSET_PUBLISHER_SEARCH_WITH_INDEX %>">
+		<aui:input name="preferences--enablePermissions--" type="checkbox" value="<%= enablePermissions %>" />
+	</c:if>
+
+	<c:choose>
+		<c:when test="<%= rootPortletId.equals(PortletKeys.RELATED_ASSETS) %>">
+			<aui:input name="preferences--enableRelatedAssets--" type="hidden" value="<%= enableRelatedAssets %>" />
+		</c:when>
+		<c:otherwise>
+			<aui:input name="preferences--enableRelatedAssets--" type="checkbox" value="<%= enableRelatedAssets %>" />
+		</c:otherwise>
+	</c:choose>
+
+	<aui:input name="preferences--enableRatings--" type="checkbox" value="<%= enableRatings %>" />
+
+	<aui:input name="preferences--enableComments--" type="checkbox" value="<%= enableComments %>" />
+
+	<aui:input name="preferences--enableCommentRatings--" type="checkbox" value="<%= enableCommentRatings %>" />
+
+	<aui:fieldset>
+		<aui:input name="preferences--enableSocialBookmarks--" type="checkbox" value="<%= enableSocialBookmarks %>" />
+
+		<div class="social-boomarks-options" id="<portlet:namespace />socialBookmarksOptions">
+			<aui:select label="display-style" name="preferences--socialBookmarksDisplayStyle--">
+				<aui:option label="simple" selected='<%= socialBookmarksDisplayStyle.equals("simple") %>' />
+				<aui:option label="vertical" selected='<%= socialBookmarksDisplayStyle.equals("vertical") %>' />
+				<aui:option label="horizontal" selected='<%= socialBookmarksDisplayStyle.equals("horizontal") %>' />
+			</aui:select>
+
+			<aui:select label="display-position" name="preferences--socialBookmarksDisplayPosition--">
+				<aui:option label="top" selected='<%= socialBookmarksDisplayPosition.equals("top") %>' />
+				<aui:option label="bottom" selected='<%= socialBookmarksDisplayPosition.equals("bottom") %>' />
+			</aui:select>
+		</div>
+	</aui:fieldset>
+
+	<c:if test='<%= selectionStyle.equals("manual") %>'>
+		<aui:input helpMessage="enable-tag-based-navigation-help" label="enable-tag-based-navigation" name="preferences--enableTagBasedNavigation--" type="checkbox" value="<%= enableTagBasedNavigation %>" />
+	</c:if>
+</aui:fieldset>
+
+<aui:fieldset label="show-metadata">
+	<br />
+
+	<aui:input name="preferences--metadataFields--" type="hidden" />
+
+	<aui:field-wrapper label="metadata-fields">
+
+		<%
+		Set<String> availableMetadataFields = SetUtil.fromArray(StringUtil.split(allMetadataFields));
+
+		// Left list
+
+		List leftList = new ArrayList();
+
+		for (int i = 0; i < metadataFields.length; i++) {
+			String folderColumn = metadataFields[i];
+
+			leftList.add(new KeyValuePair(folderColumn, LanguageUtil.get(pageContext, folderColumn)));
+		}
+
+		// Right list
+
+		List rightList = new ArrayList();
+
+		Arrays.sort(metadataFields);
+
+		for (String folderColumn : availableMetadataFields) {
+			if (Arrays.binarySearch(metadataFields, folderColumn) < 0) {
+				rightList.add(new KeyValuePair(folderColumn, LanguageUtil.get(pageContext, folderColumn)));
+			}
+		}
+
+		rightList = ListUtil.sort(rightList, new KeyValuePairComparator(false, true));
+		%>
+
+		<liferay-ui:input-move-boxes
+			leftBoxName="currentMetadataFields"
+			leftList="<%= leftList %>"
+			leftReorder="true"
+			leftTitle="current"
+			rightBoxName="availableMetadataFields"
+			rightList="<%= rightList %>"
+			rightTitle="available"
+		/>
+	</aui:field-wrapper>
+</aui:fieldset>
+
+<aui:script use="aui-base">
+	var selectDisplayStyle = A.one('#<portlet:namespace />displayStyle');
+
+	function showHiddenFields () {
+		var assetLinkBehavior = A.one('.asset-link-behavior');
+		var hiddenFields = A.all('.hidden-field');
+		var selectDisplayStyle = A.one('#<portlet:namespace />displayStyle');
+
+		if (hiddenFields) {
+			hiddenFields.get('parentNode').hide();
+		}
+
+		if (selectDisplayStyle) {
+			var displayStyle = selectDisplayStyle.val();
+
+			if (displayStyle == 'full-content') {
+				var showAssetTitle = A.one('.show-asset-title');
+				var showContextLink = A.one('.show-context-link');
+
+				if (showAssetTitle) {
+					showAssetTitle.get('parentNode').show();
+				}
+
+				if (showContextLink) {
+					showContextLink.get('parentNode').show();
+				}
+			}
+			else {
+				if (displayStyle == 'abstracts') {
+					var abstractLength = A.one('.abstract-length');
+
+					if (abstractLength) {
+						abstractLength.get('parentNode').show();
+					}
+				}
+
+				if (assetLinkBehavior) {
+					assetLinkBehavior.get('parentNode').show();
+				}
+			}
+		}
+	}
+
+	showHiddenFields();
+
+	if (selectDisplayStyle) {
+		selectDisplayStyle.on('change', showHiddenFields);
+	}
+
+	Liferay.Util.toggleBoxes('<portlet:namespace />enableSocialBookmarksCheckbox','<portlet:namespace />socialBookmarksOptions');
+</aui:script>

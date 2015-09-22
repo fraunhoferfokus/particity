@@ -1,0 +1,414 @@
+/*
+ * COMMON
+*/
+a.disabled {
+	pointer-events: none;
+	color: #777;
+}
+
+/*
+ * PAGINATION (with buttons)
+*/
+.pagination>li>button {
+	position: relative;
+	float: left;
+	margin-left: -1px;
+	line-height: 1.42857143;
+	color: #337ab7;
+	text-decoration: none;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	/*padding: 6px 12px;*/
+	padding: 10px 16px;
+	font-size: 18px;
+}
+
+.pagination>.active>button {
+	z-index: 2;
+	color: #fff;
+	cursor: default;
+	background-color: #337ab7;
+	border-color: #337ab7;
+}
+
+/*
+ TABLES
+*/
+th a {
+	font-size: small;
+}
+
+td, th {
+	padding: 10px 20px 10px 0px !important;
+	border-top: none !important;
+	max-width: 300px;
+}
+
+tr {
+	border-bottom: 1px solid #ccc;
+}
+
+.smicon {
+	color: #333 !important;
+	font-size: 20px;
+}
+
+.smicon.active {
+	color: green !important;
+}
+
+.smicon.inactive {
+	color: #aaa !important;
+}
+
+.smicon.noconnect {
+	color: red !important;
+}
+
+/*
+ OFFER TABLE
+*/
+.row.offer {
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin: 0px;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	background-color: rgb(240, 240, 240);
+}
+
+.row.offer .offerheading {
+	font-weight: bolder;
+	padding: 5px 0px;
+	/*background-color: #efefef;*/
+}
+
+.row.offer .offerdate {
+	font-weight: bolder;
+	position: absolute;
+	bottom: 0px;
+}
+
+.row.offer .offerheading div {
+	padding-left: 5px;
+}
+
+.row.offer .offerheading .offertitlenum {
+	
+}
+
+.row.offer .offertitle a {
+	font-size: large;
+	font-weight: bold;
+}
+
+.row.offer .offerorg, .row.offer .offermap {
+	min-height: 170px;
+}
+
+.row.offer .offerorg .offerorgtitle {
+	font-weight: bold;
+	padding: 10px;
+}
+
+.row.offer .offerorg .offerorgimg {
+	padding: 15px;
+	text-align: center;
+}
+
+.row.offer .offerorg .offerorgimg img {
+	max-height: 100px;
+	max-width: 100px;
+}
+
+.row.offer .offerheading .offertitlenum .leaflet-marker-icon {
+	position: relative !important;
+	padding: 0px 10px 0px 0px !important;
+	float: left;
+	line-height: 1;
+}
+
+.row.offer .offerheading .offertitlenum .leaflet-marker-icon .number {
+	top: -35px;
+	padding: 0px !important;
+}
+
+.row.offer .offerdescr {
+	padding: 5px;
+	/*font-size: small;*/
+	max-height: 100px;
+	overflow: hidden;
+}
+
+.row.offer .offercats {
+	margin-top: 15px;
+}
+
+.row.offer .orgintro {
+	border-top: 1px solid #aaa;
+	padding: 5px;
+}
+
+.row.offer .offerdetails {
+	padding: 10px;
+}
+
+.row.offer .offerdetails a {
+	background: #fff;
+}
+
+.resultset .pagination {
+	margin: 0px;
+}
+
+/*
+ OFFER MODAL
+*/
+.offermodal .shariff a:hover {
+	color: #fff;
+}
+
+/*
+ FORM INPUT
+*/
+.ahmgmt .panel-body textarea {
+	height: 300px;
+}
+
+/*
+ * MAP
+ */
+#offerMap {
+	height: 200px;
+}
+
+.ahsearch #searchForm .list-group {
+	margin-left: 0px;
+}
+
+.ahsearch #searchForm .list-group .list-group-item:not(.search) {
+	background-color: #eee;
+	font-weight: bold;
+	padding-left: 30px;
+}
+
+.ahsearch #searchForm .list-group .list-group-item.search.inner {
+	padding-left: 30px;
+}
+
+.ahsearch #searchForm .list-group input[type=checkbox] {
+	margin-right: 10px;
+	height: 1em !important;
+	width: 1em !important;
+}
+
+.ahsearch .panel-group .panel-title a:hover, .ahsearch .panel-group .panel-title a:focus
+	{
+	text-decoration: none;
+}
+
+.ahsearch .searchpanel .panel-collapse {
+	position: absolute;
+	z-index: 1000;
+	width: 90%;
+	border-left: 1px solid #D5D5D5;
+	border-right: 1px solid #D5D5D5;
+	border-bottom: 1px solid #D5D5D5;
+	border-radius: 3px;
+	/*-webkit-box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);
+	-moz-box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);
+	box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);*/
+}
+
+.ahsearch .searchpanel .panel-heading {
+	padding: 5px 15px;
+	text-align: center;
+}
+
+.ahsearch #searchForm .filterlabel {
+	margin: 5px 10px 10px 0px;
+	float: left;
+	border-radius: 3px;
+	border: 1px solid #D0D0D0;
+	float: left;
+	text-align: center;
+	padding: 5px 10px;
+	background: none;
+	background:
+		url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(255
+		, 255, 255, 1)), color-stop(100%, rgba(255, 255, 255, 0)));
+	background: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	background: -o-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	background: -ms-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff',
+		endColorstr='#00ffffff', GradientType=1);
+	box-shadow: inset 1px 1px 2px 0px rgba(64, 150, 238, 0.75);
+}
+
+.ahsearch #searchForm .filterlabel .glyphicon {
+	color: red;
+}
+
+.ahsearch #searchMap {
+	min-height: 200px;
+	border-radius: 5px;
+	overflow: hidden;
+	border: 1px solid white;
+	z-index: 1000;
+}
+
+.ahsearch #offerMap {
+	display: none;
+}
+
+.leaflet-div-icon {
+	background: transparent;
+	border: none;
+}
+
+.leaflet-marker-icon .number {
+	position: relative;
+	top: -37px;
+	font-size: 12px;
+	width: 25px;
+	text-align: center;
+	padding: 0px;
+	font-weight: bold;
+}
+
+#searchMap.mapsize1 {
+	height: 220px;
+}
+
+#searchMap.mapsize2 {
+	height: 440px;
+}
+
+#searchMap.mapsize3 {
+	height: 660px;
+}
+
+#searchMap.mapsize4 {
+	height: 880px;
+}
+
+#searchMap.mapsize5 {
+	height: 1100px;
+}
+
+/*
+ TRANSFORMED CHECKBOXES
+*/
+.checkbox.js {
+	margin: 5px 20px 10px 0px;
+	border-radius: 3px;
+	border: 1px solid #D0D0D0;
+	overflow: auto;
+	float: left;
+	text-align: center;
+	padding: 5px 10px;
+	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.75);
+	background: rgb(220, 220, 220);
+
+	/*background: rgb(238,238,238);
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2VlZWVlZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNjY2NjY2MiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top, rgba(238,238,238,1) 0%, rgba(204,204,204,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(238,238,238,1)), color-stop(100%,rgba(204,204,204,1)));
+	background: -webkit-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(204,204,204,1) 100%);
+	background: -o-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(204,204,204,1) 100%);
+	background: -ms-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(204,204,204,1) 100%);
+	background: linear-gradient(to bottom, rgba(238,238,238,1) 0%,rgba(204,204,204,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 );
+	*/
+}
+
+.checkbox.js label {
+	text-align: center;
+	padding: 3px 0px;
+	display: block;
+}
+
+.checkbox.js label input.input-lg {
+	position: absolute;
+	top: -20px;
+}
+
+.checkbox.js:hover {
+	border-top: 1px solid #4096ee !important;
+}
+
+.checkbox.js.active {
+	filter: none;
+	background: none;
+	background:
+		url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+	background: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, rgba(255
+		, 255, 255, 1)), color-stop(100%, rgba(255, 255, 255, 0)));
+	background: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	background: -o-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	background: -ms-linear-gradient(-45deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%,
+		rgba(255, 255, 255, 0) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff',
+		endColorstr='#00ffffff', GradientType=1);
+	box-shadow: inset 1px 1px 2px 0px rgba(64, 150, 238, 0.75);;
+}
+
+/*
+ SEARCH MODAL
+*/
+.searchmodal {
+	display: none;
+}
+
+.searchmodal .yui3-widget-mask {
+	z-index: 9999 !important;
+	-ms-filter: "alpha(opacity=80)" !important;
+	filter: alpha(opacity = 80) !important;
+	opacity: .8 !important;
+}
+
+.searchmodal .modal {
+	z-index: 10000 !important;
+}
+
+.searchmodal .modal .modal-body {
+	height: 80% !important;
+	max-height: 80% !important;
+}
+
+.searchmodal .modal .modal-footer {
+	height: 10% !important;
+	min-height: 40px;
+}
+
+.searchmodal .modal .modal-header {
+	height: 10% !important;
+	min-height: 40px;
+}
+
+.searchmodal .offerlogo {
+	width: 200px;
+	height: auto;
+	max-height: 200px;
+	float: left;
+	padding: 0px 20px 20px 20px;
+}
+
+/*.searchmodal .modal .modal-header {
+  min-height: 40px !important;
+}*/

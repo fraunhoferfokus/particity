@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE plugin-package PUBLIC "-//Liferay//DTD Plugin Package 6.1.0//EN" "http://www.liferay.com/dtd/liferay-plugin-package_6_1_0.dtd">
+
+<plugin-package>
+	<name>Liferay Core Plugins</name>
+	<module-id>liferay/core-plugins/6.1.0/war</module-id>
+	<types>
+		<type>layout-template</type>
+		<type>portlet</type>
+		<type>theme</type>
+	</types>
+	<short-description>
+		Portlets, themes, and layout templates included with Liferay Portal.
+	</short-description>
+	<change-log>
+		Adapted to the latest version of Liferay.
+	</change-log>
+	<page-url>http://www.liferay.com/web/guest/downloads</page-url>
+	<author>Liferay, Inc.</author>
+	<licenses>
+		<license osi-approved="true">LGPL</license>
+	</licenses>
+	<liferay-versions>
+		<liferay-version>6.1.0</liferay-version>
+	</liferay-versions>
+</plugin-package>

@@ -1,0 +1,108 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+boolean filterByMetadata = GetterUtil.getBoolean((Boolean)request.getAttribute("asset_metadata.jspf-filterByMetadata"));
+
+boolean previous = false;
+
+for (int j = 0; j < metadataFields.length; j++) {
+	String value = null;
+
+	if (metadataFields[j].equals("create-date")) {
+		value = dateFormatDate.format(assetEntry.getCreateDate());
+	}
+	else if (metadataFields[j].equals("modified-date")) {
+		value = dateFormatDate.format(assetEntry.getModifiedDate());
+	}
+	else if (metadataFields[j].equals("publish-date")) {
+		if (assetEntry.getPublishDate() == null) {
+			value = StringPool.BLANK;
+		}
+		else {
+			value = dateFormatDate.format(assetEntry.getPublishDate());
+		}
+	}
+	else if (metadataFields[j].equals("expiration-date")) {
+		if (assetEntry.getExpirationDate() == null) {
+			value = StringPool.BLANK;
+		}
+		else {
+			value = dateFormatDate.format(assetEntry.getExpirationDate());
+		}
+	}
+	else if (metadataFields[j].equals("priority")) {
+		value = LanguageUtil.get(pageContext, "priority") + StringPool.COLON + StringPool.SPACE + assetEntry.getPriority();
+	}
+	else if (metadataFields[j].equals("author")) {
+		String userName = PortalUtil.getUserName(assetRenderer.getUserId(), assetRenderer.getUserName());
+
+		value = LanguageUtil.get(pageContext, "by") + StringPool.SPACE + HtmlUtil.escape(userName);
+	}
+	else if (metadataFields[j].equals("view-count")) {
+		int viewCount = assetEntry.getViewCount();
+
+		value = viewCount + StringPool.SPACE + LanguageUtil.get(pageContext, (viewCount == 1) ? "view" : "views");
+	}
+	else if (metadataFields[j].equals("categories")) {
+		value = "categories";
+	}
+	else if (metadataFields[j].equals("tags")) {
+		value = "tags";
+	}
+
+	if (Validator.isNotNull(value)) {
+		boolean hasCategoriesOrTags = !(value.equals("categories") && assetEntry.getCategories().isEmpty()) && !(value.equals("tags") && assetEntry.getTags().isEmpty());
+
+		if (previous && hasCategoriesOrTags) {
+%>
+
+			<span class="vertical-separator"><!-- --></span>
+
+<%
+		}
+
+		if (previous || hasCategoriesOrTags) {
+			previous = true;
+		}
+%>
+
+		<span class="metadata-entry <%= "metadata-" + metadataFields[j] %>">
+			<c:choose>
+				<c:when test='<%= value.equals("categories") %>' >
+					<liferay-ui:asset-categories-summary
+						className="<%= assetEntry.getClassName() %>"
+						classPK="<%= assetEntry.getClassPK () %>"
+						portletURL="<%= filterByMetadata ? renderResponse.createRenderURL() : null %>"
+					/>
+				</c:when>
+				<c:when test='<%= value.equals("tags") %>' >
+					<liferay-ui:asset-tags-summary
+						className="<%= assetEntry.getClassName() %>"
+						classPK="<%= assetEntry.getClassPK () %>"
+						portletURL="<%= filterByMetadata ? renderResponse.createRenderURL() : null %>"
+					/>
+				</c:when>
+				<c:otherwise>
+					<%= value %>
+				</c:otherwise>
+			</c:choose>
+		</span>
+
+<%
+	}
+}
+%>

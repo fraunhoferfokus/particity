@@ -1,0 +1,321 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file="/html/portlet/dynamic_data_mapping/custom_fields.jspf" %>
+
+<%
+String[] availableLanguageIds = LocalizationUtil.getAvailableLanguageIds(script);
+
+Locale[] availableLocales = new Locale[availableLanguageIds.length];
+
+for (int i = 0; i < availableLanguageIds.length; i++) {
+	availableLocales[i] = LocaleUtil.fromLanguageId(availableLanguageIds[i]);
+}
+
+String defaultLanguageId = LocalizationUtil.getDefaultLanguageId(script, LocaleUtil.getSiteDefault());
+%>
+
+<div class="separator"><!-- --></div>
+
+<div class="hide lfr-message-response alert alert-error" id="<portlet:namespace />messageContainer"></div>
+
+<liferay-ui:tabs
+	names='<%= LanguageUtil.get(pageContext, "view") + "," + LanguageUtil.get(pageContext, "source") %>'
+	refresh="<%= false %>"
+>
+	<liferay-ui:section>
+		<div id="<portlet:namespace />formBuilderTab">
+
+			<aui:translation-manager
+				availableLocales="<%= availableLocales %>"
+				defaultLanguageId="<%= defaultLanguageId %>"
+				id="translationManager"
+				initialize="<%= false %>"
+				readOnly="<%= false %>"
+			/>
+
+			<div class="diagram-builder form-builder" id="<portlet:namespace />formBuilder">
+				<div class="diagram-builder-content" id="<portlet:namespace />formBuilderContent">
+					<div class="tabbable">
+						<div class="tabbable-content">
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="javascript:;">
+										<liferay-ui:message key="fields" />
+									</a>
+								</li>
+								<li class="disabled">
+									<a href="javascript:;">
+										<liferay-ui:message key="settings" />
+									</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane"></div>
+								<div class="tab-pane"></div>
+							</div>
+						</div>
+					</div>
+					<div class="diagram-builder-content-container">
+						<div class="diagram-builder-canvas">
+							<div class="diagram-builder-drop-container"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</liferay-ui:section>
+
+	<liferay-ui:section>
+		<div class="form-builder-source-wrapper" id="<portlet:namespace />formBuilderSourceWrapper">
+			<div class="form-builder-source" id="<portlet:namespace />formBuilderEditor"></div>
+		</div>
+	</liferay-ui:section>
+</liferay-ui:tabs>
+
+<%
+JSONArray availableLocalesJSONArray = JSONFactoryUtil.createJSONArray();
+
+for (int i = 0; i < availableLocales.length; i++) {
+	availableLocalesJSONArray.put(LanguageUtil.getLanguageId(availableLocales[i]));
+}
+
+JSONObject localesMapJSONObject = JSONFactoryUtil.createJSONObject();
+
+for (Locale availableLocale : LanguageUtil.getAvailableLocales(themeDisplay.getSiteGroupId())) {
+	localesMapJSONObject.put(LocaleUtil.toLanguageId(availableLocale), availableLocale.getDisplayName(locale));
+}
+%>
+
+<aui:script use="aui-datepicker-deprecated,event-custom-base,json,liferay-portlet-dynamic-data-lists,liferay-portlet-dynamic-data-mapping,liferay-portlet-dynamic-data-mapping-custom-fields,aui-tabview,aui-ace-editor,aui-loading-mask-deprecated,liferay-xml-formatter">
+	var Lang = A.Lang;
+
+	var MESSAGE_FAILURE = 0;
+
+	var MESSAGE_SUCCESS = 1;
+
+	var CSS_MESSAGE_ERROR = 'alert alert-error';
+
+	var CSS_MESSAGE_SUCCESS = 'alert alert-success';
+
+	var STR_VALUE = 'value';
+
+	var availableFields;
+	var formEditor;
+	var xmlFormatter;
+
+	var displayMessage = function(type, message) {
+		var messageContainer = A.one('#<portlet:namespace />messageContainer');
+
+		messageContainer.removeClass(CSS_MESSAGE_SUCCESS).removeClass(CSS_MESSAGE_ERROR);
+
+		var messageClass = CSS_MESSAGE_SUCCESS;
+
+		if (type === MESSAGE_FAILURE) {
+			messageClass = CSS_MESSAGE_ERROR;
+		}
+
+		messageContainer.addClass(messageClass);
+		messageContainer.html(message);
+
+		messageContainer.show();
+	};
+
+	var getContentXSD = function() {
+		var content;
+
+		if (formEditor && !isViewTabActive()) {
+			content = formEditor.get(STR_VALUE);
+		}
+		else {
+			content = formBuilder.getXSD();
+		}
+
+		return content;
+	};
+
+	var getFormEditor = function() {
+		if (!formEditor) {
+			formEditor = new A.AceEditor(
+				{
+					boundingBox: '#<portlet:namespace />formBuilderEditor',
+					height: 600,
+					mode: 'xml',
+					tabSize: 4,
+					width: 600
+				}
+			).render();
+		}
+
+		return formEditor;
+	};
+
+	var getLoadingMask = function(node) {
+		node = node || A.one('#<portlet:namespace />formBuilderTab');
+
+		node.plug(
+			A.LoadingMask,
+			{
+				background: '#000'
+			}
+		);
+
+		return node.loadingmask;
+	};
+
+	var getXMLFormatter = function() {
+		if (!xmlFormatter) {
+			xmlFormatter = new Liferay.XMLFormatter();
+		}
+
+		return xmlFormatter;
+	};
+
+	var isViewTabActive = function() {
+		return !A.one('#<portlet:namespace />formBuilderTab').ancestor().hasClass('hide');
+	};
+
+	var reloadFormBuilderData = function(content) {
+		getLoadingMask().toggle(true);
+
+		if (!Lang.isValue(content)) {
+			content = window.<portlet:namespace />getContentXSD();
+		}
+
+		content = xmlFormatter.minify(content);
+
+		A.io.request(
+			themeDisplay.getPathMain() + '/dynamic_data_mapping/get_structure_json',
+			{
+				data: {
+					xsd: content
+				},
+				dataType: 'json',
+				on: {
+					failure: function(message) {
+						displayMessage(MESSAGE_FAILURE, '<%= UnicodeLanguageUtil.get(pageContext, "your-request-failed-to-complete") %>');
+					},
+					success: function(event) {
+						var responseData = this.get('responseData');
+
+						if (Lang.isArray(responseData)) {
+							formBuilder.set('fields', responseData);
+						}
+						else if (Lang.isObject(responseData)) {
+							displayMessage(MESSAGE_FAILURE, responseData.exception);
+						}
+
+						getLoadingMask().toggle(false);
+					}
+				}
+			}
+		);
+	};
+
+	var setEditorSize = function() {
+		if (!isViewTabActive()) {
+			getFormEditor().set('width', A.one('#<portlet:namespace />formBuilderSourceWrapper').get('clientWidth'));
+		}
+	}
+
+	var switchToSource = function() {
+		setEditorSize();
+
+		var content = formBuilder.getXSD();
+
+		content = getXMLFormatter().format(content);
+
+		getFormEditor().set(STR_VALUE, content);
+	};
+
+	var switchToView = function() {
+		reloadFormBuilderData(formEditor.get(STR_VALUE));
+	};
+
+	<c:if test="<%= Validator.isNotNull(scopeAvailableFields) %>">
+		availableFields = A.Object.getValue(window, '<%= HtmlUtil.escapeJS(scopeAvailableFields) %>'.split('.'));
+
+		if (A.Lang.isFunction(availableFields)) {
+			availableFields = availableFields(A, Liferay.FormBuilder);
+		}
+	</c:if>
+
+	var formBuilder = new Liferay.FormBuilder(
+		{
+			allowRemoveRequiredFields: true,
+			availableFields: availableFields,
+			boundingBox: '#<portlet:namespace />formBuilder',
+			enableEditing: false,
+
+			<c:if test="<%= scriptJSONArray != null %>">
+				fields: <%= scriptJSONArray.toString() %>,
+			</c:if>
+
+			portletNamespace: '<portlet:namespace />',
+			portletResourceNamespace: '<%= HtmlUtil.escapeJS(portletResourceNamespace) %>',
+
+			translationManager: {
+
+				<c:if test="<%= availableLocalesJSONArray.length() > 0 %>">
+					availableLocales: <%= availableLocalesJSONArray.toString() %>,
+				</c:if>
+
+				boundingBox: '#<portlet:namespace />translationManager',
+				defaultLocale: '<%= HtmlUtil.escapeJS(defaultLanguageId) %>',
+				localesMap: <%= localesMapJSONObject.toString() %>,
+				srcNode: '#<portlet:namespace />translationManager .lfr-translation-manager-content'
+			},
+
+			srcNode: '#<portlet:namespace />formBuilderContent'
+		}
+	).render();
+
+	var dialog = Liferay.Util.getWindow();
+
+	if (dialog) {
+		dialog.after('widthChange', setEditorSize);
+	}
+
+	Liferay.after(
+		'showTab',
+		function(event) {
+			if (isViewTabActive()) {
+				switchToView();
+			}
+			else {
+				switchToSource();
+			}
+		}
+	);
+
+	window.<portlet:namespace />formBuilder = formBuilder;
+
+	window.<portlet:namespace />getContentXSD = getContentXSD;
+
+	Liferay.on(
+		'<portlet:namespace />saveTemplate',
+		function(event) {
+			A.one('#<portlet:namespace />scriptContent').val(getContentXSD());
+		}
+	);
+
+	Liferay.fire(
+		'<portlet:namespace />formBuilderLoaded',
+		{
+			formBuilder: formBuilder
+		}
+	);
+</aui:script>

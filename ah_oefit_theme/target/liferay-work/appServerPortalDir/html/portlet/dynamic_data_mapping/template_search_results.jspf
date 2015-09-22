@@ -1,0 +1,40 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+TemplateSearchTerms searchTerms = (TemplateSearchTerms)searchContainer.getSearchTerms();
+
+long[] groupIds = ddmDisplay.getTemplateGroupIds(themeDisplay, showGlobalScope);
+long[] classNameIds = ddmDisplay.getTemplateClassNameIds(classNameId);
+long[] classPKs = ddmDisplay.getTemplateClassPKs(company.getCompanyId(), classNameId, classPK);
+
+if (searchTerms.isAdvancedSearch()) {
+	total = DDMTemplateServiceUtil.searchCount(company.getCompanyId(), groupIds, classNameIds, classPKs, searchTerms.getName(), searchTerms.getDescription(), searchTerms.getType(), null, null, searchTerms.isAndOperator());
+
+	searchContainer.setTotal(total);
+
+	results = DDMTemplateServiceUtil.search(company.getCompanyId(), groupIds, classNameIds, classPKs, searchTerms.getName(), searchTerms.getDescription(), searchTerms.getType(), ddmDisplay.getTemplateMode(), null, searchTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+}
+else {
+	total = DDMTemplateServiceUtil.searchCount(company.getCompanyId(), groupIds, classNameIds, classPKs, searchTerms.getKeywords(), searchTerms.getType(), ddmDisplay.getTemplateMode());
+
+	searchContainer.setTotal(total);
+
+	results = DDMTemplateServiceUtil.search(company.getCompanyId(), groupIds, classNameIds, classPKs, searchTerms.getKeywords(), searchTerms.getType(), ddmDisplay.getTemplateMode(), searchContainer.getStart(), searchContainer.getEnd(), searchContainer.getOrderByComparator());
+}
+
+searchContainer.setResults(results);
+%>

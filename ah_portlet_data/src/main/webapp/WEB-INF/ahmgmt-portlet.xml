@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd    
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd
+    ">
+
+	<context:component-scan base-package="de.fraunhofer.fokus.oefit.adhoc.portlet.mgmt" />
+
+	<!-- >mvc:annotation-driven / -->
+	<!-- mvc:annotation-driven validator="validator" / -->
+
+	<!-- bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" 
+		/ -->
+
+	<bean id="annotationMethodHandlerAdapter"
+		class="org.springframework.web.portlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean id="configurableWebBindingInitializer"
+				class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+				<!-- property name="validator"> <ref bean="validator"/> </property -->
+			</bean>
+		</property>
+	</bean>
+
+	<!-- bean class="org.springframework.web.portlet.mvc.annotation.AnnotationMethodHandlerAdapter"> 
+		<property name="webBindingInitializer"> <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer"> 
+		</bean> </property> </bean -->
+
+	<!-- Message resource bundle -->
+	<!-- bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+		<property name="basenames"> <list> <value>de.fraunhofer.fokus.oefit.adhoc.Language.Language</value> 
+		</list> </property> </bean -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>/WEB-INF/classes/de/fraunhofer/fokus/oefit/adhoc/Language/Language
+				</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/pages/mgmt/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<!-- <property name="exceptionMappings"> -->
+		<!-- <map> -->
+		<!-- <entry key="DataAccessException" value="data-error" /> -->
+		<!-- <entry key="com.stuff.MyAppRuntimeException" value="app-unchecked-error" 
+			/> -->
+		<!-- <entry key="com.stuff.MyAppCheckedException" value="app-checked-error" 
+			/> -->
+		<!-- </map> -->
+		<!-- </property> -->
+		<property name="defaultErrorView" value="spring-error" />
+	</bean>
+
+</beans>

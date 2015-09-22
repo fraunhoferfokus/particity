@@ -1,0 +1,144 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+List subfolderIds = new ArrayList();
+
+subfolderIds.add(new Long(curFolder.getFolderId()));
+
+if (ArrayUtil.contains(folderColumns, "num-of-entries") || ArrayUtil.contains(folderColumns, "num-of-folders")) {
+	BookmarksFolderServiceUtil.getSubfolderIds(subfolderIds, scopeGroupId, curFolder.getFolderId());
+}
+
+int curFoldersCount = subfolderIds.size() - 1;
+
+int curEntriesCount = 0;
+
+if (ArrayUtil.contains(folderColumns, "num-of-entries")) {
+	curEntriesCount = BookmarksEntryServiceUtil.getFoldersEntriesCount(scopeGroupId, subfolderIds);
+}
+
+for (int j = 0; j < folderColumns.length; j++) {
+	String folderColumn = folderColumns[j];
+%>
+
+	<c:choose>
+		<c:when test='<%= folderColumn.equals("action") %>'>
+
+			<%
+			String align = SearchEntry.DEFAULT_ALIGN;
+
+			if ((j + 1) == folderColumns.length) {
+				align = "right";
+			}
+			%>
+
+			<liferay-ui:search-container-column-jsp
+				align="<%= align %>"
+				path="/html/portlet/bookmarks/folder_action.jsp"
+			/>
+		</c:when>
+		<c:when test='<%= folderColumn.equals("folder") %>'>
+			<liferay-ui:search-container-column-text
+				buffer="buffer"
+				name="folder"
+			>
+
+				<%
+				buffer.append("<a href=\"");
+				buffer.append(rowURL);
+				buffer.append("\">");
+				buffer.append("<img alt=\"");
+				buffer.append(LanguageUtil.get(pageContext, "folder"));
+				buffer.append("\" class=\"label-icon\" src=\"");
+				buffer.append(themeDisplay.getPathThemeImages());
+				buffer.append("/common/folder.png\">");
+				buffer.append("<strong>");
+				buffer.append(curFolder.getName());
+				buffer.append("</strong>");
+
+				if (Validator.isNotNull(curFolder.getDescription())) {
+					buffer.append("<br />");
+					buffer.append(curFolder.getDescription());
+				}
+
+				buffer.append("</a>");
+
+				if (showSubfolders) {
+					List subfolders = BookmarksFolderServiceUtil.getFolders(scopeGroupId, curFolder.getFolderId(), 0, 5);
+
+					if (!subfolders.isEmpty()) {
+						int subfoldersCount = BookmarksFolderServiceUtil.getFoldersCount(scopeGroupId, curFolder.getFolderId());
+
+						buffer.append("<br /><u>");
+						buffer.append(LanguageUtil.get(pageContext, "subfolders"));
+						buffer.append("</u>: ");
+
+						for (int k = 0; k < subfolders.size(); k++) {
+							BookmarksFolder subfolder = (BookmarksFolder)subfolders.get(k);
+
+							subfolder = subfolder.toEscapedModel();
+
+							rowURL.setParameter("folderId", String.valueOf(subfolder.getFolderId()));
+
+							buffer.append("<a href=\"");
+							buffer.append(rowURL);
+							buffer.append("\">");
+							buffer.append(subfolder.getName());
+							buffer.append("</a>");
+
+							if ((k + 1) < subfolders.size()) {
+								buffer.append(", ");
+							}
+						}
+
+						if (subfoldersCount > subfolders.size()) {
+							rowURL.setParameter("folderId", String.valueOf(curFolder.getFolderId()));
+
+							buffer.append(", <a href=\"");
+							buffer.append(rowURL);
+							buffer.append("\">");
+							buffer.append(LanguageUtil.get(pageContext, "more"));
+							buffer.append(" &raquo;");
+							buffer.append("</a>");
+						}
+
+						rowURL.setParameter("folderId", String.valueOf(curFolder.getFolderId()));
+					}
+				}
+				%>
+
+			</liferay-ui:search-container-column-text>
+		</c:when>
+		<c:when test='<%= folderColumn.equals("num-of-entries") %>'>
+			<liferay-ui:search-container-column-text
+				href="<%= rowURL %>"
+				name="num-of-entries"
+				value="<%= String.valueOf(curEntriesCount) %>"
+			/>
+		</c:when>
+		<c:when test='<%= folderColumn.equals("num-of-folders") %>'>
+			<liferay-ui:search-container-column-text
+				href="<%= rowURL %>"
+				name="num-of-folders"
+				value="<%= String.valueOf(curFoldersCount) %>"
+			/>
+		</c:when>
+	</c:choose>
+
+<%
+}
+%>

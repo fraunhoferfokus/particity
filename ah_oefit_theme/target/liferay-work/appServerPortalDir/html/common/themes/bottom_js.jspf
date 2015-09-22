@@ -1,0 +1,192 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%@ include file="/html/portal/layout/view/portlet_js.jspf" %>
+
+<aui:script position="inline">
+	Liferay.Util.addInputFocus();
+
+	<%
+	String controlPanelCategory = ParamUtil.getString(request, "controlPanelCategory");
+	%>
+
+	<c:choose>
+		<c:when test="<%= themeDisplay.isStatePopUp() || Validator.isNotNull(controlPanelCategory) %>">
+			Liferay.Util.getTop().Liferay.fire(
+				'popupReady',
+				{
+					doc: document,
+					win: window,
+					windowName: Liferay.Util.getWindowName()
+				}
+			);
+		</c:when>
+		<c:otherwise>
+
+			<%
+			String scroll = ParamUtil.getString(request, "scroll");
+			%>
+
+			<c:if test="<%= Validator.isNotNull(scroll) %>">
+				Liferay.on(
+					'allPortletsReady',
+					function(event) {
+						document.getElementById('<%= HtmlUtil.escape(scroll) %>').scrollIntoView();
+					}
+				);
+			</c:if>
+		</c:otherwise>
+	</c:choose>
+</aui:script>
+
+<aui:script use="aui-base">
+	Liferay.Util.addInputType();
+
+	Liferay.Portlet.ready(
+		function(portletId, node) {
+			Liferay.Util.addInputType(node);
+		}
+	);
+
+	if (A.UA.mobile) {
+		Liferay.Util.addInputCancel();
+	}
+</aui:script>
+
+<%
+Group group = null;
+
+LayoutRevision layoutRevision = null;
+
+if (layout != null) {
+	group = layout.getGroup();
+
+	layoutRevision = LayoutStagingUtil.getLayoutRevision(layout);
+}
+%>
+
+<c:if test="<%= !themeDisplay.isStatePopUp() && !group.isControlPanel() && (layout != null) && (!group.hasStagingGroup() || group.isStagingGroup()) && (GroupPermissionUtil.contains(permissionChecker, scopeGroupId, ActionKeys.ADD_LAYOUT) || LayoutPermissionUtil.contains(permissionChecker, layout, ActionKeys.UPDATE) || (layoutTypePortlet.isCustomizable() && LayoutPermissionUtil.contains(permissionChecker, layout, ActionKeys.CUSTOMIZE))) %>">
+	<c:if test="<%= layout.isTypePortlet() %>">
+		<aui:script>
+			Liferay.Data.layoutConfig = {
+				container: '#main-content',
+
+				<c:choose>
+					<c:when test="<%= !themeDisplay.isFreeformLayout() %>">
+						dropNodes: '.portlet-column',
+					</c:when>
+					<c:otherwise>
+						dropNodes: '.portlet-boundary',
+						freeForm: true,
+						freeformPlaceholderClass: 'lfr-freeform-layout-drag-indicator',
+					</c:otherwise>
+				</c:choose>
+
+				<c:choose>
+					<c:when test="<%= BrowserSnifferUtil.isMobile(request) %>">
+						handles: Liferay.Data.PORTLET_TOUCH_DRAG_HANDLE_SELECTOR || ['.portlet-title-text'],
+					</c:when>
+					<c:when test="<%= !themeDisplay.isFreeformLayout() %>">
+						handles: ['.portlet-title', '.portlet-title-default'],
+					</c:when>
+					<c:otherwise>
+						handles: ['.portlet-header-bar', '.portlet-title-default', '.portlet-topper'],
+					</c:otherwise>
+				</c:choose>
+
+				disabledDropContainerClass: 'portlet-dropzone-disabled',
+				dragNodes: '.portlet-boundary',
+				dropContainer: '.portlet-dropzone',
+				emptyColumnClass: 'empty',
+				invalid: '.portlet-static',
+				nestedPortletId: '_<%= PortletKeys.NESTED_PORTLETS %>_INSTANCE',
+				portletBoundary: '.portlet-boundary'
+			};
+		</aui:script>
+
+		<aui:script use="liferay-layout">
+			<%-- aui:script won't accept a null body --%>
+		</aui:script>
+	</c:if>
+
+	<aui:script use="event-move,liferay-navigation">
+		Liferay.once(
+			'initNavigation',
+			function() {
+				new Liferay.Navigation(
+					{
+						hasAddLayoutPermission: <%= GroupPermissionUtil.contains(permissionChecker, scopeGroupId, ActionKeys.ADD_LAYOUT) %>,
+						layoutIds: [
+
+							<%
+							for (int i = 0; (layouts != null) && (i < layouts.size()); i++) {
+								Layout curLayout = (Layout)layouts.get(i);
+							%>
+
+								{
+									deletable: !A.UA.touch && <%= LayoutPermissionUtil.contains(permissionChecker, curLayout, ActionKeys.DELETE) %>,
+									id: <%= curLayout.getLayoutId() %>,
+									sortable: <%= GroupPermissionUtil.contains(permissionChecker, scopeGroupId, ActionKeys.MANAGE_LAYOUTS) && SitesUtil.isLayoutSortable(curLayout) %>,
+									updateable: <%= LayoutPermissionUtil.contains(permissionChecker, curLayout, ActionKeys.UPDATE) %>
+								},
+
+							<%
+							}
+							%>
+
+							],
+
+						<c:if test="<%= layoutRevision != null %>">
+							layoutSetBranchId: '<%= layoutRevision.getLayoutSetBranchId() %>',
+						</c:if>
+
+						navBlock: navBlock
+					}
+				);
+			}
+		);
+
+		var navBlock = A.one(Liferay.Data.NAV_SELECTOR);
+
+		if (navBlock) {
+			navBlock.once(
+				['gesturemovestart', 'mousemove'],
+				function() {
+					Liferay.fire('initNavigation');
+				}
+			);
+		}
+	</aui:script>
+</c:if>
+
+<aui:script use="liferay-menu,liferay-notice,liferay-poller">
+	new Liferay.Menu();
+
+	var liferayNotices = Liferay.Data.notices;
+
+	for (var i = 1; i < liferayNotices.length; i++) {
+		new Liferay.Notice(liferayNotices[i]);
+	}
+
+	<c:if test="<%= themeDisplay.isSignedIn() %>">
+		Liferay.Poller.init(
+			{
+				encryptedUserId: '<%= Encryptor.encrypt(company.getKeyObj(), String.valueOf(themeDisplay.getUserId())) %>',
+				supportsComet: <%= ServerDetector.isSupportsComet() %>
+			}
+		);
+	</c:if>
+</aui:script>

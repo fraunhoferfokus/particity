@@ -1,0 +1,50 @@
+<%--
+/**
+ * Copyright (c) 2000-2013 Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+--%>
+
+<%
+
+// Article id
+
+row.addText(HtmlUtil.escape(curArticle.getArticleId()));
+
+// Title
+
+TextSearchEntry articleTitleTextSearchEntry = new TextSearchEntry();
+
+articleTitleTextSearchEntry.setName(articleTitle);
+
+row.addSearchEntry(articleTitleTextSearchEntry);
+
+// Status
+
+row.addStatus(curArticle.getStatus(), curArticle.getStatusByUserId(), curArticle.getStatusDate());
+
+// Modified date
+
+row.addDate(curArticle.getModifiedDate());
+
+// Display date
+
+row.addDate(curArticle.getDisplayDate());
+
+// Author
+
+row.addText(PortalUtil.getUserName(curArticle));
+
+// Action
+
+row.addJSP("right", SearchEntry.DEFAULT_VALIGN, "/html/portlet/journal/article_action.jsp");
+%>
