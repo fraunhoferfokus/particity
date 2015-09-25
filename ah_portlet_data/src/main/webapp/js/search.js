@@ -224,7 +224,7 @@ function loadModal(orgUrl, offerUrl, count, offerId) {
 		   boxZoom: false,
 		   tap: false,
 		   zoomControl: false,
-		   attributionControl: false
+		   attributionControl: true
 		 });
 	
 

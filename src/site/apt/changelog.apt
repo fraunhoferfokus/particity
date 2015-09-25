@@ -135,6 +135,9 @@ ah_portlet_site  -  developer documentation
  << History >>
  
 -------------------
+2015-09-25:
+ * F [ah_portlet_data] Fix attribution for OSM integration + add a note to docs 
+
 2015-09-22:
  * F [ah_portlet_data] Fix latest to support showOffer
  * F [ah_portlet_data] Fix message composer for updates on new offers

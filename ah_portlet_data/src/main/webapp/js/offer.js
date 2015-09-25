@@ -56,7 +56,7 @@ function initSearchMap(elem) {
 			boxZoom : false,
 			tap : false,
 			zoomControl : false,
-			attributionControl : false
+			attributionControl : true
 		});
 
 		console.log("Map tiles init ...");
@@ -107,7 +107,7 @@ function initOfferMap(elem) {
 			boxZoom : false,
 			tap : false,
 			zoomControl : false,
-			attributionControl : false
+			attributionControl : true
 		});
 
 		console.log("Map tiles init ...");

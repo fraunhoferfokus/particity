@@ -15,7 +15,9 @@ Prerequisites:
  * (optional for building) Maven 3.x (http://maven.apache.org/download.html)
 
  * Project sources located at PARTICITY_SUITE
-
+ 
+ * << Accept the {{{https://wiki.openstreetmap.org/wiki/Tile.openstreetmap.org/Usage_policy}OSM usage policy}} regarding OSM titles. If you don't meet the requirements, you'll need to provide and specify the title provider accordingly.>> 
+ We're looking forward to get this configuration done in the frontend in one of our next releases. Stay tuned!
  
  []
 
