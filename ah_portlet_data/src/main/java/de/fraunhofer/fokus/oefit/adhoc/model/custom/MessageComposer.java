@@ -153,6 +153,9 @@ public class MessageComposer {
 			this.m_strPortalURL = PortalUtil.getPortalURL(
 			        this.m_objDefCompany.getVirtualHostname(),
 			        PortalUtil.getPortalPort(), false);
+			// FIX: #5 - somethimes portal port is -1 for unknown reasons
+			if (this.m_strPortalURL.contains(":-1"))
+				this.m_strPortalURL = this.m_strPortalURL.replace(":-1", "");
 			m_objLog.info("Portal URL is "+this.m_strPortalURL);
 		} catch (final Throwable e) {
 			m_objLog.error(e);
