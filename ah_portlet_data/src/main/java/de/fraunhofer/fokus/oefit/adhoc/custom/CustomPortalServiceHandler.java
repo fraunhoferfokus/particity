@@ -67,10 +67,10 @@ import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.custom.MessageComposer;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHConfigLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
 import de.fraunhofer.fokus.oefit.adhoc.socialize.SocialMediaFactory;
+import de.fraunhofer.fokus.oefit.particity.model.custom.MessageComposer;
+import de.fraunhofer.fokus.oefit.particity.service.AHConfigLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
 
 /**
  * Custom utility methods for tasks related to portal datastructures 

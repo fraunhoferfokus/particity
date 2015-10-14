@@ -44,14 +44,14 @@ import com.liferay.portal.model.User;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
 
-import de.fraunhofer.fokus.oefit.adhoc.model.AHAddr;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOffer;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHRegion;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHAddrLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHRegionLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
+import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
+import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
+import de.fraunhofer.fokus.oefit.particity.model.AHRegion;
+import de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHRegionLocalServiceUtil;
 
 /**
  * Scheduler for daily tasks

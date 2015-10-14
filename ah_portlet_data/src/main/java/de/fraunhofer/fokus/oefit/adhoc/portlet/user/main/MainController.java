@@ -49,7 +49,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil;
 
 /**
  * Controller for the per-user newsletter configuration

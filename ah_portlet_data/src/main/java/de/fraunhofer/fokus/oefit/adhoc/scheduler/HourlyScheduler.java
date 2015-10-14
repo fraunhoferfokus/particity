@@ -42,11 +42,11 @@ import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.messaging.MessageListenerException;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOffer;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
-import de.fraunhofer.fokus.oefit.adhoc.model.custom.ModelNotificationRepository;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
+import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
+import de.fraunhofer.fokus.oefit.particity.model.custom.ModelNotificationRepository;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
 
 /**
  * Scheduler for hourly tasks

@@ -1,28 +1,28 @@
 <%@page import="javax.portlet.PortletPreferences"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHAddr"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHAddr"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHAddrLocalServiceUtil"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil"%>
 <%@page
 	import="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHOrg"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOrg"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType"%>
 <%@page import="com.liferay.portal.kernel.util.GetterUtil"%>
 <%@page import="java.util.LinkedList"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHOffer"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOffer"%>
 <%@page import="org.springframework.ui.Model"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHCatEntries"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHCategories"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
@@ -58,14 +58,14 @@
 	<div class="panel panel-default searchpanel">
 		<div class="panel-heading" role="tab" id="heading1">
 			<h4 class="panel-title">
-				<a data-toggle="collapse" href="#collapse1" aria-expanded="true"
-					aria-controls="collapseOne"> <spring:message
+				<a data-toggle="collapse" href="#collapseSearchType" aria-expanded="true"
+					aria-controls="collapseSearchType"> <spring:message
 						code="search.jsp.typeTitle" />&nbsp;&nbsp;<small><spring:message
 							code="search.jsp.typeDescr" /></small>
 				</a>
 			</h4>
 		</div>
-		<div id="collapse1" class="panel-collapse collapse <%= rCatParam.equals("-1") ? "in" : ""%>" role="tabpanel"
+		<div id="collapseSearchType" class="panel-collapse collapse <%= rCatParam.equals("-1") ? "in" : ""%>" role="tabpanel"
 			aria-labelledby="heading1">
 			<ul class="list-group">
 				<%

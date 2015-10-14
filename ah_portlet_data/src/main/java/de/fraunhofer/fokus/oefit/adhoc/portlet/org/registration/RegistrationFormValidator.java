@@ -41,8 +41,8 @@ import com.liferay.portal.theme.ThemeDisplay;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
 
 /**
  * Validator for registration forms for new organisations

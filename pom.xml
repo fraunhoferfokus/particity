@@ -61,7 +61,6 @@
 		<!-- themes/layout -->
 		<module>ah_layout_2col</module>
 		<module>ah_layout_3col</module>
-		<module>ah_oefit_theme</module>
 		<module>ah_theme</module>
 	</modules>
 

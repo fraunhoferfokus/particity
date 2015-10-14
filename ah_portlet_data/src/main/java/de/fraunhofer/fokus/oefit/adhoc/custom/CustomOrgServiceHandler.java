@@ -34,6 +34,7 @@
 package de.fraunhofer.fokus.oefit.adhoc.custom;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -68,16 +69,16 @@ import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.portlet.dynamicdatamapping.storage.Fields;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHAddr;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHCategories;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHContact;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHRegion;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHAddrLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHContactLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHRegionLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
+import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
+import de.fraunhofer.fokus.oefit.particity.model.AHContact;
+import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
+import de.fraunhofer.fokus.oefit.particity.model.AHRegion;
+import de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHRegionLocalServiceUtil;
 
 /**
  * Custom utility methods for all tasks regarding organisations

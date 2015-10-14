@@ -37,3 +37,9 @@ create index IX_13FAF2D0 on AHREGION (zip);
 
 create index IX_A2CB361D on AHSUBSCR (email);
 create index IX_FF43F485 on AHSUBSCR (uuid_);
+
+create index IX_C462C088 on PARTICITY_offer_citm (itemId);
+create index IX_BCB545C1 on PARTICITY_offer_citm (offerId);
+
+create index IX_4B74D7A4 on PARTICITY_sub_citm (itemId);
+create index IX_90C6FB09 on PARTICITY_sub_citm (subId);

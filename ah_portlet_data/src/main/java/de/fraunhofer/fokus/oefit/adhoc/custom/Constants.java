@@ -78,6 +78,6 @@ public class Constants {
 	public static int PORTAL_MODE = PORTAL_MODE_DEMO;
 	
 	/** For demonstration purposes, the platform is restricted in various ways to prevent SPAM, tampering with liferay, etc */
-	public static final boolean RESTRICT_TO_DEMO = PORTAL_MODE == PORTAL_MODE_DEMO;
+	public static final boolean RESTRICT_TO_DEMO = PORTAL_MODE == PORTAL_MODE_OFFLINE;
 
 }

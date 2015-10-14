@@ -35,17 +35,16 @@ package de.fraunhofer.fokus.oefit.adhoc.socialize;
 
 import java.net.URL;
 
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOffer;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
-import de.fraunhofer.fokus.oefit.adhoc.model.custom.MessageComposer;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
+import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
+import de.fraunhofer.fokus.oefit.particity.model.custom.MessageComposer;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
 import facebook4j.Facebook;
 import facebook4j.FacebookException;
 import facebook4j.FacebookFactory;

@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
 
-<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
 	<persistence-unit-metadata>
-		<xml-mapping-metadata-complete />
+		<xml-mapping-metadata-complete/>
 		<persistence-unit-defaults>
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHAddrModelImpl">
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHAddrModelImpl">
 		<attributes>
 			<id name="addrId" />
 			<basic name="street" />
@@ -25,8 +22,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHCategoriesModelImpl">
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHCategoriesModelImpl">
 		<attributes>
 			<id name="catId" />
 			<basic name="name" />
@@ -39,8 +35,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHCatEntriesModelImpl">
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHCatEntriesModelImpl">
 		<attributes>
 			<id name="itemId" />
 			<basic name="catId" />
@@ -52,8 +47,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHConfigModelImpl">
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHConfigModelImpl">
 		<attributes>
 			<id name="name" />
 			<basic name="value" />
@@ -62,8 +56,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHContactModelImpl">
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHContactModelImpl">
 		<attributes>
 			<id name="contactId" />
 			<basic name="forename" />
@@ -78,8 +71,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHOfferModelImpl">
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHOfferModelImpl">
 		<attributes>
 			<id name="offerId" />
 			<basic name="title" />
@@ -105,8 +97,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHOrgModelImpl">
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHOrgModelImpl">
 		<attributes>
 			<id name="orgId" />
 			<basic name="name" />
@@ -126,10 +117,8 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHRegionModelImpl">
-		<id-class
-			class="de.fraunhofer.fokus.oefit.adhoc.service.persistence.AHRegionPK" />
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHRegionModelImpl">
+		<id-class class="de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK" />
 		<attributes>
 			<id name="regionId" />
 			<id name="zip" />
@@ -141,8 +130,7 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<mapped-superclass
-		class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHSubscriptionModelImpl">
+	<mapped-superclass class="de.fraunhofer.fokus.oefit.particity.model.impl.AHSubscriptionModelImpl">
 		<attributes>
 			<id name="subId" />
 			<basic name="uuid">
@@ -156,48 +144,39 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHAddrImpl"
-		name="AHAddr">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHAddrImpl" name="AHAddr">
 		<table name="AHADDR" />
 		<attributes />
 	</entity>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHCategoriesImpl"
-		name="AHCategories">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHCategoriesImpl" name="AHCategories">
 		<table name="AHCATS" />
 		<attributes />
 	</entity>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHCatEntriesImpl"
-		name="AHCatEntries">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHCatEntriesImpl" name="AHCatEntries">
 		<table name="AHCITEM" />
 		<attributes />
 	</entity>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHConfigImpl"
-		name="AHConfig">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHConfigImpl" name="AHConfig">
 		<table name="AHCFG" />
 		<attributes />
 	</entity>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHContactImpl"
-		name="AHContact">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHContactImpl" name="AHContact">
 		<table name="AHCONTACT" />
 		<attributes />
 	</entity>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHOfferImpl"
-		name="AHOffer">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHOfferImpl" name="AHOffer">
 		<table name="AHOFFER" />
 		<attributes />
 	</entity>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHOrgImpl"
-		name="AHOrg">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHOrgImpl" name="AHOrg">
 		<table name="AHORG" />
 		<attributes />
 	</entity>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHRegionImpl"
-		name="AHRegion">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHRegionImpl" name="AHRegion">
 		<table name="AHREGION" />
 		<attributes />
 	</entity>
-	<entity class="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHSubscriptionImpl"
-		name="AHSubscription">
+	<entity class="de.fraunhofer.fokus.oefit.particity.model.impl.AHSubscriptionImpl" name="AHSubscription">
 		<table name="AHSUBSCR" />
 		<attributes />
 	</entity>

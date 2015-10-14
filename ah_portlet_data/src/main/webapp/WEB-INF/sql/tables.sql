@@ -14,8 +14,8 @@ create table AHADDR (
 	addrId LONG not null primary key,
 	street VARCHAR(160) null,
 	number_ VARCHAR(75) null,
-	coordLat VARCHAR(75) null,
-	coordLon VARCHAR(75) null,
+	coordLat DOUBLE,
+	coordLon DOUBLE,
 	regionId LONG
 );
 
@@ -101,4 +101,16 @@ create table AHSUBSCR (
 	email VARCHAR(80) null,
 	status INTEGER,
 	created LONG
+);
+
+create table PARTICITY_offer_citm (
+	itemId LONG not null,
+	offerId LONG not null,
+	primary key (itemId, offerId)
+);
+
+create table PARTICITY_sub_citm (
+	itemId LONG not null,
+	subId LONG not null,
+	primary key (itemId, subId)
 );

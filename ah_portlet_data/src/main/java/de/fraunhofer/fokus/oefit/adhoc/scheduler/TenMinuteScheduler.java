@@ -48,11 +48,11 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOffer;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHSubscription;
-import de.fraunhofer.fokus.oefit.adhoc.model.custom.MailListener;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
+import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
+import de.fraunhofer.fokus.oefit.particity.model.custom.MailListener;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil;
 
 /**
  * Scheduler for tasks with 10-minute period

@@ -10,15 +10,15 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="author" content="Freiwilligen Freiburg">
+	<meta name="author" content="Fraunhofer FOKUS, Kompetenzzentrum Öffentliche IT">
 	<meta name="viewport" content="initial-scale=1.0,  user-scalable=no, minimal-ui" />
 	<meta content="index, follow" name="robots">
 	<meta content="${the_title}" property="og:title">
 	<meta content="government" property="og:type">
 
-	<meta content="${images_folder}/oefit_webapp.png" property="og:image">
+	<meta content="${images_folder}/webapp.png" property="og:image">
 	<meta content="${the_title}" property="og:site_name">
-	<meta content="${images_folder}/oefit_webapp.png" name="twitter:image">
+	<meta content="${images_folder}/webapp.png" name="twitter:image">
 	<meta content="DE-BE" name="geo.region">
 	<meta content="Berlin" name="geo.placename">
 	<meta content="52.525909;13.314292" name="geo.position">
@@ -27,8 +27,8 @@
 	<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-title" content="${the_title}">
-	<link rel="apple-touch-startup-image" href="${images_folder}/oefit_webapp.png"/>
-	<link rel="apple-touch-icon-precomposed" href="${images_folder}/oefit_webapp.png">
+	<link rel="apple-touch-startup-image" href="${images_folder}/webapp.png"/>
+	<link rel="apple-touch-icon-precomposed" href="${images_folder}/webapp.png">
 	<link rel="stylesheet" type="text/css" href="${css_folder}/shariff.complete.css">	
 	<script src="${javascript_folder}/jquery-1.11.js" type="text/javascript"></script>
 	${theme.include(top_head_include)}
@@ -61,8 +61,6 @@
 
 
 <main class="container-fluid">
-
-		<!--<div class="row"><@liferay.breadcrumbs /></div>-->
 	
 			<#if selectable>
 				${theme.include(content_include)}
@@ -78,26 +76,8 @@
 
 
   <footer>
-  
-   <div class="row">
-     <div class="col-md-4 col-xs-6">
-      <#if !is_signed_in>
-        <div class="shariff" data-services="[&quot;facebook&quot;,&quot;googleplus&quot;,&quot;twitter&quot;]" data-theme="grey" ></div>
-      </#if>
-     </div>
-     <div class="col-md-4 col-xs-6 text-center">
-      ${theme.runtime("ahlogin_WAR_adhocdataportlet")}
-     </div>
-     <div class="col-md-2 col-xs-6 text-right" style="border-right: 1px solid white;">
-      Copyright © 2015<br/>
-      Freiwillige Agentur Test 
-     </div>
-     <div class="col-md-2 col-xs-6">
-      <a href="/datenschutz">Datenschutz</a><br/>
-      <a href="/impressum">Impressum</a>
-     </div>
-   </div>
     
+    ${theme.runtime("56_INSTANCE_footer")}
   
   
   </footer>

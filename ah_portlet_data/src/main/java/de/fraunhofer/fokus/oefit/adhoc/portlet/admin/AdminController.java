@@ -55,11 +55,11 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.forms.CategoryForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHCategories;
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
+import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
+import de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
 
 /**
  * Controller for basic administrative tasks

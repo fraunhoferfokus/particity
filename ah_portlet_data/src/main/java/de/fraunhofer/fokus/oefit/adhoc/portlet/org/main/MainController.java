@@ -73,13 +73,13 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm;
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHContact;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOffer;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHContactLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHContact;
+import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
+import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
+import de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
 
 /**
  * Controller for the organisation backend

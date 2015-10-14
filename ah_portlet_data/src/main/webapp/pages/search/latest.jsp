@@ -6,28 +6,28 @@
 <%@page import="javax.portlet.PortletPreferences"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHAddr"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHAddr"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHAddrLocalServiceUtil"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil"%>
 <%@page
 	import="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHOrg"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOrg"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType"%>
 <%@page import="com.liferay.portal.kernel.util.GetterUtil"%>
 <%@page import="java.util.LinkedList"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHOffer"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOffer"%>
 <%@page import="org.springframework.ui.Model"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHCatEntries"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHCategories"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>

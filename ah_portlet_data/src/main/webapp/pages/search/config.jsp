@@ -1,9 +1,8 @@
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHCategories"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalServiceUtil"%>
-<%@page import="com.liferay.portal.kernel.util.Constants"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.util.GetterUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
@@ -24,8 +23,8 @@
 
 
 <aui:form action="<%= configurationURL %>" method="post" name="fm">
-	<aui:input name="<%= Constants.CMD %>" type="hidden"
-		value="<%= Constants.UPDATE %>" />
+	<aui:input name="<%= com.liferay.portal.kernel.util.Constants.CMD %>" type="hidden"
+		value="<%= com.liferay.portal.kernel.util.Constants.UPDATE %>" />
 
 	<aui:select name="preferences--categoryId--" multiple="true">
 		<aui:option value="-1" selected="false">-</aui:option>

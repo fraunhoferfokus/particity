@@ -76,8 +76,8 @@ public class OfferForm {
 	private String	 m_numPublishTime;
 	private String	 m_strType;
 	private String	 m_strWorkType;
-	private String	 m_strAddrLat;
-	private String	 m_strAddrLon;
+	private Float	 m_strAddrLat;
+	private Float	 m_strAddrLon;
 	private boolean	 m_bRequireAgencyContact;
 
 	/**
@@ -117,8 +117,8 @@ public class OfferForm {
 		this.m_strContactTel = "";
 		this.m_strContactMail = "";
 		this.m_strType = "";
-		this.m_strAddrLat = "";
-		this.m_strAddrLon = "";
+		this.m_strAddrLat = null;
+		this.m_strAddrLon = null;
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class OfferForm {
 	 *
 	 * @return the addr lat
 	 */
-	public String getAddrLat() {
+	public Float getAddrLat() {
 		return this.m_strAddrLat;
 	}
 
@@ -135,7 +135,7 @@ public class OfferForm {
 	 *
 	 * @return the addr lon
 	 */
-	public String getAddrLon() {
+	public Float getAddrLon() {
 		return this.m_strAddrLon;
 	}
 
@@ -478,7 +478,7 @@ public class OfferForm {
 	 *
 	 * @param val the new addr lat
 	 */
-	public void setAddrLat(final String val) {
+	public void setAddrLat(final Float val) {
 		this.m_strAddrLat = val;
 	}
 
@@ -487,7 +487,7 @@ public class OfferForm {
 	 *
 	 * @param val the new addr lon
 	 */
-	public void setAddrLon(final String val) {
+	public void setAddrLon(final Float val) {
 		this.m_strAddrLon = val;
 	}
 

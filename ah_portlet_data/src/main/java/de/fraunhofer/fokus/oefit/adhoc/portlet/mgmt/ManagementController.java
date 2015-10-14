@@ -68,13 +68,13 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_SocialMediaPlugins;
 import de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHContact;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOffer;
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
 import de.fraunhofer.fokus.oefit.adhoc.socialize.I_SocialMediaClient;
 import de.fraunhofer.fokus.oefit.adhoc.socialize.SocialMediaFactory;
+import de.fraunhofer.fokus.oefit.particity.model.AHContact;
+import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
 
 /**
  * Controller for the management backend

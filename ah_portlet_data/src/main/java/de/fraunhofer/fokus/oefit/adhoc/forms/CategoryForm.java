@@ -51,7 +51,7 @@ public class CategoryForm {
 
 	}
 
-	/**
+	/** 
 	 * Clear.
 	 */
 	public void clear() {

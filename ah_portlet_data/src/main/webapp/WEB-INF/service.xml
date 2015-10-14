@@ -4,8 +4,8 @@
 <!-- AdHoc tables -->
 <!-- due to missing one-to-one and one-to-many relations in liferay we usually 
 	reference by ID -->
-<service-builder package-path="de.fraunhofer.fokus.oefit.adhoc">
-	<namespace>ADHOC</namespace>
+<service-builder package-path="de.fraunhofer.fokus.oefit.particity">
+	<namespace>PARTICITY</namespace>
 	<!-- a region -->
 	<entity name="AHRegion" table="AHREGION" local-service="true"
 		remote-service="false">
@@ -43,8 +43,8 @@
 		<column name="addrId" type="long" primary="true"></column>
 		<column name="street" type="String"></column>
 		<column name="number" type="String"></column>
-		<column name="coordLat" type="String"></column>
-		<column name="coordLon" type="String"></column>
+		<column name="coordLat" type="float"></column>
+		<column name="coordLon" type="float"></column>
 		<column name="regionId" type="long" />
 		<finder name="region" return-type="Collection">
 			<finder-column name="regionId" />

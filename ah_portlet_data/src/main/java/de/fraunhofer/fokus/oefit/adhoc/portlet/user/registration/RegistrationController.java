@@ -52,8 +52,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.forms.NewsletterForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHSubscription;
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
+import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
 
 /**
  * Controller for the newsletter registration form

@@ -62,8 +62,8 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
+import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
 
 /**
  * Controller for the organisation registration form

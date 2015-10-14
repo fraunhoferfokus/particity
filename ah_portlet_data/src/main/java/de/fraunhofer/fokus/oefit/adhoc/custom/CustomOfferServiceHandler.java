@@ -43,19 +43,19 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHAddr;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHCategories;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHContact;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOffer;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHRegion;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHAddrLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHContactLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHRegionLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
+import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
+import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
+import de.fraunhofer.fokus.oefit.particity.model.AHContact;
+import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
+import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
+import de.fraunhofer.fokus.oefit.particity.model.AHRegion;
+import de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHRegionLocalServiceUtil;
 
 /**
  * Custom utility methods for all tasks regarding offers

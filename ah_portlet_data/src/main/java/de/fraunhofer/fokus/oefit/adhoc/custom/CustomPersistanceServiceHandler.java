@@ -42,14 +42,14 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.NewsletterForm;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHContact;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHSubscription;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHContactLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
+import de.fraunhofer.fokus.oefit.particity.model.AHContact;
+import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
+import de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil;
 
 /**
  * Custom utility methods for various tasks on portlet-related data structures that do not require for a separate handler class

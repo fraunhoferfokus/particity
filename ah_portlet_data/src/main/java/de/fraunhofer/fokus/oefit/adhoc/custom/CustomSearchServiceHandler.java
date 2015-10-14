@@ -38,14 +38,8 @@ import java.util.List;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-import de.fraunhofer.fokus.oefit.adhoc.model.AHAddr;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOffer;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHOrg;
-import de.fraunhofer.fokus.oefit.adhoc.model.AHRegion;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHAddrLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.adhoc.service.AHRegionLocalServiceUtil;
+import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
+import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
 
 /**
  * Custom utility methods that handle search requests

@@ -128,9 +128,7 @@ public class OfferFormValidator implements Validator {
 			errors.rejectValue("publishDate", "notExistentErrorCode",
 			        "org.form.offer.field.publishDate.inverted");
 		}
-		if (form.getAddrLat() == null || form.getAddrLat().trim().length() == 0
-		        || form.getAddrLon() == null
-		        || form.getAddrLon().trim().length() == 0) {
+		if (form.getAddrLat() == null || form.getAddrLon() == null) {
 			errors.rejectValue("addrStreet", "notExistentErrorCode",
 			        "org.form.offer.field.addrStreet.mapError");
 		}

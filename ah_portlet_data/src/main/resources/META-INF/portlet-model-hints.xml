@@ -10,17 +10,17 @@
 	<hint-collection name="LONGTEXT">
 		<hint name="max-length">4000</hint>
 	</hint-collection>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHAddr">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHAddr">
 		<field name="addrId" type="long" />
 		<field name="street" type="String">
 			<hint-collection name="MEDIUMTEXT" />
 		</field>
 		<field name="number" type="String" />
-		<field name="coordLat" type="String" />
-		<field name="coordLon" type="String" />
+		<field name="coordLat" type="float" />
+		<field name="coordLon" type="float" />
 		<field name="regionId" type="long" />
 	</model>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHCategories">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHCategories">
 		<field name="catId" type="long" />
 		<field name="name" type="String">
 			<hint-collection name="SMALLTEXT" />
@@ -30,7 +30,7 @@
 		</field>
 		<field name="type" type="int" />
 	</model>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHCatEntries">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries">
 		<field name="itemId" type="long" />
 		<field name="catId" type="long" />
 		<field name="name" type="String">
@@ -41,13 +41,13 @@
 		</field>
 		<field name="parentId" type="long" />
 	</model>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHConfig">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHConfig">
 		<field name="name" type="String" />
 		<field name="value" type="String">
 			<hint-collection name="LONGTEXT" />
 		</field>
 	</model>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHContact">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHContact">
 		<field name="contactId" type="long" />
 		<field name="forename" type="String">
 			<hint-collection name="SMALLTEXT" />
@@ -71,7 +71,7 @@
 			<hint-collection name="MEDIUMTEXT" />
 		</field>
 	</model>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHOffer">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHOffer">
 		<field name="offerId" type="long" />
 		<field name="title" type="String">
 			<hint-collection name="LONGTEXT" />
@@ -94,7 +94,7 @@
 		<field name="contactAgency" type="boolean" />
 		<field name="orgId" type="long" />
 	</model>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHOrg">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHOrg">
 		<field name="orgId" type="long" />
 		<field name="name" type="String">
 			<hint-collection name="MEDIUMTEXT" />
@@ -121,7 +121,7 @@
 			<hint-collection name="LONGTEXT" />
 		</field>
 	</model>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHRegion">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHRegion">
 		<field name="regionId" type="long" />
 		<field name="zip" type="int" />
 		<field name="city" type="String">
@@ -132,7 +132,7 @@
 		</field>
 		<field name="permissions" type="int" />
 	</model>
-	<model name="de.fraunhofer.fokus.oefit.adhoc.model.AHSubscription">
+	<model name="de.fraunhofer.fokus.oefit.particity.model.AHSubscription">
 		<field name="subId" type="long" />
 		<field name="uuid" type="String" />
 		<field name="email" type="String">

@@ -2,190 +2,123 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHAddr" />
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHCategories" />
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHCatEntries" />
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHConfig" />
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHContact" />
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHOffer" />
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHOrg" />
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHRegion" />
-	<import class="de.fraunhofer.fokus.oefit.adhoc.model.AHSubscription" />
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHAddrImpl"
-		table="AHADDR">
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHAddr" />
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHCategories" />
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries" />
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHConfig" />
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHContact" />
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHOffer" />
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHOrg" />
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHRegion" />
+	<import class="de.fraunhofer.fokus.oefit.particity.model.AHSubscription" />
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHAddrImpl" table="AHADDR">
 		<cache usage="read-write" />
 		<id name="addrId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="street"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="number"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" column="number_" />
-		<property name="coordLat"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="coordLon"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="regionId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="street" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="number" type="com.liferay.portal.dao.orm.hibernate.StringType" column="number_" />
+		<property name="coordLat" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
+		<property name="coordLon" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
+		<property name="regionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHCategoriesImpl"
-		table="AHCATS">
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHCategoriesImpl" table="AHCATS">
 		<cache usage="read-write" />
 		<id name="catId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="name"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="descr"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="type"
-			type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="type_" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="descr" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="type" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="type_" />
 	</class>
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHCatEntriesImpl"
-		table="AHCITEM">
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHCatEntriesImpl" table="AHCITEM">
 		<cache usage="read-write" />
 		<id name="itemId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="catId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="name"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="descr"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="parentId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="catId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="descr" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="parentId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHConfigImpl"
-		table="AHCFG">
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHConfigImpl" table="AHCFG">
 		<cache usage="read-write" />
 		<id name="name" type="java.lang.String">
 			<generator class="assigned" />
 		</id>
-		<property name="value"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="value" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHContactImpl"
-		table="AHCONTACT">
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHContactImpl" table="AHCONTACT">
 		<cache usage="read-write" />
 		<id name="contactId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="forename"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="surname"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="tel"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="mobile"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="fax"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="email"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="www"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="forename" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="surname" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="tel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mobile" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="fax" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="www" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHOfferImpl"
-		table="AHOFFER">
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHOfferImpl" table="AHOFFER">
 		<cache usage="read-write" />
 		<id name="offerId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="title"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="description"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="workTime"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="workType"
-			type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="type"
-			type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="type_" />
-		<property name="status"
-			type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="socialStatus"
-			type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="created"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="updated"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="expires"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="publish"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="adressId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="contactId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="sndContactId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="contactAgency"
-			type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
-		<property name="orgId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="title" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="workTime" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="workType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="type" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="type_" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="socialStatus" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="created" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="updated" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="expires" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="publish" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="adressId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="contactId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="sndContactId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="contactAgency" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="orgId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHOrgImpl"
-		table="AHORG">
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHOrgImpl" table="AHORG">
 		<cache usage="read-write" />
 		<id name="orgId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="name"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="holder"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="owner"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="userlist"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="description"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="legalStatus"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="created"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="updated"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="contactId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="addressId"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="status"
-			type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="logoLocation"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="holder" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="owner" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="userlist" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="legalStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="created" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="updated" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="contactId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="addressId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="logoLocation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHRegionImpl"
-		table="AHREGION">
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHRegionImpl" table="AHREGION">
 		<cache usage="read-write" />
-		<composite-id name="primaryKey"
-			class="de.fraunhofer.fokus.oefit.adhoc.service.persistence.AHRegionPK">
-			<key-property name="regionId"
-				type="com.liferay.portal.dao.orm.hibernate.LongType" />
-			<key-property name="zip"
-				type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-			<key-property name="city"
-				type="com.liferay.portal.dao.orm.hibernate.StringType" />
-			<key-property name="country"
-				type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<composite-id name="primaryKey" class="de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK">
+			<key-property name="regionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="zip" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		</composite-id>
-		<property name="permissions"
-			type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="permissions" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 	</class>
-	<class name="de.fraunhofer.fokus.oefit.adhoc.model.impl.AHSubscriptionImpl"
-		table="AHSUBSCR">
+	<class name="de.fraunhofer.fokus.oefit.particity.model.impl.AHSubscriptionImpl" table="AHSUBSCR">
 		<cache usage="read-write" />
 		<id name="subId" type="long">
 			<generator class="assigned" />
 		</id>
-		<property name="uuid"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" column="uuid_" />
-		<property name="email"
-			type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="status"
-			type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-		<property name="created"
-			type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" column="uuid_" />
+		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="created" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

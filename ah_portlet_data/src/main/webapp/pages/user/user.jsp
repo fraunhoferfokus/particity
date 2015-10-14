@@ -3,9 +3,9 @@
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="de.fraunhofer.fokus.oefit.adhoc.model.AHSubscription"%>
+<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHSubscription"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalServiceUtil"%>
+	import="de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil"%>
 <%@page import="java.util.List"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
