@@ -41,12 +41,14 @@ public interface AHOfferFinder {
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOfferByTypesAndItemsAndOrg(
         de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus status,
         java.lang.String types, java.lang.String categories, long orgId,
-        int from, int to)
+        int from, int to, java.lang.Float lat, java.lang.Float lon,
+        java.lang.Integer dist)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     public java.lang.Integer countOfferByTypesAndItemsAndOrg(
         de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus status,
-        java.lang.String types, java.lang.String categories, long orgId)
+        java.lang.String types, java.lang.String categories, long orgId,
+        java.lang.Float lat, java.lang.Float lon, java.lang.Integer dist)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOfferByOfferTypes(

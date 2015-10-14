@@ -38,9 +38,9 @@ function setText(id,value) {
 	texts[id] = value;
 }
 
-function addModal(count, maxcount) {
+function addModal(modalid,detailid,count, maxcount) {
 	
-	var id = "#modal"+count;
+	var id = modalid+count;
 	var elem = $(id);
 	
 	var footer = [];
@@ -51,8 +51,8 @@ function addModal(count, maxcount) {
             icon: 'glyphicon glyphicon-chevron-left',
         	on: {
                 click: function() {
-                  hideModal(count);
-                  showModal((count-1))
+                  hideModal(modalid,count);
+                  showModal(modalid,detailid,(count-1))
                 }
               }
           });
@@ -63,8 +63,8 @@ function addModal(count, maxcount) {
             icon: 'glyphicon glyphicon-chevron-right',
         	on: {
                 click: function() {
-                  hideModal(count);
-                  showModal((count+1))
+                  hideModal(modalid,count);
+                  showModal(modalid,detailid,(count+1))
                 }
               }
           });
@@ -75,7 +75,7 @@ function addModal(count, maxcount) {
         icon: 'glyphicon glyphicon-remove',
     	on: {
             click: function() {
-              hideModal(count);
+              hideModal(modalid,count);
             }
           }
       });
@@ -115,21 +115,21 @@ function addModal(count, maxcount) {
 	}
 }
 
-function showModal(count) {
-	var id = "#modal"+count;
+function showModal(modalid,detailid,count) {
+	var id = modalid+count;
 	var modal = modals[id];
 	if (modal != null) {
 		modal.show();
 		console.log("Modal "+id+" shown!");
 	} else {
-		$("#offerdetails"+count).click();
+		$(detailid+count).click();
 		//console.log("Modal "+id+" unknown!");
 	}
 	$(id+" .modal-body").scrollTop(0);
 }
 
-function hideModal(count) {
-	var id = "#modal"+count;
+function hideModal(modalid,count) {
+	var id = modalid+count;
 	var modal = modals[id];
 	if (modal != null) {
 		modal.hide();
@@ -176,8 +176,8 @@ function enableModalShariffByElem(elem) {
 	}
 }
 
-function loadModal(orgUrl, offerUrl, count, offerId) {
-	var elem = $('#modal'+count)
+function loadModal(modalid,orgUrl, offerUrl, count, offerId) {
+	var elem = $(modalid+count)
 	$.ajax({
 	      type: "GET",
 	      async: false,
@@ -196,20 +196,20 @@ function loadModal(orgUrl, offerUrl, count, offerId) {
 	    });
 }
 
- function triggerModal(orgUrl, offerUrl, count, offerId, maxcount) {
-	 console.log("Triggering modal #modal"+count);
-	 var modalelem = $("#modal"+count);
+ function triggerModal(modalid,detailid,orgUrl, offerUrl, count, offerId, maxcount) {
+	 console.log("Triggering modal "+modalid+count);
+	 var modalelem = $(modalid+count);
 	 if (modalelem.children().length == 0) {
-		 loadModal(orgUrl, offerUrl, count,offerId);
-		 addModal(count, maxcount);
+		 loadModal(modalid,orgUrl, offerUrl, count,offerId);
+		 addModal(modalid, detailid, count, maxcount);
 	 } else {
-		 showModal(count);
+		 showModal(modalid,detailid,count);
 	 }
 	 return false;
  }
  
- function addSearchMap(i, lat, lng) {
-	 var elem = $("#offermap"+i);
+ function addSearchMap(mapid, detailid, i, lat, lng) {
+	 var elem = $(mapid+i);
 	 if (elem != null && elem.length > 0) {
 	
 		 console.log("Map init ...");
@@ -255,7 +255,7 @@ function loadModal(orgUrl, offerUrl, count, offerId) {
 		map.on('click',function() {
 			//showModal(i);
 			console.log("Click on map "+i);
-			$("#offerdetails"+(i-1)).click();
+			$(detailid+(i-1)).click();
 		})
 		marker.addTo(map);
 		

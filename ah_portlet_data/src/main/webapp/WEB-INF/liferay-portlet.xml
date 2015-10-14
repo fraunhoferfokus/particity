@@ -188,10 +188,12 @@
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 
 		<header-portlet-javascript>/js/leaflet.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/Control.Geocoder.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/search.js</header-portlet-javascript>
+    <header-portlet-javascript>/js/offer.js</header-portlet-javascript>
 		<footer-portlet-css>/css/leaflet.css</footer-portlet-css>
 		<footer-portlet-css>/css/main.css</footer-portlet-css>
-		<footer-portlet-javascript>/js/search.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/offer.js</footer-portlet-javascript>
+		
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 
 		<css-class-wrapper>ahsearch</css-class-wrapper>

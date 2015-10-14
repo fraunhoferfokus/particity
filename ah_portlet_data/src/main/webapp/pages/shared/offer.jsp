@@ -178,9 +178,9 @@
 		<bform:bffield path="orgId" type="hidden"
 			value="<%= Long.toString(data.getOrgId()) %>" />
 		<bform:bffield path="addrLat" type="hidden"
-			value="<%= data.getAddrLat() %>" />
+			value="<%= Float.toString(data.getAddrLat()) %>" />
 		<bform:bffield path="addrLon" type="hidden"
-			value="<%= data.getAddrLon() %>" />
+			value="<%= Float.toString(data.getAddrLon()) %>" />
 
 		<div class="row">
 			<div class="col-md-12">

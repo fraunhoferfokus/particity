@@ -348,7 +348,8 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
         _methodName43 = "countOfferByTypesAndCItemsAndOrg";
 
         _methodParameterTypes43 = new String[] {
-                "java.lang.String", "java.lang.String", "long"
+                "java.lang.String", "java.lang.String", "long",
+                "java.lang.Float", "java.lang.Float", "java.lang.Integer"
             };
 
         _methodName44 = "countOffersForOrganization";
@@ -416,7 +417,8 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
         _methodName57 = "getOfferByTypesAndCItemsAndOrg";
 
         _methodParameterTypes57 = new String[] {
-                "java.lang.String", "java.lang.String", "long", "int", "int"
+                "java.lang.String", "java.lang.String", "long", "int", "int",
+                "java.lang.Float", "java.lang.Float", "java.lang.Integer"
             };
 
         _methodName58 = "getOffers";
@@ -1613,7 +1615,8 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
 
     @Override
     public java.lang.Integer countOfferByTypesAndCItemsAndOrg(
-        java.lang.String categoryItems, java.lang.String types, long orgId) {
+        java.lang.String categoryItems, java.lang.String types, long orgId,
+        java.lang.Float lat, java.lang.Float lon, java.lang.Integer dist) {
         Object returnObj = null;
 
         try {
@@ -1624,7 +1627,13 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
                         
                     ClpSerializer.translateInput(types),
                         
-                    orgId
+                    orgId,
+                        
+                    ClpSerializer.translateInput(lat),
+                        
+                    ClpSerializer.translateInput(lon),
+                        
+                    ClpSerializer.translateInput(dist)
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -1935,7 +1944,8 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOfferByTypesAndCItemsAndOrg(
         java.lang.String categoryItems, java.lang.String types, long orgId,
-        int start, int end) {
+        int start, int end, java.lang.Float lat, java.lang.Float lon,
+        java.lang.Integer dist) {
         Object returnObj = null;
 
         try {
@@ -1950,7 +1960,13 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
                         
                     start,
                         
-                    end
+                    end,
+                        
+                    ClpSerializer.translateInput(lat),
+                        
+                    ClpSerializer.translateInput(lon),
+                        
+                    ClpSerializer.translateInput(dist)
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);

@@ -347,7 +347,8 @@ public class AHOfferLocalServiceClpInvoker {
         _methodName102 = "countOfferByTypesAndCItemsAndOrg";
 
         _methodParameterTypes102 = new String[] {
-                "java.lang.String", "java.lang.String", "long"
+                "java.lang.String", "java.lang.String", "long",
+                "java.lang.Float", "java.lang.Float", "java.lang.Integer"
             };
 
         _methodName103 = "countOffersForOrganization";
@@ -415,7 +416,8 @@ public class AHOfferLocalServiceClpInvoker {
         _methodName116 = "getOfferByTypesAndCItemsAndOrg";
 
         _methodParameterTypes116 = new String[] {
-                "java.lang.String", "java.lang.String", "long", "int", "int"
+                "java.lang.String", "java.lang.String", "long", "int", "int",
+                "java.lang.Float", "java.lang.Float", "java.lang.Integer"
             };
 
         _methodName117 = "getOffers";
@@ -740,7 +742,9 @@ public class AHOfferLocalServiceClpInvoker {
                 Arrays.deepEquals(_methodParameterTypes102, parameterTypes)) {
             return AHOfferLocalServiceUtil.countOfferByTypesAndCItemsAndOrg((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1],
-                ((Long) arguments[2]).longValue());
+                ((Long) arguments[2]).longValue(),
+                (java.lang.Float) arguments[3], (java.lang.Float) arguments[4],
+                (java.lang.Integer) arguments[5]);
         }
 
         if (_methodName103.equals(name) &&
@@ -827,7 +831,9 @@ public class AHOfferLocalServiceClpInvoker {
                 (java.lang.String) arguments[1],
                 ((Long) arguments[2]).longValue(),
                 ((Integer) arguments[3]).intValue(),
-                ((Integer) arguments[4]).intValue());
+                ((Integer) arguments[4]).intValue(),
+                (java.lang.Float) arguments[5], (java.lang.Float) arguments[6],
+                (java.lang.Integer) arguments[7]);
         }
 
         if (_methodName117.equals(name) &&

@@ -85,6 +85,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 	public AHOrg addOrganisation(final String owner, final String name,
 	        final String holder, final String descr, final String legalStatus,
 	        final long addressId, final long contactId) {
+		m_objLog.trace("addOrganisation::start("+owner+")");
 		AHOrg result = null;
 
 		try {
@@ -95,7 +96,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 				tmp = this.createAHOrg(CounterLocalServiceUtil
 				        .increment(AHOrg.class.getName()));
 				tmp.setCreated(System.currentTimeMillis());
-				tmp.setOwner(owner);
+				tmp.setOwner(owner.toLowerCase());
 				tmp.setStatus(E_OrgStatus.NEW.getIntValue());
 			} else {
 				m_objLog.info("Found existing organisation for " + owner + "!");
@@ -112,7 +113,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
-
+		m_objLog.trace("addOrganisation::end("+owner+")");
 		return result;
 	}
 
@@ -127,7 +128,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 			if (users.length() > 0) {
 				users += ",";
 			}
-			users += userMail;
+			users += userMail.toLowerCase();
 			org.setUserlist(users);
 			this.updateAHOrg(org);
 		} catch (final Throwable t) {
@@ -173,18 +174,19 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 	 */
 	@Override
 	public AHOrg getOrganisationByOwnerMail(final String owner) {
+		m_objLog.trace("getOrganisationByOwnerMail::start("+owner+")");
 		AHOrg result = null;
 
 		List<AHOrg> orgs;
 		try {
-			orgs = this.getAHOrgPersistence().findByowner(owner);
+			orgs = this.getAHOrgPersistence().findByowner(owner.toLowerCase());
 			if (orgs != null && orgs.size() > 0) {
 				result = orgs.get(0);
 			}
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
-
+		m_objLog.trace("getOrganisationByOwnerMail::end("+owner+","+(result != null)+")");
 		return result;
 	}
 
@@ -193,18 +195,19 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 	 */
 	@Override
 	public AHOrg getOrganisationByUserMail(final String userMail) {
+		m_objLog.trace("getOrganisationByUserMail::start("+userMail+")");
 		AHOrg result = null;
 
 		List<AHOrg> orgs;
 		try {
-			orgs = AHOrgFinderUtil.getOrganisationsByUserlistEntry(userMail);
+			orgs = AHOrgFinderUtil.getOrganisationsByUserlistEntry(userMail.toLowerCase());
 			if (orgs != null && orgs.size() > 0) {
 				result = orgs.get(0);
 			}
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
-
+		m_objLog.trace("getOrganisationByUserMail::end("+userMail+","+(result != null)+")");
 		return result;
 	}
 
@@ -290,7 +293,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 			orgs = this.getAHOrgPersistence().findByowner(oldOwner);
 			if (orgs != null && orgs.size() > 0) {
 				for (final AHOrg org : orgs) {
-					org.setOwner(newOwner);
+					org.setOwner(newOwner.toLowerCase());
 					this.updateAHOrg(org);
 				}
 			}

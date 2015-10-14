@@ -55,6 +55,8 @@
   if (userMail != null)
 	  organisation = CustomOrgServiceHandler.getOrgByLiferayUser(themeDisplay);
   
+  log.debug("Got organisation for "+userMail+": "+(organisation != null));
+  
   boolean isOrgOwner = organisation != null && organisation.getOwner().trim().toLowerCase().equals(userMail.trim().toLowerCase());
   
   String requestTabId = request.getParameter("tabId");

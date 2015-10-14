@@ -117,8 +117,8 @@ public class OfferForm {
 		this.m_strContactTel = "";
 		this.m_strContactMail = "";
 		this.m_strType = "";
-		this.m_strAddrLat = null;
-		this.m_strAddrLon = null;
+		this.m_strAddrLat = 0F;
+		this.m_strAddrLon = 0F;
 	}
 
 	/**

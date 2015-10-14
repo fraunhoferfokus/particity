@@ -485,9 +485,10 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
 
     @Override
     public java.lang.Integer countOfferByTypesAndCItemsAndOrg(
-        java.lang.String categoryItems, java.lang.String types, long orgId) {
+        java.lang.String categoryItems, java.lang.String types, long orgId,
+        java.lang.Float lat, java.lang.Float lon, java.lang.Integer dist) {
         return _ahOfferLocalService.countOfferByTypesAndCItemsAndOrg(categoryItems,
-            types, orgId);
+            types, orgId, lat, lon, dist);
     }
 
     @Override
@@ -569,9 +570,10 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOfferByTypesAndCItemsAndOrg(
         java.lang.String categoryItems, java.lang.String types, long orgId,
-        int start, int end) {
+        int start, int end, java.lang.Float lat, java.lang.Float lon,
+        java.lang.Integer dist) {
         return _ahOfferLocalService.getOfferByTypesAndCItemsAndOrg(categoryItems,
-            types, orgId, start, end);
+            types, orgId, start, end, lat, lon, dist);
     }
 
     @Override

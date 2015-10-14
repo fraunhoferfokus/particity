@@ -75,9 +75,9 @@ public class Constants {
 	public static final int PORTAL_MODE_OFFLINE = -2;
 	
 	/** Currently active portal mode */
-	public static int PORTAL_MODE = PORTAL_MODE_DEMO;
+	public static int PORTAL_MODE = PORTAL_MODE_DEV;
 	
 	/** For demonstration purposes, the platform is restricted in various ways to prevent SPAM, tampering with liferay, etc */
-	public static final boolean RESTRICT_TO_DEMO = PORTAL_MODE == PORTAL_MODE_OFFLINE;
+	public static final boolean RESTRICT_TO_DEMO = PORTAL_MODE == PORTAL_MODE_DEMO;
 
 }

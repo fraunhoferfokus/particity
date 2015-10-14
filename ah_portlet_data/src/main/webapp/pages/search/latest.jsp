@@ -96,21 +96,21 @@
 			      }
 			      if (addr != null) {
 					  %>
-				<div id="modal<%=count%>" class="searchmodal"></div>
+				<div id="latestmodal<%=count%>" class="searchmodal"></div>
 				<div class="col-md-4 text-center">
-					<a id="offerdetails<%= count %>"
-						onclick="return triggerModal('<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(offers.size())%>); "
+					<a id="latestdetails<%= count %>"
+						onclick="return triggerModal('#latestmodal','#latestdetails','<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(offers.size())%>); "
 						href="<portlet:actionURL>
 					      <portlet:param name="action" value="showOffer" />
 					      <portlet:param name="offerId" value="<%= offerId %>" />
 					      <portlet:param name="modal" value="false" />
 					      </portlet:actionURL>"
 						target="_blank"><%= offer.getTitle() %></a><br />
-					<div id="offermap<%= skipCount %>" class="offermap">
+					<div id="latestmap<%= skipCount %>" class="latestmap">
 					<% if (Constants.PORTAL_MODE == Constants.PORTAL_MODE_OFFLINE) {
 		          %>
-		          <a id="offerdetails<%= count %>"
-			            onclick="return triggerModal('<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(offers.size())%>); "
+		          <a id="latestdetails<%= count %>"
+			            onclick="return triggerModal('#latestmodal','#latestdetails','<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(offers.size())%>); "
 			            href="<portlet:actionURL>
 			                <portlet:param name="action" value="showOffer" />
 			                <portlet:param name="offerId" value="<%= offerId %>" />
@@ -126,7 +126,7 @@
               %>
 					<script>
 			            $(function() {
-			              var imgelem = addSearchMap(<%=  skipCount %>,<%= addr.getCoordLat() %>,<%= addr.getCoordLon() %>);
+			              var imgelem = addSearchMap("#latestmap","#latestdetails",<%=  skipCount %>,<%= addr.getCoordLat() %>,<%= addr.getCoordLon() %>);
 			              if (imgelem != undefined) {
 			                $("#offer<%=count %> .offertitlenum").empty();
 			                $("#offer<%=count %> .offertitlenum").append(imgelem);

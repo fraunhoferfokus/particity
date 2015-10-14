@@ -23,11 +23,13 @@ YUI().use('aui-timepicker', function(Y) {
 });
 
 var map = null;
+var radialmap = null;
 var marker = [];
 var geocoder = null;
 var geocontrol = null;
 var markerbase = null;
 var markerobj = [];
+var radialmarkerobj = [];
 var searchData = {};
 var selectedItems = [];
 var selectedTypes = [];
@@ -39,6 +41,97 @@ function resetMarkers() {
 
 function setMarkerBase(base) {
 	markerbase = base;
+}
+
+function initRadialSearch(elem) {
+	
+	if (elem != null) {
+		
+		console.log("Map init ...");
+		radialmap = L.map(elem.attr("id"), {
+			center : [ 0, 0 ], // TODO: get from config
+			zoom : 13,
+			dragging : false,
+			touchZoom : false,
+			keyboard : false,
+			scrollWheelZoom : false,
+			doubleClickZoom : false,
+			boxZoom : false,
+			tap : false,
+			zoomControl : false,
+			attributionControl : true
+		});
+
+		console.log("Map tiles init ...");
+		L
+		.tileLayer(
+				'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+			{
+				attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(radialmap);
+
+		radialmap.on('locationerror', function() {
+			console.log("browser-geolocation NOT found!")
+		});
+
+		radialmap.on('locationfound', function(e) {
+			//mapview = true;
+			console.log("browser-geolocation found!")
+			radialmap.panTo(e.latlng);
+		});
+		
+	}
+	
+	var radialgeocoder = L.Control.Geocoder.nominatim({
+		limit : 1,
+		countrycodes : "de" // TODO: configure
+	}), radialgeocontrol = L.Control.geocoder({
+		geocoder : radialgeocoder
+	})
+	radialgeocontrol.markGeocode = function(result) {
+		console.log("markgeocode::start");
+		customMarker(result);
+		console.log("markgeocode::end")
+	};
+
+	var customMarker = function(result) {
+		
+		
+		console.log("customMarker::start");
+		if (result != null && result.length > 0) {
+			result = result[0];
+			console.log("lat: " + result.center.lat + ", lon: "
+					+ result.center.lng)
+			$("input[name='radialSearchLat']").val(result.center.lat);
+			$("input[name='radialSearchLon']").val(result.center.lng);
+			
+			// TODO: Marker is positioned improperly, because parent is not set to relative
+			/*if (radialmarkerobj.length == 0) {
+				addMarkerToMap(radialmap,radialmarkerobj,result.center.lat, result.center.lng, 1);
+			} else {
+				radialmarkerobj[0].setLatLng(result.center);
+				radialmarkerobj[0].update();
+			}
+			*/
+			radialmap.panTo(result.center);
+		}
+		console.log("customMarker::end");
+	}
+
+	function checkAddr() {
+		var addr = $("input[id='radialSearchAddr']").val();
+		if (addr.length > 0) {
+			console.log("Searching for " + addr);
+			radialgeocoder.geocode(addr, customMarker);
+		} else {
+			console.log("Skipping short query " + query);
+		}
+	}
+	
+	// radial search addon
+	$("input[id='radialSearchAddr']").change(function() {
+		checkAddr();
+	});
 }
 
 function initSearchMap(elem) {
@@ -76,14 +169,15 @@ function initSearchMap(elem) {
 			console.log("browser-geolocation found!")
 			map.panTo(e.latlng);
 		});
-
+		
+		
 		// map.locate();
 		var count = 0;
 		for (var i = 0; i < marker.length; i++) {
 			count = marker[i].cnt;
 			if (count == null)
 				count = i + 1;
-			addMarkerToMap(marker[i].lat, marker[i].lng, count);
+			addMarkerToMap(map,markerobj,marker[i].lat, marker[i].lng, count);
 		}
 
 		var group = new L.featureGroup(markerobj);
@@ -141,7 +235,7 @@ function initOfferMap(elem) {
 				console.log("lat: " + result.center.lat + ", lon: "
 						+ result.center.lng)
 				if (markerobj.length == 0) {
-					addMarkerToMap(result.center.lat, result.center.lng, 1);
+					addMarkerToMap(map,markerobj,result.center.lat, result.center.lng, 1);
 				} else {
 					markerobj[0].setLatLng(result.center);
 					markerobj[0].update();
@@ -200,6 +294,7 @@ function initOfferMap(elem) {
 		$("input[id='addrNum']").change(function() {
 			checkAddr();
 		});
+		
 
 		// if disabled, show existing location
 		if ($('input[id="regionZip"]').is(':disabled')) {
@@ -284,10 +379,25 @@ function createMarkerIcon(number) {
 }
 
 function initMap() {
+	console.log("Initialzing map infrastructure ...")
 	if (typeof L != "undefined") {
 		initMapDefaults();
-		initOfferMap($("#offerMap"));
-		initSearchMap($("#searchMap"));
+		var mapElem = $("#offerMap");
+		if (mapElem.length > 0) {
+			console.log("Initializing offer map....")
+			initOfferMap(mapElem);
+		}
+		var mapElem = $("#searchMap");
+		if (mapElem.length > 0) {
+			console.log("Initializing search map....")
+			initSearchMap(mapElem);
+		}
+		
+	}
+	var mapElem = $("#radialMap");
+	if (mapElem.length > 0) {
+		console.log("Initializing radial search map....")
+		initRadialSearch(mapElem);
 	}
 
 }
@@ -303,7 +413,7 @@ function addMarkerToArray(lat, lng, count) {
 		return createMarkerIcon(count);
 }
 
-function addMarkerToMap(lat, lng, i) {
+function addMarkerToMap(srcmap, markerlist, lat, lng, i) {
 
 	var marker = new L.Marker(new L.LatLng(lat, lng), {
 		icon : new L.NumberedDivIcon({
@@ -311,18 +421,20 @@ function addMarkerToMap(lat, lng, i) {
 			iconUrl : markerbase + "/images/marker_hole.png"
 		}),
 	});
+	
 	marker.on('click', function() {
 		// showModal(i);
-		console.log("Klick on marker " + i);
+		//console.log("Klick on marker " + i);
 		$("#offerdetails" + i).click();
 	})
-	marker.addTo(map);
-	markerobj.push(marker);
+	marker.addTo(srcmap);
+	markerlist.push(marker);
+	console.log("Added marker "+i+" to "+lat+","+lng)
 }
 
 $(function() {
 	// disable search button, when JS is used
-	$("#searchForm button").hide();
+	$("#searchForm #mainSearchBtn").hide();
 	$('[data-toggle="tooltip"]').tooltip()
 
 	transformCheckBoxes();
@@ -433,6 +545,15 @@ function setSelectedItems(arr) {
 function search() {
 	searchData["items"] = selectedItems.join();
 	searchData["types"] = selectedTypes.join();
+	var lon = $("input[name=radialSearchLon]");
+	var lat = $("input[name=radialSearchLat]");
+	if (lon.length > 0 && lat.length > 0 && lon.val().length > 0 && lat.val().length > 0) {
+		var dist = $("select[name=radialSearchDist]").val();
+		searchData["latlon"] = dist+","+lat.val()+","+lon.val();
+		console.log("LatLon search data is "+dist+","+lat.val()+","+lon.val());
+	}
+		
+	
 	$.ajax({
 		type : "GET",
 		async : false,

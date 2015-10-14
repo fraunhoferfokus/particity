@@ -184,6 +184,19 @@ tr {
 /*
  * MAP
  */
+
+#radialMap {
+	min-height: 150px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid white;
+  z-index: 1000;
+  width: 100%;
+  cursor: default;
+  width: 50%;
+  margin-left: 25%;
+} 
+
 #offerMap {
 	height: 200px;
 }
@@ -221,6 +234,7 @@ tr {
 	border-right: 1px solid #D5D5D5;
 	border-bottom: 1px solid #D5D5D5;
 	border-radius: 3px;
+	background-color: #fff;
 	/*-webkit-box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);
 	-moz-box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);
 	box-shadow: 6px 5px 9px -4px rgba(97,97,97,0.76);*/

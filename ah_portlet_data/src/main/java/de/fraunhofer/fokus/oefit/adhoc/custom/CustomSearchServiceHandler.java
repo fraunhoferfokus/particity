@@ -147,9 +147,9 @@ public class CustomSearchServiceHandler {
 	 * @return the number of published offers for the given parameters
 	 */
 	public static Integer countByTypesAndItemsAndOrg(final String types,
-	        final String items, final long orgId) {
+	        final String items, final long orgId, Float lat, Float lon, Integer dist) {
 		return AHOfferLocalServiceUtil.countOfferByTypesAndCItemsAndOrg(items,
-		        types, orgId);
+		        types, orgId, lat, lon, dist);
 	}
 
 	/**
@@ -231,9 +231,9 @@ public class CustomSearchServiceHandler {
 	 * @return a list of published offers with site() <= to-from for the given parameters
 	 */
 	public static List<AHOffer> searchByTypesAndItemsAndOrg(final String types,
-	        final String items, final long orgId, final int from, final int to) {
+	        final String items, final long orgId, final int from, final int to, Float lat, Float lon, Integer dist) {
 		return AHOfferLocalServiceUtil.getOfferByTypesAndCItemsAndOrg(items,
-		        types, orgId, from, to);
+		        types, orgId, from, to, lat, lon, dist);
 	}
 	
 	public static List<AHOffer> getLatestPublishedOffers(int size) {

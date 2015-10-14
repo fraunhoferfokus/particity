@@ -91,10 +91,15 @@
 				servletContext="<%= this.getServletContext() %>">
 				<liferay-util:param name="parentClass" value="col-md-3"></liferay-util:param>
 			</liferay-util:include>
+			<liferay-util:include page="/pages/search/searchNavRadial.jsp"
+        portletId="<%= portletDisplay.getId() %>"
+        servletContext="<%= this.getServletContext() %>">
+        <liferay-util:param name="parentClass" value="col-md-3"></liferay-util:param>
+      </liferay-util:include>
 
 			<div class="row">
 				<div class="col-xs-12 text-right">
-					<button type="submit" class="btn btn-lg btn-primary">
+					<button id="mainSearchBtn" type="submit" class="btn btn-lg btn-primary">
 						<span class="glyphicon glyphicon-search"></span>&nbsp;
 						<spring:message code="search.form.submit" />
 					</button>

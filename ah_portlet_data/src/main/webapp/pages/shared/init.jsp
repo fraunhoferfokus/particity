@@ -29,11 +29,13 @@
 <portlet:defineObjects />
 
 <%
+
+
   // prepare demo mode (used as class and for input fields)
 	String demoDisabled = "";
 	if (Constants.RESTRICT_TO_DEMO)
 	  demoDisabled = "disabled";
-	
+		  
 	// disable console if not in development mode
 	if (Constants.PORTAL_MODE != Constants.PORTAL_MODE_DEV) {
 		%>

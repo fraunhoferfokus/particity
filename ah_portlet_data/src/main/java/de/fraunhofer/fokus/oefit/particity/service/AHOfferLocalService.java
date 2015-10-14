@@ -382,7 +382,8 @@ public interface AHOfferLocalService extends BaseLocalService,
     public java.lang.Integer countOfferByOfferTypes(int[] types);
 
     public java.lang.Integer countOfferByTypesAndCItemsAndOrg(
-        java.lang.String categoryItems, java.lang.String types, long orgId);
+        java.lang.String categoryItems, java.lang.String types, long orgId,
+        java.lang.Float lat, java.lang.Float lon, java.lang.Integer dist);
 
     public int countOffersForOrganization(long orgId);
 
@@ -431,7 +432,8 @@ public interface AHOfferLocalService extends BaseLocalService,
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOfferByTypesAndCItemsAndOrg(
         java.lang.String categoryItems, java.lang.String types, long orgId,
-        int start, int end);
+        int start, int end, java.lang.Float lat, java.lang.Float lon,
+        java.lang.Integer dist);
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOffers(

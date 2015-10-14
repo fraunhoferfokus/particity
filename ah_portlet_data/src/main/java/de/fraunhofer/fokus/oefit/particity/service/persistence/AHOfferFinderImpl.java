@@ -363,7 +363,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public List<AHOffer> getOfferByTypesAndItemsAndOrg(E_OfferStatus status, String types, String categories, long orgId, int from, int to) throws SystemException {
+	public List<AHOffer> getOfferByTypesAndItemsAndOrg(E_OfferStatus status, String types, String categories, long orgId, int from, int to, Float lat, Float lon, Integer dist) throws SystemException {
 		List<AHOffer> result = null;
 
 		Session session = null;
@@ -374,9 +374,9 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			
 			session = openSession();
 			
-			String sql = getOfferByTypesAndItemsAndOrgSQL(types, categories, orgId);
+			String sql = getOfferByTypesAndItemsAndOrgSQL(types, categories, orgId, lat, lon, dist);
 		
-			m_objLog.debug("Gettings offers for types "+types+", categories "+categories+", and org "+orgId+" from "+from+" to "+to+" with "+sql);
+			m_objLog.debug("Gettings offers for types "+types+", categories "+categories+", and org "+orgId+" and lat,lon,dist "+lat+","+lon+","+dist+" from "+from+" to "+to+" with "+sql);
 			
 			SQLQuery query = session.createSQLQuery(sql);
 			
@@ -398,7 +398,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public Integer countOfferByTypesAndItemsAndOrg(E_OfferStatus status, String types, String categories, long orgId) throws SystemException {
+	public Integer countOfferByTypesAndItemsAndOrg(E_OfferStatus status, String types, String categories, long orgId, Float lat, Float lon, Integer dist) throws SystemException {
 		Integer result = 0;
 
 		Session session = null;
@@ -409,13 +409,13 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 ;
 			session = openSession();
 			
-			String sql = getOfferByTypesAndItemsAndOrgSQL(types, categories, orgId);
+			String sql = getOfferByTypesAndItemsAndOrgSQL(types, categories, orgId, lat, lon, dist);
 			
 			//sql = sql.replace("offer.*", "COUNT(*) AS COUNT_VALUE");
 			sql = "select count(*) as COUNT_VALUE from ("+sql+") x";
 
 			
-			m_objLog.debug("Counting offers for types "+types+", categories "+categories+", and org "+orgId+" with "+sql);
+			m_objLog.debug("Counting offers for types "+types+", categories "+categories+", and org "+orgId+" and lat,lon,dist "+lat+","+lon+","+dist+" with "+sql);
 
 			//m_objLog.trace("Counting from "+currentTimeStr+" ("+currentTime+") with query "+sql);
 			
@@ -444,7 +444,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 
 	}
 	
-	private String getOfferByTypesAndItemsAndOrgSQL(String types, String categories, long orgId) {
+	private String getOfferByTypesAndItemsAndOrgSQL(String types, String categories, long orgId, Float lat, Float lon, Integer dist) {
 		
 		if (categories != null && categories.trim().length() == 0)
 			categories = null;
@@ -474,6 +474,11 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 		String sql = "select offer.* from AHOFFER offer ";
 		if (categories != null)
 			sql+= " INNER JOIN PARTICITY_offer_citm map ON map.offerId=offer.offerId";
+		
+		if (lat != null && lon != null && lat != 0 && lon != 0 && dist != null && dist > 0) {
+			sql+= " INNER JOIN AHADDR addr ON offer.adressId=addr.addrId";
+		}
+		
 		sql+=" WHERE offer.status=? AND offer.publish <= ? AND offer.expires > ?";
 		if (orgId >= 0) {
 			sql+=" AND offer.orgId="+orgId;
@@ -482,6 +487,11 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			sql+=" AND map.itemId IN ("+categories+")";
 		if (types != null && types.trim().length() > 0) {
 			sql+= " AND offer.type_ IN ("+types+")";
+		}
+		if (lat != null && lon != null && lat != 0 && lon != 0 && dist != null && dist > 0) {
+			sql+=" AND ((ACOS(SIN("+lat+" * PI() / 180) * SIN(addr.coordLat * PI() / 180) + "
+					+ "COS("+lat+" * PI() / 180) * COS(addr.coordLat * PI() / 180) * COS(("+lon+" - addr.coordLon) * PI() / 180)) * 180 / PI())"
+					+" * 60 * 1.852) <= "+dist;
 		}
 		if (categories != null)
 			sql+=" GROUP BY offer.offerId";

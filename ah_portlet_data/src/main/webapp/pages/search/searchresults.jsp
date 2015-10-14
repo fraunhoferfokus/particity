@@ -58,6 +58,7 @@
   String resultSkipStr = request.getParameter("resultSkip");
   String[] itemIdStr = request.getParameterValues("items");
   String[] typesStr = request.getParameterValues("types");
+  String[] latLon = request.getParameterValues("latlon");
   //String baseUrl = request.getParameter("baseUrl");
   String orgUrl = request.getParameter("orgUrl");
   String offerUrl = request.getParameter("offerUrl");
@@ -72,6 +73,10 @@
   
   log.info("Portlet ID is "+pportletId+", plid is "+pplid+", baseUrl is "+baseUrl);*/
 
+  Float lat = null;
+  Float lon = null;
+  Integer dist = null;
+  
   Integer resultSkip = 0;
   if (resultSkipStr != null && resultSkipStr.trim().length() > 0) {
 	  resultSkip = Integer.parseInt(resultSkipStr);
@@ -81,6 +86,18 @@
   if (orgIdStr != null && orgIdStr.trim().length() > 0) {
 	  orgId = Long.parseLong(orgIdStr);
 	}
+  
+  if (latLon != null && latLon.length == 1 && latLon[0].contains(","))
+	  latLon = latLon[0].split(",");
+  if (latLon != null && latLon.length == 3) {
+	  try {
+		  dist = Integer.parseInt(latLon[0]);
+		  lat = Float.parseFloat(latLon[1]);
+		  lon = Float.parseFloat(latLon[2]);
+	  } catch (Throwable t) {
+		  log.error(t);
+	  }
+  }
   
   if (itemIdStr != null && itemIdStr.length == 1 && itemIdStr[0].contains(","))
 	  itemIdStr = itemIdStr[0].split(",");
@@ -131,8 +148,8 @@
   
   List<AHOffer> results = null;
   Integer resultSize = -1;
-  results = CustomSearchServiceHandler.searchByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId, resultSkip, resultSkip+maxOffers);
-  resultSize = CustomSearchServiceHandler.countByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId);
+  results = CustomSearchServiceHandler.searchByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId, resultSkip, resultSkip+maxOffers, lat, lon, dist);
+  resultSize = CustomSearchServiceHandler.countByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId, lat, lon, dist);
   
   /*log.debug("Resultsize is "+resultSize);
   log.debug("Result list is #"+results.size());*/
@@ -284,7 +301,7 @@
 			    	if (org == null)
 			    		continue;
 			    %>
-			<div id="modal<%=count%>" class="searchmodal"></div>
+			<div id="offermodal<%=count%>" class="searchmodal"></div>
 			<div id="offer<%=skipCount %>" class="row offer">
 				<div class="col-xs-9" style="padding: 0px;">
 					<div class="row">
@@ -312,7 +329,7 @@
 								<div class="col-xs-12 offertitle">
 									<span class="offertitlenum"><%=skipCount%>. &nbsp;</span> <a
 										id="offerdetails<%= count %>"
-										onclick="return triggerModal('<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(results.size())%>); "
+										onclick="return triggerModal('#offermodal','#offerdetails','<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(results.size())%>); "
 										href="<portlet:actionURL>
                         <portlet:param name="action" value="showOffer" />
                         <portlet:param name="offerId" value="<%= offerId %>" />
@@ -342,7 +359,7 @@
 					%>
 					 <a
                     id="offerdetails<%= count %>"
-                    onclick="return triggerModal('<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(results.size())%>); "
+                    onclick="return triggerModal('#offermodal','#offerdetails','<%= orgUrl %>','<%= offerUrl %>',<%= count %>,'<%= offerId %>',<%=Integer.toString(results.size())%>); "
                     href="<portlet:actionURL>
                         <portlet:param name="action" value="showOffer" />
                         <portlet:param name="offerId" value="<%= offerId %>" />
@@ -358,7 +375,7 @@
 			<% if (Constants.PORTAL_MODE != Constants.PORTAL_MODE_OFFLINE && addr != null && addr.getCoordLat() != 0 && addr.getCoordLon() != 0) { %>
 			<script>
 				    $(function() {
-				    	var imgelem = addSearchMap(<%=  skipCount %>,<%= addr.getCoordLat() %>,<%= addr.getCoordLon() %>);
+				    	var imgelem = addSearchMap("#offermap","#offerdetails",<%=  skipCount %>,<%= addr.getCoordLat() %>,<%= addr.getCoordLon() %>);
 				    	if (imgelem != undefined) {
 				    		$("#offer<%=skipCount %> .offertitlenum").empty();
 				    		$("#offer<%=skipCount %> .offertitlenum").append(imgelem);

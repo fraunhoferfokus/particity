@@ -297,11 +297,11 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 */
 	@Override
 	public Integer countOfferByTypesAndCItemsAndOrg(final String categoryItems,
-	        final String types, final long orgId) {
+	        final String types, final long orgId, Float lat, Float lon, Integer dist) {
 		Integer result = null;
 		try {
 			result = AHOfferFinderUtil.countOfferByTypesAndItemsAndOrg(
-			        E_OfferStatus.VALIDATED, types, categoryItems, orgId);
+			        E_OfferStatus.VALIDATED, types, categoryItems, orgId, lat, lon, dist);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -532,12 +532,12 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	@Override
 	public List<AHOffer> getOfferByTypesAndCItemsAndOrg(
 	        final String categoryItems, final String types, final long orgId,
-	        final int start, final int end) {
+	        final int start, final int end, Float lat, Float lon, Integer dist) {
 		List<AHOffer> result = null;
 		try {
 			result = AHOfferFinderUtil.getOfferByTypesAndItemsAndOrg(
 			        E_OfferStatus.VALIDATED, types, categoryItems, orgId,
-			        start, end);
+			        start, end, lat, lon, dist);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
