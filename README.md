@@ -1,19 +1,12 @@
 # particity
 Participatory marketplace for voluntary services/donations
 
-## Notes
-See [site documentation](https://fraunhoferfokus.github.io/particity/index.html) for further documentation.
-   
-## How to generate site documentation
-For generating the site documentation (results in target/staging), do a
-```
-  mvn jxr:jxr site site:stage
-```
+## License
+Particity is released under a [3-clause BSD](http://opensource.org/licenses/BSD-3-Clause)
 
-Optionally, for using the site documentation within the (unofficial) site portlet do
-```
-  cp -R target/staging/* ah_portlet_site/src/main/webapp/docs/
-  cd ah_portlet_site
-  mvn clean package
-```
-Then deploy the WAR file in ah_portlet_site/target/ to your Liferay instance
+## Documentation
+Currently, there are several sources for documentation
+ - The maven-generated project site on the [GitHub pages](https://fraunhoferfokus.github.io/particity/index.html)
+ - The [GitHub wiki](https://github.com/fraunhoferfokus/particity/wiki), to get our one-stop documentation site for future releases   
+ - The original project site at the [Kompetenzzentrum Öffentliche IT](https://www.oeffentliche-it.de/mitmachboerse)
+ 
