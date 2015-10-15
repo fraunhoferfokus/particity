@@ -228,7 +228,7 @@ tr {
 
 .ahsearch .searchpanel .panel-collapse {
 	position: absolute;
-	z-index: 1000;
+	z-index: 1001;
 	width: 90%;
 	border-left: 1px solid #D5D5D5;
 	border-right: 1px solid #D5D5D5;
@@ -276,6 +276,7 @@ tr {
 
 .ahsearch #searchForm .filterlabel .glyphicon {
 	color: red;
+	cursor: pointer;
 }
 
 .ahsearch #searchMap {
@@ -394,6 +395,12 @@ tr {
 .searchmodal {
 	display: none;
 }
+
+.searchmodal .modal .modal-header .btn {
+    display: inline-block !important;
+    width: auto !important;
+}
+
 
 .searchmodal .yui3-widget-mask {
 	z-index: 9999 !important;

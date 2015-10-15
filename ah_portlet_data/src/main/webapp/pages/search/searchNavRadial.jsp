@@ -73,7 +73,7 @@
 	        </div>
 			   </div>
 			   <div class="col-xs-4">
-			     <select class="form-control" name="radialSearchDist">
+			     <select class="form-control input-lg" name="radialSearchDist" onchange="searchRadial()">
 			       <option value="5">+5km</option>
 			       <option value="10">+10km</option>
 			       <option value="20">+20km</option>
@@ -82,10 +82,6 @@
 			   </div>
 			  </div>
 			   <div id="radialMap"></div>
-			  
-			  <div class="row text-center">
-			   <button type="submit" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-search"></span>&nbsp;<spring:message code="search.form.radial.submit" /></button>
-			  </div>
 			
 		</div>
 	</div>

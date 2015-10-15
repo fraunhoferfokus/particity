@@ -86,6 +86,7 @@ function addModal(modalid,detailid,count, maxcount) {
 		//console.log("Got modal body "+body);
 		elem.empty();
 		elem.show();
+		
 		YUI().use(
 		  'aui-modal',
 		  function(Y) {
@@ -99,6 +100,7 @@ function addModal(modalid,detailid,count, maxcount) {
 		        resizable: false,
 		        modal: true,
 		        focused: true,
+		        visible: false,
 		        width: "80%",
 		        height: "80%",
 		        render: id,
@@ -110,8 +112,24 @@ function addModal(modalid,detailid,count, maxcount) {
 		    );
 		  }
 		);
-		console.log("Modal "+id+" initialized!");
-		$(id+" .modal-body").scrollTop(0);
+		//validateModal(modals[id]);
+		//console.log("Modal "+id+" initialized!");
+		//$(id+" .modal-body").scrollTop(0);
+		showModal(modalid,detailid,count);
+	}
+}
+
+function validateModal(modal) {
+	if (modal != null) {
+		var h = $(window).height();
+		var w = $(window).width();
+		
+		if (h < 600 || w < 400) {
+			//console.log("Changing modal size due to window size being "+w+"x"+h)	
+			modal.set("height","100%");
+			modal.set("width","100%");
+		} //else
+			//console.log("Window size is "+w+"x"+h)
 	}
 }
 
@@ -119,6 +137,7 @@ function showModal(modalid,detailid,count) {
 	var id = modalid+count;
 	var modal = modals[id];
 	if (modal != null) {
+		validateModal(modal);
 		modal.show();
 		console.log("Modal "+id+" shown!");
 	} else {

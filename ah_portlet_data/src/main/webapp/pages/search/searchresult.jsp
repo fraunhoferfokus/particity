@@ -162,7 +162,7 @@
 	</div>
 	<hr />
 	<div class="row">
-		<div class="col-md-3 text-right col-xs-4">
+		<div class="col-sm-3 text-right">
 			<h2>
 				<spring:message code="search.offer.contact" />
 			</h2>
@@ -181,12 +181,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-9 col-xs-8">
+		<div class="col-sm-9">
 			<h2>
 				<spring:message code="search.offer.org" />
 			</h2>
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4" style="margin-bottom: 20px;">
 					<%= org.getName() %><br /> <small><%= org.getHolder() %></small><br />
 					<br />
 					<%=org.getAddrStreet()%>

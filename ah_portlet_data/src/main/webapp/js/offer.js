@@ -50,7 +50,7 @@ function initRadialSearch(elem) {
 		console.log("Map init ...");
 		radialmap = L.map(elem.attr("id"), {
 			center : [ 0, 0 ], // TODO: get from config
-			zoom : 13,
+			zoom : 15,
 			dragging : false,
 			touchZoom : false,
 			keyboard : false,
@@ -105,6 +105,14 @@ function initRadialSearch(elem) {
 			$("input[name='radialSearchLat']").val(result.center.lat);
 			$("input[name='radialSearchLon']").val(result.center.lng);
 			
+			var filterelem = $(".searchfilter #labelradial");
+			if (filterelem.length != 0) {
+				filterelem.remove();
+			}
+			var filterelem = $(".searchfilter");
+			var addr = $("input[id='radialSearchAddr']").val();
+			filterelem.prepend("<div class='filterlabel' id='labelradial'><span aria-hidden='true' class='glyphicon glyphicon-remove' onclick='toggleRadial()'></span>" + addr + "</div>");
+			
 			// TODO: Marker is positioned improperly, because parent is not set to relative
 			/*if (radialmarkerobj.length == 0) {
 				addMarkerToMap(radialmap,radialmarkerobj,result.center.lat, result.center.lng, 1);
@@ -114,6 +122,7 @@ function initRadialSearch(elem) {
 			}
 			*/
 			radialmap.panTo(result.center);
+			search();
 		}
 		console.log("customMarker::end");
 	}
@@ -132,6 +141,34 @@ function initRadialSearch(elem) {
 	$("input[id='radialSearchAddr']").change(function() {
 		checkAddr();
 	});
+	
+	$("#radialSearchAddr").keyup(function (e) {
+	    if (e.keyCode == 13) {
+	    	console.log("Prevent submit!");
+	    	e.preventDefault();
+	    	e.stopPropagation();
+	    	checkAddr();
+	    }
+	});
+}
+
+function toggleRadial() {
+	var filterelem = $(".searchfilter #labelradial");
+	if (filterelem.length != 0) {
+		filterelem.remove();
+	}
+	$("input[name='radialSearchLat']").val(0);
+	$("input[name='radialSearchLon']").val(0);
+	var addr = $("input[id='radialSearchAddr']").val("");
+	search();
+}
+
+function searchRadial() {
+	var lat = $("input[name='radialSearchLat']").val();
+	var lon = $("input[name='radialSearchLon']").val();
+	if (lat != null && lon != null && lat != 0 && lon != 0) {
+		search();
+	}
 }
 
 function initSearchMap(elem) {
@@ -460,7 +497,7 @@ function transformCheckBoxes() {
 				that.prop("checked", !that.prop("checked"));
 				that.change();
 				if (root.hasClass("search")) {
-					toggleButton(that.val());
+					toggleButton(that.val(),that.attr("name"));
 				}
 			});
 		} else if (!$(this).is(":checked")) {
@@ -469,16 +506,17 @@ function transformCheckBoxes() {
 	});
 
 	$("#searchForm .list-group-item.search input").change(function() {
-		toggleButton($(this).val());
+		toggleButton($(this).val(),$(this).attr("name"));
 	});
 }
 
-function toggleButton(val) {
+function toggleButton(val,type) {
 	var found = false;
 	//console.log("Looking up selection " + val);
 	
-	var cb = $("#searchForm input[value=" + val + "]");
-	var type = cb.attr("name");
+	var cb = $("#searchForm input[value=" + val + "][name="+type+"]");
+	//if (type == undefined)
+		//type = cb.attr("name");
 	var selectedArr = null;;
 	if (type == "items") {
 		selectedArr = selectedItems;
@@ -491,8 +529,8 @@ function toggleButton(val) {
 			if (value == val) {
 				console.log("Removing selection for " + val+" in "+type);
 				found = true;
-				var cb = $("#searchForm input[value=" + val + "]");
-				var filterelem = $(".searchfilter #label" + val);
+				var cb = $("#searchForm input[value=" + val + "][name="+type+"]");
+				var filterelem = $(".searchfilter #label" + type+val);
 				if (filterelem.length != 0) {
 					filterelem.remove();
 					if (cb.prop("checked"))
@@ -506,14 +544,14 @@ function toggleButton(val) {
 			console.log("Adding selection for " + val+" in "+type);
 			var filterelem = $(".searchfilter");
 			if (filterelem.length != 0) {
-				var cb = $("#searchForm input[value=" + val + "]");
+				var cb = $("#searchForm input[value=" + val + "][name="+type+"]");
 				if (cb.length != 0) {
 					var cblabel = cb.parent().text();
 					if (!cb.prop("checked"))
 						cb.prop("checked", true);
-					filterelem.prepend("<div class='filterlabel' id='label" + val
+					filterelem.prepend("<div class='filterlabel' id='label" + type+val
 							+ "'><span aria-hidden='true' class='glyphicon glyphicon-remove' onclick='toggleButton("
-							+ val + ")'></span>" + cblabel + "</div>");
+							+ val +",\""+type+"\")'></span>" + cblabel + "</div>");
 				}
 			}
 			selectedArr.push(val);
