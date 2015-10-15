@@ -3,7 +3,7 @@
 
 <layout-templates>
   <custom>
-    <layout-template id="twoColumns" name="1-2 Columns (+offset)">
+    <layout-template id="twoColumns" name="1-2 Columns">
       <template-path>/twoColumns.tpl</template-path>
       <wap-template-path>/twoColumns.wap.tpl</wap-template-path>
       <thumbnail-path>/twoColumns.png</thumbnail-path>
