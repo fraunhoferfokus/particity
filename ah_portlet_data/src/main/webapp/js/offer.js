@@ -119,8 +119,8 @@ function initRadialSearch(elem) {
 			} else {
 				radialmarkerobj[0].setLatLng(result.center);
 				radialmarkerobj[0].update();
-			}
-			*/
+			}*/
+			
 			radialmap.panTo(result.center);
 			search();
 		}

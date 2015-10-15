@@ -191,11 +191,18 @@ tr {
   overflow: hidden;
   border: 1px solid white;
   z-index: 1000;
-  width: 100%;
   cursor: default;
   width: 50%;
   margin-left: 25%;
-} 
+  text-align: center;
+}
+
+/*
+ *  Workaround wrong placement caused by late initialization of leaflet map
+*/
+#radialMap img.leaflet-tile {
+	margin-top: 50px;
+}
 
 #offerMap {
 	height: 200px;
