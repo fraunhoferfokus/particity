@@ -29,8 +29,8 @@
 	<meta name="apple-mobile-web-app-title" content="${the_title}">
 	<link rel="apple-touch-startup-image" href="${images_folder}/webapp.png"/>
 	<link rel="apple-touch-icon-precomposed" href="${images_folder}/webapp.png">
-	<link rel="stylesheet" type="text/css" href="${css_folder}/shariff.complete.css">	
-	<script src="${javascript_folder}/jquery-1.11.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="${css_folder}/shariff.min.css">	
+	<script src="${javascript_folder}/jquery-2.0.3.js" type="text/javascript"></script>
 	${theme.include(top_head_include)}
 	<link rel="stylesheet" type="text/css" href="${css_folder}/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="${css_folder}/bootstrap-theme.css">
@@ -82,7 +82,7 @@
   
   </footer>
 
-  <script src="${javascript_folder}/shariff.complete.js" type="text/javascript"></script>
+  <script src="${javascript_folder}/shariff.min.js" type="text/javascript"></script>
 
   ${theme.include(body_bottom_include)}
 
