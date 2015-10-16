@@ -55,6 +55,9 @@
 
 		<!-- libs -->
 
+    <!-- hooks -->
+    <module>ah_hook_securefilter</module>
+
 		<!-- basic portlets -->
 		<module>ah_portlet_data</module>
 

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hook PUBLIC "-//Liferay//DTD Hook 6.2.0//EN" "http://www.liferay.com/dtd/liferay-hook_6_2_0.dtd">
+
+<hook>
+  <portal-properties>portal.properties</portal-properties>
+	<servlet-filter>
+		<servlet-filter-name>Secure Liferay URL Filter</servlet-filter-name>
+		<servlet-filter-impl>org.particity.liferay.filter.SecureURLFilter</servlet-filter-impl>
+		<init-param>
+            <param-name>propertiesFile</param-name>
+            <param-value>/../../conf/secureUrlFilter.properties</param-value>
+    </init-param>
+	</servlet-filter>
+	<servlet-filter-mapping>
+		<servlet-filter-name>Secure Liferay URL Filter</servlet-filter-name>	
+		<url-pattern>/*</url-pattern>
+	</servlet-filter-mapping>
+</hook>

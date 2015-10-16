@@ -42,9 +42,6 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
