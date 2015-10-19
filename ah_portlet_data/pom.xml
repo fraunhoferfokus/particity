@@ -29,12 +29,6 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<!-- configuration> <warSourceExcludes> **/portlet-model-hints.xml,**/tables.sql 
-					</warSourceExcludes> <webResources> <resource> <directory>${basedir}/src/main/resources/META-INF/ext</directory> 
-					<targetPath>WEB-INF/classes/META-INF</targetPath> <includes> <include>*.xml</include> 
-					</includes> </resource> <resource> <directory>${basedir}/src/main/webapp/WEB-INF/sql/ext</directory> 
-					<targetPath>WEB-INF/sql</targetPath> <includes> <include>*.sql</include> 
-					</includes> </resource> </webResources> </configuration -->
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -42,12 +36,49 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 			</plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jaxb2-maven-plugin</artifactId>
+        <executions>
+	        <execution>
+			        <id>importexportv1</id>
+			        <goals>
+			            <goal>xjc</goal>
+			        </goals>
+			        <configuration>
+			            <packageName>de.particity.schemagen.impexpv100</packageName>
+			            <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+			            <schemaDirectory>${project.basedir}/src/main/xsd</schemaDirectory>
+			            <schemaIncludes>
+			              <include>ImportExport-v1_0_0.xsd</include>
+			            </schemaIncludes>
+			            <extension>true</extension>
+				          <bindingFiles>globalbindings.xml</bindingFiles>
+				          <clearOutputDir>false</clearOutputDir>
+			        </configuration>
+			    </execution>
+			    <!-- execution>
+              <id>importexportv2</id>
+              <goals>
+                  <goal>xjc</goal>
+              </goals>
+              <configuration>
+                  <packageName>de.particity.schemagen.impexpv2</packageName>
+                  <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                  <schemaDirectory>${project.basedir}/src/main/xsd</schemaDirectory>
+                  <schemaIncludes>
+                    <include>ImportExport-v2_0_0.xsd</include>
+                  </schemaIncludes>
+                  <extension>true</extension>
+                  <bindingFiles>globalbindings.xml</bindingFiles>
+                  <clearOutputDir>false</clearOutputDir>
+              </configuration>
+          </execution-->
+        </executions>
+      </plugin>
 		</plugins>
 	</build>
 	<dependencies>
-		<!-- dependency> <groupId>de.fraunhofer.fokus.oefit</groupId> <artifactId>lib_solrclient</artifactId> 
-			<version>${pom.version}</version> </dependency -->
-
 
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
