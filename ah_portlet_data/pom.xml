@@ -15,6 +15,12 @@
 	<name>ah_portlet_data</name>
 
 	<build>
+		<resources>
+	    <resource>
+	        <directory>${basedir}/src/main/resources/</directory>
+	        <filtering>true</filtering>
+	    </resource>
+	  </resources>
 		<finalName>adhocdata-portlet</finalName>
 		<plugins>
 			<plugin>
@@ -57,6 +63,7 @@
 				          <clearOutputDir>false</clearOutputDir>
 			        </configuration>
 			    </execution>
+			    <!-- Example for another version -->
 			    <!-- execution>
               <id>importexportv2</id>
               <goals>

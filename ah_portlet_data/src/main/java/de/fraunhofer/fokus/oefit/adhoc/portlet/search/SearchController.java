@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
+import de.particity.impexp.Version;
 
 /**
  * Controller for the frontend search
