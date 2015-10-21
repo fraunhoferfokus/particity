@@ -16,7 +16,7 @@
 
     <complexType name="OrganisationType">
     	<sequence>
-    		<element name="orgId" type="string"></element>
+    		<element name="orgId" type="long"></element>
     		<element name="name" type="string"></element>
     		<element name="holder" type="string"></element>
     		<element name="owner" type="string"></element>
@@ -38,10 +38,10 @@
     		<element name="title" type="string"></element>
     		<element name="description" type="string"></element>
     		<element name="workTime" type="string"></element>
-    		<element name="workType" type="string"></element>
+    		<element name="workType" type="int"></element>
     		<element name="type" type="string"></element>
     		<element name="status" type="string"></element>
-    		<element name="socialStatus" type="string"></element>
+    		<element name="socialStatus" type="int"></element>
     		<element name="created" type="long"></element>
     		<element name="updated" type="long"></element>
     		<element name="expires" type="long"></element>
@@ -88,8 +88,9 @@
 
     <complexType name="ConfigurationType">
     	<sequence>
-    		<element name="entry" type="tns:KeyValueType" maxOccurs="unbounded" minOccurs="0"></element>
-    	</sequence>
+        <element name="key" type="string"></element>
+        <element name="value" type="string"></element>
+      </sequence>
     </complexType>
     
     <complexType name="AddressType">
@@ -99,8 +100,8 @@
     		<element name="country" type="string"></element>
     		<element name="city" type="string"></element>
     		<element name="zip" type="int"></element>
-    		<element name="coordLat" type="long"></element>
-    		<element name="coordLon" type="long"></element>
+    		<element name="coordLat" type="float"></element>
+    		<element name="coordLon" type="float"></element>
     	</sequence>
 
     </complexType>
@@ -117,10 +118,4 @@
     	</sequence>
     </complexType>
 
-    <complexType name="KeyValueType">
-    	<sequence>
-    		<element name="key" type="string"></element>
-    		<element name="value" type="string"></element>
-    	</sequence>
-    </complexType>
 </schema>

@@ -1,4 +1,4 @@
-package de.particity.impexp;
+package de.particity.util;
 
 import java.io.InputStream;
 import java.util.Properties;

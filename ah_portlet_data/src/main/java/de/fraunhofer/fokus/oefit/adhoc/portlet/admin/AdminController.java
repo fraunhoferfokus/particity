@@ -33,10 +33,18 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.portlet.admin;
 
+import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +57,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.util.PortalUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
@@ -60,6 +69,7 @@ import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
 import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
 import de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil;
 import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
+import de.particity.impexp.ExportWriter;
 
 /**
  * Controller for basic administrative tasks
@@ -157,6 +167,38 @@ public class AdminController extends BaseController {
 		m_objLog.debug("addMainCategory::end");
 	}
 
+	@RequestMapping(value = "view")
+	@ActionMapping(params = "action=exportDatabase")
+	public void exportDb(final ActionRequest request, final ActionResponse response,
+	        final Model model) {
+		m_objLog.debug("exportDatabase::start");
+		
+		try {
+			HttpServletRequest httpServletRequest = (HttpServletRequest) PortalUtil
+					.getHttpServletRequest(request);
+			HttpServletResponse httpServletResponse = (HttpServletResponse) PortalUtil
+					.getHttpServletResponse(response);
+	
+			httpServletResponse.setHeader("Expires", "0");
+			httpServletResponse.setHeader("Cache-Control",
+					"must-revalidate, post-check=0, pre-check=0");
+			httpServletResponse.setHeader("Pragma", "public");
+			
+			ExportWriter export = new ExportWriter();
+			GZIPInputStream zipin = new GZIPInputStream(new ByteArrayInputStream(export.writeToBytes()));
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM");
+			String dateStr = sdf.format(Calendar.getInstance().getTime());
+			
+			com.liferay.portal.kernel.servlet.ServletResponseUtil.sendFile(
+					httpServletRequest, httpServletResponse, "particity_"+dateStr+".xml.zip", zipin);
+		} catch (Throwable t) {
+			m_objLog.error("Error exporting data",t);
+		}
+		
+		m_objLog.debug("exportDatabase::end");
+	}
+	
 	/**
 	 * Gets the data.
 	 *

@@ -45,10 +45,17 @@
    </liferay-ui:error>
 
 	<div class="page-header">
-		<h1>
-			<spring:message code="admin.jsp.title" />
-			&nbsp;&nbsp;<small><spring:message code="admin.jsp.descr" /></small>
-		</h1>
+	 <div class="row">
+	   <div class="col-sm-10">
+		   <h1>
+	      <spring:message code="admin.jsp.title" />
+	      &nbsp;&nbsp;<small><spring:message code="admin.jsp.descr" /></small>
+	    </h1>
+	   </div>
+	   <div class="col-sm-2 text-right">
+	     <a target="_blank" href="<portlet:actionURL><portlet:param name="action" value="exportDatabase" /></portlet:actionURL>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-save"></span>&nbsp;<spring:message code="admin.jsp.db.export" /></a>
+	   </div>
+	 </div>
 	</div>
 	<div role="tabpanel">
 

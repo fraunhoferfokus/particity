@@ -45,6 +45,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jaxb2-maven-plugin</artifactId>
+        <version>2.2</version>
         <executions>
 	        <execution>
 			        <id>importexportv1</id>
@@ -52,14 +53,15 @@
 			            <goal>xjc</goal>
 			        </goals>
 			        <configuration>
+			           <extension>true</extension>
+				          <sources>
+	                    <source>${basedir}/src/main/xsd/ImportExport-v1_0_0.xsd</source>
+	                </sources>
 			            <packageName>de.particity.schemagen.impexpv100</packageName>
-			            <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-			            <schemaDirectory>${project.basedir}/src/main/xsd</schemaDirectory>
-			            <schemaIncludes>
-			              <include>ImportExport-v1_0_0.xsd</include>
-			            </schemaIncludes>
-			            <extension>true</extension>
-				          <bindingFiles>globalbindings.xml</bindingFiles>
+			            <outputDirectory>${basedir}/src/main/java</outputDirectory>
+				          <xjbSources>
+				            <xjbSource>${basedir}/src/main/xjb/globalbindings.xjb</xjbSource>
+				          </xjbSources>
 				          <clearOutputDir>false</clearOutputDir>
 			        </configuration>
 			    </execution>
