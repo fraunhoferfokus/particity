@@ -4,6 +4,12 @@ import java.io.InputStream;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.xml.sax.InputSource;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -14,31 +20,45 @@ public class ImporterFactory {
 	
 	private Log m_objLog = LogFactoryUtil.getLog(ImporterFactory.class);
 	
-	protected int[] getSchemaVersionFromXmlData(InputStream xmlData) {
-		int[] result = new int[]{-1,-1,-1};
+	protected E_SchemaVersion getSchemaVersionFromXmlData(InputStream xmlData) {
+		E_SchemaVersion result = null;
+		
+		try {
+			XPathFactory factory = XPathFactory.newInstance();
+			XPath xpath = factory.newXPath();
+			InputSource inputSource = new InputSource(xmlData);
+			String value = (String) xpath.evaluate("/ImportExportRoot/@Version", inputSource,XPathConstants.STRING);
+			if (value != null) {
+				result = E_SchemaVersion.valueOf(value);
+			}
+        } catch (Throwable e) {
+	        m_objLog.error("Error parsing version from input source",e);
+        }
 		
 		return result;
 	}
 	
 	public void importData(InputStream xmlData) {
-		int[] ver = getSchemaVersionFromXmlData(xmlData);
-		List<E_SchemaVersion> upgradePath = E_SchemaVersion.getUpgradePath(ver[0], ver[1], ver[2], true);
-		JAXBElement objData = null;
-		for (int i=upgradePath.size()-1;i>=0;i--) {
-			I_Importer importer = getImporter(upgradePath.get(i));
-			if (importer != null) {
-				if (objData == null) {
-					// TODO - add exception handling
-					objData = importer.importData(xmlData);
-				} else {
-					// TODO - add exception handling
-					objData = importer.convertData(objData);
+		E_SchemaVersion ver = getSchemaVersionFromXmlData(xmlData);
+		if (ver != null) {
+			List<E_SchemaVersion> upgradePath = E_SchemaVersion.getUpgradePath(ver);
+			JAXBElement objData = null;
+			for (int i=upgradePath.size()-1;i>=0;i--) {
+				I_Importer importer = getImporter(upgradePath.get(i));
+				if (importer != null) {
+					if (objData == null) {
+						// TODO - add exception handling
+						objData = importer.importData(xmlData);
+					} else {
+						// TODO - add exception handling
+						objData = importer.convertData(objData);
+					}
 				}
 			}
-		}
-		if (objData != null) {
-			ImportWriter writer = new ImportWriter();
-			writer.write(objData);
+			if (objData != null) {
+				ImportWriter writer = new ImportWriter();
+				writer.write(objData);
+			}
 		}
 	}
 	

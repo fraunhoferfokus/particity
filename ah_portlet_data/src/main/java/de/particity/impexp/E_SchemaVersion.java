@@ -3,6 +3,8 @@ package de.particity.impexp;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.naming.directory.SchemaViolationException;
+
 /**
  * Enum for schema versions that provide import/export-mappings
  * 
@@ -37,6 +39,19 @@ public enum E_SchemaVersion {
 		E_SchemaVersion tmp = getLatest(stableOnly);
 		// add all versions that are above the specified one
 		while (tmp != null && tmp.compareTo(major, minor, subminor) >= 0) {
+			result.add(tmp);
+			tmp = tmp.getPredecessor();
+		}
+		
+		return result;
+	}
+	
+	public static List<E_SchemaVersion> getUpgradePath(E_SchemaVersion top) {
+		List<E_SchemaVersion> result = new LinkedList<E_SchemaVersion>();
+		
+		E_SchemaVersion tmp = top;
+		// add all versions that are above the specified one
+		while (tmp != null) {
 			result.add(tmp);
 			tmp = tmp.getPredecessor();
 		}

@@ -35,25 +35,26 @@
   if (requestCatId == null)
 	  requestCatId = "-1";
   
+  String exportFilename = request.getParameter("exportFilename");
+  
   %>
 
 <div class="container-fluid">
 
   <!-- if demo-mode enabled, notify about denied actions -->
-  <liferay-ui:error key="common.demo.denied">
+    <liferay-ui:error key="common.demo.denied">
        <spring:message code="common.demo.denied" />
    </liferay-ui:error>
 
+   
+
 	<div class="page-header">
 	 <div class="row">
-	   <div class="col-sm-10">
+	   <div class="col-sm-12">
 		   <h1>
 	      <spring:message code="admin.jsp.title" />
 	      &nbsp;&nbsp;<small><spring:message code="admin.jsp.descr" /></small>
 	    </h1>
-	   </div>
-	   <div class="col-sm-2 text-right">
-	     <a target="_blank" href="<portlet:actionURL><portlet:param name="action" value="exportDatabase" /></portlet:actionURL>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-save"></span>&nbsp;<spring:message code="admin.jsp.db.export" /></a>
 	   </div>
 	 </div>
 	</div>
@@ -72,11 +73,15 @@
     		activeFlag="active";
     %>
 			<li role="presentation" class="<%= activeFlag %>"><a
-				href="#<%=  ctype.name() %>" aria-controls="home" role="tab"
+				href="#<%=  ctype.name() %>" aria-controls="<%=  ctype.name() %>" role="tab"
 				data-toggle="tab"><span class="glyphicon glyphicon-th-list"></span>&nbsp;<spring:message
 						code="<%= ctype.getMsgProperty() %>" /></a></li>
 
 			<% } %>
+			<li role="presentation"><a
+        href="#dbtools" aria-controls="dbtools" role="tab"
+        data-toggle="tab"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;<spring:message
+            code="admin.tabs.dbimpexp" /></a></li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -273,6 +278,29 @@
 
 			</div>
 			<% } %>
+			
+			<div role="tabpanel" class="tab-pane"
+        id="dbtools">
+
+        <h2><spring:message code="admin.tab.db.export" /></h2>
+        <% if (exportFilename != null) { %>
+         <div class="alert alert-success">
+	         <spring:message code="admin.tab.db.export.success" /><br/>
+	         <%= exportFilename %>
+         </div>
+       <% } %>
+       <a target="_blank" href="<portlet:actionURL><portlet:param name="action" value="exportDatabase" /></portlet:actionURL>" class="btn btn-default">
+	       <span class="glyphicon glyphicon-save"></span>&nbsp;
+	       <spring:message code="admin.tab.db.exportSubmit" />
+       </a>
+       
+       <h2 style="margin-top: 50px;"><spring:message code="admin.tab.db.import" /></h2>
+       <form method="post" action="<portlet:actionURL><portlet:param name="action" value="importDatabase" /></portlet:actionURL>">
+          <input id="databaseImport" type="file" name="file" class="file" data-show-preview="false"
+       data-browsetext="<spring:message code="admin.tab.db.importBrowse" />" data-uploadtext="<spring:message code="admin.tab.db.importUpload" />" data-deletetext="<spring:message code="admin.tab.db.importDelete" />">    
+       </form>
+       
+      </div>
 		</div>
 
 	</div>

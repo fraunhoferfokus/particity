@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.zip.GZIPOutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -63,6 +64,7 @@ public class ExportWriter {
 			ImportExportRoot root = write();
 			JAXBContext ctx = JAXBContext.newInstance("de.particity.schemagen.impexpv100");
 			Marshaller m = ctx.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 			m.marshal(root, out);
 		} catch (Throwable t) {
 			m_objLog.error("Error marshalling",t);
@@ -73,11 +75,11 @@ public class ExportWriter {
 		ImportExportRoot root = new ImportExportRoot();
 		root.setVersion(E_SchemaVersion.getLatest(true).name());
 		
-		writeCategories(root.getCategories());
-		writeConfig(root.getConfigs());
-		writeOrganisations(root.getOrganisations());
-		writeOffers(root.getOffers());
-		writeSubscriptions(root.getSubscriptions());
+		writeCategories(root.getCategory());
+		writeConfig(root.getConfig());
+		writeOrganisations(root.getOrganisation());
+		writeOffers(root.getOffer());
+		writeSubscriptions(root.getSubscription());
 		
 		return root;
 	}
@@ -99,7 +101,7 @@ public class ExportWriter {
 						catType.setName(cat.getName());
 						catType.setType(cat.getType());
 						categories.add(catType);
-						writeCategoryEntries(catType.getEntries(), cat.getCatId());
+						writeCategoryEntries(catType.getEntry(), cat.getCatId());
 					}
 				}
 			}
@@ -121,10 +123,10 @@ public class ExportWriter {
 				type.setItemId(data.getItemId());
 				type.setName(data.getName());
 				type.setDescr(data.getDescr());
-				writeCategoryChildEntries(type.getChildEntries(),data.getItemId());
+				writeCategoryChildEntries(type.getChildEntry(),data.getItemId());
 				// only support child to the third level
-				for (CategoryEntryType child: type.getChildEntries()) {
-					writeCategoryChildEntries(child.getChildEntries(), child.getItemId());
+				for (CategoryEntryType child: type.getChildEntry()) {
+					writeCategoryChildEntries(child.getChildEntry(), child.getItemId());
 				}
 				entries.add(type);
 			}
@@ -307,8 +309,11 @@ public class ExportWriter {
 	}
 	
 	private byte[] getFileContentFromPath(String fileName) {
+		m_objLog.debug("getFileContentFromPath::start("+fileName+")");
 		byte[] result = null;
+		
 		if (fileName != null) {
+			fileName = fileName.replaceAll("//", "/");
 			String[] split = fileName.trim().split("/");
 			Long folderId = null;
 			Long groupId = null;
@@ -328,7 +333,7 @@ public class ExportWriter {
 					}
 				}
 			}
-			
+			m_objLog.debug("Looking up file "+title+" in folder "+folderId+" for group "+groupId);
 			if (title != null && folderId != null && groupId != null) {
 				try {
 	                List<DLFileEntry> files = DLFileEntryLocalServiceUtil.getFileEntries(groupId, folderId);
@@ -340,18 +345,27 @@ public class ExportWriter {
 	                	}
 	                }
 	                if (logoFile != null) {
+	                	
 	                	logoFile = logoFile.getLatestFileVersion(true).getFileEntry();
 						InputStream stream = DLFileEntryLocalServiceUtil.getFileAsStream(
 								logoFile.getUserId(), logoFile.getFileEntryId(),
 								logoFile.getVersion());
 						result = IOUtils.toByteArray(stream);
+						if (result != null) {
+							m_objLog.debug("Retrieved file "+logoFile.getFileEntryId()+" of size "+result.length);	
+						}	
+	                } else {
+	                	m_objLog.debug("Did not find logo file with name "+title+" in folder "+folderId+" for group "+groupId);
 	                }
                 } catch (Throwable t) {
 	                m_objLog.error("Error retrieving logo-file "+title,t);
                 }
 				
+			} else {
+				m_objLog.warn("Did not find logo file with name "+title+" in folder "+folderId+" for group "+groupId+" using base filename "+fileName);
 			}
 		}
+		m_objLog.debug("getFileContentFromPath::end("+fileName+")");
 		return result;
 	}
 }

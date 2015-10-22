@@ -2,9 +2,11 @@ package de.particity.impexp;
 
 import java.util.List;
 
-
 import javax.xml.bind.JAXBElement;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler;
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.particity.schemagen.impexpv100.CategoryType;
 import de.particity.schemagen.impexpv100.ConfigurationType;
 import de.particity.schemagen.impexpv100.ImportExportRoot;
@@ -20,16 +22,20 @@ public class ImportWriter {
 		// TODO - throw exception on invalid type
 		if (data != null) {
 			ImportExportRoot root = (ImportExportRoot) data.getValue();
-			initCategories(root.getCategories());
-			initConfig(root.getConfigs());
-			initOrganisations(root.getOrganisations());
-			initOffers(root.getOffers());
-			initSubscriptions(root.getSubscriptions());
+			initCategories(root.getCategory());
+			initConfig(root.getConfig());
+			initOrganisations(root.getOrganisation());
+			initOffers(root.getOffer());
+			initSubscriptions(root.getSubscription());
 		}
 	}
 	
 	public void initCategories(List<CategoryType> categories) {
-		
+		if (categories != null && categories.size() > 0) {
+			for (CategoryType type: categories) {
+				
+			}
+		}
 	}
 	
 	public void initConfig(List<ConfigurationType> config) {

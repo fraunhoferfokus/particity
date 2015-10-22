@@ -62,8 +62,10 @@
 		<private-session-attributes>true</private-session-attributes>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<footer-portlet-css>/css/main.css</footer-portlet-css>
+		<footer-portlet-css>/css/fileinput.min.css</footer-portlet-css>
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/backend.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/fileinput.min.js</footer-portlet-javascript>
 		<css-class-wrapper>ahadmin</css-class-wrapper>
 
 		<add-default-resource>true</add-default-resource>

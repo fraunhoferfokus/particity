@@ -34,8 +34,15 @@
 package de.fraunhofer.fokus.oefit.adhoc.portlet.admin;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -57,6 +64,10 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.util.PortalUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
@@ -173,6 +184,9 @@ public class AdminController extends BaseController {
 	        final Model model) {
 		m_objLog.debug("exportDatabase::start");
 		
+		ByteArrayOutputStream bout = null;
+		//GZIPOutputStream zipout = null;
+		
 		try {
 			HttpServletRequest httpServletRequest = (HttpServletRequest) PortalUtil
 					.getHttpServletRequest(request);
@@ -184,16 +198,63 @@ public class AdminController extends BaseController {
 					"must-revalidate, post-check=0, pre-check=0");
 			httpServletResponse.setHeader("Pragma", "public");
 			
+			
 			ExportWriter export = new ExportWriter();
-			GZIPInputStream zipin = new GZIPInputStream(new ByteArrayInputStream(export.writeToBytes()));
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM");
 			String dateStr = sdf.format(Calendar.getInstance().getTime());
+			String lrHome = PropsUtil.get(PropsKeys.LIFERAY_HOME);
 			
-			com.liferay.portal.kernel.servlet.ServletResponseUtil.sendFile(
-					httpServletRequest, httpServletResponse, "particity_"+dateStr+".xml.zip", zipin);
+			boolean toFileDone = false;
+			// write to file
+			if (lrHome != null) {
+				File lrBackupDir = new File(lrHome+File.separator+"backup");
+				if (!lrBackupDir.exists()) {
+					lrBackupDir.mkdir();
+				}
+				if (lrBackupDir.exists()) {
+					File backupFile = new File(lrBackupDir,"particity_"+dateStr+".xml");
+					if (backupFile.exists())
+						toFileDone = backupFile.delete();
+					if (!backupFile.exists()) {
+						toFileDone = backupFile.createNewFile();
+						if (toFileDone) {
+							FileOutputStream fout = new FileOutputStream(backupFile);
+							export.writeToStream(fout);
+							fout.flush();
+							fout.close();
+							//SessionMessages.add(request, "request_processed", "admin.jsp.db.export.success");
+							response.setRenderParameter("exportFilename", backupFile.getAbsolutePath());
+						} else {
+							m_objLog.warn("Could not create backup file at "+backupFile.getAbsolutePath());
+						}
+					}
+				} else {
+					m_objLog.warn("Could not create backup directory at "+lrBackupDir.getAbsolutePath());
+				}
+				
+			} else {
+				m_objLog.warn("Could not evaluate liferay home");
+			}
+			// if for any reason the file could not be written, try to send it to the client
+			if (!toFileDone) {
+				// write to client
+				bout = new ByteArrayOutputStream();
+				export.writeToStream(bout);
+				bout.flush();
+					
+				com.liferay.portal.kernel.servlet.ServletResponseUtil.sendFile(
+						httpServletRequest, httpServletResponse, "particity_"+dateStr+".xml", bout.toByteArray());
+			}
 		} catch (Throwable t) {
 			m_objLog.error("Error exporting data",t);
+		} finally {
+			if (bout != null) {
+				try {
+	                bout.close();
+                } catch (IOException e) {
+                }
+			}
 		}
 		
 		m_objLog.debug("exportDatabase::end");
@@ -218,6 +279,24 @@ public class AdminController extends BaseController {
 		return _CHECK_METHOD_ON_PROCESS_ACTION;
 	}
 
+	@RequestMapping(value = "view")
+	@ActionMapping(params = "action=importDatabase")
+	public void importDatabase(ActionRequest request, ActionResponse response) {
+	  m_objLog.debug("importDatabase::start");
+	  UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+	  Enumeration<?> paramEnum = uploadRequest.getParameterNames();
+	  File tempFile = uploadRequest.getFile("file");
+	  if (tempFile != null) {
+		  m_objLog.info("Got file "+tempFile.getName()+" of size "+tempFile.length());
+	  } else {
+		  while (paramEnum.hasMoreElements()){
+			 m_objLog.info("Got parameter "+paramEnum.nextElement());
+		  }  
+	  }
+	  
+	  m_objLog.debug("importDatabase::end");
+	}
+	
 	/**
 	 * Removes the category.
 	 *
