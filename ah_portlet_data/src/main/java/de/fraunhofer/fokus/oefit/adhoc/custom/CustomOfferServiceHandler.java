@@ -72,57 +72,8 @@ public class CustomOfferServiceHandler {
 	 * @return the offer model just added
 	 */
 	public static AHOffer addOffer(final OfferForm data) {
-		AHOffer result = null;
-
-		String countryName = data.getRegionCountry();
-
-		try {
-			final Long countryId = Long.parseLong(countryName);
-			final AHCategories countryCat = AHCategoriesLocalServiceUtil
-			        .getCategory(countryId);
-			if (countryCat != null) {
-				countryName = countryCat.getName();
-			}
-		} catch (final Throwable t) {
-			// m_objLog.warn(t);
-		}
-		String workHours = data.getWorkHours();
-
-		try {
-			final Long id = Long.parseLong(workHours);
-			final AHCategories cat = AHCategoriesLocalServiceUtil
-			        .getCategory(id);
-			if (cat != null) {
-				workHours = cat.getName();
-			}
-		} catch (final Throwable t) {
-			// m_objLog.warn(t);
-		}
-
-		final AHRegion region = AHRegionLocalServiceUtil.addRegion(
-		        data.getRegionCity(), data.getRegionCountry(),
-		        Integer.parseInt(data.getRegionZip()));
-		m_objLog.debug("Added/got region " + region.getRegionId());
-		final AHAddr address = AHAddrLocalServiceUtil.addAddress(
-		        data.getAddrStreet(), data.getAddrNum(), data.getAddrLat(),
-		        data.getAddrLon(), region.getRegionId());
-		m_objLog.debug("Added/got addr " + address.getAddrId());
-		final AHContact contact = AHContactLocalServiceUtil.addContact(
-		        data.getContactForename(), data.getContactSurname(),
-		        data.getContactTel(), null, data.getContactMail(), null);
-		final AHContact contact2 = AHContactLocalServiceUtil.addContact(
-		        data.getContactSndForename(), data.getContactSndSurname(),
-		        data.getContactSndTel(), null, data.getContactSndMail(), null);
-		m_objLog.debug("Added/got contact " + contact.getContactId());
 
 		final E_OfferType type = E_OfferType.valueOf(data.getType());
-
-		AHOrg org = null;
-		try {
-			org = AHOrgLocalServiceUtil.getAHOrg(data.getOrgId());
-		} catch (final Throwable t) {
-			m_objLog.error(t);
-		}
 
 		E_OfferWorkType workType = null;
 		try {
@@ -143,18 +94,77 @@ public class CustomOfferServiceHandler {
 		        data.getExpireDate(),
 		        data.getExpireTime());
 
+		int zip = 0;
+		try {
+			zip = Integer.parseInt(data.getRegionZip());
+		} catch (Throwable t) {}
+		
+		return addOffer(data.getOfferId(), data.getTitle(), data.getDescr(), data.getOrgId(), type, data.getContactForename(), data.getContactSurname(), data.getContactTel(), data.getContactMail(), data.getContactSndForename(), data.getContactSndSurname(), data.getContactSndTel(), data.getContactSndMail(), data.getAddrStreet(), data.getAddrNum(), data.getAddrLat(), data.getAddrLon(), data.getRegionCity(), data.getRegionCountry(), zip, data.getWorkHours(), workType, l_cats, publishDate, expireDate, data.isRequireAgencyContact());
+	}
+	
+	public static AHOffer addOffer(long offerId, String title, String descr, long orgId, E_OfferType offerType, String contact1Fn, String contact1Sn, String contact1Phone, String contact1Mail, String contact2Fn, String contact2Sn, String contact2Phone, String contact2Mail, String street, String streetNr, float lat, float lon, String city, String country, int zip, String workHours, E_OfferWorkType workType, long[] categories, long publishDateTime, long expireDateTime, boolean agencyContact) {
+		AHOffer result = null;
+
+		try {
+			final Long countryId = Long.parseLong(country);
+			final AHCategories countryCat = AHCategoriesLocalServiceUtil
+			        .getCategory(countryId);
+			if (countryCat != null) {
+				country = countryCat.getName();
+			}
+		} catch (final Throwable t) {
+			// m_objLog.warn(t);
+		}
+
+
+		try {
+			final Long countryId = Long.parseLong(country);
+			final AHCategories countryCat = AHCategoriesLocalServiceUtil
+			        .getCategory(countryId);
+			if (countryCat != null) {
+				country = countryCat.getName();
+			}
+		} catch (final Throwable t) {
+			// m_objLog.warn(t);
+		}
+
+		try {
+			final Long id = Long.parseLong(workHours);
+			final AHCategories cat = AHCategoriesLocalServiceUtil
+			        .getCategory(id);
+			if (cat != null) {
+				workHours = cat.getName();
+			}
+		} catch (final Throwable t) {
+			// m_objLog.warn(t);
+		}
+
+		final AHRegion region = AHRegionLocalServiceUtil.addRegion(city, country, zip);
+		m_objLog.debug("Added/got region " + region.getRegionId());
+		final AHAddr address = AHAddrLocalServiceUtil.addAddress(street, streetNr, lat, lon, region.getRegionId());
+		m_objLog.debug("Added/got addr " + address.getAddrId());
+		final AHContact contact = AHContactLocalServiceUtil.addContact(contact1Fn, contact1Sn, contact1Phone, null, contact1Mail, null);
+		final AHContact contact2 = AHContactLocalServiceUtil.addContact(contact2Fn, contact2Sn, contact2Phone, null, contact2Mail, null);
+		m_objLog.debug("Added/got contact " + contact.getContactId());
+
+		AHOrg org = null;
+		try {
+			org = AHOrgLocalServiceUtil.getAHOrg(orgId);
+		} catch (final Throwable t) {
+			m_objLog.error(t);
+		}
+
+
 		if (org != null && region != null && address != null && contact != null
 		        && workType != null) {
-			result = AHOfferLocalServiceUtil.addOffer(data.getOfferId(), type,
-			        data.getTitle(),
-			        data.getDescr(), workHours, workType,
-			        publishDate, expireDate,
+			result = AHOfferLocalServiceUtil.addOffer(offerId, offerType,
+			        title, descr, workHours, workType,publishDateTime, expireDateTime,
 			        address.getAddrId(), contact.getContactId(),
-			        contact2.getContactId(), data.isRequireAgencyContact(),
-			        data.getOrgId(), l_cats);
+			        contact2.getContactId(), agencyContact,
+			        orgId, categories);
 		} else {
 			m_objLog.error("Unexpected values while adding/updating offer "
-			        + data.getOfferId());
+			        + offerId);
 		}
 
 		return result;

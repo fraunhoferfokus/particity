@@ -541,8 +541,8 @@ public class AHCatEntriesLocalServiceUtil {
     }
 
     public static de.fraunhofer.fokus.oefit.particity.model.AHCatEntries addCategoryEntry(
-        java.lang.String catId, java.lang.String name,
-        java.lang.String description, java.lang.String parentId) {
+        long catId, java.lang.String name, java.lang.String description,
+        long parentId) {
         return getService().addCategoryEntry(catId, name, description, parentId);
     }
 

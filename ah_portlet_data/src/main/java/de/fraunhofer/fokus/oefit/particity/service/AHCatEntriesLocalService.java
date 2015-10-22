@@ -460,8 +460,8 @@ public interface AHCatEntriesLocalService extends BaseLocalService,
         throws java.lang.Throwable;
 
     public de.fraunhofer.fokus.oefit.particity.model.AHCatEntries addCategoryEntry(
-        java.lang.String catId, java.lang.String name,
-        java.lang.String description, java.lang.String parentId);
+        long catId, java.lang.String name, java.lang.String description,
+        long parentId);
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> getCategoryEntries(

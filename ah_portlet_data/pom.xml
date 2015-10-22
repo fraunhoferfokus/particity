@@ -62,6 +62,8 @@
 										</bindingIncludes>
 										<extension>true</extension>
 										<generateDirectory>src/main/java</generateDirectory>
+										<!-- limit plugin to not scan whole source tree :) -->
+								    <produces><produce>nothing</produce></produces>
 										<args>
 						            <arg>-Xannotate</arg>
 						        </args>

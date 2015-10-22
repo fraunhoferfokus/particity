@@ -27,6 +27,7 @@
     		<element name="updated" type="long"></element>
     		<element name="status" type="string"></element>
     		<element name="logo" type="base64Binary"></element>
+    		<element name="logoFilename" type="string"></element>
     		<element name="address" type="tns:AddressType"></element>
     		<element name="contact" type="tns:ContactType"></element>
     	</sequence>
@@ -34,11 +35,12 @@
 
     <complexType name="OfferType">
     	<sequence>
+    	  <element name="orgId" type="long"></element>
     		<element name="offerId" type="long"></element>
     		<element name="title" type="string"></element>
     		<element name="description" type="string"></element>
     		<element name="workTime" type="string"></element>
-    		<element name="workType" type="int"></element>
+    		<element name="workType" type="string"></element>
     		<element name="type" type="string"></element>
     		<element name="status" type="string"></element>
     		<element name="socialStatus" type="int"></element>
@@ -70,7 +72,7 @@
         <element name="catId" type="long"></element>
         <element name="name" type="string"></element>
         <element name="descr" type="string"></element>
-        <element name="type" type="int"></element>
+        <element name="type" type="string"></element>
         <element name="entry" type="tns:CategoryEntryType" maxOccurs="unbounded" minOccurs="0"></element>
       </sequence>
     </complexType>
@@ -81,7 +83,6 @@
         <element name="catId" type="long"></element>
         <element name="name" type="string"></element>
         <element name="descr" type="string"></element>
-        <element name="type" type="int"></element>
         <element name="childEntry" type="tns:CategoryEntryType" maxOccurs="unbounded" minOccurs="0"></element>
       </sequence>
     </complexType>

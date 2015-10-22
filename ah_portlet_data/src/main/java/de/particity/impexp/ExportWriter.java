@@ -18,9 +18,11 @@ import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portlet.documentlibrary.model.DLFileEntry;
 import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
 import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
 import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
@@ -49,6 +51,15 @@ import de.particity.schemagen.impexpv100.OfferType;
 import de.particity.schemagen.impexpv100.OrganisationType;
 import de.particity.schemagen.impexpv100.SubscriptionType;
 
+/**
+ * Exporter that converts all relevant database-entries to an XML-format
+ * 
+ * This implementation MUST always use the latest JAXB-objects of the
+ * current schema
+ * 
+ * @author sma
+ *
+ */
 public class ExportWriter {
 
 	private Log m_objLog = LogFactoryUtil.getLog(ExportWriter.class);
@@ -99,7 +110,7 @@ public class ExportWriter {
 						catType.setCatId(cat.getCatId());
 						catType.setDescr(cat.getDescr());
 						catType.setName(cat.getName());
-						catType.setType(cat.getType());
+						catType.setType(E_CategoryType.findByValue(cat.getType()).name());
 						categories.add(catType);
 						writeCategoryEntries(catType.getEntry(), cat.getCatId());
 					}
@@ -188,7 +199,10 @@ public class ExportWriter {
 						type.setOwner(data.getOwner());
 						type.setOrgId(data.getOrgId());
 						type.setName(data.getName());
-						type.setLogo(getFileContentFromPath(data.getLogoLocation()));
+						DLFileEntry logoFile = getFileFromPath(data.getLogoLocation());
+						type.setLogo(getFileContent(logoFile));
+						if (logoFile != null)
+							type.setLogoFilename(logoFile.getName());
 						type.setLegalStatus(data.getLegalStatus());
 						type.setHolder(data.getHolder());
 						type.setDescription(data.getDescription());
@@ -216,7 +230,7 @@ public class ExportWriter {
 					for (int j=0; j<list.size(); j++) {
 						data= list.get(j);
 						type = new OfferType();
-						type.setWorkType(data.getWorkType());
+						type.setWorkType(E_OfferWorkType.findByValue(data.getWorkType()).name());
 						type.setWorkTime(data.getWorkTime());
 						type.setUpdated(data.getUpdated());
 						type.setType(E_OfferType.findByValue(data.getType()).name());
@@ -232,6 +246,21 @@ public class ExportWriter {
 						type.setAddress(getAddressType(data.getAdressId()));
 						type.setContact(getContactType(data.getContactId()));
 						type.setSndContact(getContactType(data.getSndContactId()));
+						List<AHCatEntries> entries = AHOfferLocalServiceUtil.getCategoriesByOffer(data.getOfferId(), E_CategoryType.SEARCH);
+						List<AHCatEntries> services = AHOfferLocalServiceUtil.getCategoriesByOffer(data.getOfferId(), E_CategoryType.OFFERCATS);
+						List<AHCatEntries> itemlist = entries;
+						if (itemlist == null || itemlist.size() == 0)
+							itemlist = services;
+						else if (services != null && services.size() > 0)
+							itemlist.addAll(services);
+						if (itemlist != null && itemlist.size() > 0) {
+							List<CategoryEntryType> cats = type.getCategoryItem();
+							for (AHCatEntries entry: itemlist) {
+								CategoryEntryType cet = new CategoryEntryType();
+								cet.setItemId(entry.getItemId());
+								cats.add(cet);
+							}
+						}
 						offers.add(type);
 					}
 				}
@@ -257,6 +286,15 @@ public class ExportWriter {
 						type.setEmail(data.getEmail());
 						type.setStatus(data.getStatus());
 						type.setUuid(data.getUuid());
+						List<AHCatEntries> entries = AHSubscriptionLocalServiceUtil.getCategoriesBySubscription(data.getSubId());
+						if (entries != null && entries.size() > 0) {
+							List<CategoryEntryType> cats = type.getCategories();
+							for (AHCatEntries entry: entries) {
+								CategoryEntryType cet = new CategoryEntryType();
+								cet.setItemId(entry.getItemId());
+								cats.add(cet);
+							}
+						}
 					}
 				}
 			}
@@ -308,9 +346,9 @@ public class ExportWriter {
 		return addrType;
 	}
 	
-	private byte[] getFileContentFromPath(String fileName) {
-		m_objLog.debug("getFileContentFromPath::start("+fileName+")");
-		byte[] result = null;
+	private DLFileEntry getFileFromPath(String fileName) {
+		m_objLog.debug("getFileFromPath::start("+fileName+")");
+		DLFileEntry result = null;
 		
 		if (fileName != null) {
 			fileName = fileName.replaceAll("//", "/");
@@ -346,14 +384,8 @@ public class ExportWriter {
 	                }
 	                if (logoFile != null) {
 	                	
-	                	logoFile = logoFile.getLatestFileVersion(true).getFileEntry();
-						InputStream stream = DLFileEntryLocalServiceUtil.getFileAsStream(
-								logoFile.getUserId(), logoFile.getFileEntryId(),
-								logoFile.getVersion());
-						result = IOUtils.toByteArray(stream);
-						if (result != null) {
-							m_objLog.debug("Retrieved file "+logoFile.getFileEntryId()+" of size "+result.length);	
-						}	
+	                	result = logoFile.getLatestFileVersion(true).getFileEntry();
+							
 	                } else {
 	                	m_objLog.debug("Did not find logo file with name "+title+" in folder "+folderId+" for group "+groupId);
 	                }
@@ -365,7 +397,25 @@ public class ExportWriter {
 				m_objLog.warn("Did not find logo file with name "+title+" in folder "+folderId+" for group "+groupId+" using base filename "+fileName);
 			}
 		}
-		m_objLog.debug("getFileContentFromPath::end("+fileName+")");
+		m_objLog.debug("getFileFromPath::end("+fileName+")");
+		return result;
+	}
+	
+	private byte[] getFileContent(DLFileEntry dfile) {
+		m_objLog.debug("getFileContent::start()");
+		byte[] result = null;
+		
+		if (dfile != null) {
+			try {
+				InputStream stream = DLFileEntryLocalServiceUtil.getFileAsStream(
+						dfile.getUserId(), dfile.getFileEntryId(),
+						dfile.getVersion());
+				result = IOUtils.toByteArray(stream);
+			} catch (Throwable t) {
+				m_objLog.error("Error retrieving file contents",t);
+			}
+		}
+		m_objLog.debug("getFileContent::end()");
 		return result;
 	}
 }

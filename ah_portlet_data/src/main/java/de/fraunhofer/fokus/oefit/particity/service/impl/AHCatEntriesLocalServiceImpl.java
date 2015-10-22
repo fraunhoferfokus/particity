@@ -82,40 +82,24 @@ public class AHCatEntriesLocalServiceImpl
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalService#addCategoryEntry(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public AHCatEntries addCategoryEntry(final String catId, final String name,
-	        final String description, final String parentId) {
+	public AHCatEntries addCategoryEntry(long catId, final String name,
+	        final String description, long parentId) {
 		AHCatEntries result = null;
 
-		Long l_parentId = null;
-		Long l_catId = null;
-		if (parentId != null && parentId.trim().length() > 0) {
-			try {
-				l_parentId = Long.parseLong(parentId);
-			} catch (final Throwable t) {
-			}
-		}
-		if (catId != null && catId.trim().length() > 0) {
-			try {
-				l_catId = Long.parseLong(catId);
-			} catch (final Throwable t) {
-			}
-		}
-		if (l_parentId == null) {
-			l_parentId = -1L;
-		}
-		if (name != null && l_catId != null) {
+		
+		if (name != null && catId >= 0) {
 			try {
 				result = this.createAHCatEntries(CounterLocalServiceUtil
 				        .increment(AHCatEntries.class.getName()));
 				result.setName(name);
 				result.setDescr(description);
-				result.setCatId(l_catId);
-				result.setParentId(l_parentId);
+				result.setCatId(catId);
+				result.setParentId(parentId);
 				result = this.updateAHCatEntries(result);
 
 				m_objLog.info("Added category item " + result.getName()
 				        + " in category " + catId + " with parent "
-				        + l_parentId);
+				        + parentId);
 			} catch (final SystemException e) {
 				m_objLog.error(e);
 			}

@@ -33,7 +33,6 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.portlet.admin;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,10 +40,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -60,26 +55,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.util.PortalUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
-import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.forms.CategoryForm;
 import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
 import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
 import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
-import de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
 import de.particity.impexp.ExportWriter;
 
 /**
@@ -123,9 +114,7 @@ public class AdminController extends BaseController {
 		if (data != null) {
 			response.setRenderParameter("catId", data.getCat());
 			response.setRenderParameter("catType", data.getType());
-			final AHCatEntries entry = AHCatEntriesLocalServiceUtil
-			        .addCategoryEntry(data.getCat(), data.getName(),
-			                data.getDescr(), data.getParent());
+			final AHCatEntries entry = CustomCategoryServiceHandler.addCategoryEntry(data);
 			if (entry != null) {
 				data.clear();
 			}
@@ -157,22 +146,15 @@ public class AdminController extends BaseController {
 		m_objLog.debug("addMainCategory::start");
 
 		if (data != null) {
-			try {
-
 				AHCategories cat = null;
 				final E_CategoryType type = E_CategoryType.valueOf(data
 				        .getType());
-				cat = AHCategoriesLocalServiceUtil.addCategory(data.getName(),
-				        data.getDescr(), type);
+				cat = CustomCategoryServiceHandler.addMainCategory(data, type);
 				response.setRenderParameter("catType", data.getType());
 
 				if (cat != null) {
 					data.clear();
 				}
-			} catch (final SystemException e) {
-				m_objLog.error(e);
-				// response.setRenderParameter("error", "project.wrongcapture");
-			}
 		}
 
 		m_objLog.debug("addMainCategory::end");
@@ -322,7 +304,7 @@ public class AdminController extends BaseController {
 			response.setRenderParameter("catId", catId);
 			final Long l_catId = Long.parseLong(catId);
 			if (l_catId != null) {
-				AHCategoriesLocalServiceUtil.deleteCategoryById(l_catId);
+				CustomCategoryServiceHandler.deleteMainCategory(l_catId);
 			}
 		}
 
@@ -355,8 +337,7 @@ public class AdminController extends BaseController {
 			response.setRenderParameter("catId", catId);
 			final Long l_itemId = Long.parseLong(itemId);
 			if (l_itemId != null) {
-				CustomPersistanceServiceHandler
-				        .deleteCategoryEntryById(l_itemId);
+				CustomCategoryServiceHandler.deleteCategoryEntry(l_itemId);
 			}
 		}
 

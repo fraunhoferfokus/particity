@@ -15,6 +15,9 @@ import javax.naming.directory.SchemaViolationException;
  */
 public enum E_SchemaVersion {
 	
+	/**
+	 * Schema version 1.0.0, no predecessor known
+	 */
 	V100(1,0,0,true,null),
 	//V200(2,0,0,V0100)
 	;

@@ -33,8 +33,8 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.custom;
 
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -104,9 +104,9 @@ public class CustomOrgServiceHandler {
 		        form.getHolder(), form.getDescr(), form.getLegalState(),
 		        form.getAddrStreet(),
 		        form.getAddrNum(), form.getRegionCity(),
-		        form.getRegionCountry(), form.getRegionZip(),
+		        form.getRegionCountry(), form.getRegionZip() != null ? Integer.parseInt(form.getRegionZip()) : -1,
 		        form.getContactPhone(), form.getContactFax(),
-		        form.getContactMail(), form.getContactWeb(), form.getLogoFile());
+		        form.getContactMail(), form.getContactWeb(), form.getLogoFile(), 0, 0);
 	}
 
 	/**
@@ -138,9 +138,9 @@ public class CustomOrgServiceHandler {
 	        final String holder, final String descr, final String legalStatus,
 	        final String street,
 	        final String streetNumber, final String city, final String country,
-	        final String zip,
+	        final int zip,
 	        final String tel, final String fax, final String mail,
-	        final String web, final CommonsMultipartFile logo) {
+	        final String web, final CommonsMultipartFile logo, float coordsLat, float coordsLon) {
 		AHOrg result = null;
 
 		String countryName = country;
@@ -158,7 +158,7 @@ public class CustomOrgServiceHandler {
 
 		final AHRegion region = AHRegionLocalServiceUtil.addRegion(city,
 		        countryName,
-		        Integer.parseInt(zip));
+		        zip);
 		final AHAddr address = AHAddrLocalServiceUtil.addAddress(street,
 		        streetNumber, null, null, region.getRegionId());
 		final AHContact contact = AHContactLocalServiceUtil.addContact(null,
@@ -398,9 +398,14 @@ public class CustomOrgServiceHandler {
 		return result;
 	}
 
-	private static String updateLogo(final long companyId, final long userId,
+	public static String updateLogo(final long companyId, final long userId,
 	        final long groupId, final long orgId,
 	        final CommonsMultipartFile logo) {
+		return updateLogo(companyId, userId, groupId, orgId, logo.getBytes(), logo.getOriginalFilename());
+	}
+	
+	public static String updateLogo(final long companyId, final long userId,
+	        final long groupId, final long orgId, byte[] logoData, String logoName) {
 
 		String fileName = Long.toString(orgId) + ".img";
 
@@ -445,22 +450,17 @@ public class CustomOrgServiceHandler {
 				if (file == null) {
 
 					file = DLFileEntryLocalServiceUtil.addFileEntry(userId,
-					        groupId, groupId, parentId, logo
-					                .getOriginalFilename(),
-					        MimeTypesUtil.getContentType(logo
-					                .getOriginalFilename()), fileName, "", "",
-					        -1L, new HashMap<String, Fields>(), null, logo
-					                .getInputStream(), logo.getSize(), ctx);
+					        groupId, groupId, parentId, fileName,
+					        MimeTypesUtil.getContentType(fileName), fileName, "", "",
+					        -1L, new HashMap<String, Fields>(), null, new ByteArrayInputStream(logoData), logoData.length, ctx);
 
 					m_objLog.debug("File " + fileName + " added!");
 				} else {
 					file = DLFileEntryLocalServiceUtil.updateFileEntry(userId,
-					        file.getFileEntryId(), logo.getOriginalFilename(),
-					        MimeTypesUtil.getContentType(logo
-					                .getOriginalFilename()), fileName, "", "",
+					        file.getFileEntryId(), fileName,
+					        MimeTypesUtil.getContentType(fileName), fileName, "", "",
 					        false, file.getFileEntryTypeId(),
-					        new HashMap<String, Fields>(), null, logo
-					                .getInputStream(), logo.getSize(), ctx);
+					        new HashMap<String, Fields>(), null, new ByteArrayInputStream(logoData), logoData.length, ctx);
 					m_objLog.debug("File " + fileName + " updated!");
 				}
 				if (file != null) {

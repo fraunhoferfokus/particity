@@ -13,9 +13,16 @@ import org.xml.sax.InputSource;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 
 import de.particity.impexp.imp.Importer100;
 
+/**
+ * Internally provides importer implementations for different schema versions
+ * 
+ * @author sma
+ *
+ */
 public class ImporterFactory {
 	
 	private Log m_objLog = LogFactoryUtil.getLog(ImporterFactory.class);
@@ -38,7 +45,7 @@ public class ImporterFactory {
 		return result;
 	}
 	
-	public void importData(InputStream xmlData) {
+	public void importData(InputStream xmlData, long companyId, long groupId, long userId) {
 		E_SchemaVersion ver = getSchemaVersionFromXmlData(xmlData);
 		if (ver != null) {
 			List<E_SchemaVersion> upgradePath = E_SchemaVersion.getUpgradePath(ver);
@@ -56,7 +63,7 @@ public class ImporterFactory {
 				}
 			}
 			if (objData != null) {
-				ImportWriter writer = new ImportWriter();
+				ImportWriter writer = new ImportWriter(userId,groupId,companyId);
 				writer.write(objData);
 			}
 		}

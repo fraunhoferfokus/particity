@@ -362,8 +362,7 @@ public class AHCatEntriesLocalServiceClp implements AHCatEntriesLocalService {
         _methodName51 = "addCategoryEntry";
 
         _methodParameterTypes51 = new String[] {
-                "java.lang.String", "java.lang.String", "java.lang.String",
-                "java.lang.String"
+                "long", "java.lang.String", "java.lang.String", "long"
             };
 
         _methodName52 = "getCategoryEntries";
@@ -1718,21 +1717,21 @@ public class AHCatEntriesLocalServiceClp implements AHCatEntriesLocalService {
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHCatEntries addCategoryEntry(
-        java.lang.String catId, java.lang.String name,
-        java.lang.String description, java.lang.String parentId) {
+        long catId, java.lang.String name, java.lang.String description,
+        long parentId) {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName51,
                     _methodParameterTypes51,
                     new Object[] {
-                        ClpSerializer.translateInput(catId),
+                        catId,
                         
                     ClpSerializer.translateInput(name),
                         
                     ClpSerializer.translateInput(description),
                         
-                    ClpSerializer.translateInput(parentId)
+                    parentId
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
