@@ -20,7 +20,7 @@ public interface I_Importer {
 	 * @param xmlData The XML-data as stream
 	 * @return The JAXBElement containing a XML-structured version of the input stream
 	 */
-	public JAXBElement importData(InputStream xmlData);
+	public JAXBElement importData(InputStream xmlData) throws ImportFailedException;
 
 	/**
 	 * Convert data from another version (always the former schema version)
@@ -29,5 +29,5 @@ public interface I_Importer {
 	 * @param xmlObj structured XML from a previous schema-version
 	 * @return structured XML converted to the current schema-version provided by this specific implementation
 	 */
-	public JAXBElement convertData(JAXBElement xmlObj);
+	public JAXBElement convertData(JAXBElement xmlObj) throws ImportFailedException;
 }

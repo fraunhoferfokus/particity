@@ -95,6 +95,8 @@ public class AHSubscriptionLocalServiceClpInvoker {
     private String[] _methodParameterTypes101;
     private String _methodName102;
     private String[] _methodParameterTypes102;
+    private String _methodName103;
+    private String[] _methodParameterTypes103;
 
     public AHSubscriptionLocalServiceClpInvoker() {
         _methodName0 = "addAHSubscription";
@@ -264,37 +266,44 @@ public class AHSubscriptionLocalServiceClpInvoker {
 
         _methodParameterTypes94 = new String[] { "java.lang.String", "long[][]" };
 
-        _methodName95 = "getCategoriesBySubscription";
+        _methodName95 = "addSubscription";
 
-        _methodParameterTypes95 = new String[] { "long" };
+        _methodParameterTypes95 = new String[] {
+                "java.lang.String", "long[][]", "java.lang.String",
+                "de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus"
+            };
 
-        _methodName96 = "getCategoriesBySubscriptionAsString";
+        _methodName96 = "getCategoriesBySubscription";
 
         _methodParameterTypes96 = new String[] { "long" };
 
-        _methodName97 = "getSubscriptionsByMail";
+        _methodName97 = "getCategoriesBySubscriptionAsString";
 
-        _methodParameterTypes97 = new String[] { "java.lang.String" };
+        _methodParameterTypes97 = new String[] { "long" };
 
-        _methodName98 = "getSubscriptionsByUuid";
+        _methodName98 = "getSubscriptionsByMail";
 
         _methodParameterTypes98 = new String[] { "java.lang.String" };
 
-        _methodName99 = "getUserAddresses";
+        _methodName99 = "getSubscriptionsByUuid";
 
-        _methodParameterTypes99 = new String[] {  };
+        _methodParameterTypes99 = new String[] { "java.lang.String" };
 
-        _methodName100 = "getUserAddressesByCatItems";
+        _methodName100 = "getUserAddresses";
 
-        _methodParameterTypes100 = new String[] { "java.lang.Long[][]" };
+        _methodParameterTypes100 = new String[] {  };
 
-        _methodName101 = "removeSubscription";
+        _methodName101 = "getUserAddressesByCatItems";
 
-        _methodParameterTypes101 = new String[] { "long" };
+        _methodParameterTypes101 = new String[] { "java.lang.Long[][]" };
 
-        _methodName102 = "setSubscriptionStatus";
+        _methodName102 = "removeSubscription";
 
-        _methodParameterTypes102 = new String[] {
+        _methodParameterTypes102 = new String[] { "long" };
+
+        _methodName103 = "setSubscriptionStatus";
+
+        _methodParameterTypes103 = new String[] {
                 "long",
                 "de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus"
             };
@@ -524,43 +533,50 @@ public class AHSubscriptionLocalServiceClpInvoker {
 
         if (_methodName95.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes95, parameterTypes)) {
-            return AHSubscriptionLocalServiceUtil.getCategoriesBySubscription(((Long) arguments[0]).longValue());
+            return AHSubscriptionLocalServiceUtil.addSubscription((java.lang.String) arguments[0],
+                (long[]) arguments[1], (java.lang.String) arguments[2],
+                (de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus) arguments[3]);
         }
 
         if (_methodName96.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes96, parameterTypes)) {
-            return AHSubscriptionLocalServiceUtil.getCategoriesBySubscriptionAsString(((Long) arguments[0]).longValue());
+            return AHSubscriptionLocalServiceUtil.getCategoriesBySubscription(((Long) arguments[0]).longValue());
         }
 
         if (_methodName97.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes97, parameterTypes)) {
-            return AHSubscriptionLocalServiceUtil.getSubscriptionsByMail((java.lang.String) arguments[0]);
+            return AHSubscriptionLocalServiceUtil.getCategoriesBySubscriptionAsString(((Long) arguments[0]).longValue());
         }
 
         if (_methodName98.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes98, parameterTypes)) {
-            return AHSubscriptionLocalServiceUtil.getSubscriptionsByUuid((java.lang.String) arguments[0]);
+            return AHSubscriptionLocalServiceUtil.getSubscriptionsByMail((java.lang.String) arguments[0]);
         }
 
         if (_methodName99.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes99, parameterTypes)) {
-            return AHSubscriptionLocalServiceUtil.getUserAddresses();
+            return AHSubscriptionLocalServiceUtil.getSubscriptionsByUuid((java.lang.String) arguments[0]);
         }
 
         if (_methodName100.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes100, parameterTypes)) {
-            return AHSubscriptionLocalServiceUtil.getUserAddressesByCatItems((java.lang.Long[]) arguments[0]);
+            return AHSubscriptionLocalServiceUtil.getUserAddresses();
         }
 
         if (_methodName101.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes101, parameterTypes)) {
+            return AHSubscriptionLocalServiceUtil.getUserAddressesByCatItems((java.lang.Long[]) arguments[0]);
+        }
+
+        if (_methodName102.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes102, parameterTypes)) {
             AHSubscriptionLocalServiceUtil.removeSubscription(((Long) arguments[0]).longValue());
 
             return null;
         }
 
-        if (_methodName102.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes102, parameterTypes)) {
+        if (_methodName103.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes103, parameterTypes)) {
             AHSubscriptionLocalServiceUtil.setSubscriptionStatus(((Long) arguments[0]).longValue(),
                 (de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus) arguments[1]);
 

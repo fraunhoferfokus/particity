@@ -239,7 +239,7 @@ public class CustomPortalServiceHandler {
 	 */
 	public static User createPortalUser(final String firstName,
 	        final String lastName, final String mail, final long companyId,
-	        final Locale locale) {
+	        final Locale locale, boolean sendMail) {
 
 		User user = null;
 		try {
@@ -258,7 +258,7 @@ public class CustomPortalServiceHandler {
 				        true, null, mail, 0L, "", locale, firstName, "",
 				        lastName,
 				        0, 0, false, 0, 1, 1970, "", null, null,
-				        new long[] { orgRole.getRoleId() }, null, true,
+				        new long[] { orgRole.getRoleId() }, null, sendMail,
 				        new ServiceContext());
 			}
 

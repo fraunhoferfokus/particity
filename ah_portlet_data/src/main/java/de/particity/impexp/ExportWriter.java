@@ -3,7 +3,9 @@ package de.particity.impexp;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 import javax.xml.bind.JAXBContext;
@@ -15,6 +17,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.model.User;
+import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.service.persistence.UserUtil;
 import com.liferay.portlet.documentlibrary.model.DLFileEntry;
 import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
 
@@ -24,6 +29,7 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
 import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
 import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
 import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
@@ -50,6 +56,7 @@ import de.particity.schemagen.impexpv100.ImportExportRoot;
 import de.particity.schemagen.impexpv100.OfferType;
 import de.particity.schemagen.impexpv100.OrganisationType;
 import de.particity.schemagen.impexpv100.SubscriptionType;
+import de.particity.util.PersistentLog;
 
 /**
  * Exporter that converts all relevant database-entries to an XML-format
@@ -63,6 +70,18 @@ import de.particity.schemagen.impexpv100.SubscriptionType;
 public class ExportWriter {
 
 	private Log m_objLog = LogFactoryUtil.getLog(ExportWriter.class);
+	
+	public static final String LOG_CATEGORIES = "ExpCat";
+	public static final String LOG_CONFIG = "ExpCfg";
+	public static final String LOG_ORGANISATIONS = "ExpOrg";
+	public static final String LOG_OFFERS = "ExpOffer";
+	public static final String LOG_SUBSCRIPTIONS = "ExpSub";
+	
+	private long m_numCompanyId = -1;
+	
+	public ExportWriter(long companyId) {
+		m_numCompanyId = companyId;
+	}
 	
 	public byte[] writeToBytes() {
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -96,6 +115,7 @@ public class ExportWriter {
 	}
 	
 	private void writeCategories(List<CategoryType> categories) {
+		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_CATEGORIES);
 		try {
 			int size = AHCategoriesLocalServiceUtil.getAHCategoriesesCount();
 			List<AHCategories> cats = null;
@@ -113,16 +133,19 @@ public class ExportWriter {
 						catType.setType(E_CategoryType.findByValue(cat.getType()).name());
 						categories.add(catType);
 						writeCategoryEntries(catType.getEntry(), cat.getCatId());
+						log.log(cat.getName());
 					}
 				}
 			}
 		} catch (Throwable t) {
+			log.err(t.getMessage());
 			m_objLog.error("Error on category export",t);
 		}
 		
 	}
 	
 	private void writeCategoryEntries(List<CategoryEntryType> entries, long catId) {
+		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().getLog(LOG_CATEGORIES);
 		try {
 			List<AHCatEntries> list = AHCatEntriesLocalServiceUtil.getCategoryEntries(catId);
 			AHCatEntries data = null;
@@ -135,6 +158,7 @@ public class ExportWriter {
 				type.setName(data.getName());
 				type.setDescr(data.getDescr());
 				writeCategoryChildEntries(type.getChildEntry(),data.getItemId());
+				log.log(data.getName());
 				// only support child to the third level
 				for (CategoryEntryType child: type.getChildEntry()) {
 					writeCategoryChildEntries(child.getChildEntry(), child.getItemId());
@@ -142,11 +166,13 @@ public class ExportWriter {
 				entries.add(type);
 			}
 		} catch (Throwable t) {
+			log.err(t.getMessage());
 			m_objLog.error("Error on category entries export",t);
 		}
 	}
 	
 	private void writeCategoryChildEntries(List<CategoryEntryType> childs, long itemId) {
+		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().getLog(LOG_CATEGORIES);
 		try {
 			List<AHCatEntries> list = AHCatEntriesLocalServiceUtil.getChildEntriesById(itemId);
 			AHCatEntries data = null;
@@ -159,13 +185,16 @@ public class ExportWriter {
 				type.setName(data.getName());
 				type.setDescr(data.getDescr());
 				childs.add(type);
+				log.log(data.getName());
 			}
 		} catch (Throwable t) {
+			log.err(t.getMessage());
 			m_objLog.error("Error on category entries export",t);
 		}
 	}
 	
 	private void writeConfig(List<ConfigurationType> config) {
+		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_CONFIG);
 		try {
 			ConfigurationType cfgObj = null;
 			String value = null;
@@ -175,13 +204,16 @@ public class ExportWriter {
 				cfgObj.setKey(ckey.name());
 				cfgObj.setValue(value);
 				config.add(cfgObj);
+				log.log(ckey.name());
 			}
 		} catch (Throwable t) {
+			log.err(t.getMessage());
 			m_objLog.error("Error on category entries export",t);
 		}
 	}
 	
 	private void writeOrganisations(List<OrganisationType> organisations) {
+		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_ORGANISATIONS);
 		try {
 			int size = AHOrgLocalServiceUtil.getAHOrgsCount();
 			List<AHOrg> list = null;
@@ -209,16 +241,23 @@ public class ExportWriter {
 						type.setCreated(data.getCreated());
 						type.setAddress(getAddressType(data.getAddressId()));
 						type.setContact(getContactType(data.getContactId()));
+						User lrUser = UserLocalServiceUtil.getUserByEmailAddress(m_numCompanyId, data.getOwner());
+						if (lrUser != null) {
+							type.setLoginPassword(lrUser.getPassword());
+						}
 						organisations.add(type);
+						log.log(data.getName());
 					}
 				}
 			}
 		} catch (Throwable t) {
+			log.err(t.getMessage());
 			m_objLog.error("Error on organisation export",t);
 		}
 	}
 	
 	private void writeOffers(List<OfferType> offers) {
+		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_OFFERS);
 		try {
 			int size = AHOfferLocalServiceUtil.getAHOffersCount();
 			List<AHOffer> list = null;
@@ -259,18 +298,21 @@ public class ExportWriter {
 								CategoryEntryType cet = new CategoryEntryType();
 								cet.setItemId(entry.getItemId());
 								cats.add(cet);
-							}
+							} 
 						}
 						offers.add(type);
+						log.log(data.getOfferId()+" - "+data.getTitle());
 					}
 				}
 			}
 		} catch (Throwable t) {
+			log.err(t.getMessage());
 			m_objLog.error("Error on offer export",t);
 		}
 	}
 	
 	private void writeSubscriptions(List<SubscriptionType> subscriptions) {
+		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_SUBSCRIPTIONS);
 		try {
 			int size = AHSubscriptionLocalServiceUtil.getAHSubscriptionsCount();
 			List<AHSubscription> list = null;
@@ -284,7 +326,7 @@ public class ExportWriter {
 						type = new SubscriptionType();
 						type.setCreated(data.getCreated());
 						type.setEmail(data.getEmail());
-						type.setStatus(data.getStatus());
+						type.setStatus(E_SubscriptionStatus.findByValue(data.getStatus()).name());
 						type.setUuid(data.getUuid());
 						List<AHCatEntries> entries = AHSubscriptionLocalServiceUtil.getCategoriesBySubscription(data.getSubId());
 						if (entries != null && entries.size() > 0) {
@@ -295,10 +337,13 @@ public class ExportWriter {
 								cats.add(cet);
 							}
 						}
+						subscriptions.add(type);
+						log.log(data.getEmail());
 					}
 				}
 			}
 		} catch (Throwable t) {
+			log.err(t.getMessage());
 			m_objLog.error("Error on offer export",t);
 		}
 	}
@@ -417,5 +462,40 @@ public class ExportWriter {
 		}
 		m_objLog.debug("getFileContent::end()");
 		return result;
+	}
+	
+	
+	public Map<String, String> getLog() {
+		Map<String, String> result = new HashMap<String, String>();
+		
+		PersistentLog pl = PersistentLog.getInstance();
+		
+		de.particity.util.PersistentLog.Log log = pl.getLog(LOG_CATEGORIES);
+		if (log != null)
+			result.put(LOG_CATEGORIES,log.toString());
+		log = pl.getLog(LOG_CONFIG);
+		if (log != null)
+			result.put(LOG_CONFIG,log.toString());
+		log = pl.getLog(LOG_OFFERS);
+		if (log != null)
+			result.put(LOG_OFFERS,log.toString());
+		log = pl.getLog(LOG_ORGANISATIONS);
+		if (log != null)
+			result.put(LOG_ORGANISATIONS,log.toString());
+		log = pl.getLog(LOG_SUBSCRIPTIONS);
+		if (log != null)
+			result.put(LOG_SUBSCRIPTIONS,log.toString());
+		
+		return result;
+	}
+	
+	public void cleanup() {
+		PersistentLog pl = PersistentLog.getInstance();
+		pl.removeLog(LOG_CATEGORIES);
+		pl.removeLog(LOG_CONFIG);
+		pl.removeLog(LOG_OFFERS);
+		pl.removeLog(LOG_ORGANISATIONS);
+		pl.removeLog(LOG_SUBSCRIPTIONS);
+		
 	}
 }

@@ -48,8 +48,8 @@ $(function() {
 	 var elem = $("#databaseImport");
 	 if (elem.length > 0) {
 		    elem.fileinput({
-		    	//uploadUrl: elem.data("url"),
-		        //uploadAsync: true,
+		    	uploadUrl: elem.parent().data("url"),
+		        uploadAsync: true,
 		        maxFileCount: 1,
 		        browseClass: "btn btn-default",
 		        browseLabel: elem.data("browsetext"),

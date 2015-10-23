@@ -20,6 +20,7 @@
     		<element name="name" type="string"></element>
     		<element name="holder" type="string"></element>
     		<element name="owner" type="string"></element>
+    		<element name="loginPassword" type="string"></element>
     		<element name="userlist" type="string"></element>
     		<element name="description" type="string"></element>
     		<element name="legalStatus" type="string"></element>
@@ -60,7 +61,7 @@
       <sequence>
         <element name="uuid" type="string"></element>
         <element name="email" type="string"></element>
-        <element name="status" type="int"></element>
+        <element name="status" type="string"></element>
         <element name="created" type="long"></element>
         <element name="categories" type="tns:CategoryEntryType" maxOccurs="unbounded" minOccurs="0"></element>
       </sequence>

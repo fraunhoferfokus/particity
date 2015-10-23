@@ -1,4 +1,7 @@
 
+<%@page import="com.liferay.portal.kernel.language.LanguageUtil"%>
+<%@page import="de.particity.impexp.ExportWriter"%>
+<%@page import="org.springframework.ui.Model"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.Constants"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
 <%@page
@@ -27,27 +30,26 @@
   Log log = LogFactoryUtil.getLog(this.getClass().getName());
  
  
-  String requestCatType = request.getParameter("catType");
-  if (requestCatType == null)
-	    requestCatType = E_CategoryType.SEARCH.name();
+  String requestedTab = request.getParameter("tab");
+  if (requestedTab == null)
+	    requestedTab = E_CategoryType.SEARCH.name();
   
   String requestCatId = request.getParameter("catId");
   if (requestCatId == null)
 	  requestCatId = "-1";
   
   String exportFilename = request.getParameter("exportFilename");
+  String errorCode = request.getParameter("errorCode");
+  
+  Map<String, String> exportLogs = (Map<String, String>) request.getAttribute("exportLogs");
+  
   
   %>
 
 <div class="container-fluid">
 
   <!-- if demo-mode enabled, notify about denied actions -->
-    <liferay-ui:error key="common.demo.denied">
-       <spring:message code="common.demo.denied" />
-   </liferay-ui:error>
-
-   
-
+    
 	<div class="page-header">
 	 <div class="row">
 	   <div class="col-sm-12">
@@ -58,6 +60,19 @@
 	   </div>
 	 </div>
 	</div>
+	
+	<liferay-ui:error key="common.demo.denied">
+       <spring:message code="common.demo.denied" />
+   </liferay-ui:error>
+    <% if (errorCode != null && errorCode.trim().length() > 0) { 
+        String emsg = LanguageUtil.get(portletConfig,locale,errorCode);
+    %>
+      <div class="alert alert-error">
+       <%= emsg %>
+      </div>
+    <% } %>
+
+	
 	<div role="tabpanel">
 
 		<!-- Nav tabs -->
@@ -69,7 +84,7 @@
     for (int i=0; i<ctypes.length; i++) {
     	activeFlag="";
     	ctype = ctypes[i];
-    	if (ctype.name().equals(requestCatType))
+    	if (ctype.name().equals(requestedTab))
     		activeFlag="active";
     %>
 			<li role="presentation" class="<%= activeFlag %>"><a
@@ -90,7 +105,7 @@
 	    for (int i=0; i<ctypes.length; i++) {
 	      ctype = ctypes[i];
 	      activeFlag="";
-	      if (ctype.name().equals(requestCatType))
+	      if (ctype.name().equals(requestedTab))
 	          activeFlag="active";
 	    %>
 
@@ -277,9 +292,10 @@
 
 
 			</div>
-			<% } %>
+			<% } 
+			%>
 			
-			<div role="tabpanel" class="tab-pane"
+			<div role="tabpanel" class="tab-pane <%= (requestedTab.equals("dbtools") ? "active" : " ") %>"
         id="dbtools">
 
         <h2><spring:message code="admin.tab.db.export" /></h2>
@@ -288,14 +304,34 @@
 	         <spring:message code="admin.tab.db.export.success" /><br/>
 	         <%= exportFilename %>
          </div>
-       <% } %>
-       <a target="_blank" href="<portlet:actionURL><portlet:param name="action" value="exportDatabase" /></portlet:actionURL>" class="btn btn-default">
+       <% } 
+          if (exportLogs != null) {
+        	  %>
+        	  <div class="alert alert-info">
+        	  <spring:message code="admin.tab.db.export.log.intro" /><br/><br/>
+        	  <%
+        	  for (String name : exportLogs.keySet()) {
+        		  String value = exportLogs.get(name);
+        		  if (value.length() > 0) {
+        			  String msg = LanguageUtil.get(portletConfig,locale,"admin.tab.db.export.log."+name.toLowerCase().trim());
+	        		  %>
+	        	      <strong><%= msg %></strong>:<br/>
+	        	      <%= value %><br/><br/>
+	        		  <%
+        		  }
+        	  }
+        	  %>
+        	  </div>
+        	  <%
+          }
+       %>
+       <a href="<portlet:actionURL><portlet:param name="action" value="exportDatabase" /></portlet:actionURL>" class="btn btn-default">
 	       <span class="glyphicon glyphicon-save"></span>&nbsp;
 	       <spring:message code="admin.tab.db.exportSubmit" />
        </a>
        
        <h2 style="margin-top: 50px;"><spring:message code="admin.tab.db.import" /></h2>
-       <form method="post" action="<portlet:actionURL><portlet:param name="action" value="importDatabase" /></portlet:actionURL>">
+       <form method="post" action="<portlet:actionURL><portlet:param name="action" value="importDatabase" /></portlet:actionURL>" enctype="multipart/form-data">
           <input id="databaseImport" type="file" name="file" class="file" data-show-preview="false"
        data-browsetext="<spring:message code="admin.tab.db.importBrowse" />" data-uploadtext="<spring:message code="admin.tab.db.importUpload" />" data-deletetext="<spring:message code="admin.tab.db.importDelete" />">    
        </form>

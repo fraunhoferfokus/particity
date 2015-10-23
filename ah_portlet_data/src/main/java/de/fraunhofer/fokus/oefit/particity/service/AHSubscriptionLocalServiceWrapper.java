@@ -444,6 +444,14 @@ public class AHSubscriptionLocalServiceWrapper
     }
 
     @Override
+    public de.fraunhofer.fokus.oefit.particity.model.AHSubscription addSubscription(
+        java.lang.String email, long[] categories, java.lang.String uuid,
+        de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus status) {
+        return _ahSubscriptionLocalService.addSubscription(email, categories,
+            uuid, status);
+    }
+
+    @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> getCategoriesBySubscription(
         long subId) {
         return _ahSubscriptionLocalService.getCategoriesBySubscription(subId);

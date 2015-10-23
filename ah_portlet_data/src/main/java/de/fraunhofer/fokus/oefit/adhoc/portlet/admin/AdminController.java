@@ -35,11 +35,14 @@ package de.fraunhofer.fokus.oefit.adhoc.portlet.admin;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -52,6 +55,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.method.annotation.ErrorsMethodArgumentResolver;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
@@ -72,6 +76,8 @@ import de.fraunhofer.fokus.oefit.adhoc.portlet.BaseController;
 import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
 import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
 import de.particity.impexp.ExportWriter;
+import de.particity.impexp.ImportFailedException;
+import de.particity.impexp.ImporterFactory;
 
 /**
  * Controller for basic administrative tasks
@@ -113,7 +119,7 @@ public class AdminController extends BaseController {
 
 		if (data != null) {
 			response.setRenderParameter("catId", data.getCat());
-			response.setRenderParameter("catType", data.getType());
+			response.setRenderParameter("tab", data.getType());
 			final AHCatEntries entry = CustomCategoryServiceHandler.addCategoryEntry(data);
 			if (entry != null) {
 				data.clear();
@@ -150,7 +156,7 @@ public class AdminController extends BaseController {
 				final E_CategoryType type = E_CategoryType.valueOf(data
 				        .getType());
 				cat = CustomCategoryServiceHandler.addMainCategory(data, type);
-				response.setRenderParameter("catType", data.getType());
+				response.setRenderParameter("tab", data.getType());
 
 				if (cat != null) {
 					data.clear();
@@ -181,7 +187,7 @@ public class AdminController extends BaseController {
 			httpServletResponse.setHeader("Pragma", "public");
 			
 			
-			ExportWriter export = new ExportWriter();
+			ExportWriter export = new ExportWriter(getCompanyId(request));
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM");
 			String dateStr = sdf.format(Calendar.getInstance().getTime());
@@ -201,12 +207,16 @@ public class AdminController extends BaseController {
 					if (!backupFile.exists()) {
 						toFileDone = backupFile.createNewFile();
 						if (toFileDone) {
+							m_objLog.debug("Writing out to "+backupFile.getAbsolutePath());
 							FileOutputStream fout = new FileOutputStream(backupFile);
 							export.writeToStream(fout);
 							fout.flush();
 							fout.close();
 							//SessionMessages.add(request, "request_processed", "admin.jsp.db.export.success");
 							response.setRenderParameter("exportFilename", backupFile.getAbsolutePath());
+							Map<String, String> logs = export.getLog();
+							export.cleanup();
+							request.setAttribute("exportLogs", logs);
 						} else {
 							m_objLog.warn("Could not create backup file at "+backupFile.getAbsolutePath());
 						}
@@ -227,6 +237,9 @@ public class AdminController extends BaseController {
 					
 				com.liferay.portal.kernel.servlet.ServletResponseUtil.sendFile(
 						httpServletRequest, httpServletResponse, "particity_"+dateStr+".xml", bout.toByteArray());
+				Map<String, String> logs = export.getLog();
+				export.cleanup();
+				request.setAttribute("exportLogs", logs);
 			}
 		} catch (Throwable t) {
 			m_objLog.error("Error exporting data",t);
@@ -239,6 +252,7 @@ public class AdminController extends BaseController {
 			}
 		}
 		
+		response.setRenderParameter("tab", "dbtools");
 		m_objLog.debug("exportDatabase::end");
 	}
 	
@@ -266,16 +280,25 @@ public class AdminController extends BaseController {
 	public void importDatabase(ActionRequest request, ActionResponse response) {
 	  m_objLog.debug("importDatabase::start");
 	  UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-	  Enumeration<?> paramEnum = uploadRequest.getParameterNames();
-	  File tempFile = uploadRequest.getFile("file");
-	  if (tempFile != null) {
-		  m_objLog.info("Got file "+tempFile.getName()+" of size "+tempFile.length());
-	  } else {
-		  while (paramEnum.hasMoreElements()){
-			 m_objLog.info("Got parameter "+paramEnum.nextElement());
-		  }  
-	  }
+	  //Enumeration<?> paramEnum = uploadRequest.getParameterNames();
+	  //File tempFile = uploadRequest.getFile("file");
+	  if (uploadRequest.getSize("file") > 0) {
+		  try {
+			  InputStream fin = uploadRequest.getFileAsStream("file", true);
+			  if (fin != null) {
+				  ImporterFactory.importData(fin, getCompanyId(request), getGroupId(request), getUserId(request));
+				  fin.close();
+			  }
+		  } catch (ImportFailedException t) {
+			  response.setRenderParameter("errorCode", t.getMessageCode());
+			  //SessionErrors.add(request, t.getMessageCode());
+			  m_objLog.warn("Import failed",t);
+		  } catch (Throwable t) {
+			  m_objLog.warn("Import failed",t);
+		  }
+	  } 
 	  
+	  response.setRenderParameter("tab", "dbtools");
 	  m_objLog.debug("importDatabase::end");
 	}
 	

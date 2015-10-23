@@ -94,6 +94,8 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
     private String[] _methodParameterTypes42;
     private String _methodName43;
     private String[] _methodParameterTypes43;
+    private String _methodName44;
+    private String[] _methodParameterTypes44;
 
     public AHSubscriptionLocalServiceClp(
         InvokableLocalService invokableLocalService) {
@@ -266,37 +268,44 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
 
         _methodParameterTypes35 = new String[] { "java.lang.String", "long[][]" };
 
-        _methodName36 = "getCategoriesBySubscription";
+        _methodName36 = "addSubscription";
 
-        _methodParameterTypes36 = new String[] { "long" };
+        _methodParameterTypes36 = new String[] {
+                "java.lang.String", "long[][]", "java.lang.String",
+                "de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus"
+            };
 
-        _methodName37 = "getCategoriesBySubscriptionAsString";
+        _methodName37 = "getCategoriesBySubscription";
 
         _methodParameterTypes37 = new String[] { "long" };
 
-        _methodName38 = "getSubscriptionsByMail";
+        _methodName38 = "getCategoriesBySubscriptionAsString";
 
-        _methodParameterTypes38 = new String[] { "java.lang.String" };
+        _methodParameterTypes38 = new String[] { "long" };
 
-        _methodName39 = "getSubscriptionsByUuid";
+        _methodName39 = "getSubscriptionsByMail";
 
         _methodParameterTypes39 = new String[] { "java.lang.String" };
 
-        _methodName40 = "getUserAddresses";
+        _methodName40 = "getSubscriptionsByUuid";
 
-        _methodParameterTypes40 = new String[] {  };
+        _methodParameterTypes40 = new String[] { "java.lang.String" };
 
-        _methodName41 = "getUserAddressesByCatItems";
+        _methodName41 = "getUserAddresses";
 
-        _methodParameterTypes41 = new String[] { "java.lang.Long[][]" };
+        _methodParameterTypes41 = new String[] {  };
 
-        _methodName42 = "removeSubscription";
+        _methodName42 = "getUserAddressesByCatItems";
 
-        _methodParameterTypes42 = new String[] { "long" };
+        _methodParameterTypes42 = new String[] { "java.lang.Long[][]" };
 
-        _methodName43 = "setSubscriptionStatus";
+        _methodName43 = "removeSubscription";
 
-        _methodParameterTypes43 = new String[] {
+        _methodParameterTypes43 = new String[] { "long" };
+
+        _methodName44 = "setSubscriptionStatus";
+
+        _methodParameterTypes44 = new String[] {
                 "long",
                 "de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus"
             };
@@ -1258,13 +1267,45 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
     }
 
     @Override
+    public de.fraunhofer.fokus.oefit.particity.model.AHSubscription addSubscription(
+        java.lang.String email, long[] categories, java.lang.String uuid,
+        de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus status) {
+        Object returnObj = null;
+
+        try {
+            returnObj = _invokableLocalService.invokeMethod(_methodName36,
+                    _methodParameterTypes36,
+                    new Object[] {
+                        ClpSerializer.translateInput(email),
+                        
+                    ClpSerializer.translateInput(categories),
+                        
+                    ClpSerializer.translateInput(uuid),
+                        
+                    ClpSerializer.translateInput(status)
+                    });
+        } catch (Throwable t) {
+            t = ClpSerializer.translateThrowable(t);
+
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw new RuntimeException(t.getClass().getName() +
+                    " is not a valid exception");
+            }
+        }
+
+        return (de.fraunhofer.fokus.oefit.particity.model.AHSubscription) ClpSerializer.translateOutput(returnObj);
+    }
+
+    @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> getCategoriesBySubscription(
         long subId) {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName36,
-                    _methodParameterTypes36, new Object[] { subId });
+            returnObj = _invokableLocalService.invokeMethod(_methodName37,
+                    _methodParameterTypes37, new Object[] { subId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -1284,8 +1325,8 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName37,
-                    _methodParameterTypes37, new Object[] { subId });
+            returnObj = _invokableLocalService.invokeMethod(_methodName38,
+                    _methodParameterTypes38, new Object[] { subId });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -1306,8 +1347,8 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName38,
-                    _methodParameterTypes38,
+            returnObj = _invokableLocalService.invokeMethod(_methodName39,
+                    _methodParameterTypes39,
                     new Object[] { ClpSerializer.translateInput(email) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -1329,8 +1370,8 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName39,
-                    _methodParameterTypes39,
+            returnObj = _invokableLocalService.invokeMethod(_methodName40,
+                    _methodParameterTypes40,
                     new Object[] { ClpSerializer.translateInput(uuid) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -1351,8 +1392,8 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName40,
-                    _methodParameterTypes40, new Object[] {  });
+            returnObj = _invokableLocalService.invokeMethod(_methodName41,
+                    _methodParameterTypes41, new Object[] {  });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -1373,8 +1414,8 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName41,
-                    _methodParameterTypes41,
+            returnObj = _invokableLocalService.invokeMethod(_methodName42,
+                    _methodParameterTypes42,
                     new Object[] { ClpSerializer.translateInput(catItems) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -1393,8 +1434,8 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
     @Override
     public void removeSubscription(long id) {
         try {
-            _invokableLocalService.invokeMethod(_methodName42,
-                _methodParameterTypes42, new Object[] { id });
+            _invokableLocalService.invokeMethod(_methodName43,
+                _methodParameterTypes43, new Object[] { id });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -1411,8 +1452,8 @@ public class AHSubscriptionLocalServiceClp implements AHSubscriptionLocalService
     public void setSubscriptionStatus(long subId,
         de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus status) {
         try {
-            _invokableLocalService.invokeMethod(_methodName43,
-                _methodParameterTypes43,
+            _invokableLocalService.invokeMethod(_methodName44,
+                _methodParameterTypes44,
                 new Object[] { subId, ClpSerializer.translateInput(status) });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);

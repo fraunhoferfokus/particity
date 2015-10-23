@@ -174,7 +174,7 @@ public class MainController extends BaseController {
 				        .createPortalUser(data.getForename(),
 				                data.getSurname(), data.getMail(),
 				                themeDisplay.getCompanyId(),
-				                themeDisplay.getLocale());
+				                themeDisplay.getLocale(),true);
 				if (newUser != null) {
 					AHOrgLocalServiceUtil.addOrganisationUser(orgId,
 					        data.getMail());

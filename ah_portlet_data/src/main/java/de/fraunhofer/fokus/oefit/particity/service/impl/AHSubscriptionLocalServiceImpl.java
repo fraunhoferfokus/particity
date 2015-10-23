@@ -80,30 +80,37 @@ public class AHSubscriptionLocalServiceImpl
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(AHSubscriptionLocalServiceImpl.class);
 
+	public AHSubscription addSubscription(final String email,
+	        final long[] categories) {
+		return addSubscription(email, categories, null, null);
+	}
+	
 	/* (non-Javadoc)
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#addSubscription(java.lang.String, long[])
 	 */
 	@Override
 	public AHSubscription addSubscription(final String email,
-	        final long[] categories) {
+	        final long[] categories, String uuid, E_SubscriptionStatus status) {
 		AHSubscription result = null;
 
 		try {
 			final List<AHSubscription> subscriptions = this
 			        .getSubscriptionsByMail(email);
-			String uuid = null;
-			if (subscriptions != null && subscriptions.size() > 0) {
+			if (uuid == null && subscriptions != null && subscriptions.size() > 0) {
 				uuid = subscriptions.get(0).getUuid();
-			} else {
+			} else if (uuid == null) {
 				uuid = UUID.randomUUID().toString() + "-"
 				        + System.currentTimeMillis();
 			}
+			if (status == null)
+				status = E_SubscriptionStatus.NEW;
+			
 			result = this.createAHSubscription(CounterLocalServiceUtil
 			        .increment(AHSubscription.class.getName()));
 			result.setCreated(System.currentTimeMillis());
 			result.setEmail(email);
 			result.setUuid(uuid);
-			result.setStatus(E_SubscriptionStatus.NEW.getIntValue());
+			result.setStatus(status.getIntValue());
 			result = this.updateAHSubscription(result);
 			this.getAHSubscriptionPersistence().addAHCatEntrieses(
 			        result.getSubId(), categories);

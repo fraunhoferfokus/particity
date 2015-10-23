@@ -82,7 +82,6 @@ public class CustomPersistanceServiceHandler {
 	 * @return the subscription object
 	 */
 	public static AHSubscription addSubscription(final NewsletterForm data) {
-		AHSubscription result = null;
 
 		final String[] categories = data.getCategories();
 		long[] l_cats = null;
@@ -93,10 +92,12 @@ public class CustomPersistanceServiceHandler {
 			}
 		}
 
-		result = AHSubscriptionLocalServiceUtil.addSubscription(data.getMail(),
-		        l_cats);
+		return addSubscription(data.getMail(), l_cats, null, null);
+	}
+	
+	public static AHSubscription addSubscription(String mail, long[] categories, String uuid, E_SubscriptionStatus status) {
 
-		return result;
+		return  AHSubscriptionLocalServiceUtil.addSubscription(mail, categories, uuid, status);
 	}
 
 	/**

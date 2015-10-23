@@ -352,6 +352,10 @@ public interface AHSubscriptionLocalService extends BaseLocalService,
     public de.fraunhofer.fokus.oefit.particity.model.AHSubscription addSubscription(
         java.lang.String email, long[] categories);
 
+    public de.fraunhofer.fokus.oefit.particity.model.AHSubscription addSubscription(
+        java.lang.String email, long[] categories, java.lang.String uuid,
+        de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus status);
+
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> getCategoriesBySubscription(
         long subId);
