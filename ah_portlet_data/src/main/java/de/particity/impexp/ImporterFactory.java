@@ -2,8 +2,13 @@ package de.particity.impexp;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBElement;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -17,6 +22,7 @@ import org.xml.sax.InputSource;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.theme.ThemeDisplay;
 
 import de.particity.impexp.imp.Importer100;
@@ -35,24 +41,29 @@ public class ImporterFactory {
 		E_SchemaVersion result = null;
 		
 		try {
-			XPathFactory factory = XPathFactory.newInstance();
-			XPath xpath = factory.newXPath();
-			InputSource inputSource = new InputSource(xmlData);
-			XPathExpression expr = xpath.compile("//ImportExportRoot/@Version");
-			String value = (String) expr.evaluate(inputSource, XPathConstants.STRING);
-			if (value == null || value.trim().length() == 0) {
-				NodeList nodeList = (NodeList) xpath.evaluate("//ImportExportRoot/@Version", inputSource, XPathConstants.NODESET);
-				if (nodeList != null && nodeList.getLength() > 0) {
-					NamedNodeMap nnm = nodeList.item(0).getAttributes();
-					if (nnm != null) {
-						Node version = nnm.getNamedItem("Version");
-						if (version != null)
-							value = version.getNodeValue();
-					}
+			
+			// mark begin of stream
+			if (xmlData.markSupported())
+				xmlData.mark(xmlData.available());
+			
+			// parse using SAX
+			String value = null;
+			SchemaVersionHandler svp = new SchemaVersionHandler();
+			try {
+		        SAXParserFactory spf= SAXParserFactory.newInstance();
+				SAXParser sp = spf.newSAXParser();
+				// parse() throws the exception below, if the version is found
+				// this way we don't need to read the whole stream
+	            sp.parse(xmlData, svp);
+			} catch (SchemaVersionEscapeException e) {
+	            // get parse result
+				value = svp.getVersion();
+				if (value != null) {
+		            // reset stream back to begin
+					xmlData.reset();
 				}
 			}
 			
-			//String value = (String) xpath.evaluate("//ImportExportRoot/@Version", inputSource,XPathConstants.NODE);
 			if (value != null) {
 				result = E_SchemaVersion.valueOf(value);
 			}
@@ -64,7 +75,8 @@ public class ImporterFactory {
 		return result;
 	}
 	
-	public static void importData(InputStream xmlData, long companyId, long groupId, long userId) throws ImportFailedException {
+	public static Map<String, String> importData(InputStream xmlData, long companyId, long groupId, long userId) throws ImportFailedException {
+		Map<String, String> log = null;
 		E_SchemaVersion ver = getSchemaVersionFromXmlData(xmlData);
 		if (ver != null) {
 			List<E_SchemaVersion> upgradePath = E_SchemaVersion.getUpgradePath(ver);
@@ -84,9 +96,14 @@ public class ImporterFactory {
 			if (objData != null) {
 				ImportWriter writer = new ImportWriter(userId,groupId,companyId);
 				writer.write(objData);
+				log = writer.getLog();
+				writer.cleanup();
 			} else
 				throw new ImportFailedException(ImportFailedException.IMPORT_LOAD_FAIL);
+		} else {
+			throw new ImportFailedException(ImportFailedException.IMPORT_VERSIONPARSE_FAIL);
 		}
+		return log;
 	}
 	
 	protected static I_Importer getImporter(E_SchemaVersion version) {

@@ -56,7 +56,7 @@ public class PersistentLog {
 		}
 		
 		public String toString() {
-			return toString("\"","\" ","\\n!!","!!\\n");
+			return toString("\"","\" ","\n !!","!! \n");
 		}
 		
 		public String toString(String logPre, String logSuff, String errPre, String errSuff) {

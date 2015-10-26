@@ -153,7 +153,7 @@ public class CustomOrgServiceHandler {
 				countryName = countryCat.getName();
 			}
 		} catch (final Throwable t) {
-			m_objLog.warn(t);
+			//m_objLog.warn(t);
 		}
 
 		final AHRegion region = AHRegionLocalServiceUtil.addRegion(city,

@@ -94,8 +94,6 @@ public class AHCategoriesLocalServiceImpl extends
 			result.setType(type.getIntValue());
 			result.setDescr(description);
 			result = this.updateAHCategories(result);
-		} else {
-			result = null;
 		}
 		return result;
 	}

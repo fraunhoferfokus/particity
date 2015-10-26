@@ -120,10 +120,8 @@ public class AdminController extends BaseController {
 		if (data != null) {
 			response.setRenderParameter("catId", data.getCat());
 			response.setRenderParameter("tab", data.getType());
-			final AHCatEntries entry = CustomCategoryServiceHandler.addCategoryEntry(data);
-			if (entry != null) {
-				data.clear();
-			}
+			CustomCategoryServiceHandler.addCategoryEntry(data);
+			data.clear();
 		}
 
 		m_objLog.debug("addCategoryEntry::end");
@@ -152,15 +150,11 @@ public class AdminController extends BaseController {
 		m_objLog.debug("addMainCategory::start");
 
 		if (data != null) {
-				AHCategories cat = null;
 				final E_CategoryType type = E_CategoryType.valueOf(data
 				        .getType());
-				cat = CustomCategoryServiceHandler.addMainCategory(data, type);
+				CustomCategoryServiceHandler.addMainCategory(data, type);
 				response.setRenderParameter("tab", data.getType());
-
-				if (cat != null) {
-					data.clear();
-				}
+				data.clear();
 		}
 
 		m_objLog.debug("addMainCategory::end");
@@ -286,8 +280,9 @@ public class AdminController extends BaseController {
 		  try {
 			  InputStream fin = uploadRequest.getFileAsStream("file", true);
 			  if (fin != null) {
-				  ImporterFactory.importData(fin, getCompanyId(request), getGroupId(request), getUserId(request));
-				  fin.close();
+				  Map<String,String> logs = ImporterFactory.importData(fin, getCompanyId(request), getGroupId(request), getUserId(request));
+				  if (logs != null)
+					  request.setAttribute("importLogs", logs);
 			  }
 		  } catch (ImportFailedException t) {
 			  response.setRenderParameter("errorCode", t.getMessageCode());
@@ -295,7 +290,9 @@ public class AdminController extends BaseController {
 			  m_objLog.warn("Import failed",t);
 		  } catch (Throwable t) {
 			  m_objLog.warn("Import failed",t);
+			  //response.setRenderParameter("errorCode", ImportFailedException.);
 		  }
+		  
 	  } 
 	  
 	  response.setRenderParameter("tab", "dbtools");

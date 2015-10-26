@@ -42,6 +42,7 @@
   String errorCode = request.getParameter("errorCode");
   
   Map<String, String> exportLogs = (Map<String, String>) request.getAttribute("exportLogs");
+  Map<String, String> importLogs = (Map<String, String>) request.getAttribute("importLogs");
   
   
   %>
@@ -331,6 +332,27 @@
        </a>
        
        <h2 style="margin-top: 50px;"><spring:message code="admin.tab.db.import" /></h2>
+       <%
+        if (importLogs != null) {
+           %>
+           <div class="alert alert-info">
+           <spring:message code="admin.tab.db.import.log.intro" /><br/><br/>
+           <%
+           for (String name : importLogs.keySet()) {
+             String value = importLogs.get(name);
+             if (value.length() > 0) {
+               String msg = LanguageUtil.get(portletConfig,locale,"admin.tab.db.import.log."+name.toLowerCase().trim());
+               %>
+                 <strong><%= msg %></strong>:<br/>
+                 <%= value %><br/><br/>
+               <%
+             }
+           }
+           %>
+           </div>
+           <%
+         }
+       %>
        <form method="post" action="<portlet:actionURL><portlet:param name="action" value="importDatabase" /></portlet:actionURL>" enctype="multipart/form-data">
           <input id="databaseImport" type="file" name="file" class="file" data-show-preview="false"
        data-browsetext="<spring:message code="admin.tab.db.importBrowse" />" data-uploadtext="<spring:message code="admin.tab.db.importUpload" />" data-deletetext="<spring:message code="admin.tab.db.importDelete" />">    

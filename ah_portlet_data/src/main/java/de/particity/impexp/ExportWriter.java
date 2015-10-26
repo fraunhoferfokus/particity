@@ -4,8 +4,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.zip.GZIPOutputStream;
 
 import javax.xml.bind.JAXBContext;
@@ -77,10 +79,13 @@ public class ExportWriter {
 	public static final String LOG_OFFERS = "ExpOffer";
 	public static final String LOG_SUBSCRIPTIONS = "ExpSub";
 	
+	private Set<Long> m_objExportedEntries;
+	
 	private long m_numCompanyId = -1;
 	
 	public ExportWriter(long companyId) {
 		m_numCompanyId = companyId;
+		m_objExportedEntries = new HashSet<Long>();
 	}
 	
 	public byte[] writeToBytes() {
@@ -132,8 +137,8 @@ public class ExportWriter {
 						catType.setName(cat.getName());
 						catType.setType(E_CategoryType.findByValue(cat.getType()).name());
 						categories.add(catType);
-						writeCategoryEntries(catType.getEntry(), cat.getCatId());
 						log.log(cat.getName());
+						writeCategoryEntries(catType.getEntry(), cat.getCatId());
 					}
 				}
 			}
@@ -158,7 +163,10 @@ public class ExportWriter {
 				type.setName(data.getName());
 				type.setDescr(data.getDescr());
 				writeCategoryChildEntries(type.getChildEntry(),data.getItemId());
-				log.log(data.getName());
+				if (!m_objExportedEntries.contains(data.getItemId())) {
+					log.log(data.getName());
+					m_objExportedEntries.add(data.getItemId());
+				}
 				// only support child to the third level
 				for (CategoryEntryType child: type.getChildEntry()) {
 					writeCategoryChildEntries(child.getChildEntry(), child.getItemId());
@@ -185,7 +193,10 @@ public class ExportWriter {
 				type.setName(data.getName());
 				type.setDescr(data.getDescr());
 				childs.add(type);
-				log.log(data.getName());
+				if (!m_objExportedEntries.contains(data.getItemId())) {
+					log.log(data.getName());
+					m_objExportedEntries.add(data.getItemId());
+				}
 			}
 		} catch (Throwable t) {
 			log.err(t.getMessage());
@@ -278,6 +289,7 @@ public class ExportWriter {
 						type.setSocialStatus(data.getSocialStatus());
 						type.setPublish(data.getPublish());
 						type.setOfferId(data.getOfferId());
+						type.setOrgId(data.getOrgId());
 						type.setExpires(data.getExpires());
 						type.setDescription(data.getDescription());
 						type.setCreated(data.getCreated());
