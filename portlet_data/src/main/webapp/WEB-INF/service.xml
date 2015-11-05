@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_1_0.dtd">
+
+<!-- AdHoc tables -->
+<!-- due to missing one-to-one and one-to-many relations in liferay we usually 
+	reference by ID -->
+<service-builder package-path="de.fraunhofer.fokus.oefit.particity">
+	<namespace>PARTICITY</namespace>
+	<!-- a region -->
+	<entity name="AHRegion" table="AHREGION" local-service="true"
+		remote-service="false">
+		<column name="regionId" type="long" primary="true"></column>
+		<column name="zip" type="int" primary="true"></column>
+		<column name="city" type="String" primary="true"></column>
+		<column name="country" type="String" primary="true"></column>
+		<!-- permissions can be used by application logic to decide where, how 
+			and by whom regions may be used (e.g. search for offers, organizations, etc.) -->
+		<column name="permissions" type="int"></column>
+		<order by="desc">
+			<order-column name="zip" />
+		</order>
+		<finder name="regionId" return-type="Collection">
+			<finder-column name="regionId" />
+		</finder>
+		<finder name="zip" return-type="Collection">
+			<finder-column name="zip" />
+		</finder>
+		<finder name="city" return-type="Collection">
+			<finder-column name="city" />
+		</finder>
+		<finder name="cityAndZip" return-type="Collection">
+			<finder-column name="city" />
+			<finder-column name="zip" />
+		</finder>
+		<finder name="countryAndCityAndZip" return-type="Collection">
+			<finder-column name="country" />
+			<finder-column name="city" />
+			<finder-column name="zip" />
+		</finder>
+	</entity>
+	<entity name="AHAddr" table="AHADDR" local-service="true"
+		remote-service="false">
+		<column name="addrId" type="long" primary="true"></column>
+		<column name="street" type="String"></column>
+		<column name="number" type="String"></column>
+		<column name="coordLat" type="float"></column>
+		<column name="coordLon" type="float"></column>
+		<column name="regionId" type="long" />
+		<finder name="region" return-type="Collection">
+			<finder-column name="regionId" />
+		</finder>
+	</entity>
+	<entity name="AHOffer" table="AHOFFER" local-service="true"
+		remote-service="false">
+		<column name="offerId" type="long" primary="true"></column>
+		<column name="title" type="String"></column>
+		<column name="description" type="String"></column>
+		<column name="workTime" type="String"></column>
+		<column name="workType" type="int"></column>
+		<!-- type of offer -->
+		<column name="type" type="int"></column>
+		<column name="status" type="int"></column>
+		<column name="socialStatus" type="int"></column>
+		<column name="created" type="long"></column>
+		<column name="updated" type="long"></column>
+		<column name="expires" type="long"></column>
+		<column name="publish" type="long"></column>
+		<column name="adressId" type="long" />
+		<column name="contactId" type="long" />
+		<column name="sndContactId" type="long" />
+		<column name="contactAgency" type="boolean" />
+		<column name="orgId" type="long" />
+		<column name="catitems" type="Collection" entity="AHCatEntries"
+			mapping-table="offer_citm" />
+		<order by="desc">
+			<order-column name="updated" />
+			<order-column name="status" />
+		</order>
+		<finder name="org" return-type="Collection">
+			<finder-column name="orgId" />
+		</finder>
+		<finder name="title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+		<finder name="statusAndDate" return-type="Collection">
+			<finder-column name="status" />
+			<finder-column name="expires" comparator="&gt;" />
+			<finder-column name="publish" comparator="&lt;" />
+		</finder>
+		<finder name="orgAndstatusAndDate" return-type="Collection">
+			<finder-column name="orgId" />
+			<finder-column name="status" />
+			<finder-column name="expires" comparator="&gt;" />
+			<finder-column name="publish" comparator="&lt;" />
+		</finder>
+		<finder name="address" return-type="Collection">
+			<finder-column name="adressId" />
+		</finder>
+
+	</entity>
+	<entity name="AHContact" table="AHCONTACT" local-service="true"
+		remote-service="false">
+		<column name="contactId" type="long" primary="true"></column>
+		<column name="forename" type="String"></column>
+		<column name="surname" type="String"></column>
+		<column name="tel" type="String"></column>
+		<column name="mobile" type="String"></column>
+		<column name="fax" type="String"></column>
+		<column name="email" type="String"></column>
+		<column name="www" type="String"></column>
+
+		<finder name="email" return-type="Collection">
+			<finder-column name="email" />
+		</finder>
+		<finder name="name" return-type="Collection">
+			<finder-column name="forename" />
+			<finder-column name="surname" />
+		</finder>
+	</entity>
+	<entity name="AHOrg" table="AHORG" local-service="true"
+		remote-service="false">
+		<column name="orgId" type="long" primary="true"></column>
+		<column name="name" type="String"></column>
+		<column name="holder" type="String"></column>
+		<column name="owner" type="String"></column>
+		<column name="userlist" type="String"></column>
+		<column name="description" type="String"></column>
+		<column name="legalStatus" type="String"></column>
+
+		<column name="created" type="long"></column>
+		<column name="updated" type="long"></column>
+		<column name="contactId" type="long" />
+		<column name="addressId" type="long" />
+		<column name="status" type="int"></column>
+		<column name="logoLocation" type="String"></column>
+		<order by="desc">
+			<order-column name="updated" />
+			<order-column name="status" />
+		</order>
+		<finder name="name" return-type="Collection">
+			<finder-column name="name" />
+		</finder>
+		<finder name="owner" return-type="Collection">
+			<finder-column name="owner" />
+		</finder>
+		<finder name="status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+	</entity>
+	<entity name="AHSubscription" table="AHSUBSCR" local-service="true"
+		remote-service="false">
+		<column name="subId" type="long" primary="true"></column>
+		<column name="uuid" type="String"></column>
+		<column name="email" type="String"></column>
+		<column name="status" type="int"></column>
+		<column name="created" type="long"></column>
+		<column name="cats" type="Collection" entity="AHCatEntries"
+			mapping-table="sub_citm" />
+		<finder name="email" return-type="Collection">
+			<finder-column name="email" />
+		</finder>
+		<finder name="uuid" return-type="Collection">
+			<finder-column name="uuid" />
+		</finder>
+	</entity>
+	<entity name="AHCategories" table="AHCATS" local-service="true"
+		remote-service="false">
+		<column name="catId" type="long" primary="true"></column>
+		<column name="name" type="String"></column>
+		<column name="descr" type="String"></column>
+		<column name="type" type="int"></column>
+		<finder name="nameAndType" return-type="Collection">
+			<finder-column name="name" />
+			<finder-column name="type" />
+		</finder>
+		<finder name="type" return-type="Collection">
+			<finder-column name="type" />
+		</finder>
+	</entity>
+	<entity name="AHCatEntries" table="AHCITEM" local-service="true"
+		remote-service="false">
+		<column name="itemId" type="long" primary="true"></column>
+		<column name="catId" type="long"></column>
+		<column name="name" type="String"></column>
+		<column name="descr" type="String"></column>
+		<column name="parentId" type="long"></column>
+		<column name="subscr" type="Collection" entity="AHSubscription"
+			mapping-table="sub_citm" />
+		<column name="offer" type="Collection" entity="AHOffer"
+			mapping-table="offer_citm" />
+		<finder name="cat" return-type="Collection">
+			<finder-column name="catId" />
+		</finder>
+		<finder name="parent" return-type="Collection">
+			<finder-column name="parentId" />
+		</finder>
+		<finder name="item" return-type="Collection">
+			<finder-column name="itemId" />
+		</finder>
+	</entity>
+	<entity name="AHConfig" table="AHCFG" local-service="true"
+		remote-service="false">
+		<!-- column name="cfgId" type="long" ></column -->
+		<column name="name" type="String" primary="true"></column>
+		<column name="value" type="String"></column>
+	</entity>
+
+</service-builder>
