@@ -10,14 +10,14 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>portlet_search</artifactId>
+	<artifactId>portlet_mgmt</artifactId>
 	<packaging>war</packaging>
-	<name>portlet_search</name>
-	<description>Search portlets</description>
+	<name>portlet_mgmt</name>
+	<description>Portlets for managing organisations</description>
 	
 
 	<build>
-		<finalName>pasearch-portlet</finalName>
+		<finalName>pamgmt-portlet</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.liferay.maven.plugins</groupId>
