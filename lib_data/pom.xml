@@ -10,11 +10,10 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ah_portlet_data</artifactId>
-	<packaging>war</packaging>
-	<name>ah_portlet_data</name>
-	<description>Main portlet. carrying all data structures and basic services</description>
-	
+	<artifactId>lib_data</artifactId>
+	<packaging>jar</packaging>
+	<name>lib_data</name>
+  <description>Shared data library, carrying all data structures and basic service interfaces</description>
 
 	<build>
 		<resources>
@@ -23,21 +22,17 @@
 	        <filtering>true</filtering>
 	    </resource>
 	  </resources>
-		<finalName>adhocdata-portlet</finalName>
+		<finalName>lib_data</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.liferay.maven.plugins</groupId>
 				<artifactId>liferay-maven-plugin</artifactId>
 				<configuration>
-					<modelHintsFileName>${basedir}/src/main/resources/META-INF/ext/portlet-model-hints.xml</modelHintsFileName>
-					<pluginName>${project.build.finalName}</pluginName>
-					<pluginType>portlet</pluginType>
-					<webappBaseDir>${basedir}</webappBaseDir>
-					<apiBaseDir>${basedir}/../lib_data</apiBaseDir>
+					<webappBaseDir>${basedir}/../ah_portlet_data/</webappBaseDir>
 				</configuration>
 			</plugin>
 			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
+				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -45,15 +40,45 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 			</plugin>
+			<plugin>
+          <groupId>org.jvnet.jaxb2.maven2</groupId>
+          <artifactId>maven-jaxb2-plugin</artifactId>
+          <version>0.12.3</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>generate</goal>
+                  </goals>
+                  <configuration>
+	                  <schemaDirectory>src/main/xsd</schemaDirectory>
+										<schemaIncludes>
+										    <include>ImportExport-v1_0_0.xsd</include>
+										</schemaIncludes>
+										<bindingDirectory>src/main/xjb</bindingDirectory>
+										<bindingIncludes>
+										    <include>globalbindings.xjb</include>
+										</bindingIncludes>
+										<extension>true</extension>
+										<generateDirectory>src/main/java</generateDirectory>
+										<!-- limit plugin to not scan whole source tree :) -->
+								    <produces><produce>nothing</produce></produces>
+										<args>
+						            <arg>-Xannotate</arg>
+						        </args>
+						        <plugins>
+						            <plugin>
+												  <groupId>org.jvnet.jaxb2_commons</groupId>
+												  <artifactId>jaxb2-basics-annotate</artifactId>
+												  <version>1.0.2</version>
+												</plugin>
+						        </plugins>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
 		</plugins>
 	</build>
 	<dependencies>
-	
-	  <dependency>
-		  <groupId>de.fraunhofer.fokus.oefit</groupId>
-	    <artifactId>lib_data</artifactId>
-	    <version>${pom.version}</version>
-	  </dependency>
 
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
@@ -119,6 +144,9 @@
 			<artifactId>validation-api</artifactId>
 		</dependency>
 
+		<!-- dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-validator-annotation-processor</artifactId> 
+			<version>4.3.1.Final</version> </dependency -->
+
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -155,6 +183,9 @@
 			<groupId>org.facebook4j</groupId>
 			<artifactId>facebook4j-core</artifactId>
 		</dependency>
+
+		<!-- dependency> <groupId>org.jsoup</groupId> <artifactId>jsoup</artifactId> 
+			</dependency -->
 
 	</dependencies>
 

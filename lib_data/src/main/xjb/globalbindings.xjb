@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jaxb:bindings
+    version="2.1"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    xmlns:annox="http://annox.dev.java.net"
+    jaxb:extensionBindingPrefixes="xjc annox"
+    >
+    <jaxb:bindings schemaLocation="../xsd/ImportExport-v1_0_0.xsd" node="/xs:schema">
+		    <jaxb:bindings node="xs:complexType[@name='ImportExportRoot']">
+            <annox:annotate>
+                <annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement" name="ImportExportRoot" />
+            </annox:annotate>
+        </jaxb:bindings>
+        <jaxb:schemaBindings>
+            <jaxb:package name="de.particity.schemagen.impexpv100"/>
+        </jaxb:schemaBindings>
+    </jaxb:bindings>
+</jaxb:bindings>
