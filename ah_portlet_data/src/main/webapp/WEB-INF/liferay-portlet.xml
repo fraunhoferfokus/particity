@@ -2,82 +2,14 @@
 <!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 6.2.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_6_2_0.dtd">
 
 <liferay-portlet-app>
-	<portlet>
-		<portlet-name>ahadmin</portlet-name>
-		<icon>/icon.png</icon>
-
-		<scheduler-entry>
-			<scheduler-description>TestScheduler</scheduler-description>
-			<scheduler-event-listener-class>
-				de.fraunhofer.fokus.oefit.adhoc.scheduler.TenMinuteScheduler
-			</scheduler-event-listener-class>
-			<trigger>
-				<simple>
-					<simple-trigger-value>10</simple-trigger-value>
-					<time-unit>minute</time-unit>
-				</simple>
-			</trigger>
-		</scheduler-entry>
-		<scheduler-entry>
-			<scheduler-description>TestScheduler</scheduler-description>
-			<scheduler-event-listener-class>
-				de.fraunhofer.fokus.oefit.adhoc.scheduler.DailyScheduler
-			</scheduler-event-listener-class>
-			<trigger>
-				<simple>
-					<simple-trigger-value>1</simple-trigger-value>
-					<time-unit>day</time-unit>
-				</simple>
-			</trigger>
-		</scheduler-entry>
-		<scheduler-entry>
-			<scheduler-description>TestScheduler</scheduler-description>
-			<scheduler-event-listener-class>
-				de.fraunhofer.fokus.oefit.adhoc.scheduler.WeeklyScheduler
-			</scheduler-event-listener-class>
-			<trigger>
-				<simple>
-					<simple-trigger-value>1</simple-trigger-value>
-					<time-unit>week</time-unit>
-				</simple>
-			</trigger>
-		</scheduler-entry>
-		<scheduler-entry>
-			<scheduler-description>TestScheduler</scheduler-description>
-			<scheduler-event-listener-class>
-				de.fraunhofer.fokus.oefit.adhoc.scheduler.HourlyScheduler
-			</scheduler-event-listener-class>
-			<trigger>
-				<simple>
-					<simple-trigger-value>1</simple-trigger-value>
-					<time-unit>hour</time-unit>
-				</simple>
-			</trigger>
-		</scheduler-entry>
-		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahadmin</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
-		<instanceable>false</instanceable>
-
-		<private-session-attributes>true</private-session-attributes>
-		<requires-namespaced-parameters>false</requires-namespaced-parameters>
-		<footer-portlet-css>/css/main.css</footer-portlet-css>
-		<footer-portlet-css>/css/fileinput.min.css</footer-portlet-css>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/backend.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/fileinput.min.js</footer-portlet-javascript>
-		<css-class-wrapper>ahadmin</css-class-wrapper>
-
-		<add-default-resource>true</add-default-resource>
-	</portlet>
 
 	<portlet>
-		<portlet-name>ahorgregistration</portlet-name>
+		<portlet-name>paorgregistration</portlet-name>
 		<icon>/icon.png</icon>
 
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahorgregistration</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapping>paorgregistration</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 		<private-session-attributes>true</private-session-attributes>
@@ -90,12 +22,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahorgmain</portlet-name>
+		<portlet-name>paorgmain</portlet-name>
 		<icon>/icon.png</icon>
 
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahorgmain</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapping>paorgmain</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 		<private-session-attributes>true</private-session-attributes>
@@ -114,12 +46,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahmgmt</portlet-name>
+		<portlet-name>pamgmt</portlet-name>
 		<icon>/icon.png</icon>
 
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahmgmt</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapping>pamgmt</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 		<private-session-attributes>true</private-session-attributes>
@@ -139,12 +71,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahusermain</portlet-name>
+		<portlet-name>pausermain</portlet-name>
 		<icon>/icon.png</icon>
 
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahusermain</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapping>pausermain</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 		<private-session-attributes>true</private-session-attributes>
@@ -157,12 +89,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahuserregistration</portlet-name>
+		<portlet-name>pauserregistration</portlet-name>
 		<icon>/icon.png</icon>
 
 		<friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahuserregistration</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapping>pauserregistration</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 		<private-session-attributes>true</private-session-attributes>
@@ -175,41 +107,13 @@
 		<add-default-resource>true</add-default-resource>
 	</portlet>
 
-	<portlet>
-		<portlet-name>ahsearch</portlet-name>
-		<icon>/icon.png</icon>
-		<configuration-action-class>de.fraunhofer.fokus.oefit.adhoc.portlet.search.SearchConfigurationAction</configuration-action-class>
-		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.adhoc.custom.CustomURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>search</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/ahsearch-routes.xml</friendly-url-routes>
-		<instanceable>false</instanceable>
-
-
-		<private-session-attributes>true</private-session-attributes>
-
-		<requires-namespaced-parameters>false</requires-namespaced-parameters>
-
-		<header-portlet-javascript>/js/leaflet.js</header-portlet-javascript>
-		<header-portlet-javascript>/js/Control.Geocoder.js</header-portlet-javascript>
-		<header-portlet-javascript>/js/search.js</header-portlet-javascript>
-    <header-portlet-javascript>/js/offer.js</header-portlet-javascript>
-		<footer-portlet-css>/css/leaflet.css</footer-portlet-css>
-		<footer-portlet-css>/css/main.css</footer-portlet-css>
-		
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
-
-		<css-class-wrapper>ahsearch</css-class-wrapper>
-
-		<add-default-resource>true</add-default-resource>
-
-	</portlet>
 
 	<portlet>
-		<portlet-name>ahlogin</portlet-name>
+		<portlet-name>palogin</portlet-name>
 		<icon>/icon.png</icon>
-		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.adhoc.custom.CustomURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahlogin</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+		<friendly-url-mapping>palogin</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 		<private-session-attributes>false</private-session-attributes>
@@ -226,11 +130,11 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahloginredirect</portlet-name>
+		<portlet-name>paloginredirect</portlet-name>
 		<icon>/icon.png</icon>
-		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.adhoc.custom.CustomURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahloginredirect</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+		<friendly-url-mapping>paloginredirect</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 
@@ -248,11 +152,11 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahloginprofile</portlet-name>
+		<portlet-name>paloginprofile</portlet-name>
 		<icon>/icon.png</icon>
-		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.adhoc.custom.CustomURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahloginprofile</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+		<friendly-url-mapping>paloginprofile</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 
@@ -270,11 +174,11 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahheader</portlet-name>
+		<portlet-name>paheader</portlet-name>
 		<icon>/icon.png</icon>
-		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.adhoc.custom.CustomURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahheader</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
+		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+		<friendly-url-mapping>paheader</friendly-url-mapping>
+		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
 
 
@@ -285,33 +189,6 @@
 		<footer-portlet-css>/css/header.css</footer-portlet-css>
 
 		<css-class-wrapper>ahheader</css-class-wrapper>
-
-		<add-default-resource>true</add-default-resource>
-
-	</portlet>
-
-	<portlet>
-		<portlet-name>ahlatest</portlet-name>
-		<icon>/icon.png</icon>
-		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.adhoc.custom.CustomURLMapper</friendly-url-mapper-class>
-		<friendly-url-mapping>ahlatest</friendly-url-mapping>
-		<friendly-url-routes>de/fraunhofer/fokus/oefit/adhoc/portlet/routes.xml</friendly-url-routes>
-		<instanceable>false</instanceable>
-
-
-		<private-session-attributes>true</private-session-attributes>
-
-		<requires-namespaced-parameters>false</requires-namespaced-parameters>
-
-		<header-portlet-javascript>/js/leaflet.js</header-portlet-javascript>
-		<footer-portlet-css>/css/leaflet.css</footer-portlet-css>
-		<footer-portlet-css>/css/main.css</footer-portlet-css>
-		<footer-portlet-css>/css/latest.css</footer-portlet-css>
-		<footer-portlet-javascript>/js/search.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/offer.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
-
-		<css-class-wrapper>ahlatest</css-class-wrapper>
 
 		<add-default-resource>true</add-default-resource>
 

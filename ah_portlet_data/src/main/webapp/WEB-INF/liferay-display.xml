@@ -3,17 +3,16 @@
 
 <display>
 	<category name="Particity">
-		<portlet id="ahadmin">Admin. Backend</portlet>
-		<portlet id="ahorgregistration">Org. Registration Form</portlet>
-		<portlet id="ahorgmain">Org. Backend</portlet>
-		<portlet id="ahmgmt">Management</portlet>
-		<portlet id="ahusermain">Newsletter Configuration</portlet>
-		<portlet id="ahuserregistration">Newsletter Registration Form</portlet>
-		<portlet id="ahsearch">Search</portlet>
-		<portlet id="ahloginredirect">Login Redirect</portlet>
-		<portlet id="ahloginprofile">Login Profile</portlet>
-		<portlet id="ahlogin">Login Form</portlet>
-		<portlet id="ahheader">Site Header</portlet>
-		<portlet id="ahlatest">Latest Offers</portlet>
+		<portlet id="paorgregistration">Org. Registration Form</portlet>
+		<portlet id="paorgmain">Org. Backend</portlet>
+		<portlet id="pamgmt">Management</portlet>
+		<portlet id="pausermain">Newsletter Configuration</portlet>
+		<portlet id="pauserregistration">Newsletter Registration Form</portlet>
+		<portlet id="pasearch">Search</portlet>
+		<portlet id="paloginredirect">Login Redirect</portlet>
+		<portlet id="paloginprofile">Login Profile</portlet>
+		<portlet id="palogin">Login Form</portlet>
+		<portlet id="paheader">Site Header</portlet>
+		<portlet id="palatest">Latest Offers</portlet>
 	</category>
 </display>

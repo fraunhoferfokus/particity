@@ -5,12 +5,12 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
 	version="2.0">
 	<portlet>
-		<portlet-name>ahadmin</portlet-name>
-		<display-name>ahadmin</display-name>
+		<portlet-name>paorgregistration</portlet-name>
+		<display-name>paorgregistration</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahadmin-portlet.xml</value>
+			<value>/WEB-INF/paorgregistration-portlet.xml</value>
 		</init-param>
 
 		<expiration-cache>0</expiration-cache>
@@ -21,53 +21,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
-		<portlet-info>
-			<title>Particity Admin</title>
-			<short-title></short-title>
-			<keywords></keywords>
-		</portlet-info>
-
-		<portlet-preferences>
-			<preference>
-				<name>portletSetupShowBorders</name>
-				<value>false</value>
-			</preference>
-		</portlet-preferences>
-
-		<security-role-ref>
-			<role-name>administrator</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>guest</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>power-user</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>user</role-name>
-		</security-role-ref>
-
-	</portlet>
-
-	<portlet>
-		<portlet-name>ahorgregistration</portlet-name>
-		<display-name>ahorgregistration</display-name>
-		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-		<init-param>
-			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahorgregistration-portlet.xml</value>
-		</init-param>
-
-		<expiration-cache>0</expiration-cache>
-		<supports>
-			<mime-type>text/html</mime-type>
-			<portlet-mode>view</portlet-mode>
-			<portlet-mode>register</portlet-mode>
-		</supports>
-		<supported-locale>de</supported-locale>
-		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Organisation Registration</title>
 			<short-title></short-title>
@@ -97,12 +51,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahorgmain</portlet-name>
-		<display-name>ahorgmain</display-name>
+		<portlet-name>paorgmain</portlet-name>
+		<display-name>paorgmain</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahorgmain-portlet.xml</value>
+			<value>/WEB-INF/paorgmain-portlet.xml</value>
 		</init-param>
 
 		<expiration-cache>0</expiration-cache>
@@ -113,7 +67,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Organisation Intern</title>
 			<short-title></short-title>
@@ -143,12 +97,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahmgmt</portlet-name>
-		<display-name>ahmgmt</display-name>
+		<portlet-name>pamgmt</portlet-name>
+		<display-name>pamgmt</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahmgmt-portlet.xml</value>
+			<value>/WEB-INF/pamgmt-portlet.xml</value>
 		</init-param>
 
 		<expiration-cache>0</expiration-cache>
@@ -159,7 +113,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Verwaltung</title>
 			<short-title></short-title>
@@ -189,12 +143,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahusermain</portlet-name>
-		<display-name>ahusermain</display-name>
+		<portlet-name>pausermain</portlet-name>
+		<display-name>pausermain</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahusermain-portlet.xml</value>
+			<value>/WEB-INF/pausermain-portlet.xml</value>
 		</init-param>
 
 		<expiration-cache>0</expiration-cache>
@@ -205,7 +159,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Nutzer Intern</title>
 			<short-title></short-title>
@@ -235,12 +189,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahuserregistration</portlet-name>
-		<display-name>ahuserregistration</display-name>
+		<portlet-name>pauserregistration</portlet-name>
+		<display-name>pauserregistration</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahuserregistration-portlet.xml</value>
+			<value>/WEB-INF/pauserregistration-portlet.xml</value>
 		</init-param>
 
 		<expiration-cache>0</expiration-cache>
@@ -251,7 +205,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Nutzer Registrierung</title>
 			<short-title></short-title>
@@ -280,63 +234,15 @@
 
 	</portlet>
 
-	<portlet>
-		<portlet-name>ahsearch</portlet-name>
-		<display-name>ahsearch</display-name>
-		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-		<init-param>
-			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahsearch-portlet.xml</value>
-		</init-param>
-		<init-param>
-			<name>config-jsp</name>
-			<value>/WEB-INF/pages/search/config.jsp</value>
-		</init-param>
-
-		<expiration-cache>0</expiration-cache>
-		<supports>
-			<mime-type>text/html</mime-type>
-			<portlet-mode>view</portlet-mode>
-		</supports>
-		<supported-locale>de</supported-locale>
-		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
-		<portlet-info>
-			<title>Particity Suche</title>
-			<short-title></short-title>
-			<keywords></keywords>
-		</portlet-info>
-
-		<portlet-preferences>
-			<preference>
-				<name>portletSetupShowBorders</name>
-				<value>false</value>
-			</preference>
-		</portlet-preferences>
-
-		<security-role-ref>
-			<role-name>administrator</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>guest</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>power-user</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>user</role-name>
-		</security-role-ref>
-
-	</portlet>
 
 
 	<portlet>
-		<portlet-name>ahlogin</portlet-name>
-		<display-name>ahlogin</display-name>
+		<portlet-name>palogin</portlet-name>
+		<display-name>palogin</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahlogin-portlet.xml</value>
+			<value>/WEB-INF/palogin-portlet.xml</value>
 		</init-param>
 		<init-param>
 			<name>check-auth-token</name>
@@ -349,7 +255,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Login Form</title>
 			<short-title></short-title>
@@ -379,12 +285,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahloginredirect</portlet-name>
-		<display-name>ahloginredirect</display-name>
+		<portlet-name>paloginredirect</portlet-name>
+		<display-name>paloginredirect</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahloginredirect-portlet.xml</value>
+			<value>/WEB-INF/paloginredirect-portlet.xml</value>
 		</init-param>
 
 		<expiration-cache>0</expiration-cache>
@@ -394,7 +300,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Login/Redirect</title>
 			<short-title></short-title>
@@ -424,12 +330,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahloginprofile</portlet-name>
-		<display-name>ahloginprofile</display-name>
+		<portlet-name>paloginprofile</portlet-name>
+		<display-name>paloginprofile</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahloginprofile-portlet.xml</value>
+			<value>/WEB-INF/paloginprofile-portlet.xml</value>
 		</init-param>
 
 		<expiration-cache>0</expiration-cache>
@@ -439,7 +345,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Login/Profile</title>
 			<short-title></short-title>
@@ -469,12 +375,12 @@
 	</portlet>
 
 	<portlet>
-		<portlet-name>ahheader</portlet-name>
-		<display-name>ahheader</display-name>
+		<portlet-name>paheader</portlet-name>
+		<display-name>paheader</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahheader-portlet.xml</value>
+			<value>/WEB-INF/paheader-portlet.xml</value>
 		</init-param>
 
 		<expiration-cache>0</expiration-cache>
@@ -484,54 +390,9 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Site Header</title>
-			<short-title></short-title>
-			<keywords></keywords>
-		</portlet-info>
-
-		<portlet-preferences>
-			<preference>
-				<name>portletSetupShowBorders</name>
-				<value>false</value>
-			</preference>
-		</portlet-preferences>
-
-		<security-role-ref>
-			<role-name>administrator</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>guest</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>power-user</role-name>
-		</security-role-ref>
-		<security-role-ref>
-			<role-name>user</role-name>
-		</security-role-ref>
-
-	</portlet>
-
-	<portlet>
-		<portlet-name>ahlatest</portlet-name>
-		<display-name>ahlatest</display-name>
-		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-		<init-param>
-			<name>contextConfigLocation</name>
-			<value>/WEB-INF/ahlatest-portlet.xml</value>
-		</init-param>
-
-		<expiration-cache>0</expiration-cache>
-		<supports>
-			<mime-type>text/html</mime-type>
-			<portlet-mode>view</portlet-mode>
-		</supports>
-		<supported-locale>de</supported-locale>
-		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
-		<portlet-info>
-			<title>Particity Latest Entries</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>

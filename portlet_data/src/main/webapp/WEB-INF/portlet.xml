@@ -21,7 +21,7 @@
 		</supports>
 		<supported-locale>de</supported-locale>
 		<supported-locale>en</supported-locale>
-		<resource-bundle>de.fraunhofer.fokus.oefit.adhoc.Language.Language</resource-bundle>
+		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
 			<title>Particity Admin</title>
 			<short-title></short-title>

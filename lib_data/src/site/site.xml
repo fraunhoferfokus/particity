@@ -1,4 +1,4 @@
-<project name="data-portlet">
+<project name="lib_data">
       <body>
         <menu ref="parent"/>
         <menu ref="license"/>

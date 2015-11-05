@@ -59,7 +59,7 @@
     <module>ah_hook_securefilter</module>
 
 		<!-- basic portlets -->
-		<module>ah_portlet_data</module>
+		<module>portlet_data</module>
 
 		<!-- themes/layout -->
 		<module>ah_layout_2col</module>

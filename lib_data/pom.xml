@@ -28,7 +28,7 @@
 				<groupId>com.liferay.maven.plugins</groupId>
 				<artifactId>liferay-maven-plugin</artifactId>
 				<configuration>
-					<webappBaseDir>${basedir}/../ah_portlet_data/</webappBaseDir>
+					<webappBaseDir>${basedir}/../portlet_data/</webappBaseDir>
 				</configuration>
 			</plugin>
 			<plugin>

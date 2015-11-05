@@ -10,9 +10,9 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ah_portlet_data</artifactId>
+	<artifactId>portlet_data</artifactId>
 	<packaging>war</packaging>
-	<name>ah_portlet_data</name>
+	<name>portlet_data</name>
 	<description>Main portlet. carrying all data structures and basic services</description>
 	
 
@@ -23,17 +23,15 @@
 	        <filtering>true</filtering>
 	    </resource>
 	  </resources>
-		<finalName>adhocdata-portlet</finalName>
+		<finalName>padata-portlet</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.liferay.maven.plugins</groupId>
 				<artifactId>liferay-maven-plugin</artifactId>
 				<configuration>
-					<modelHintsFileName>${basedir}/src/main/resources/META-INF/ext/portlet-model-hints.xml</modelHintsFileName>
 					<pluginName>${project.build.finalName}</pluginName>
 					<pluginType>portlet</pluginType>
 					<webappBaseDir>${basedir}</webappBaseDir>
-					<apiBaseDir>${basedir}/../lib_data</apiBaseDir>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -112,48 +110,6 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.twitter4j</groupId>
-			<artifactId>twitter4j-core</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.twitter4j</groupId>
-			<artifactId>twitter4j-stream</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.facebook4j</groupId>
-			<artifactId>facebook4j-core</artifactId>
 		</dependency>
 
 	</dependencies>
