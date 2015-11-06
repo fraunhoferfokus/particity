@@ -9,13 +9,14 @@
 	</parent>
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>ah_theme</artifactId>
+  <artifactId>theme_default</artifactId>
   <packaging>war</packaging>
-  <name>ah_theme</name>
+  <name>theme_default</name>
+  <description>Liferay theme based upon bootstrap 3.x, including JQuery, modernizr, respond and shariff</description>
 
 
 	<build>
-	  <finalName>adhoc-theme</finalName>
+	  <finalName>padefault-theme</finalName>
 		<plugins>
 			<plugin>
        <groupId>com.liferay.maven.plugins</groupId>			
@@ -81,5 +82,4 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	<description>Liferay theme based upon bootstrap 3.x, including JQuery, modernizr, respond and shariff</description>
 </project>

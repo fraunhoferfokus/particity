@@ -11,13 +11,13 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ah_hook_securefilter</artifactId>
+	<artifactId>hook_securefilter</artifactId>
 	<packaging>war</packaging>
-	<name>ah_hook_securefilter</name>
+	<name>hook_securefilter</name>
 	<description>Hook providing filters to enhance liferay security</description>
 
 	<build>
-		<finalName>adhocsecure-hook</finalName>
+		<finalName>pasecure-hook</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>

@@ -478,7 +478,7 @@ public class AHOrgWrapper implements AHOrg, ModelWrapper<AHOrg> {
     }
 
     @Override
-    public int compareTo(AHOrg ahOrg) {
+    public int compareTo(de.fraunhofer.fokus.oefit.particity.model.AHOrg ahOrg) {
         return _ahOrg.compareTo(ahOrg);
     }
 
@@ -488,17 +488,17 @@ public class AHOrgWrapper implements AHOrg, ModelWrapper<AHOrg> {
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<AHOrg> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHOrg> toCacheModel() {
         return _ahOrg.toCacheModel();
     }
 
     @Override
-    public AHOrg toEscapedModel() {
+    public de.fraunhofer.fokus.oefit.particity.model.AHOrg toEscapedModel() {
         return new AHOrgWrapper(_ahOrg.toEscapedModel());
     }
 
     @Override
-    public AHOrg toUnescapedModel() {
+    public de.fraunhofer.fokus.oefit.particity.model.AHOrg toUnescapedModel() {
         return new AHOrgWrapper(_ahOrg.toUnescapedModel());
     }
 

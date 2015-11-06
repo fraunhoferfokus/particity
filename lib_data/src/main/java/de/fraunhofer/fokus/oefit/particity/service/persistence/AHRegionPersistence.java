@@ -137,7 +137,8 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @throws SystemException if a system exception occurred
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findByregionId_PrevAndNext(
-        AHRegionPK ahRegionPK, long regionId,
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
+        long regionId,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException;
@@ -274,7 +275,8 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @throws SystemException if a system exception occurred
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findByzip_PrevAndNext(
-        AHRegionPK ahRegionPK, int zip,
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
+        int zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException;
@@ -412,7 +414,8 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @throws SystemException if a system exception occurred
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findBycity_PrevAndNext(
-        AHRegionPK ahRegionPK, java.lang.String city,
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
+        java.lang.String city,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException;
@@ -558,7 +561,8 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @throws SystemException if a system exception occurred
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findBycityAndZip_PrevAndNext(
-        AHRegionPK ahRegionPK, java.lang.String city, int zip,
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
+        java.lang.String city, int zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException;
@@ -715,8 +719,8 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @throws SystemException if a system exception occurred
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findBycountryAndCityAndZip_PrevAndNext(
-        AHRegionPK ahRegionPK, java.lang.String country, java.lang.String city,
-        int zip,
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
+        java.lang.String country, java.lang.String city, int zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException;
@@ -769,7 +773,7 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @return the new a h region
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion create(
-        AHRegionPK ahRegionPK);
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK);
 
     /**
     * Removes the a h region with the primary key from the database. Also notifies the appropriate model listeners.
@@ -780,7 +784,7 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @throws SystemException if a system exception occurred
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion remove(
-        AHRegionPK ahRegionPK)
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException;
 
@@ -797,7 +801,7 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @throws SystemException if a system exception occurred
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion findByPrimaryKey(
-        AHRegionPK ahRegionPK)
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException;
 
@@ -809,7 +813,7 @@ public interface AHRegionPersistence extends BasePersistence<AHRegion> {
     * @throws SystemException if a system exception occurred
     */
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion fetchByPrimaryKey(
-        AHRegionPK ahRegionPK)
+        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     /**

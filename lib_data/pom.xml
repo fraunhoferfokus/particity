@@ -29,6 +29,7 @@
 				<artifactId>liferay-maven-plugin</artifactId>
 				<configuration>
 					<webappBaseDir>${basedir}/../portlet_data/</webappBaseDir>
+					<pluginName>padata-portlet</pluginName>
 				</configuration>
 			</plugin>
 			<plugin>

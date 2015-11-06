@@ -10,12 +10,12 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>ah_layout_3col</artifactId>
+	<artifactId>layout_3col</artifactId>
 	<packaging>war</packaging>
-	<name>ah_layout_3col</name>
+	<name>layout_3col</name>
 
 	<build>
-	  <finalName>ah3col-layouttpl</finalName>
+	  <finalName>pa3col-layouttpl</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.liferay.maven.plugins</groupId>

@@ -263,7 +263,8 @@ public class AHRegionWrapper implements AHRegion, ModelWrapper<AHRegion> {
     }
 
     @Override
-    public int compareTo(AHRegion ahRegion) {
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHRegion ahRegion) {
         return _ahRegion.compareTo(ahRegion);
     }
 
@@ -273,17 +274,17 @@ public class AHRegionWrapper implements AHRegion, ModelWrapper<AHRegion> {
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<AHRegion> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHRegion> toCacheModel() {
         return _ahRegion.toCacheModel();
     }
 
     @Override
-    public AHRegion toEscapedModel() {
+    public de.fraunhofer.fokus.oefit.particity.model.AHRegion toEscapedModel() {
         return new AHRegionWrapper(_ahRegion.toEscapedModel());
     }
 
     @Override
-    public AHRegion toUnescapedModel() {
+    public de.fraunhofer.fokus.oefit.particity.model.AHRegion toUnescapedModel() {
         return new AHRegionWrapper(_ahRegion.toUnescapedModel());
     }
 
