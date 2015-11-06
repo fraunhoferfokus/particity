@@ -56,15 +56,20 @@
 		<module>lib_data</module>
 
     <!-- hooks -->
-    <module>ah_hook_securefilter</module>
+    <module>hook_securefilter</module>
 
 		<!-- basic portlets -->
 		<module>portlet_data</module>
+		<module>portlet_search</module>
+		<module>portlet_mgmt</module>
+		<module>portlet_org</module>
+		<module>portlet_newsletter</module>
+		<module>portlet_site</module>
 
 		<!-- themes/layout -->
-		<module>ah_layout_2col</module>
-		<module>ah_layout_3col</module>
-		<module>ah_theme</module>
+		<module>layout_2col</module>
+		<module>layout_3col</module>
+		<module>theme_default</module>
 	</modules>
 
 
