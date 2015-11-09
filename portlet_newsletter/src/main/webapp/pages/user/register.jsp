@@ -53,7 +53,7 @@
 			<div class="col-xs-12 jumbotron">
 				<%
       
-      List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH);
+      List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH.getIntValue());
       
       List<AHCatEntries> childs;
       for (AHCategories rootcat: rootcats) {

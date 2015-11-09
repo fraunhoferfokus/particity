@@ -285,7 +285,7 @@
 					</tr>
 					<% 
        
-       log.debug("Got "+orgSize+" organisations!");
+       
        int skip = 0;
        int max = 5;
        // only check if tab is active
@@ -304,6 +304,7 @@
        int end = start+max;
        if (end >= orgSize)
          end = orgSize;
+       //log.debug("Got "+orgSize+" organisations!");
        int pagesnum = orgSize/max;
        int pagenum = (start+max)/max;
        List<AHOrg> organisations = null;
@@ -312,112 +313,114 @@
     	   organisations = AHOrgLocalServiceUtil.getOrganisations(start, end, E_TableColumn.valueOf(orgColumn).getColName(), order);
        } catch (Throwable t) {}
        
-    	 for (AHOrg organisation: organisations) {
-    		 E_OrgStatus status = E_OrgStatus.findByValue(organisation.getStatus());
-    		 long lastOffer = -1;
-    		 AHOffer offer = AHOfferLocalServiceUtil.getLastOfferForOrganization(organisation.getOrgId());
-    		 if (offer != null) {
-    			 lastOffer = offer.getUpdated();
-    		 }
-    		 long created = organisation.getCreated();
-    		 long updated = organisation.getUpdated();
-    		 String strCreated = "-";
-    		 String strUpdated = "-";
-    		 String strLastOffer = "-";
-    		 if (created > 0) {
-    			 strCreated = CustomServiceUtils.formatZoneDateTime(created);
-    		 }
-    		 if (lastOffer > 0) {
-    	     strLastOffer = CustomServiceUtils.formatZoneDateTime(lastOffer);
-    		 }
-    		 if (updated > 0) {
-    			 strUpdated = CustomServiceUtils.formatZoneDateTime(updated);
-    		 }
-    		 
-    		 String statusClass="";
-    		 switch (status) {
-	    		 case NEW:
-	    		 case CHANGED:
-	    			 statusClass = "text-info";
-	    			 break;
-	    		 case VALIDATED:
-	    			   statusClass = "text-success";
-	    				 break;
-	    		 case DISABLED:
-	    			 statusClass = "text-error";
-             break;
-    		 }
-       %>
-					<tr>
-						<td><a
-							title="<spring:message code="mgmt.tabs.org.item.action.view"/>"
-							href="<portlet:actionURL>
-                         <portlet:param name="action" value="viewOrg" />
-                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
-                       </portlet:actionURL>"><%= organisation.getName() %></a></td>
-						<td><%= organisation.getHolder() %></td>
-						<td><%= organisation.getOwner() %></td>
-						<td class="<%= statusClass %>"><spring:message
-								code="<%= status.getMsgProperty() %>" /></td>
-						<td><%= strCreated %></td>
-						<td><%= strUpdated %></td>
-						<td><%= strLastOffer %></td>
-						<td>
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-expanded="false">
-									<spring:message code="mgmt.tabs.org.item.action.title" />
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li><a
-										href="<portlet:actionURL>
-                         <portlet:param name="action" value="viewOrg" />
-                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
-                       </portlet:actionURL>"><span
-											class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;<spring:message
-												code="mgmt.tabs.org.item.action.view" /></a></li>
-									<%
-                 if (!status.equals(E_OrgStatus.VALIDATED)) {
-                	 %>
-									<li class="<%= statusClass %>"><a
-										href="<portlet:actionURL>
-                         <portlet:param name="action" value="viewOrg" />
-                         <portlet:param name="actionType" value="approve" />
-                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
-                       </portlet:actionURL>"><span
-											class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;<spring:message
-												code="mgmt.tabs.org.item.action.edit" /></a></li>
-									<%
-                 }
-                 %>
-									<li class="divider"></li>
-									<%
-                 if (!status.equals(E_OrgStatus.DISABLED)) {
-                 %>
-									<li><a
-										href="<portlet:actionURL>
-                         <portlet:param name="action" value="disableOrg" />
-                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
-                       </portlet:actionURL>"><span
-											class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>&nbsp;<spring:message
-												code="mgmt.tabs.org.item.action.disable" /></a></li>
-									<%
-                 }
-                 %>
-									<li><a
-										onclick="createModal('#modal','<spring:message code="mgmt.tabs.org.item.action.deleteHeader"/>','<spring:message code="mgmt.tabs.org.item.action.deleteBody"/><%= organisation.getName().replaceAll("'","") %>','<spring:message code="mgmt.tabs.org.item.action.deleteAbort"/>','<spring:message code="mgmt.tabs.org.item.action.deleteOk"/>','<portlet:actionURL>
-                         <portlet:param name="action" value="deleteOrg" />
-                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
-                       </portlet:actionURL>')" class="<%= demoDisabled %>"><span
-											class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<spring:message
-												code="mgmt.tabs.org.item.action.delete" /></a></li>
-								</ul>
-							</div>
-						</td>
-					</tr>
-					<%
-	    	 } // organisations-loop
+       if (organisations != null) {
+	    	 for (AHOrg organisation: organisations) {
+	    		 E_OrgStatus status = E_OrgStatus.findByValue(organisation.getStatus());
+	    		 long lastOffer = -1;
+	    		 AHOffer offer = AHOfferLocalServiceUtil.getLastOfferForOrganization(organisation.getOrgId());
+	    		 if (offer != null) {
+	    			 lastOffer = offer.getUpdated();
+	    		 }
+	    		 long created = organisation.getCreated();
+	    		 long updated = organisation.getUpdated();
+	    		 String strCreated = "-";
+	    		 String strUpdated = "-";
+	    		 String strLastOffer = "-";
+	    		 if (created > 0) {
+	    			 strCreated = CustomServiceUtils.formatZoneDateTime(created);
+	    		 }
+	    		 if (lastOffer > 0) {
+	    	     strLastOffer = CustomServiceUtils.formatZoneDateTime(lastOffer);
+	    		 }
+	    		 if (updated > 0) {
+	    			 strUpdated = CustomServiceUtils.formatZoneDateTime(updated);
+	    		 }
+	    		 
+	    		 String statusClass="";
+	    		 switch (status) {
+		    		 case NEW:
+		    		 case CHANGED:
+		    			 statusClass = "text-info";
+		    			 break;
+		    		 case VALIDATED:
+		    			   statusClass = "text-success";
+		    				 break;
+		    		 case DISABLED:
+		    			 statusClass = "text-error";
+	             break;
+	    		 }
+	       %>
+						<tr>
+							<td><a
+								title="<spring:message code="mgmt.tabs.org.item.action.view"/>"
+								href="<portlet:actionURL>
+	                         <portlet:param name="action" value="viewOrg" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                       </portlet:actionURL>"><%= organisation.getName() %></a></td>
+							<td><%= organisation.getHolder() %></td>
+							<td><%= organisation.getOwner() %></td>
+							<td class="<%= statusClass %>"><spring:message
+									code="<%= status.getMsgProperty() %>" /></td>
+							<td><%= strCreated %></td>
+							<td><%= strUpdated %></td>
+							<td><%= strLastOffer %></td>
+							<td>
+								<div class="btn-group">
+									<button type="button" class="btn btn-default dropdown-toggle"
+										data-toggle="dropdown" aria-expanded="false">
+										<spring:message code="mgmt.tabs.org.item.action.title" />
+										<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li><a
+											href="<portlet:actionURL>
+	                         <portlet:param name="action" value="viewOrg" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                       </portlet:actionURL>"><span
+												class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;<spring:message
+													code="mgmt.tabs.org.item.action.view" /></a></li>
+										<%
+	                 if (!status.equals(E_OrgStatus.VALIDATED)) {
+	                	 %>
+										<li class="<%= statusClass %>"><a
+											href="<portlet:actionURL>
+	                         <portlet:param name="action" value="viewOrg" />
+	                         <portlet:param name="actionType" value="approve" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                       </portlet:actionURL>"><span
+												class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;<spring:message
+													code="mgmt.tabs.org.item.action.edit" /></a></li>
+										<%
+	                 }
+	                 %>
+										<li class="divider"></li>
+										<%
+	                 if (!status.equals(E_OrgStatus.DISABLED)) {
+	                 %>
+										<li><a
+											href="<portlet:actionURL>
+	                         <portlet:param name="action" value="disableOrg" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                       </portlet:actionURL>"><span
+												class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>&nbsp;<spring:message
+													code="mgmt.tabs.org.item.action.disable" /></a></li>
+										<%
+	                 }
+	                 %>
+										<li><a
+											onclick="createModal('#modal','<spring:message code="mgmt.tabs.org.item.action.deleteHeader"/>','<spring:message code="mgmt.tabs.org.item.action.deleteBody"/><%= organisation.getName().replaceAll("'","") %>','<spring:message code="mgmt.tabs.org.item.action.deleteAbort"/>','<spring:message code="mgmt.tabs.org.item.action.deleteOk"/>','<portlet:actionURL>
+	                         <portlet:param name="action" value="deleteOrg" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                       </portlet:actionURL>')" class="<%= demoDisabled %>"><span
+												class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<spring:message
+													code="mgmt.tabs.org.item.action.delete" /></a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+						<%
+		    	 } // organisations-loop
+        }
 	   	 %>
 				</table>
 
