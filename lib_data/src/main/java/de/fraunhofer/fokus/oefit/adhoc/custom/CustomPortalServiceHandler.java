@@ -144,43 +144,7 @@ public class CustomPortalServiceHandler {
 				final long groupId = themeDisplay.getScopeGroupId();
 				final long userId = themeDisplay.getUserId();
 
-				final ServiceContext ctx = new ServiceContext();
-				ctx.setUserId(userId);
-				ctx.setScopeGroupId(groupId);
-				ctx.setAddGroupPermissions(true);
-				ctx.setAddGuestPermissions(true);
-				// ctx.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
-
-				Folder parent = null;
-				try {
-					parent = DLAppServiceUtil.getFolder(groupId, 0,
-					        Constants.ORGANISATION_LOGO_FOLDER);
-				} catch (final Throwable t) {
-				}
-
-				if (parent == null) {
-					parent = DLAppServiceUtil.addFolder(groupId, 0,
-					        Constants.ORGANISATION_LOGO_FOLDER, "", ctx);
-					m_objLog.info("Folder "
-					        + Constants.ORGANISATION_LOGO_FOLDER
-					        + " created ....");
-				} else {
-					m_objLog.info("Folder "
-					        + Constants.ORGANISATION_LOGO_FOLDER
-					        + " already existing ....");
-				}
-
-				final String[] actionids = new String[2];
-				final Role guestRole = RoleLocalServiceUtil.getRole(
-				        PortalUtil.getDefaultCompanyId(), RoleConstants.GUEST);
-				actionids[0] = ActionKeys.VIEW;
-				actionids[1] = ActionKeys.ACCESS;
-				// actionids[2] = ActionKeys.ADD_FILE;
-
-				ResourcePermissionServiceUtil.setIndividualResourcePermissions(
-				        parent.getGroupId(), parent.getCompanyId(),
-				        DLFolder.class.getName(), parent.getFolderId() + "",
-				        guestRole.getRoleId(), actionids);
+				createOrganisationLogoFolder(groupId, userId);
 
 				setConfig(E_ConfigKey.INITFLAG, "true");
 				m_bInitialized = true;
@@ -191,6 +155,47 @@ public class CustomPortalServiceHandler {
 
 		}
 	}
+	
+	public static void createOrganisationLogoFolder(long groupId, long userId) throws PortalException, SystemException {
+		final ServiceContext ctx = new ServiceContext();
+		ctx.setUserId(userId);
+		ctx.setScopeGroupId(groupId);
+		ctx.setAddGroupPermissions(true);
+		ctx.setAddGuestPermissions(true);
+		// ctx.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+
+		Folder parent = null;
+		try {
+			parent = DLAppServiceUtil.getFolder(groupId, 0,
+			        Constants.ORGANISATION_LOGO_FOLDER);
+		} catch (final Throwable t) {
+		}
+
+		if (parent == null) {
+			parent = DLAppServiceUtil.addFolder(groupId, 0,
+			        Constants.ORGANISATION_LOGO_FOLDER, "", ctx);
+			m_objLog.info("Folder "
+			        + Constants.ORGANISATION_LOGO_FOLDER
+			        + " created ....");
+		} else {
+			m_objLog.info("Folder "
+			        + Constants.ORGANISATION_LOGO_FOLDER
+			        + " already existing ....");
+		}
+
+		final String[] actionids = new String[2];
+		final Role guestRole = RoleLocalServiceUtil.getRole(
+		        PortalUtil.getDefaultCompanyId(), RoleConstants.GUEST);
+		actionids[0] = ActionKeys.VIEW;
+		actionids[1] = ActionKeys.ACCESS;
+		// actionids[2] = ActionKeys.ADD_FILE;
+
+		ResourcePermissionServiceUtil.setIndividualResourcePermissions(
+		        parent.getGroupId(), parent.getCompanyId(),
+		        DLFolder.class.getName(), parent.getFolderId() + "",
+		        guestRole.getRoleId(), actionids);
+		
+	}
 
 	/**
 	 * Check for a specific role name and create a regular role if not existent
@@ -199,26 +204,28 @@ public class CustomPortalServiceHandler {
 	 * @param roleName the role name
 	 * @return the role
 	 */
-	public static Role checkRole(final long companyId, final String roleName) {
+	public static Role checkRole(final long userId, final long companyId, final String roleName) {
 		Role result = null;
 
 		Role role = null;
 		try {
 			role = RoleLocalServiceUtil.fetchRole(companyId,
-			        Constants.DEFAULT_ROLE_ORGANIZATION);
+			        roleName);
 			result = role;
 		} catch (final SystemException e) {
 		}
 		if (role == null) {
 			try {
-				role = RoleLocalServiceUtil.createRole(CounterLocalServiceUtil
+				/*role = RoleLocalServiceUtil.createRole(CounterLocalServiceUtil
 				        .increment(Role.class.getName()));
 				role.setName(roleName);
 				role.setCompanyId(companyId);
 				role.setDescription(roleName);
 				role.setTitle(roleName);
 				role.setType(RoleConstants.TYPE_REGULAR);
-				result = RoleLocalServiceUtil.updateRole(role);
+				result = RoleLocalServiceUtil.updateRole(role);*/
+				result = RoleLocalServiceUtil.addRole(userId, Role.class.getName(), CounterLocalServiceUtil
+				        .increment(Role.class.getName()), roleName, null, null, RoleConstants.TYPE_REGULAR, null, null);
 			} catch (final Throwable t) {
 				m_objLog.error(t);
 			}
@@ -243,7 +250,7 @@ public class CustomPortalServiceHandler {
 
 		User user = null;
 		try {
-			final Role orgRole = checkRole(companyId,
+			final Role orgRole = checkRole(0, companyId,
 			        Constants.DEFAULT_ROLE_ORGANIZATION);
 
 			try {
