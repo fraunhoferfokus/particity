@@ -46,8 +46,8 @@
 		  <liferay-portlet:runtime portletName="56_INSTANCE_head2" />
 		</div>
 		<div class="col-sm-4 login text-right">
-			<liferay-portlet:runtime portletName="ahlogin_WAR_adhocdataportlet"
-				queryString="?hide=true&_ahlogin_WAR_adhocdataportlet_hide=true" />
+			<liferay-portlet:runtime portletName="palogin_WAR_pasiteportlet"
+				queryString="?hide=true&_palogin_WAR_pasiteportlet_hide=true" />
 		</div>
 
 	</div>

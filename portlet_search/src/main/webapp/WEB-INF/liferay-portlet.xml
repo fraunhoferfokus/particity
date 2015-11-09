@@ -8,7 +8,7 @@
 		<portlet-name>pasearch</portlet-name>
 		<icon>/icon.png</icon>
 		<configuration-action-class>de.fraunhofer.fokus.oefit.particity.portlet.search.SearchConfigurationAction</configuration-action-class>
-		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+		<!-- friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class-->
 		<friendly-url-mapping>search</friendly-url-mapping>
 		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/pasearch-routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
@@ -36,7 +36,7 @@
 	<portlet>
 		<portlet-name>palatest</portlet-name>
 		<icon>/icon.png</icon>
-		<friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+		<!-- friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class-->
 		<friendly-url-mapping>palatest</friendly-url-mapping>
 		<friendly-url-routes>de/fraunhofer/fokus/oefit/particity/portlet/routes.xml</friendly-url-routes>
 		<instanceable>false</instanceable>
