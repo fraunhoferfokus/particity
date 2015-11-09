@@ -156,8 +156,7 @@ public class AHCategoriesLocalServiceClpInvoker {
         _methodName78 = "addCategory";
 
         _methodParameterTypes78 = new String[] {
-                "java.lang.String", "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
+                "java.lang.String", "java.lang.String", "int"
             };
 
         _methodName79 = "deleteCategoryById";
@@ -166,9 +165,7 @@ public class AHCategoriesLocalServiceClpInvoker {
 
         _methodName80 = "getCategories";
 
-        _methodParameterTypes80 = new String[] {
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
-            };
+        _methodParameterTypes80 = new String[] { "int" };
 
         _methodName81 = "getCategoriesByIdStr";
 
@@ -184,17 +181,11 @@ public class AHCategoriesLocalServiceClpInvoker {
 
         _methodName84 = "getCategory";
 
-        _methodParameterTypes84 = new String[] {
-                "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
-            };
+        _methodParameterTypes84 = new String[] { "java.lang.String", "int" };
 
         _methodName85 = "getCategoryMap";
 
-        _methodParameterTypes85 = new String[] {
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType",
-                "boolean"
-            };
+        _methodParameterTypes85 = new String[] { "int", "boolean" };
     }
 
     public Object invokeMethod(String name, String[] parameterTypes,
@@ -302,7 +293,7 @@ public class AHCategoriesLocalServiceClpInvoker {
                 Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
             return AHCategoriesLocalServiceUtil.addCategory((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType) arguments[2]);
+                ((Integer) arguments[2]).intValue());
         }
 
         if (_methodName79.equals(name) &&
@@ -312,7 +303,7 @@ public class AHCategoriesLocalServiceClpInvoker {
 
         if (_methodName80.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
-            return AHCategoriesLocalServiceUtil.getCategories((de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType) arguments[0]);
+            return AHCategoriesLocalServiceUtil.getCategories(((Integer) arguments[0]).intValue());
         }
 
         if (_methodName81.equals(name) &&
@@ -333,12 +324,12 @@ public class AHCategoriesLocalServiceClpInvoker {
         if (_methodName84.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
             return AHCategoriesLocalServiceUtil.getCategory((java.lang.String) arguments[0],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType) arguments[1]);
+                ((Integer) arguments[1]).intValue());
         }
 
         if (_methodName85.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes85, parameterTypes)) {
-            return AHCategoriesLocalServiceUtil.getCategoryMap((de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType) arguments[0],
+            return AHCategoriesLocalServiceUtil.getCategoryMap(((Integer) arguments[0]).intValue(),
                 ((Boolean) arguments[1]).booleanValue());
         }
 

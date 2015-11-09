@@ -275,12 +275,6 @@ public class AHConfigLocalServiceWrapper implements AHConfigLocalService,
     }
 
     @Override
-    public java.lang.String getConfig(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey key) {
-        return _ahConfigLocalService.getConfig(key);
-    }
-
-    @Override
     public java.lang.String getConfig(java.lang.String key,
         java.lang.String defaultValue) {
         return _ahConfigLocalService.getConfig(key, defaultValue);

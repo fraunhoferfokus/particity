@@ -242,10 +242,6 @@ public interface AHConfigLocalService extends BaseLocalService,
         throws java.lang.Throwable;
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public java.lang.String getConfig(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey key);
-
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.lang.String getConfig(java.lang.String key,
         java.lang.String defaultValue);
 

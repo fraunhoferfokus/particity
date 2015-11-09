@@ -158,8 +158,7 @@ public class AHCategoriesLocalServiceClp implements AHCategoriesLocalService {
         _methodName19 = "addCategory";
 
         _methodParameterTypes19 = new String[] {
-                "java.lang.String", "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
+                "java.lang.String", "java.lang.String", "int"
             };
 
         _methodName20 = "deleteCategoryById";
@@ -168,9 +167,7 @@ public class AHCategoriesLocalServiceClp implements AHCategoriesLocalService {
 
         _methodName21 = "getCategories";
 
-        _methodParameterTypes21 = new String[] {
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
-            };
+        _methodParameterTypes21 = new String[] { "int" };
 
         _methodName22 = "getCategoriesByIdStr";
 
@@ -186,17 +183,11 @@ public class AHCategoriesLocalServiceClp implements AHCategoriesLocalService {
 
         _methodName25 = "getCategory";
 
-        _methodParameterTypes25 = new String[] {
-                "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
-            };
+        _methodParameterTypes25 = new String[] { "java.lang.String", "int" };
 
         _methodName26 = "getCategoryMap";
 
-        _methodParameterTypes26 = new String[] {
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType",
-                "boolean"
-            };
+        _methodParameterTypes26 = new String[] { "int", "boolean" };
     }
 
     @Override
@@ -714,8 +705,7 @@ public class AHCategoriesLocalServiceClp implements AHCategoriesLocalService {
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHCategories addCategory(
-        java.lang.String name, java.lang.String description,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
+        java.lang.String name, java.lang.String description, int type)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
@@ -727,7 +717,7 @@ public class AHCategoriesLocalServiceClp implements AHCategoriesLocalService {
                         
                     ClpSerializer.translateInput(description),
                         
-                    ClpSerializer.translateInput(type)
+                    type
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -771,14 +761,12 @@ public class AHCategoriesLocalServiceClp implements AHCategoriesLocalService {
 
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCategories> getCategories(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
-        throws com.liferay.portal.kernel.exception.SystemException {
+        int type) throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName21,
-                    _methodParameterTypes21,
-                    new Object[] { ClpSerializer.translateInput(type) });
+                    _methodParameterTypes21, new Object[] { type });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -881,19 +869,14 @@ public class AHCategoriesLocalServiceClp implements AHCategoriesLocalService {
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHCategories getCategory(
-        java.lang.String name,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
+        java.lang.String name, int type)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName25,
                     _methodParameterTypes25,
-                    new Object[] {
-                        ClpSerializer.translateInput(name),
-                        
-                    ClpSerializer.translateInput(type)
-                    });
+                    new Object[] { ClpSerializer.translateInput(name), type });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 
@@ -914,19 +897,13 @@ public class AHCategoriesLocalServiceClp implements AHCategoriesLocalService {
 
     @Override
     public java.util.Map<java.lang.Long, java.lang.String> getCategoryMap(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type,
-        boolean includeEmpty)
+        int type, boolean includeEmpty)
         throws com.liferay.portal.kernel.exception.SystemException {
         Object returnObj = null;
 
         try {
             returnObj = _invokableLocalService.invokeMethod(_methodName26,
-                    _methodParameterTypes26,
-                    new Object[] {
-                        ClpSerializer.translateInput(type),
-                        
-                    includeEmpty
-                    });
+                    _methodParameterTypes26, new Object[] { type, includeEmpty });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

@@ -302,8 +302,8 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
         _methodName35 = "addOffer";
 
         _methodParameterTypes35 = new String[] {
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType",
-                "java.lang.String", "java.lang.String", "java.lang.String",
+                "int", "java.lang.String", "java.lang.String",
+                "java.lang.String",
                 "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType", "long",
                 "long", "long", "long", "long", "boolean", "long", "long[][]"
             };
@@ -311,9 +311,8 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
         _methodName36 = "addOffer";
 
         _methodParameterTypes36 = new String[] {
-                "java.lang.Long",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType",
-                "java.lang.String", "java.lang.String", "java.lang.String",
+                "java.lang.Long", "int", "java.lang.String", "java.lang.String",
+                "java.lang.String",
                 "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType", "long",
                 "long", "long", "long", "long", "boolean", "long", "long[][]"
             };
@@ -1372,8 +1371,7 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType type,
-        java.lang.String title, java.lang.String descr,
+        int type, java.lang.String title, java.lang.String descr,
         java.lang.String workTime,
         de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
         long publishDate, long expireDate, long addressId, long contactId,
@@ -1384,7 +1382,7 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
             returnObj = _invokableLocalService.invokeMethod(_methodName35,
                     _methodParameterTypes35,
                     new Object[] {
-                        ClpSerializer.translateInput(type),
+                        type,
                         
                     ClpSerializer.translateInput(title),
                         
@@ -1426,10 +1424,8 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
-        java.lang.Long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType type,
-        java.lang.String title, java.lang.String descr,
-        java.lang.String workTime,
+        java.lang.Long offerId, int type, java.lang.String title,
+        java.lang.String descr, java.lang.String workTime,
         de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
         long publishDate, long expireDate, long addressId, long contactId,
         long contact2Id, boolean agencyContact, long orgId, long[] categories) {
@@ -1441,7 +1437,7 @@ public class AHOfferLocalServiceClp implements AHOfferLocalService {
                     new Object[] {
                         ClpSerializer.translateInput(offerId),
                         
-                    ClpSerializer.translateInput(type),
+                    type,
                         
                     ClpSerializer.translateInput(title),
                         

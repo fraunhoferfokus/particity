@@ -208,7 +208,7 @@ public class ExportWriter {
 			ConfigurationType cfgObj = null;
 			String value = null;
 			for (E_ConfigKey ckey : E_ConfigKey.values()) {
-				value = AHConfigLocalServiceUtil.getConfig(ckey);
+				value = AHConfigLocalServiceUtil.getConfig(ckey.name(), ckey.getDefaultValue());
 				cfgObj = new ConfigurationType();
 				cfgObj.setKey(ckey.name());
 				cfgObj.setValue(value);

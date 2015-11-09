@@ -48,8 +48,6 @@ public class AHConfigLocalServiceClp implements AHConfigLocalService {
     private String[] _methodParameterTypes19;
     private String _methodName20;
     private String[] _methodParameterTypes20;
-    private String _methodName21;
-    private String[] _methodParameterTypes21;
 
     public AHConfigLocalServiceClp(InvokableLocalService invokableLocalService) {
         _invokableLocalService = invokableLocalService;
@@ -147,18 +145,12 @@ public class AHConfigLocalServiceClp implements AHConfigLocalService {
         _methodName19 = "getConfig";
 
         _methodParameterTypes19 = new String[] {
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"
-            };
-
-        _methodName20 = "getConfig";
-
-        _methodParameterTypes20 = new String[] {
                 "java.lang.String", "java.lang.String"
             };
 
-        _methodName21 = "setConfig";
+        _methodName20 = "setConfig";
 
-        _methodParameterTypes21 = new String[] {
+        _methodParameterTypes20 = new String[] {
                 "java.lang.String", "java.lang.String"
             };
     }
@@ -682,36 +674,13 @@ public class AHConfigLocalServiceClp implements AHConfigLocalService {
     }
 
     @Override
-    public java.lang.String getConfig(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey key) {
-        Object returnObj = null;
-
-        try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName19,
-                    _methodParameterTypes19,
-                    new Object[] { ClpSerializer.translateInput(key) });
-        } catch (Throwable t) {
-            t = ClpSerializer.translateThrowable(t);
-
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw new RuntimeException(t.getClass().getName() +
-                    " is not a valid exception");
-            }
-        }
-
-        return (java.lang.String) ClpSerializer.translateOutput(returnObj);
-    }
-
-    @Override
     public java.lang.String getConfig(java.lang.String key,
         java.lang.String defaultValue) {
         Object returnObj = null;
 
         try {
-            returnObj = _invokableLocalService.invokeMethod(_methodName20,
-                    _methodParameterTypes20,
+            returnObj = _invokableLocalService.invokeMethod(_methodName19,
+                    _methodParameterTypes19,
                     new Object[] {
                         ClpSerializer.translateInput(key),
                         
@@ -734,8 +703,8 @@ public class AHConfigLocalServiceClp implements AHConfigLocalService {
     @Override
     public void setConfig(java.lang.String key, java.lang.String value) {
         try {
-            _invokableLocalService.invokeMethod(_methodName21,
-                _methodParameterTypes21,
+            _invokableLocalService.invokeMethod(_methodName20,
+                _methodParameterTypes20,
                 new Object[] {
                     ClpSerializer.translateInput(key),
                     

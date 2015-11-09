@@ -83,7 +83,7 @@ public class AHCategoriesLocalServiceImpl extends
 	 */
 	@Override
 	public AHCategories addCategory(final String name,
-	        final String description, final E_CategoryType type)
+	        final String description, int type)
 	        throws SystemException {
 
 		AHCategories result = this.getCategory(name, type);
@@ -91,7 +91,7 @@ public class AHCategoriesLocalServiceImpl extends
 			result = this.createAHCategories(CounterLocalServiceUtil
 			        .increment(AHCategories.class.getName()));
 			result.setName(name);
-			result.setType(type.getIntValue());
+			result.setType(type);
 			result.setDescr(description);
 			result = this.updateAHCategories(result);
 		}
@@ -126,9 +126,9 @@ public class AHCategoriesLocalServiceImpl extends
 	 * @throws SystemException the system exception
 	 */
 	@Override
-	public List<AHCategories> getCategories(final E_CategoryType type)
+	public List<AHCategories> getCategories(int type)
 	        throws SystemException {
-		return this.getAHCategoriesPersistence().findBytype(type.getIntValue());
+		return this.getAHCategoriesPersistence().findBytype(type);
 	}
 
 	/* (non-Javadoc)
@@ -186,14 +186,14 @@ public class AHCategoriesLocalServiceImpl extends
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalService#getCategory(java.lang.String, de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType)
 	 */
 	@Override
-	public AHCategories getCategory(final String name, final E_CategoryType type)
+	public AHCategories getCategory(final String name, int type)
 	        throws SystemException {
 		AHCategories result = null;
 
 		try {
 			final List<AHCategories> list = this.getAHCategoriesPersistence()
 			        .findBynameAndType(
-			                name, type.getIntValue());
+			                name, type);
 			if (list.size() > 0) {
 				result = list.get(0);
 			}
@@ -208,11 +208,11 @@ public class AHCategoriesLocalServiceImpl extends
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCategoriesLocalService#getCategoryMap(de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType, boolean)
 	 */
 	@Override
-	public Map<Long, String> getCategoryMap(final E_CategoryType type,
+	public Map<Long, String> getCategoryMap(int type,
 	        final boolean includeEmpty) throws SystemException {
 		final Map<Long, String> result = new TreeMap<Long, String>();
 		final List<AHCategories> cats = this.getAHCategoriesPersistence()
-		        .findBytype(type.getIntValue());
+		        .findBytype(type);
 		if (cats != null) {
 			if (includeEmpty) {
 				result.put(-1L, "-");

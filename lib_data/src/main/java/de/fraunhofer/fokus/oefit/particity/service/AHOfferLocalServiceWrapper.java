@@ -426,8 +426,7 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType type,
-        java.lang.String title, java.lang.String descr,
+        int type, java.lang.String title, java.lang.String descr,
         java.lang.String workTime,
         de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
         long publishDate, long expireDate, long addressId, long contactId,
@@ -439,10 +438,8 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
-        java.lang.Long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType type,
-        java.lang.String title, java.lang.String descr,
-        java.lang.String workTime,
+        java.lang.Long offerId, int type, java.lang.String title,
+        java.lang.String descr, java.lang.String workTime,
         de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
         long publishDate, long expireDate, long addressId, long contactId,
         long contact2Id, boolean agencyContact, long orgId, long[] categories) {

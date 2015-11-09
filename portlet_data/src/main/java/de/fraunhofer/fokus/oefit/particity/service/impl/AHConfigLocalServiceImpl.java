@@ -70,18 +70,6 @@ public class AHConfigLocalServiceImpl extends AHConfigLocalServiceBaseImpl {
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(AHConfigLocalServiceImpl.class);
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHConfigLocalService#getConfig(de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey)
-	 */
-	@Override
-	public String getConfig(final E_ConfigKey key) {
-		AHConfig cfg = null;
-		try {
-			cfg = this.getAHConfig(key.toString());
-		} catch (final Throwable e) {
-		}
-		return cfg == null ? key.getDefaultValue() : cfg.getValue();
-	}
 
 	/* (non-Javadoc)
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHConfigLocalService#getConfig(java.lang.String, java.lang.String)

@@ -241,8 +241,7 @@ public interface AHCategoriesLocalService extends BaseLocalService,
         throws java.lang.Throwable;
 
     public de.fraunhofer.fokus.oefit.particity.model.AHCategories addCategory(
-        java.lang.String name, java.lang.String description,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
+        java.lang.String name, java.lang.String description, int type)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     public de.fraunhofer.fokus.oefit.particity.model.AHCategories deleteCategoryById(
@@ -257,8 +256,7 @@ public interface AHCategoriesLocalService extends BaseLocalService,
     */
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCategories> getCategories(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
-        throws com.liferay.portal.kernel.exception.SystemException;
+        int type) throws com.liferay.portal.kernel.exception.SystemException;
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCategories> getCategoriesByIdStr(
@@ -276,13 +274,11 @@ public interface AHCategoriesLocalService extends BaseLocalService,
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public de.fraunhofer.fokus.oefit.particity.model.AHCategories getCategory(
-        java.lang.String name,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
+        java.lang.String name, int type)
         throws com.liferay.portal.kernel.exception.SystemException;
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.Map<java.lang.Long, java.lang.String> getCategoryMap(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type,
-        boolean includeEmpty)
+        int type, boolean includeEmpty)
         throws com.liferay.portal.kernel.exception.SystemException;
 }

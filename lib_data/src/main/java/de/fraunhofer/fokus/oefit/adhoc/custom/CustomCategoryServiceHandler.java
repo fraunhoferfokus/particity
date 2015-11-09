@@ -86,7 +86,7 @@ public class CustomCategoryServiceHandler {
 	public static AHCategories addMainCategory(String name, String descr, E_CategoryType type) {
 		AHCategories result = null;
 		try {
-			result = AHCategoriesLocalServiceUtil.addCategory(name,descr, type);
+			result = AHCategoriesLocalServiceUtil.addCategory(name,descr, type.getIntValue());
 		} catch (Throwable t) {
 			m_objLog.error("Error adding category",t);
 		}

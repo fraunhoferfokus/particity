@@ -276,8 +276,7 @@ public class AHCategoriesLocalServiceWrapper implements AHCategoriesLocalService
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHCategories addCategory(
-        java.lang.String name, java.lang.String description,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
+        java.lang.String name, java.lang.String description, int type)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _ahCategoriesLocalService.addCategory(name, description, type);
     }
@@ -297,8 +296,7 @@ public class AHCategoriesLocalServiceWrapper implements AHCategoriesLocalService
     */
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCategories> getCategories(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
-        throws com.liferay.portal.kernel.exception.SystemException {
+        int type) throws com.liferay.portal.kernel.exception.SystemException {
         return _ahCategoriesLocalService.getCategories(type);
     }
 
@@ -324,16 +322,14 @@ public class AHCategoriesLocalServiceWrapper implements AHCategoriesLocalService
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHCategories getCategory(
-        java.lang.String name,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
+        java.lang.String name, int type)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _ahCategoriesLocalService.getCategory(name, type);
     }
 
     @Override
     public java.util.Map<java.lang.Long, java.lang.String> getCategoryMap(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type,
-        boolean includeEmpty)
+        int type, boolean includeEmpty)
         throws com.liferay.portal.kernel.exception.SystemException {
         return _ahCategoriesLocalService.getCategoryMap(type, includeEmpty);
     }

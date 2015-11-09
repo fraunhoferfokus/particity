@@ -90,7 +90,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#addOffer(de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType, java.lang.String, java.lang.String, java.lang.String, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType, long, long, long, long, long, boolean, long, long[])
 	 */
 	@Override
-	public AHOffer addOffer(final E_OfferType type, final String title,
+	public AHOffer addOffer(int type, final String title,
 	        final String descr, final String workTime,
 	        final E_OfferWorkType workType, final long publishDate,
 	        final long expireDate, final long addressId, final long contactId,
@@ -105,7 +105,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#addOffer(java.lang.Long, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType, java.lang.String, java.lang.String, java.lang.String, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType, long, long, long, long, long, boolean, long, long[])
 	 */
 	@Override
-	public AHOffer addOffer(final Long offerId, final E_OfferType type,
+	public AHOffer addOffer(final Long offerId, int type,
 	        final String title, final String descr, final String workTime,
 	        final E_OfferWorkType workType, final long publishDate,
 	        final long expireDate, final long addressId, final long contactId,
@@ -132,7 +132,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 				result.setDescription(descr);
 				// result.setRegionId(regionId);
 				result.setTitle(title);
-				result.setType(type.getIntValue());
+				result.setType(type);
 				result.setPublish(publishDate);
 				result.setWorkTime(workTime);
 				result.setUpdated(now);

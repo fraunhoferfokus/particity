@@ -49,8 +49,6 @@ public class AHConfigLocalServiceClpInvoker {
     private String[] _methodParameterTypes78;
     private String _methodName79;
     private String[] _methodParameterTypes79;
-    private String _methodName80;
-    private String[] _methodParameterTypes80;
 
     public AHConfigLocalServiceClpInvoker() {
         _methodName0 = "addAHConfig";
@@ -146,18 +144,12 @@ public class AHConfigLocalServiceClpInvoker {
         _methodName78 = "getConfig";
 
         _methodParameterTypes78 = new String[] {
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"
-            };
-
-        _methodName79 = "getConfig";
-
-        _methodParameterTypes79 = new String[] {
                 "java.lang.String", "java.lang.String"
             };
 
-        _methodName80 = "setConfig";
+        _methodName79 = "setConfig";
 
-        _methodParameterTypes80 = new String[] {
+        _methodParameterTypes79 = new String[] {
                 "java.lang.String", "java.lang.String"
             };
     }
@@ -265,17 +257,12 @@ public class AHConfigLocalServiceClpInvoker {
 
         if (_methodName78.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
-            return AHConfigLocalServiceUtil.getConfig((de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey) arguments[0]);
-        }
-
-        if (_methodName79.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
             return AHConfigLocalServiceUtil.getConfig((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1]);
         }
 
-        if (_methodName80.equals(name) &&
-                Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
+        if (_methodName79.equals(name) &&
+                Arrays.deepEquals(_methodParameterTypes79, parameterTypes)) {
             AHConfigLocalServiceUtil.setConfig((java.lang.String) arguments[0],
                 (java.lang.String) arguments[1]);
 

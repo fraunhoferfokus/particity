@@ -50,13 +50,7 @@
   }
   String itemStr = paramSb.toString();
     
-  %>
-
-<%
-      
-        List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH);
-        //List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategoriesByIdStr(rCatParam);
-        //List<AHCategories> morecats = AHCategoriesLocalServiceUtil.getCategoriesByInverseIdStr(rCatParam);
+        List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH.getIntValue());
         
         List<AHCatEntries> childs;
         String rCatId;

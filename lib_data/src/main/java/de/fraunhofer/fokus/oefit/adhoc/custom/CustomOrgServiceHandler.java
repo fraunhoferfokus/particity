@@ -286,7 +286,7 @@ public class CustomOrgServiceHandler {
 		AHCategories countryCat = null;
 		try {
 			countryCat = AHCategoriesLocalServiceUtil.getCategory(countryName,
-			        E_CategoryType.COUNTRIES);
+			        E_CategoryType.COUNTRIES.getIntValue());
 			if (countryCat != null) {
 				result.setRegionCountry(Long.toString(countryCat.getCatId()));
 			}

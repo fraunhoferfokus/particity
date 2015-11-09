@@ -45,6 +45,7 @@
 		  <groupId>de.fraunhofer.fokus.oefit</groupId>
 	    <artifactId>lib_data</artifactId>
 	    <version>${pom.version}</version>
+	    
 	  </dependency>
 
 		<dependency>

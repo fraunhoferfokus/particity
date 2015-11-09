@@ -115,7 +115,7 @@
 				<div class="panel-group" id="accordion" role="tablist"
 					aria-multiselectable="true" style="margin-top: 20px;">
 					<%
-			  List<AHCategories> categories = AHCategoriesLocalServiceUtil.getCategories(ctype);
+			  List<AHCategories> categories = AHCategoriesLocalServiceUtil.getCategories(ctype.getIntValue());
 			  String disabledStr = "";
 			  String activeStr = "";
 			  String catId;

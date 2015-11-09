@@ -138,7 +138,7 @@ public class CustomPersistanceServiceHandler {
 		Map<Long, String> result = null;
 
 		try {
-			result = AHCategoriesLocalServiceUtil.getCategoryMap(type,
+			result = AHCategoriesLocalServiceUtil.getCategoryMap(type.getIntValue(),
 			        includeEmpty);
 		} catch (final Throwable e) {
 			m_objLog.warn(e);

@@ -301,8 +301,8 @@ public class AHOfferLocalServiceClpInvoker {
         _methodName94 = "addOffer";
 
         _methodParameterTypes94 = new String[] {
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType",
-                "java.lang.String", "java.lang.String", "java.lang.String",
+                "int", "java.lang.String", "java.lang.String",
+                "java.lang.String",
                 "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType", "long",
                 "long", "long", "long", "long", "boolean", "long", "long[][]"
             };
@@ -310,9 +310,8 @@ public class AHOfferLocalServiceClpInvoker {
         _methodName95 = "addOffer";
 
         _methodParameterTypes95 = new String[] {
-                "java.lang.Long",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType",
-                "java.lang.String", "java.lang.String", "java.lang.String",
+                "java.lang.Long", "int", "java.lang.String", "java.lang.String",
+                "java.lang.String",
                 "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType", "long",
                 "long", "long", "long", "long", "boolean", "long", "long[][]"
             };
@@ -674,7 +673,7 @@ public class AHOfferLocalServiceClpInvoker {
 
         if (_methodName94.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes94, parameterTypes)) {
-            return AHOfferLocalServiceUtil.addOffer((de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType) arguments[0],
+            return AHOfferLocalServiceUtil.addOffer(((Integer) arguments[0]).intValue(),
                 (java.lang.String) arguments[1],
                 (java.lang.String) arguments[2],
                 (java.lang.String) arguments[3],
@@ -691,7 +690,7 @@ public class AHOfferLocalServiceClpInvoker {
         if (_methodName95.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes95, parameterTypes)) {
             return AHOfferLocalServiceUtil.addOffer((java.lang.Long) arguments[0],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType) arguments[1],
+                ((Integer) arguments[1]).intValue(),
                 (java.lang.String) arguments[2],
                 (java.lang.String) arguments[3],
                 (java.lang.String) arguments[4],

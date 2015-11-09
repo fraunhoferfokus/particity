@@ -157,7 +157,7 @@ public class CustomOfferServiceHandler {
 
 		if (org != null && region != null && address != null && contact != null
 		        && workType != null) {
-			result = AHOfferLocalServiceUtil.addOffer(offerId, offerType,
+			result = AHOfferLocalServiceUtil.addOffer(offerId, offerType.getIntValue(),
 			        title, descr, workHours, workType,publishDateTime, expireDateTime,
 			        address.getAddrId(), contact.getContactId(),
 			        contact2.getContactId(), agencyContact,
@@ -331,7 +331,7 @@ public class CustomOfferServiceHandler {
 			AHCategories cat = null;
 			try {
 				cat = AHCategoriesLocalServiceUtil.getCategory(countryName,
-				        E_CategoryType.COUNTRIES);
+				        E_CategoryType.COUNTRIES.getIntValue());
 				if (cat != null) {
 					result.setRegionCountry(Long.toString(cat.getCatId()));
 				}
@@ -340,7 +340,7 @@ public class CustomOfferServiceHandler {
 			final String offerTimeName = result.getWorkHours();
 			try {
 				cat = AHCategoriesLocalServiceUtil.getCategory(offerTimeName,
-				        E_CategoryType.OFFERTIME);
+				        E_CategoryType.OFFERTIME.getIntValue());
 				if (cat != null) {
 					result.setWorkHours(Long.toString(cat.getCatId()));
 				}
