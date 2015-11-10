@@ -173,7 +173,7 @@ public class MainController extends BaseController {
 				final User newUser = CustomPortalServiceHandler
 				        .createPortalUser(data.getForename(),
 				                data.getSurname(), data.getMail(),
-				                themeDisplay.getCompanyId(),
+				                themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId(),
 				                themeDisplay.getLocale(),true);
 				if (newUser != null) {
 					AHOrgLocalServiceUtil.addOrganisationUser(orgId,

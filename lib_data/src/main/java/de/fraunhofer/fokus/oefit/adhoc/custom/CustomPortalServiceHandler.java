@@ -51,11 +51,14 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
+import com.liferay.portal.model.Group;
+import com.liferay.portal.model.GroupConstants;
 import com.liferay.portal.model.PortalPreferences;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.RoleConstants;
 import com.liferay.portal.model.User;
 import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.PortalPreferencesLocalServiceUtil;
 import com.liferay.portal.service.ResourcePermissionServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
@@ -204,14 +207,15 @@ public class CustomPortalServiceHandler {
 	 * @param roleName the role name
 	 * @return the role
 	 */
-	public static Role checkRole(final long userId, final long companyId, final String roleName) {
+	public static Role checkRole(final long userId, final long companyId, final String roleName, int roleType) {
 		Role result = null;
 
 		Role role = null;
 		try {
 			role = RoleLocalServiceUtil.fetchRole(companyId,
 			        roleName);
-			result = role;
+			if (role != null && role.getType() == roleType)
+				result = role;
 		} catch (final SystemException e) {
 		}
 		if (role == null) {
@@ -225,7 +229,7 @@ public class CustomPortalServiceHandler {
 				role.setType(RoleConstants.TYPE_REGULAR);
 				result = RoleLocalServiceUtil.updateRole(role);*/
 				result = RoleLocalServiceUtil.addRole(userId, Role.class.getName(), CounterLocalServiceUtil
-				        .increment(Role.class.getName()), roleName, null, null, RoleConstants.TYPE_REGULAR, null, null);
+				        .increment(Role.class.getName()), roleName, null, null, roleType, null, null);
 			} catch (final Throwable t) {
 				m_objLog.error(t);
 			}
@@ -245,27 +249,66 @@ public class CustomPortalServiceHandler {
 	 * @return the user object
 	 */
 	public static User createPortalUser(final String firstName,
-	        final String lastName, final String mail, final long companyId,
+	        final String lastName, final String mail, final long companyId, final long groupId,
 	        final Locale locale, boolean sendMail) {
+		return createPortalUser(firstName, lastName, mail, companyId, groupId, locale, sendMail, null, false);
+	}
+	
+	/**
+	 * Creates a new portal user
+	 *
+	 * @param firstName the first name
+	 * @param lastName the last name
+	 * @param mail the email address
+	 * @param companyId the company id
+	 * @param locale the user's locale
+	 * @return the user object
+	 */
+	public static User createPortalUser(final String firstName,
+	        final String lastName, final String mail, final long companyId, final long groupId,
+	        final Locale locale, boolean sendMail, String password, boolean isAdmin) {
 
 		User user = null;
 		try {
 			final Role orgRole = checkRole(0, companyId,
-			        Constants.DEFAULT_ROLE_ORGANIZATION);
+			        Constants.DEFAULT_ROLE_ORGANIZATION, RoleConstants.TYPE_REGULAR);
 
 			try {
 				user = UserLocalServiceUtil.getUserByEmailAddress(companyId,
 				        mail);
 			} catch (final Throwable t) {
 			}
+			
 
 			if (user == null) {
-				user = UserLocalServiceUtil.addUser(0, companyId, true, null,
-				        null,
+				long[] userGroups = new long[1];
+				Group guestSite = GroupLocalServiceUtil.getGroup(companyId, GroupConstants.GUEST);
+				if (guestSite != null) {
+					userGroups = new long[2];
+					userGroups[1] = guestSite.getGroupId();
+				}
+				userGroups[0] = groupId;
+				//long[] userGroups = new long[]{groupId, guestSite.getGroupId()};
+				
+				long[] roles = new long[2];
+				roles[0] = orgRole.getRoleId();
+				
+				if (isAdmin) {
+					final Role adminRole = checkRole(0, companyId,
+					        RoleConstants.ADMINISTRATOR, RoleConstants.TYPE_REGULAR);
+					roles[0] = adminRole.getRoleId();
+				}
+				
+				final Role memberRole = checkRole(0, companyId,
+				        RoleConstants.SITE_MEMBER, RoleConstants.TYPE_SITE);
+				roles[1] = memberRole.getRoleId();
+				
+				user = UserLocalServiceUtil.addUser(0, companyId, password == null, password,
+				        password,
 				        true, null, mail, 0L, "", locale, firstName, "",
 				        lastName,
-				        0, 0, false, 0, 1, 1970, "", null, null,
-				        new long[] { orgRole.getRoleId() }, null, sendMail,
+				        0, 0, false, 0, 1, 1970, "", userGroups, null,
+				        roles, null, sendMail,
 				        new ServiceContext());
 			}
 

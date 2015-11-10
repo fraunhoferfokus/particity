@@ -110,7 +110,7 @@ public class RegistrationController extends BaseController {
 		if (!result.hasErrors()) {
 			final User user = CustomPortalServiceHandler.createPortalUser(
 			        data.getName(), data.getHolder(), data.getMail(),
-			        themeDisplay.getCompanyId(), themeDisplay.getLocale(), true);
+			        themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId(), themeDisplay.getLocale(), true);
 			if (user != null) {
 				final AHOrg org = CustomOrgServiceHandler.addOrganisation(
 				        this.getCompanyId(request), -1,

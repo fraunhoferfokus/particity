@@ -162,7 +162,7 @@ public class ImportWriter {
 						lrUser = UserLocalServiceUtil.getUserByEmailAddress(m_objCompanyId, org.getOwner());
 					} catch (Throwable t) {}
 					if (lrUser == null) {
-						lrUser = CustomPortalServiceHandler.createPortalUser(org.getName(), org.getHolder(), org.getOwner(), m_objCompanyId, Locale.GERMAN, false);
+						lrUser = CustomPortalServiceHandler.createPortalUser(org.getName(), org.getHolder(), org.getOwner(), m_objCompanyId, m_objGroupId, Locale.GERMAN, false);
 						lrUser.setPassword(org.getLoginPassword());
 						lrUser.setAgreedToTermsOfUse(true);
 						lrUser.setEmailAddressVerified(true);
