@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+        
+        <category name="de.fraunhofer">
+                <priority value="ALL" />
+        </category>
+
+	<category name="de.particity">
+                <priority value="ALL" />
+        </category>
+        
+        <category name="org.apache.jsp.pages">
+                <priority value="ALL" />
+        </category>
+        
+</log4j:configuration>
+
