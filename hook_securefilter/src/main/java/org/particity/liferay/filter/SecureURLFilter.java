@@ -58,7 +58,7 @@ public class SecureURLFilter
 	private Set<String>	         m_objBlockedUrls;
 	private Set<String>	         m_objInternalHosts;
 	private String	             DEFAULT_REDIRECT_URL;
-	private long	             ADMIN_ROLE_ID;
+	private long	             ADMIN_ROLE_ID = -1;
 	private long	             m_numLastModified	     = -1;
 	private boolean 			 m_bIsEnabled = GetterUtil.getBoolean(PropsUtil.get(getClass().getName()), true);
 	
@@ -185,8 +185,13 @@ public class SecureURLFilter
 			DEFAULT_REDIRECT_URL = DEFAULT_REDIRECT_URL
 			        .substring(DEFAULT_REDIRECT_URL.indexOf("://"));
 			String strAdminRoleId = props.getProperty("adminRoleId");
-			if (strAdminRoleId != null)
-				ADMIN_ROLE_ID = Long.parseLong(strAdminRoleId);
+			if (strAdminRoleId != null && strAdminRoleId.trim().length() > 0) {
+				try {
+					ADMIN_ROLE_ID = Long.parseLong(strAdminRoleId);	
+				} catch (Throwable t) {
+					ADMIN_ROLE_ID = -1;
+				}
+			}
 			String strInternalHosts = props.getProperty("internalHosts");
 
 			

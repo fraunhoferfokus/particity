@@ -15,7 +15,6 @@ public enum E_ContextPath {
 	ORG_REGISTRATION("/register/organization","Organisation Registration","Organisation Registrierung","paorgregistration_WAR_paorgportlet", true, RoleConstants.GUEST),
 	USR_REGISTRATION("/register/user","Newsletter Registration","Newsletter Registration","pauserregistration_WAR_panewslportlet", true, RoleConstants.GUEST),
 	USR_NEWSLETTER("/newsletter","Newsletter","Newsletter","pausermain_WAR_panewslportlet", true, RoleConstants.GUEST),
-	
 	;
 	
 	private static final String DEFAULT_THEME_NAME = "ah_theme_WAR_padefaulttheme";
