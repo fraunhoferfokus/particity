@@ -11,7 +11,7 @@ Currently, there are several sources for documentation
  - The original [project announcement](https://www.oeffentliche-it.de/mitmachboerse) at the Kompetenzzentrum Öffentliche IT (german only)
 
 ## Demo site
-The demo site is currently hosted over [here](http://193.175.133.70), hosted by the [Kompetenzzentrum Öffentliche IT](https://www.oeffentliche-it.de)  
+A demo site is available over [here](http://193.175.133.70), hosted by the [Kompetenzzentrum Öffentliche IT](https://www.oeffentliche-it.de)  
 
 Username | Password  | Role
 ---------|-----------|-----
