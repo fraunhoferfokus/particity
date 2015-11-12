@@ -5,7 +5,7 @@
   <compatibility>
     <version>6.2.0+</version>
   </compatibility>
-  <theme id="ah_theme" name="Particity Theme">
+  <theme id="patheme" name="Particity Theme">
     <template-extension>ftl</template-extension>
     <settings>
       <setting key="portlet-setup-show-borders-default" value="false"></setting>
