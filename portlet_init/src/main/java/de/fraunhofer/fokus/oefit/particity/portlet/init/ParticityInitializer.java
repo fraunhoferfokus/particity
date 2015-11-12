@@ -129,12 +129,19 @@ public class ParticityInitializer {
 					if (frontend != null) {
 						String contentSrc = IOUtils.toString(frontend);
 						if (contentSrc != null) {
-							JournalArticle article = addArticle(adminId, groupId, content.name(), content.getTitle(), contentSrc);
+							JournalArticle article = getArticle(groupId, content.name());
+							if (article == null)
+								article = addArticle(adminId, groupId, content.name(), content.getTitle(), contentSrc);
 							if (article != null) {
 								layout = layouts.get(content.getContext());
 								if (layout != null) {
-									addArticle(content.getContext(), article,layout, adminId, groupId, companyId);
-									m_objLog.info("Added sample content "+content.name()+" for URL "+content.getContext().getPath());
+									// check if article not added yet
+									if (!checkArticleOnLayout(layout, article.getArticleId(), content.getContext().getColumnId(), companyId)) {
+										addArticle(content.getContext(), article,layout, adminId, groupId, companyId);
+										m_objLog.info("Added sample content "+content.name()+" for URL "+content.getContext().getPath());
+									} else {
+										m_objLog.info("Found existing sample content "+content.name()+" for URL "+content.getContext().getPath());
+									}
 								} else {
 									m_objLog.info("Could not find layout for sample content context path "+content.getContext().getPath());			
 								}
@@ -201,8 +208,6 @@ public class ParticityInitializer {
 		String description = null;
 		String type = LayoutConstants.TYPE_PORTLET;
 		ServiceContext ctx = new ServiceContext();
-		//ctx.setUuid(templateId);
-		// ctx.setAttribute("inheritFromParentLayoutId", Boolean.FALSE);
 
 		try {
 			
@@ -224,24 +229,8 @@ public class ParticityInitializer {
 			}
 			if (theme != null) {
 				result.setThemeId(path.getThemeId());
-				/*
-				 * layout.setLayoutPrototypeLinkEnabled(false);
-				 * UnicodeProperties props = layout.getTypeSettingsProperties();
-				 * for (String key: props.keySet())
-				 * m_objLog.debug("Prop: "+key+"="+props.get(key)); layout
-				 * =LayoutLocalServiceUtil.updateLayout(layout);
-				 */
 				result = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
 						false, result.getLayoutId(), path.getThemeId(), "01", "", false);
-				/*
-				 * LayoutSet set = layout.getLayoutSet(); if (set != null) {
-				 * set.setThemeId(themeId);
-				 * LayoutSetLocalServiceUtil.updateLayoutSet(set);
-				 * //LayoutSetUtil.update(set, true);
-				 * m_objLog.debug("Update layout set for url " + friendlyURL); }
-				 */
-				/*m_objLog.debug("Set theme: " + theme.getThemeId() + " for url "
-						+ friendlyURL);*/
 			} else
 				m_objLog.warn("Did not find theme: " + path.getThemeId() + " for url "
 						+ path.getPath());
@@ -268,58 +257,12 @@ public class ParticityInitializer {
 				m_objLog.warn("Did not find layout template: " + path.getTemplateId()
 						+ " for url " + path.getPath());
 
-			// LayoutLocalServiceUtil.updateLayout(layout);
-
-			addPortletToPage(result, path.getPortletId(), path, adminId);
-			
-			/*Portlet portlet = null;
-			if (path.getPortletId() != null) {
-				try {
-					portlet = PortletLocalServiceUtil.getPortletById(path.getPortletId());
-				} catch (Throwable t) {
-					m_objLog.warn("Could not add unknown portlet " + path.getPortletId()
-							+ " to context " + path.getPath());
-				}
-			}
-			if (portlet != null) {*/
-			
-			// add portlet whether it is deployed or not
-				/*List<Portlet> portlets = layoutTypePortlet.getPortlets();
-				int size = portlets != null ? portlets.size() : 0;
-				layoutTypePortlet.addPortletId(0, path.getPortletId(), path.getColumnId(), size, false);*/
-
-				// long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
-				// int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
-
-				//m_objLog.debug("Added portlet " + path.getPortletId() + " to context "
-					//	+ path.getPath());
-
-				/*
-				 * PortletPreferences portletSetup =
-				 * PortletPreferencesFactoryUtil.getLayoutPortletSetup( layout,
-				 * portletId);
-				 * 
-				 * portletSetup.setValue("portletSetupShowBorders",
-				 * String.valueOf(Boolean.FALSE)); portletSetup.store();
-				 */
-
-				// LayoutLocalServiceUtil.updateLayout(layout);
-			/*} else {
-				m_objLog.debug("Did not find portlet " + path.getPortletId() + " for context "
-						+ path.getPath());
-			}*/
 			m_objLog.info("Added layout for url " + path.getPath() + ", group: "
 					+ groupId + ", company: " + companyId + ", user: "
-					+ adminId+" with portlet "+path.getPortletId());
-			// layout = LayoutLocalServiceUtil.updateLookAndFeel(groupId, false,
-			// layout.getLayoutId(), themeId, layout.getColorSchemeId(),
-			// layout.getCss(), false);
-			/*result = LayoutLocalServiceUtil.updateLayout(result.getGroupId(),
-					result.isPrivateLayout(), result.getLayoutId(),
-					result.getTypeSettings());*/
+					+ adminId);
 
 			updatePermissions(result, path);
-			//layout = LayoutLocalServiceUtil.updateLayout(layout);
+			
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
@@ -343,6 +286,7 @@ public class ParticityInitializer {
                     layout.isPrivateLayout(),
                     layout.getLayoutId(),
                     layout.getTypeSettings());
+			
 		} catch (Throwable t) {
 			m_objLog.warn(t);
 		}
@@ -482,36 +426,44 @@ public class ParticityInitializer {
 		return group;
 	}
 	
-	public static JournalArticle addArticle(long userId, long groupId, String name, String title, String srcContent) {
+	public static JournalArticle getArticle(long groupId, String name) {
 		JournalArticle result = null;
+		
 		try {
-			Locale defLocale = LocaleUtil.getDefault();
-			if (defLocale == null)
-				defLocale = Locale.GERMAN;
-	
-			String localShort = defLocale.getCountry()+"_"+defLocale.getLanguage();
-			
-			String content = "<?xml version=\"1.0\"?><root available-locales=\""+localShort+"\" default-locale=\""+localShort+"\"><static-content language-id=\""+localShort+"\"><![CDATA[ "+srcContent+" ]]></static-content></root>";
-			
-			
-			Map<Locale, String> titleMap = new HashMap<Locale, String>();
-			titleMap.put(defLocale, title);
-			
-			ServiceContext ctx = new ServiceContext();
-			ctx.setScopeGroupId(groupId);
-			
 			List<JournalArticle>  articles = JournalArticleServiceUtil.getArticlesByArticleId(groupId, name, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 			//JournalArticleServiceUtil.getArticles(groupId, 0);
-			boolean exists = false;
 			if (articles != null) {
 				for (JournalArticle article: articles) {
 					if (article.getArticleId().equals(name)) {
-						exists = true;
+						result = article;
 						break;
 					}
 				}
 			}
-			if (!exists) {
+		} catch (Throwable t) {}
+		
+		return result;
+	}
+	
+	public static JournalArticle addArticle(long userId, long groupId, String name, String title, String srcContent) {
+		JournalArticle result = null;
+		try {
+			
+				Locale defLocale = LocaleUtil.getDefault();
+				if (defLocale == null)
+					defLocale = Locale.GERMAN;
+		
+				String localShort = defLocale.getCountry()+"_"+defLocale.getLanguage();
+				
+				
+				Map<Locale, String> titleMap = new HashMap<Locale, String>();
+				titleMap.put(defLocale, title);
+				
+				ServiceContext ctx = new ServiceContext();
+				ctx.setScopeGroupId(groupId);
+				
+				String content = "<?xml version=\"1.0\"?><root available-locales=\""+localShort+"\" default-locale=\""+localShort+"\"><static-content language-id=\""+localShort+"\"><![CDATA[ "+srcContent+" ]]></static-content></root>";
+				
 				result = JournalArticleLocalServiceUtil.addArticle(
 				    userId,
 				    groupId,
@@ -539,6 +491,39 @@ public class ParticityInitializer {
 				    null, StringPool.BLANK, // images, articleURL,
 				    ctx
 				    );
+				
+		} catch (Throwable t) {
+			m_objLog.warn(t);
+		}
+		return result;
+	}
+	
+	public static boolean checkArticleOnLayout(Layout layout, String articleId, String columnId, long companyId) {
+		boolean result = false;
+		
+		try {
+
+			long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
+			int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
+			
+			LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) layout.getLayoutType();
+
+			List<Portlet> portlets = layoutTypePortlet.getAllPortlets(columnId);
+			if (portlets != null) {
+				for (Portlet portlet: portlets) {
+					if (portlet.getPortletId().equals(PortletKeys.JOURNAL_CONTENT)) {
+						PortletPreferences prefs = PortletPreferencesLocalServiceUtil.getPreferences(companyId,
+				                ownerId,
+				                ownerType,
+				                layout.getPlid(),
+				                portlet.getPortletId());
+						String jArticleId = prefs.getValue("articleId", "");
+						if (jArticleId.equals(articleId)) {
+							result = true;
+							break;
+						}
+					}
+				}
 			}
 		} catch (Throwable t) {
 			m_objLog.warn(t);
@@ -548,9 +533,7 @@ public class ParticityInitializer {
 	
 	public static void addArticle(E_ContextPath path, JournalArticle article, Layout layout, long userId, long groupId, long companyId) {
 		try {
-			
 			String journalPortletId = addPortletToPage(layout, PortletKeys.JOURNAL_CONTENT, path, userId);
-
 	
 			long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
 			int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
