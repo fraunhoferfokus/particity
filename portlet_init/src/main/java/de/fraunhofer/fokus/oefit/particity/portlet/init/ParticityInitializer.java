@@ -1,17 +1,25 @@
 package de.fraunhofer.fokus.oefit.particity.portlet.init;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.portlet.PortletPreferences;
+
+import org.apache.commons.io.IOUtils;
+
+import com.liferay.portal.NoSuchUserException;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.Company;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.GroupConstants;
@@ -32,13 +40,18 @@ import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.service.LayoutTemplateLocalServiceUtil;
-import com.liferay.portal.service.PortletLocalServiceUtil;
+import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ThemeLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.util.PortletKeys;
+import com.liferay.portlet.journal.model.JournalArticle;
+import com.liferay.portlet.journal.model.JournalArticleConstants;
+import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portlet.journal.service.JournalArticleServiceUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
@@ -75,6 +88,7 @@ public class ParticityInitializer {
 			globalGroupId = pGroup.getGroupId();
 			globalAdminId = company.getDefaultUser().getUserId(); 
 			
+			
 			// initialize roles
 			Map<E_Role, Role> roles = getRoles(globalAdminId, globalCompanyId);
 			// initialize sites
@@ -82,13 +96,59 @@ public class ParticityInitializer {
 			// add administrator
 			User adminUser = CustomPortalServiceHandler.createPortalUser("Particity", "Administrator", "admin@particity.de", globalCompanyId, pGroup.getGroupId(), Locale.GERMAN, false, "test", true);
 			// remove liferay admin
-			User defaultAdmin = UserLocalServiceUtil.getUserByEmailAddress(globalCompanyId, "test@liferay.com");
-			if (defaultAdmin != null)
-				UserLocalServiceUtil.deleteUser(defaultAdmin.getUserId());
-			
-			
+			try {
+				User defaultAdmin = UserLocalServiceUtil.getUserByEmailAddress(globalCompanyId, "test@liferay.com");
+				if (defaultAdmin != null)
+					UserLocalServiceUtil.deleteUser(defaultAdmin.getUserId());
+			} catch (NoSuchUserException e) {}
+			// add sample content
+			initSampleContent(globalGroupId, globalAdminId, globalCompanyId, layouts);
+
 		} catch (Throwable t) {
 			m_objLog.error(t);
+		}
+	}
+	
+	public static void initSampleContent(long groupId, long adminId, long companyId, Map<E_ContextPath, Layout> layouts) {
+		Layout layout = null;
+		for (E_SampleContent content: E_SampleContent.values()) {
+			try {
+				// add portlet to page
+				if (content.isPorlet()) {
+					layout = layouts.get(content.getContext());
+					if (layout != null) {
+						addPortletToPage(layout, content.getDataPath(), content.getContext(), adminId);
+						m_objLog.info("Added sample content "+content.name()+" with portlet "+content.getDataPath()+" for URL "+content.getContext().getPath());
+					} else
+						m_objLog.info("Could not find layout for sample content context path "+content.getContext().getPath());
+					
+				} 
+				// import HTML as article + add to page
+				else {
+					InputStream frontend = ParticityInitializer.class.getResourceAsStream(content.getDataPath());
+					if (frontend != null) {
+						String contentSrc = IOUtils.toString(frontend);
+						if (contentSrc != null) {
+							JournalArticle article = addArticle(adminId, groupId, content.name(), content.getTitle(), contentSrc);
+							if (article != null) {
+								layout = layouts.get(content.getContext());
+								if (layout != null) {
+									addArticle(content.getContext(), article,layout, adminId, groupId, companyId);
+									m_objLog.info("Added sample content "+content.name()+" for URL "+content.getContext().getPath());
+								} else {
+									m_objLog.info("Could not find layout for sample content context path "+content.getContext().getPath());			
+								}
+							} else {
+								m_objLog.info("Could not create sample content "+content.name()+" for URL "+content.getContext().getPath()+" (already exists?) ");
+							}
+						}
+					} else {
+						m_objLog.info("Could not load sample content "+content.name()+" for URL "+content.getContext().getPath()+" from "+content.getDataPath());
+					}
+				}
+			} catch (Throwable t) {
+				m_objLog.warn(t);
+			}
 		}
 	}
 	
@@ -98,7 +158,7 @@ public class ParticityInitializer {
 		for (E_ContextPath pth: E_ContextPath.values()) {
 			Layout layout = getLayout(groupId, pth.getPath());
 			if (layout == null) {
-				createLayout(adminId, companyId, groupId, pth);
+				layout = createLayout(adminId, companyId, groupId, pth);
 				m_objLog.info("Created layout for URL "+pth.getPath());
 			} else
 				m_objLog.info("Found layout for URL "+pth.getPath());
@@ -133,7 +193,9 @@ public class ParticityInitializer {
 		return result;
 	}
 	
-	public static void createLayout(long adminId, long companyId, long groupId, E_ContextPath path) {
+	public static Layout createLayout(long adminId, long companyId, long groupId, E_ContextPath path) {
+		Layout result = null;
+		
 		boolean privateLayout = false;
 		long parentLayoutId = com.liferay.portal.model.LayoutConstants.DEFAULT_PARENT_LAYOUT_ID;
 		String description = null;
@@ -144,7 +206,7 @@ public class ParticityInitializer {
 
 		try {
 			
-			Layout layout = LayoutLocalServiceUtil.addLayout(adminId, groupId,
+			result = LayoutLocalServiceUtil.addLayout(adminId, groupId,
 					privateLayout, parentLayoutId, path.getName(), path.getTitle(), description,
 					type, path.isHidden(), path.getPath(), ctx);
 
@@ -161,7 +223,7 @@ public class ParticityInitializer {
 				 m_objLog.debug("Found theme: "+thm.getThemeId()+" with name "+thm.getName()); }
 			}
 			if (theme != null) {
-				layout.setThemeId(path.getThemeId());
+				result.setThemeId(path.getThemeId());
 				/*
 				 * layout.setLayoutPrototypeLinkEnabled(false);
 				 * UnicodeProperties props = layout.getTypeSettingsProperties();
@@ -169,8 +231,8 @@ public class ParticityInitializer {
 				 * m_objLog.debug("Prop: "+key+"="+props.get(key)); layout
 				 * =LayoutLocalServiceUtil.updateLayout(layout);
 				 */
-				layout = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
-						false, layout.getLayoutId(), path.getThemeId(), "01", "", false);
+				result = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
+						false, result.getLayoutId(), path.getThemeId(), "01", "", false);
 				/*
 				 * LayoutSet set = layout.getLayoutSet(); if (set != null) {
 				 * set.setThemeId(themeId);
@@ -195,7 +257,7 @@ public class ParticityInitializer {
 					m_objLog.debug("Found template: "+ltmplt.getName()+", "+ltmplt.getLayoutTemplateId());
 			}
 			
-			LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) layout
+			LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) result
 					.getLayoutType();
 			if (template != null) {
 				layoutTypePortlet.setLayoutTemplateId(0, path.getTemplateId(), false);
@@ -208,6 +270,8 @@ public class ParticityInitializer {
 
 			// LayoutLocalServiceUtil.updateLayout(layout);
 
+			addPortletToPage(result, path.getPortletId(), path, adminId);
+			
 			/*Portlet portlet = null;
 			if (path.getPortletId() != null) {
 				try {
@@ -220,7 +284,9 @@ public class ParticityInitializer {
 			if (portlet != null) {*/
 			
 			// add portlet whether it is deployed or not
-				layoutTypePortlet.addPortletId(0, path.getPortletId(), false);
+				/*List<Portlet> portlets = layoutTypePortlet.getPortlets();
+				int size = portlets != null ? portlets.size() : 0;
+				layoutTypePortlet.addPortletId(0, path.getPortletId(), path.getColumnId(), size, false);*/
 
 				// long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
 				// int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
@@ -248,15 +314,39 @@ public class ParticityInitializer {
 			// layout = LayoutLocalServiceUtil.updateLookAndFeel(groupId, false,
 			// layout.getLayoutId(), themeId, layout.getColorSchemeId(),
 			// layout.getCss(), false);
-			layout = LayoutLocalServiceUtil.updateLayout(layout.getGroupId(),
-					layout.isPrivateLayout(), layout.getLayoutId(),
-					layout.getTypeSettings());
+			/*result = LayoutLocalServiceUtil.updateLayout(result.getGroupId(),
+					result.isPrivateLayout(), result.getLayoutId(),
+					result.getTypeSettings());*/
 
-			updatePermissions(layout, path);
+			updatePermissions(result, path);
 			//layout = LayoutLocalServiceUtil.updateLayout(layout);
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
+		return result;
+	}
+	
+	public static String addPortletToPage(Layout layout, String portletId, E_ContextPath path, long userId) {
+		String result = null;
+		try {
+			LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) layout.getLayoutType();
+			
+			// count all portlets currently registered for this column
+			List<Portlet> portlets = layoutTypePortlet.getAllPortlets(path.getColumnId());
+			int colSize = portlets != null ? portlets.size() : 0;
+			// add new portlet at the very end
+			result = layoutTypePortlet.addPortletId(userId, portletId, path.getColumnId(), colSize, false);
+	
+			
+			// update the layout
+			LayoutLocalServiceUtil.updateLayout(layout.getGroupId(),
+                    layout.isPrivateLayout(),
+                    layout.getLayoutId(),
+                    layout.getTypeSettings());
+		} catch (Throwable t) {
+			m_objLog.warn(t);
+		}
+		return result;
 	}
 	
 	public static void updatePermissions(Layout layout, E_ContextPath path) throws Exception {
@@ -391,5 +481,96 @@ public class ParticityInitializer {
 
 		return group;
 	}
+	
+	public static JournalArticle addArticle(long userId, long groupId, String name, String title, String srcContent) {
+		JournalArticle result = null;
+		try {
+			Locale defLocale = LocaleUtil.getDefault();
+			if (defLocale == null)
+				defLocale = Locale.GERMAN;
+	
+			String localShort = defLocale.getCountry()+"_"+defLocale.getLanguage();
+			
+			String content = "<?xml version=\"1.0\"?><root available-locales=\""+localShort+"\" default-locale=\""+localShort+"\"><static-content language-id=\""+localShort+"\"><![CDATA[ "+srcContent+" ]]></static-content></root>";
+			
+			
+			Map<Locale, String> titleMap = new HashMap<Locale, String>();
+			titleMap.put(defLocale, title);
+			
+			ServiceContext ctx = new ServiceContext();
+			ctx.setScopeGroupId(groupId);
+			
+			List<JournalArticle>  articles = JournalArticleServiceUtil.getArticlesByArticleId(groupId, name, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+			//JournalArticleServiceUtil.getArticles(groupId, 0);
+			boolean exists = false;
+			if (articles != null) {
+				for (JournalArticle article: articles) {
+					if (article.getArticleId().equals(name)) {
+						exists = true;
+						break;
+					}
+				}
+			}
+			if (!exists) {
+				result = JournalArticleLocalServiceUtil.addArticle(
+				    userId,
+				    groupId,
+				    0, // folder id
+				    0, 0, //classNameId, classPK, 
+				    name, //articleId, 
+				    false, //autoArticleId, 
+				    JournalArticleConstants.VERSION_DEFAULT, 
+				    titleMap,
+				    null, //descriptionMap,
+				    content, 
+				    "general", // type, 
+				    null,
+				    null, // templateId, 
+				    StringPool.BLANK, //layoutUuid,
+				    1, 1, 1970, 0, 0, // displayDateMonth, displayDateDay, displayDateYear, 
+				                      // displayDateHour, displayDateMinute, 
+				    0, 0, 0, 0, 0, true, // expirationDateMonth, expirationDateDay, 
+				                         // expirationDateYear, expirationDateHour, 
+				                         //expirationDateMinute, neverExpire, 
+				    0, 0, 0, 0, 0, true, // reviewDateMonth, reviewDateDay, reviewDateYear, 
+				                        //reviewDateHour, reviewDateMinute, neverReview, 
+				    true, // indexable, 
+				    false, StringPool.BLANK, null, // smallImage, smallImageURL, smallImageFile, 
+				    null, StringPool.BLANK, // images, articleURL,
+				    ctx
+				    );
+			}
+		} catch (Throwable t) {
+			m_objLog.warn(t);
+		}
+		return result;
+	}
+	
+	public static void addArticle(E_ContextPath path, JournalArticle article, Layout layout, long userId, long groupId, long companyId) {
+		try {
+			
+			String journalPortletId = addPortletToPage(layout, PortletKeys.JOURNAL_CONTENT, path, userId);
 
+	
+			long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
+			int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
+	
+			//Retrieve the portlet preferences for the journal portlet instance just created
+			PortletPreferences prefs = PortletPreferencesLocalServiceUtil.getPreferences(companyId,
+	                ownerId,
+	                ownerType,
+	                layout.getPlid(),
+	                journalPortletId);
+	
+			// set desired article id for content display portlet
+			prefs.setValue("articleId", article.getArticleId());
+			prefs.setValue("groupId", String.valueOf(groupId));
+	
+			//update the portlet preferences
+			PortletPreferencesLocalServiceUtil.updatePreferences(ownerId, ownerType, layout
+			                .getPlid(), journalPortletId, prefs);
+		} catch (Throwable t) {
+			m_objLog.warn(t);
+		}
+	}
 }
