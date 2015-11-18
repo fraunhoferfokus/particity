@@ -158,7 +158,7 @@ public class CustomOfferServiceHandler {
 		if (org != null && region != null && address != null && contact != null
 		        && workType != null) {
 			result = AHOfferLocalServiceUtil.addOffer(offerId, offerType.getIntValue(),
-			        title, descr, workHours, workType,publishDateTime, expireDateTime,
+			        title, descr, workHours, workType.getIntValue() ,publishDateTime, expireDateTime,
 			        address.getAddrId(), contact.getContactId(),
 			        contact2.getContactId(), agencyContact,
 			        orgId, categories);
@@ -267,7 +267,7 @@ public class CustomOfferServiceHandler {
 
 			List<AHCatEntries> categories = AHOfferLocalServiceUtil
 			        .getCategoriesByOffer(offer.getOfferId(),
-			                E_CategoryType.SEARCH);
+			                E_CategoryType.SEARCH.getIntValue());
 			if (categories != null && categories.size() > 0) {
 				final String[] catArr = new String[categories.size()];
 				for (int i = 0; i < categories.size(); i++) {
@@ -277,7 +277,7 @@ public class CustomOfferServiceHandler {
 			}
 
 			categories = AHOfferLocalServiceUtil.getCategoriesByOffer(
-			        offer.getOfferId(), E_CategoryType.OFFERCATS);
+			        offer.getOfferId(), E_CategoryType.OFFERCATS.getIntValue());
 			if (categories != null && categories.size() > 0) {
 				final String[] catArr = new String[categories.size()];
 				for (int i = 0; i < categories.size(); i++) {

@@ -223,7 +223,7 @@ public class AHSubscriptionLocalServiceImpl
 		try {
 			final List<AHSubscription> subscriptions = AHCatEntriesFinderUtil
 			        .getSubscriptionMailsByCategoryitems(
-			                E_SubscriptionStatus.VALIDATED, catItems);
+			                E_SubscriptionStatus.VALIDATED.getIntValue(), catItems);
 			if (subscriptions != null) {
 				result = subscriptions;
 			}

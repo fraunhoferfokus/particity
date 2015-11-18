@@ -595,7 +595,7 @@ function search() {
 	$.ajax({
 		type : "GET",
 		async : false,
-		url : "/adhocdata-portlet/pages/search/searchresults.jsp",
+		url : "/pasearch-portlet/pages/search/searchresults.jsp",
 		data : searchData,
 		success : function(data) {
 			// resetMarkers();

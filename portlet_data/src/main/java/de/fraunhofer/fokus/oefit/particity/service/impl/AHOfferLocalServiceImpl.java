@@ -92,7 +92,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	@Override
 	public AHOffer addOffer(int type, final String title,
 	        final String descr, final String workTime,
-	        final E_OfferWorkType workType, final long publishDate,
+	        final Integer workType, final long publishDate,
 	        final long expireDate, final long addressId, final long contactId,
 	        final long contact2Id, final boolean agencyContact,
 	        final long orgId, final long[] categories) {
@@ -107,7 +107,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	@Override
 	public AHOffer addOffer(final Long offerId, int type,
 	        final String title, final String descr, final String workTime,
-	        final E_OfferWorkType workType, final long publishDate,
+	        final Integer workType, final long publishDate,
 	        final long expireDate, final long addressId, final long contactId,
 	        final long contact2Id, final boolean agencyContact,
 	        final long orgId, final long[] categories) {
@@ -141,7 +141,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 				result.setSocialStatus(0);
 
 				if (workType != null) {
-					result.setWorkType(workType.getIntValue());
+					result.setWorkType(workType);
 				}
 				if (offerId == null || offerId < 0) {
 					result.setOrgId(orgId);
@@ -201,11 +201,11 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 */
 	@Override
 	public void addSocialStatus(final Long offerId,
-	        final E_SocialMediaPlugins sm) {
+	        final int smBitmask) {
 		try {
 			final AHOffer offer = this.getAHOffer(offerId);
 			if (offer != null) {
-				offer.setSocialStatus(sm.getBitmask() | offer.getSocialStatus());
+				offer.setSocialStatus(smBitmask | offer.getSocialStatus());
 				this.updateAHOffer(offer);
 			}
 		} catch (final Throwable t) {
@@ -254,7 +254,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		Integer result = null;
 		try {
 			result = AHOfferFinderUtil.countOfferByCategories(
-			        E_OfferStatus.VALIDATED, ids);
+			        E_OfferStatus.VALIDATED.getIntValue(), ids);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -269,7 +269,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		Integer result = 0;
 		try {
 			result = AHOfferFinderUtil.countOfferByCategoryitems(
-			        E_OfferStatus.VALIDATED, categoryItems);
+			        E_OfferStatus.VALIDATED.getIntValue(), categoryItems);
 		} catch (final SystemException e) {
 			result = 0;
 			m_objLog.error(e);
@@ -285,7 +285,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		Integer result = null;
 		try {
 			result = AHOfferFinderUtil.countOfferByOfferTypes(
-			        E_OfferStatus.VALIDATED, types);
+			        E_OfferStatus.VALIDATED.getIntValue(), types);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -301,7 +301,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		Integer result = null;
 		try {
 			result = AHOfferFinderUtil.countOfferByTypesAndItemsAndOrg(
-			        E_OfferStatus.VALIDATED, types, categoryItems, orgId, lat, lon, dist);
+			        E_OfferStatus.VALIDATED.getIntValue(), types, categoryItems, orgId, lat, lon, dist);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -380,7 +380,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 */
 	@Override
 	public List<AHCatEntries> getCategoriesByOffer(final long offerId,
-	        final E_CategoryType type) {
+	        final Integer type) {
 		List<AHCatEntries> result = new LinkedList<AHCatEntries>();
 
 		try {
@@ -398,7 +398,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 */
 	@Override
 	public Long[] getCategoriesByOfferAsLong(final long offerId,
-	        final E_CategoryType type) {
+	        final Integer type) {
 		final List<AHCatEntries> categories = this.getCategoriesByOffer(
 		        offerId, type);
 		final Long[] result = new Long[categories.size()];
@@ -413,7 +413,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 */
 	@Override
 	public String getCategoriesByOfferAsString(final long offerId,
-	        final E_CategoryType type) {
+	        final Integer type) {
 		final List<AHCatEntries> categories = this.getCategoriesByOffer(
 		        offerId, type);
 		final StringBuffer strCategories = new StringBuffer();
@@ -472,7 +472,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		List<AHOffer> result = null;
 		try {
 			result = AHOfferFinderUtil.getOfferByCategories(
-			        E_OfferStatus.VALIDATED, ids, start, end);
+			        E_OfferStatus.VALIDATED.getIntValue(), ids, start, end);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -488,7 +488,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		List<AHOffer> result = null;
 		try {
 			result = AHOfferFinderUtil.getOfferByCategoryitems(
-			        E_OfferStatus.VALIDATED, categoryItems, start, end);
+			        E_OfferStatus.VALIDATED.getIntValue(), categoryItems, start, end);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -503,7 +503,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		Integer result = null;
 		try {
 			result = AHOfferFinderUtil.countOfferByOfferTypes(
-			        E_OfferStatus.VALIDATED, types);
+			        E_OfferStatus.VALIDATED.getIntValue(), types);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -519,7 +519,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		List<AHOffer> result = null;
 		try {
 			result = AHOfferFinderUtil.getOfferByOfferTypes(
-			        E_OfferStatus.VALIDATED, types, start, end);
+			        E_OfferStatus.VALIDATED.getIntValue(), types, start, end);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -536,7 +536,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		List<AHOffer> result = null;
 		try {
 			result = AHOfferFinderUtil.getOfferByTypesAndItemsAndOrg(
-			        E_OfferStatus.VALIDATED, types, categoryItems, orgId,
+			        E_OfferStatus.VALIDATED.getIntValue(), types, categoryItems, orgId,
 			        start, end, lat, lon, dist);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
@@ -549,7 +549,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 */
 	@Override
 	public List<AHOffer> getOffers(final int start, final int end,
-	        final String column, final E_OrderType order) {
+	        final String column, final String order) {
 		List<AHOffer> result = null;
 		try {
 			result = AHOfferFinderUtil.getOffersWithCustomOrder(column, order,
@@ -582,7 +582,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	@Override
 	public List<AHOffer> getOffersForOrganization(final long orgId,
 	        final int start, final int end, final String column,
-	        final E_OrderType order) {
+	        final String order) {
 		List<AHOffer> result = null;
 		try {
 			result = AHOfferFinderUtil.getOffersByOrgWithCustomOrder(orgId,
@@ -640,11 +640,11 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#setOfferStatus(long, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus)
 	 */
 	@Override
-	public void setOfferStatus(final long offerId, final E_OfferStatus status) {
+	public void setOfferStatus(final long offerId, final Integer status) {
 		try {
 			final AHOffer offer = this.getAHOffer(offerId);
 			if (offer != null && status != null) {
-				offer.setStatus(status.getIntValue());
+				offer.setStatus(status);
 				this.updateAHOffer(offer);
 			}
 		} catch (final Throwable t) {
@@ -657,12 +657,12 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 	 */
 	@Override
 	public void setSndContact(final Long offerId, final long contactId,
-	        final E_OfferStatus newStatus) {
+	        final Integer newStatus) {
 		try {
 			final AHOffer offer = this.getAHOffer(offerId);
 			if (offer != null) {
 				if (newStatus != null) {
-					offer.setStatus(newStatus.getIntValue());
+					offer.setStatus(newStatus);
 				}
 				if (contactId >= 0) {
 					offer.setSndContactId(contactId);

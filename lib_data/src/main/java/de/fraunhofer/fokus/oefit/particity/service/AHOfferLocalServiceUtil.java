@@ -402,8 +402,7 @@ public class AHOfferLocalServiceUtil {
 
     public static de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
         int type, java.lang.String title, java.lang.String descr,
-        java.lang.String workTime,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
+        java.lang.String workTime, java.lang.Integer workType,
         long publishDate, long expireDate, long addressId, long contactId,
         long contact2Id, boolean agencyContact, long orgId, long[] categories) {
         return getService()
@@ -415,18 +414,17 @@ public class AHOfferLocalServiceUtil {
     public static de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
         java.lang.Long offerId, int type, java.lang.String title,
         java.lang.String descr, java.lang.String workTime,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
-        long publishDate, long expireDate, long addressId, long contactId,
-        long contact2Id, boolean agencyContact, long orgId, long[] categories) {
+        java.lang.Integer workType, long publishDate, long expireDate,
+        long addressId, long contactId, long contact2Id, boolean agencyContact,
+        long orgId, long[] categories) {
         return getService()
                    .addOffer(offerId, type, title, descr, workTime, workType,
             publishDate, expireDate, addressId, contactId, contact2Id,
             agencyContact, orgId, categories);
     }
 
-    public static void addSocialStatus(java.lang.Long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_SocialMediaPlugins sm) {
-        getService().addSocialStatus(offerId, sm);
+    public static void addSocialStatus(java.lang.Long offerId, int smBitmask) {
+        getService().addSocialStatus(offerId, smBitmask);
     }
 
     public static int countNewOffer() {
@@ -476,17 +474,17 @@ public class AHOfferLocalServiceUtil {
     }
 
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> getCategoriesByOffer(
-        long offerId, de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type) {
+        long offerId, java.lang.Integer type) {
         return getService().getCategoriesByOffer(offerId, type);
     }
 
     public static java.lang.Long[] getCategoriesByOfferAsLong(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type) {
+        java.lang.Integer type) {
         return getService().getCategoriesByOfferAsLong(offerId, type);
     }
 
     public static java.lang.String getCategoriesByOfferAsString(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type) {
+        java.lang.Integer type) {
         return getService().getCategoriesByOfferAsString(offerId, type);
     }
 
@@ -529,8 +527,7 @@ public class AHOfferLocalServiceUtil {
     }
 
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOffers(
-        int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order) {
+        int start, int end, java.lang.String column, java.lang.String order) {
         return getService().getOffers(start, end, column, order);
     }
 
@@ -541,7 +538,7 @@ public class AHOfferLocalServiceUtil {
 
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOffersForOrganization(
         long orgId, int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order) {
+        java.lang.String order) {
         return getService()
                    .getOffersForOrganization(orgId, start, end, column, order);
     }
@@ -551,13 +548,12 @@ public class AHOfferLocalServiceUtil {
         return getService().getPublishedOffers(start, end, orgId);
     }
 
-    public static void setOfferStatus(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus status) {
+    public static void setOfferStatus(long offerId, java.lang.Integer status) {
         getService().setOfferStatus(offerId, status);
     }
 
     public static void setSndContact(java.lang.Long offerId, long contactId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus newStatus) {
+        java.lang.Integer newStatus) {
         getService().setSndContact(offerId, contactId, newStatus);
     }
 

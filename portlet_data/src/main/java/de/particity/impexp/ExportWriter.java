@@ -295,8 +295,8 @@ public class ExportWriter {
 						type.setAddress(getAddressType(data.getAdressId()));
 						type.setContact(getContactType(data.getContactId()));
 						type.setSndContact(getContactType(data.getSndContactId()));
-						List<AHCatEntries> entries = AHOfferLocalServiceUtil.getCategoriesByOffer(data.getOfferId(), E_CategoryType.SEARCH);
-						List<AHCatEntries> services = AHOfferLocalServiceUtil.getCategoriesByOffer(data.getOfferId(), E_CategoryType.OFFERCATS);
+						List<AHCatEntries> entries = AHOfferLocalServiceUtil.getCategoriesByOffer(data.getOfferId(), E_CategoryType.SEARCH.getIntValue());
+						List<AHCatEntries> services = AHOfferLocalServiceUtil.getCategoriesByOffer(data.getOfferId(), E_CategoryType.OFFERCATS.getIntValue());
 						List<AHCatEntries> itemlist = entries;
 						if (itemlist == null || itemlist.size() == 0)
 							itemlist = services;

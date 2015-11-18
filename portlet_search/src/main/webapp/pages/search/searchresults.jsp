@@ -350,7 +350,7 @@
 					<div class="row">
 						<div class="col-xs-12 offercats">
 							<strong><spring:message code="search.offer.categories" /></strong>:
-							<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH) %>
+							<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH.getIntValue()) %>
 						</div>
 					</div>
 				</div>

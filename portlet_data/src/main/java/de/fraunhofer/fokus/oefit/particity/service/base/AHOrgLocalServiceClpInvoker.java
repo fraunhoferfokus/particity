@@ -189,8 +189,7 @@ public class AHOrgLocalServiceClpInvoker {
         _methodName84 = "getOrganisations";
 
         _methodParameterTypes84 = new String[] {
-                "int", "int", "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType"
+                "int", "int", "java.lang.String", "java.lang.String"
             };
 
         _methodName85 = "listOrganisations";
@@ -199,9 +198,7 @@ public class AHOrgLocalServiceClpInvoker {
 
         _methodName86 = "setOrganisationStatus";
 
-        _methodParameterTypes86 = new String[] {
-                "long", "de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus"
-            };
+        _methodParameterTypes86 = new String[] { "long", "int" };
 
         _methodName87 = "updateLogoLocation";
 
@@ -360,8 +357,7 @@ public class AHOrgLocalServiceClpInvoker {
                 Arrays.deepEquals(_methodParameterTypes84, parameterTypes)) {
             return AHOrgLocalServiceUtil.getOrganisations(((Integer) arguments[0]).intValue(),
                 ((Integer) arguments[1]).intValue(),
-                (java.lang.String) arguments[2],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType) arguments[3]);
+                (java.lang.String) arguments[2], (java.lang.String) arguments[3]);
         }
 
         if (_methodName85.equals(name) &&
@@ -372,7 +368,7 @@ public class AHOrgLocalServiceClpInvoker {
         if (_methodName86.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes86, parameterTypes)) {
             AHOrgLocalServiceUtil.setOrganisationStatus(((Long) arguments[0]).longValue(),
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus) arguments[1]);
+                ((Integer) arguments[1]).intValue());
 
             return null;
         }

@@ -86,7 +86,7 @@ public class AHCatEntriesFinderImpl extends BasePersistenceImpl<AHCatEntries>
 	
 	
 	@Override
-	public List<AHSubscription> getSubscriptionMailsByCategoryitems(E_SubscriptionStatus status, String categoryItems)
+	public List<AHSubscription> getSubscriptionMailsByCategoryitems(int status, String categoryItems)
 			throws SystemException {
 		List<AHSubscription> result = null;
 
@@ -102,7 +102,7 @@ public class AHCatEntriesFinderImpl extends BasePersistenceImpl<AHCatEntries>
 			query.addEntity("AHSubscription", AHSubscriptionImpl.class);
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			result = (List<AHSubscription>) query.list();
 			
 			m_objLog.debug("Search for subscription emails for categoryItems "+categoryItems+" results in "+result.size()+" values");
@@ -141,7 +141,7 @@ public class AHCatEntriesFinderImpl extends BasePersistenceImpl<AHCatEntries>
 	}
 	
 	@Override
-	public List<AHSubscription> getSubscriptionsByCategoryitems(E_SubscriptionStatus status, String[] categoryItems, int from, int to)
+	public List<AHSubscription> getSubscriptionsByCategoryitems(int status, String[] categoryItems, int from, int to)
 			throws SystemException {
 		List<AHSubscription> result = null;
 
@@ -160,7 +160,7 @@ public class AHCatEntriesFinderImpl extends BasePersistenceImpl<AHCatEntries>
 			query.setMaxResults(to-from);
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			result = (List<AHSubscription>) query.list();
 			
 			m_objLog.debug("Search for categoryItems "+catItemStr+" results in "+result.size()+" values");
@@ -174,7 +174,7 @@ public class AHCatEntriesFinderImpl extends BasePersistenceImpl<AHCatEntries>
 	
 
 	@Override
-	public List<AHSubscription> getSubscriptionMailsByCategoryitems(E_SubscriptionStatus status, Long[] categories)
+	public List<AHSubscription> getSubscriptionMailsByCategoryitems(int status, Long[] categories)
 			throws SystemException {
 		return getSubscriptionMailsByCategoryitems(status, arrToStr(categories));
 	}
@@ -224,7 +224,7 @@ public class AHCatEntriesFinderImpl extends BasePersistenceImpl<AHCatEntries>
 	 * #getCategoriesByOffer(long)
 	 */
 	@Override
-	public List<AHCatEntries> getCategoriesByOffer(long offerId, E_CategoryType type)
+	public List<AHCatEntries> getCategoriesByOffer(long offerId, Integer type)
 			throws SystemException {
 		List<AHCatEntries> result = null;
 
@@ -244,7 +244,7 @@ public class AHCatEntriesFinderImpl extends BasePersistenceImpl<AHCatEntries>
 
 			QueryPos qPos = QueryPos.getInstance(query);
 			if (type != null)
-				qPos.add(type.getIntValue());
+				qPos.add(type);
 			qPos.add(offerId);
 			result = (List<AHCatEntries>) query.list();
 		} catch (Exception e) {

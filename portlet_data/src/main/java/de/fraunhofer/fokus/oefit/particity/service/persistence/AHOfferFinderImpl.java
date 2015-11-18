@@ -119,7 +119,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public List<AHOffer> getOffersWithCustomOrder(String column, E_OrderType order, int from, int to)
+	public List<AHOffer> getOffersWithCustomOrder(String column, String order, int from, int to)
 			throws SystemException {
 		List<AHOffer> result = null;
 
@@ -128,7 +128,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 		try {
 			session = openSession();
 
-			String sql = getOfferCustomOrder.replaceAll("_COL_", column).replaceAll("_DIR_", order.toString());
+			String sql = getOfferCustomOrder.replaceAll("_COL_", column).replaceAll("_DIR_", order);
 			SQLQuery query = session.createSQLQuery(sql);
 
 			query.addEntity("AHOffer", AHOfferImpl.class);
@@ -146,7 +146,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public List<AHOffer> getOffersByOrgWithCustomOrder(long orgId, String column, E_OrderType order, int from, int to)
+	public List<AHOffer> getOffersByOrgWithCustomOrder(long orgId, String column, String order, int from, int to)
 			throws SystemException {
 		List<AHOffer> result = null;
 
@@ -155,7 +155,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 		try {
 			session = openSession();
 
-			String sql = getOfferByOrgCustomOrder.replaceAll("_COL_", column).replaceAll("_DIR_", order.toString()).replaceAll("_ORGID_",Long.toString(orgId));
+			String sql = getOfferByOrgCustomOrder.replaceAll("_COL_", column).replaceAll("_DIR_", order).replaceAll("_ORGID_",Long.toString(orgId));
 			SQLQuery query = session.createSQLQuery(sql);
 
 			query.addEntity("AHOffer", AHOfferImpl.class);
@@ -235,7 +235,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	
 	
 	@Override
-	public Integer countOfferByCategoryitems(E_OfferStatus status, String[] categoryItems)
+	public Integer countOfferByCategoryitems(int status, String[] categoryItems)
 			throws SystemException {
 		Integer result = 0;
 
@@ -258,7 +258,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			query.addScalar("COUNT_VALUE", Type.INTEGER);
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			qPos.add(currentTime);
 			qPos.add(currentTime);
 			
@@ -276,7 +276,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public List<AHOffer> getOfferByCategoryitems(E_OfferStatus status, String[] categoryItems, int from, int to)
+	public List<AHOffer> getOfferByCategoryitems(int status, String[] categoryItems, int from, int to)
 			throws SystemException {
 		List<AHOffer> result = null;
 
@@ -299,7 +299,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			query.setMaxResults(to-from);
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			qPos.add(currentTime);
 			qPos.add(currentTime);
 			result = (List<AHOffer>) query.list();
@@ -313,7 +313,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	
 	
 	@Override
-	public Integer countOfferByOfferTypes(E_OfferStatus status, String types)
+	public Integer countOfferByOfferTypes(int status, String types)
 			throws SystemException {
 		Integer result = null;
 
@@ -343,7 +343,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			qPos.add(currentTime);
 			qPos.add(currentTime);
 			
@@ -363,7 +363,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public List<AHOffer> getOfferByTypesAndItemsAndOrg(E_OfferStatus status, String types, String categories, long orgId, int from, int to, Float lat, Float lon, Integer dist) throws SystemException {
+	public List<AHOffer> getOfferByTypesAndItemsAndOrg(int status, String types, String categories, long orgId, int from, int to, Float lat, Float lon, Integer dist) throws SystemException {
 		List<AHOffer> result = null;
 
 		Session session = null;
@@ -385,7 +385,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			query.setMaxResults(to-from);
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			qPos.add(currentTime);
 			qPos.add(currentTime);
 			result = (List<AHOffer>) query.list();
@@ -398,7 +398,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public Integer countOfferByTypesAndItemsAndOrg(E_OfferStatus status, String types, String categories, long orgId, Float lat, Float lon, Integer dist) throws SystemException {
+	public Integer countOfferByTypesAndItemsAndOrg(int status, String types, String categories, long orgId, Float lat, Float lon, Integer dist) throws SystemException {
 		Integer result = 0;
 
 		Session session = null;
@@ -424,7 +424,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			query.addScalar("COUNT_VALUE", Type.INTEGER);
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			qPos.add(currentTime);
 			qPos.add(currentTime);
 			
@@ -501,7 +501,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public List<AHOffer> getOfferByOfferTypes(E_OfferStatus status, String types, int from, int to)
+	public List<AHOffer> getOfferByOfferTypes(int status, String types, int from, int to)
 			throws SystemException {
 		List<AHOffer> result = null;
 
@@ -526,7 +526,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			query.setMaxResults(to-from);
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			qPos.add(currentTime);
 			qPos.add(currentTime);
 			result = (List<AHOffer>) query.list();
@@ -539,7 +539,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public Integer countOfferByCategories(E_OfferStatus status, String categories)
+	public Integer countOfferByCategories(int status, String categories)
 			throws SystemException {
 		Integer result = null;
 
@@ -565,7 +565,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			qPos.add(currentTime);
 			qPos.add(currentTime);
 			
@@ -584,7 +584,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 	}
 	
 	@Override
-	public List<AHOffer> getOfferByCategories(E_OfferStatus status, String categories, int from, int to)
+	public List<AHOffer> getOfferByCategories(int status, String categories, int from, int to)
 			throws SystemException {
 		List<AHOffer> result = null;
 
@@ -609,7 +609,7 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 			query.setMaxResults(to-from);
 			
 			QueryPos qPos = QueryPos.getInstance(query);
-			qPos.add(status.getIntValue());
+			qPos.add(status);
 			qPos.add(currentTime);
 			qPos.add(currentTime);
 			result = (List<AHOffer>) query.list();
@@ -623,31 +623,31 @@ public class AHOfferFinderImpl extends BasePersistenceImpl<AHOffer>
 
 	
 	@Override
-	public List<AHOffer> getOfferByCategories(E_OfferStatus status, String[] categories, int from, int to)
+	public List<AHOffer> getOfferByCategories(int status, String[] categories, int from, int to)
 			throws SystemException {
 		return getOfferByCategories(status, arrToStr(categories),from,to);
 	}
 	
 	@Override
-	public List<AHOffer> getOfferByCategories(E_OfferStatus status, Long[] categories, int from, int to)
+	public List<AHOffer> getOfferByCategories(int status, Long[] categories, int from, int to)
 			throws SystemException {
 		return getOfferByCategories(status, arrToStr(categories),from,to);
 	}
 	
 	@Override
-	public Integer countOfferByCategories(E_OfferStatus status, Long[] categories)
+	public Integer countOfferByCategories(int status, Long[] categories)
 			throws SystemException {
 		return countOfferByCategories(status, arrToStr(categories));
 	}
 	
 	@Override
-	public List<AHOffer> getOfferByOfferTypes(E_OfferStatus status, int[] types, int from, int to)
+	public List<AHOffer> getOfferByOfferTypes(int status, int[] types, int from, int to)
 			throws SystemException {
 		return getOfferByOfferTypes(status, arrToStr(types),from,to);
 	}
 	
 	@Override
-	public Integer countOfferByOfferTypes(E_OfferStatus status, int[] types)
+	public Integer countOfferByOfferTypes(int status, int[] types)
 			throws SystemException {
 		return countOfferByOfferTypes(status, arrToStr(types));
 	}

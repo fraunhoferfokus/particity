@@ -294,8 +294,7 @@ public class AHOrgLocalServiceUtil {
     }
 
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOrg> getOrganisations(
-        int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order) {
+        int start, int end, java.lang.String column, java.lang.String order) {
         return getService().getOrganisations(start, end, column, order);
     }
 
@@ -303,8 +302,7 @@ public class AHOrgLocalServiceUtil {
         return getService().listOrganisations();
     }
 
-    public static void setOrganisationStatus(long orgId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus status) {
+    public static void setOrganisationStatus(long orgId, int status) {
         getService().setOrganisationStatus(orgId, status);
     }
 

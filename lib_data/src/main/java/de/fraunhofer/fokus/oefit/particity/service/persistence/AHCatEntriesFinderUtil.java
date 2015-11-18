@@ -8,8 +8,7 @@ public class AHCatEntriesFinderUtil {
     private static AHCatEntriesFinder _finder;
 
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHSubscription> getSubscriptionMailsByCategoryitems(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus status,
-        java.lang.String categoryItems)
+        int status, java.lang.String categoryItems)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getFinder()
                    .getSubscriptionMailsByCategoryitems(status, categoryItems);
@@ -21,8 +20,7 @@ public class AHCatEntriesFinderUtil {
     }
 
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHSubscription> getSubscriptionsByCategoryitems(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus status,
-        java.lang.String[] categoryItems, int from, int to)
+        int status, java.lang.String[] categoryItems, int from, int to)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getFinder()
                    .getSubscriptionsByCategoryitems(status, categoryItems,
@@ -30,15 +28,14 @@ public class AHCatEntriesFinderUtil {
     }
 
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHSubscription> getSubscriptionMailsByCategoryitems(
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus status,
-        java.lang.Long[] categories)
+        int status, java.lang.Long[] categories)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getFinder()
                    .getSubscriptionMailsByCategoryitems(status, categories);
     }
 
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> getCategoriesByOffer(
-        long offerId, de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type)
+        long offerId, java.lang.Integer type)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getFinder().getCategoriesByOffer(offerId, type);
     }

@@ -260,13 +260,11 @@ public interface AHOrgLocalService extends BaseLocalService,
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOrg> getOrganisations(
-        int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order);
+        int start, int end, java.lang.String column, java.lang.String order);
 
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOrg> listOrganisations();
 
-    public void setOrganisationStatus(long orgId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus status);
+    public void setOrganisationStatus(long orgId, int status);
 
     public void updateLogoLocation(long orgId, java.lang.String logoLocation);
 

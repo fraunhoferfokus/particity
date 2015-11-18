@@ -151,9 +151,9 @@
 			/
 			<%= ofWHours %><br /> <strong><spring:message
 					code="search.offer.categories" /></strong>:
-			<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(data.getOfferId(), E_CategoryType.SEARCH) %><br />
+			<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(data.getOfferId(), E_CategoryType.SEARCH.getIntValue()) %><br />
 			<strong><spring:message code="search.offer.services" /></strong>:
-			<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(data.getOfferId(), E_CategoryType.OFFERCATS) %>
+			<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(data.getOfferId(), E_CategoryType.OFFERCATS.getIntValue()) %>
 		</div>
 	</div>
 	<hr />

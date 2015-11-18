@@ -216,12 +216,12 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 	 */
 	@Override
 	public List<AHOrg> getOrganisations(final int start, final int end,
-	        final String column, final E_OrderType order) {
+	        final String column, final String order) {
 		List<AHOrg> result = null;
 		try {
+			m_objLog.info("Looking up organisations sorted by "+column+" in order "+order.toString()+" from "+start+", to "+end);
 			result = AHOrgFinderUtil.getOrganisationsWithCustomOrder(column,
 			        order, start, end);
-			// m_objLog.debug("Looking up organisations sorted by "+column.getColName()+" in order "+order.toString()+" from "+start+", to "+end);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -248,11 +248,11 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#setOrganisationStatus(long, de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus)
 	 */
 	@Override
-	public void setOrganisationStatus(final long orgId, final E_OrgStatus status) {
+	public void setOrganisationStatus(final long orgId, final int status) {
 		try {
 			final AHOrg org = this.getAHOrg(orgId);
 			if (org != null) {
-				org.setStatus(status.getIntValue());
+				org.setStatus(status);
 				this.updateAHOrg(org);
 			}
 		} catch (final PortalException e) {

@@ -82,7 +82,7 @@ public class AHOrgFinderImpl extends BasePersistenceImpl<AHOrg>
 	}
 	
 	@Override
-	public List<AHOrg> getOrganisationsWithCustomOrder(String column, E_OrderType order, int from, int to)
+	public List<AHOrg> getOrganisationsWithCustomOrder(String column, String order, int from, int to)
 			throws SystemException {
 		List<AHOrg> result = null;
 
@@ -91,7 +91,7 @@ public class AHOrgFinderImpl extends BasePersistenceImpl<AHOrg>
 		try {
 			session = openSession();
 
-			String sql = getOrgCustomOrder.replaceAll("_COL_", column).replaceAll("_DIR_", order.toString());
+			String sql = getOrgCustomOrder.replaceAll("_COL_", column).replaceAll("_DIR_", order);
 			SQLQuery query = session.createSQLQuery(sql);
 
 			query.addEntity("AHOrg", AHOrgImpl.class);

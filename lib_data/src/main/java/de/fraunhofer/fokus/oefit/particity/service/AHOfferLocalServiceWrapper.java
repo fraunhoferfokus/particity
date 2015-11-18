@@ -427,8 +427,7 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
         int type, java.lang.String title, java.lang.String descr,
-        java.lang.String workTime,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
+        java.lang.String workTime, java.lang.Integer workType,
         long publishDate, long expireDate, long addressId, long contactId,
         long contact2Id, boolean agencyContact, long orgId, long[] categories) {
         return _ahOfferLocalService.addOffer(type, title, descr, workTime,
@@ -440,18 +439,17 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
         java.lang.Long offerId, int type, java.lang.String title,
         java.lang.String descr, java.lang.String workTime,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
-        long publishDate, long expireDate, long addressId, long contactId,
-        long contact2Id, boolean agencyContact, long orgId, long[] categories) {
+        java.lang.Integer workType, long publishDate, long expireDate,
+        long addressId, long contactId, long contact2Id, boolean agencyContact,
+        long orgId, long[] categories) {
         return _ahOfferLocalService.addOffer(offerId, type, title, descr,
             workTime, workType, publishDate, expireDate, addressId, contactId,
             contact2Id, agencyContact, orgId, categories);
     }
 
     @Override
-    public void addSocialStatus(java.lang.Long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_SocialMediaPlugins sm) {
-        _ahOfferLocalService.addSocialStatus(offerId, sm);
+    public void addSocialStatus(java.lang.Long offerId, int smBitmask) {
+        _ahOfferLocalService.addSocialStatus(offerId, smBitmask);
     }
 
     @Override
@@ -512,19 +510,19 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
 
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> getCategoriesByOffer(
-        long offerId, de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type) {
+        long offerId, java.lang.Integer type) {
         return _ahOfferLocalService.getCategoriesByOffer(offerId, type);
     }
 
     @Override
     public java.lang.Long[] getCategoriesByOfferAsLong(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type) {
+        java.lang.Integer type) {
         return _ahOfferLocalService.getCategoriesByOfferAsLong(offerId, type);
     }
 
     @Override
     public java.lang.String getCategoriesByOfferAsString(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type) {
+        java.lang.Integer type) {
         return _ahOfferLocalService.getCategoriesByOfferAsString(offerId, type);
     }
 
@@ -575,8 +573,7 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
 
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOffers(
-        int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order) {
+        int start, int end, java.lang.String column, java.lang.String order) {
         return _ahOfferLocalService.getOffers(start, end, column, order);
     }
 
@@ -589,7 +586,7 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOffersForOrganization(
         long orgId, int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order) {
+        java.lang.String order) {
         return _ahOfferLocalService.getOffersForOrganization(orgId, start, end,
             column, order);
     }
@@ -601,14 +598,13 @@ public class AHOfferLocalServiceWrapper implements AHOfferLocalService,
     }
 
     @Override
-    public void setOfferStatus(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus status) {
+    public void setOfferStatus(long offerId, java.lang.Integer status) {
         _ahOfferLocalService.setOfferStatus(offerId, status);
     }
 
     @Override
     public void setSndContact(java.lang.Long offerId, long contactId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus newStatus) {
+        java.lang.Integer newStatus) {
         _ahOfferLocalService.setSndContact(offerId, contactId, newStatus);
     }
 

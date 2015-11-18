@@ -308,8 +308,7 @@ public class AHOrgLocalServiceWrapper implements AHOrgLocalService,
 
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOrg> getOrganisations(
-        int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order) {
+        int start, int end, java.lang.String column, java.lang.String order) {
         return _ahOrgLocalService.getOrganisations(start, end, column, order);
     }
 
@@ -319,8 +318,7 @@ public class AHOrgLocalServiceWrapper implements AHOrgLocalService,
     }
 
     @Override
-    public void setOrganisationStatus(long orgId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus status) {
+    public void setOrganisationStatus(long orgId, int status) {
         _ahOrgLocalService.setOrganisationStatus(orgId, status);
     }
 

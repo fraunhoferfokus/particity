@@ -352,20 +352,18 @@ public interface AHOfferLocalService extends BaseLocalService,
 
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
         int type, java.lang.String title, java.lang.String descr,
-        java.lang.String workTime,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
+        java.lang.String workTime, java.lang.Integer workType,
         long publishDate, long expireDate, long addressId, long contactId,
         long contact2Id, boolean agencyContact, long orgId, long[] categories);
 
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer addOffer(
         java.lang.Long offerId, int type, java.lang.String title,
         java.lang.String descr, java.lang.String workTime,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType workType,
-        long publishDate, long expireDate, long addressId, long contactId,
-        long contact2Id, boolean agencyContact, long orgId, long[] categories);
+        java.lang.Integer workType, long publishDate, long expireDate,
+        long addressId, long contactId, long contact2Id, boolean agencyContact,
+        long orgId, long[] categories);
 
-    public void addSocialStatus(java.lang.Long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_SocialMediaPlugins sm);
+    public void addSocialStatus(java.lang.Long offerId, int smBitmask);
 
     public int countNewOffer();
 
@@ -393,15 +391,15 @@ public interface AHOfferLocalService extends BaseLocalService,
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> getCategoriesByOffer(
-        long offerId, de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type);
+        long offerId, java.lang.Integer type);
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.lang.Long[] getCategoriesByOfferAsLong(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type);
+        java.lang.Integer type);
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.lang.String getCategoriesByOfferAsString(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType type);
+        java.lang.Integer type);
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public de.fraunhofer.fokus.oefit.particity.model.AHOffer getLastOfferForOrganization(
@@ -434,8 +432,7 @@ public interface AHOfferLocalService extends BaseLocalService,
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOffers(
-        int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order);
+        int start, int end, java.lang.String column, java.lang.String order);
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOffersForOrganization(
@@ -444,15 +441,14 @@ public interface AHOfferLocalService extends BaseLocalService,
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getOffersForOrganization(
         long orgId, int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order);
+        java.lang.String order);
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOffer> getPublishedOffers(
         int start, int end, long orgId);
 
-    public void setOfferStatus(long offerId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus status);
+    public void setOfferStatus(long offerId, java.lang.Integer status);
 
     public void setSndContact(java.lang.Long offerId, long contactId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus newStatus);
+        java.lang.Integer newStatus);
 }

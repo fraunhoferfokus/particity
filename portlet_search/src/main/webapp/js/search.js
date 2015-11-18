@@ -200,7 +200,7 @@ function loadModal(modalid,orgUrl, offerUrl, count, offerId) {
 	$.ajax({
 	      type: "GET",
 	      async: false,
-	      url: "/adhocdata-portlet/pages/search/searchresult.jsp",
+	      url: "/pasearch-portlet/pages/search/searchresult.jsp",
 	      data: {
 	        "offerId" : offerId,
 	        "modal" : true,

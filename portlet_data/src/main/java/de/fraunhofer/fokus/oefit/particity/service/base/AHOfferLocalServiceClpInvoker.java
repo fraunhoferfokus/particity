@@ -302,26 +302,21 @@ public class AHOfferLocalServiceClpInvoker {
 
         _methodParameterTypes94 = new String[] {
                 "int", "java.lang.String", "java.lang.String",
-                "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType", "long",
-                "long", "long", "long", "long", "boolean", "long", "long[][]"
+                "java.lang.String", "java.lang.Integer", "long", "long", "long",
+                "long", "long", "boolean", "long", "long[][]"
             };
 
         _methodName95 = "addOffer";
 
         _methodParameterTypes95 = new String[] {
                 "java.lang.Long", "int", "java.lang.String", "java.lang.String",
-                "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType", "long",
-                "long", "long", "long", "long", "boolean", "long", "long[][]"
+                "java.lang.String", "java.lang.Integer", "long", "long", "long",
+                "long", "long", "boolean", "long", "long[][]"
             };
 
         _methodName96 = "addSocialStatus";
 
-        _methodParameterTypes96 = new String[] {
-                "java.lang.Long",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_SocialMediaPlugins"
-            };
+        _methodParameterTypes96 = new String[] { "java.lang.Long", "int" };
 
         _methodName97 = "countNewOffer";
 
@@ -368,21 +363,15 @@ public class AHOfferLocalServiceClpInvoker {
 
         _methodName107 = "getCategoriesByOffer";
 
-        _methodParameterTypes107 = new String[] {
-                "long", "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
-            };
+        _methodParameterTypes107 = new String[] { "long", "java.lang.Integer" };
 
         _methodName108 = "getCategoriesByOfferAsLong";
 
-        _methodParameterTypes108 = new String[] {
-                "long", "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
-            };
+        _methodParameterTypes108 = new String[] { "long", "java.lang.Integer" };
 
         _methodName109 = "getCategoriesByOfferAsString";
 
-        _methodParameterTypes109 = new String[] {
-                "long", "de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"
-            };
+        _methodParameterTypes109 = new String[] { "long", "java.lang.Integer" };
 
         _methodName110 = "getLastOfferForOrganization";
 
@@ -422,8 +411,7 @@ public class AHOfferLocalServiceClpInvoker {
         _methodName117 = "getOffers";
 
         _methodParameterTypes117 = new String[] {
-                "int", "int", "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType"
+                "int", "int", "java.lang.String", "java.lang.String"
             };
 
         _methodName118 = "getOffersForOrganization";
@@ -433,8 +421,7 @@ public class AHOfferLocalServiceClpInvoker {
         _methodName119 = "getOffersForOrganization";
 
         _methodParameterTypes119 = new String[] {
-                "long", "int", "int", "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType"
+                "long", "int", "int", "java.lang.String", "java.lang.String"
             };
 
         _methodName120 = "getPublishedOffers";
@@ -443,15 +430,12 @@ public class AHOfferLocalServiceClpInvoker {
 
         _methodName121 = "setOfferStatus";
 
-        _methodParameterTypes121 = new String[] {
-                "long", "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus"
-            };
+        _methodParameterTypes121 = new String[] { "long", "java.lang.Integer" };
 
         _methodName122 = "setSndContact";
 
         _methodParameterTypes122 = new String[] {
-                "java.lang.Long", "long",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus"
+                "java.lang.Long", "long", "java.lang.Integer"
             };
     }
 
@@ -677,7 +661,7 @@ public class AHOfferLocalServiceClpInvoker {
                 (java.lang.String) arguments[1],
                 (java.lang.String) arguments[2],
                 (java.lang.String) arguments[3],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType) arguments[4],
+                (java.lang.Integer) arguments[4],
                 ((Long) arguments[5]).longValue(),
                 ((Long) arguments[6]).longValue(),
                 ((Long) arguments[7]).longValue(),
@@ -694,7 +678,7 @@ public class AHOfferLocalServiceClpInvoker {
                 (java.lang.String) arguments[2],
                 (java.lang.String) arguments[3],
                 (java.lang.String) arguments[4],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType) arguments[5],
+                (java.lang.Integer) arguments[5],
                 ((Long) arguments[6]).longValue(),
                 ((Long) arguments[7]).longValue(),
                 ((Long) arguments[8]).longValue(),
@@ -707,7 +691,7 @@ public class AHOfferLocalServiceClpInvoker {
         if (_methodName96.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes96, parameterTypes)) {
             AHOfferLocalServiceUtil.addSocialStatus((java.lang.Long) arguments[0],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_SocialMediaPlugins) arguments[1]);
+                ((Integer) arguments[1]).intValue());
 
             return null;
         }
@@ -773,19 +757,19 @@ public class AHOfferLocalServiceClpInvoker {
         if (_methodName107.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes107, parameterTypes)) {
             return AHOfferLocalServiceUtil.getCategoriesByOffer(((Long) arguments[0]).longValue(),
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType) arguments[1]);
+                (java.lang.Integer) arguments[1]);
         }
 
         if (_methodName108.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes108, parameterTypes)) {
             return AHOfferLocalServiceUtil.getCategoriesByOfferAsLong(((Long) arguments[0]).longValue(),
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType) arguments[1]);
+                (java.lang.Integer) arguments[1]);
         }
 
         if (_methodName109.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes109, parameterTypes)) {
             return AHOfferLocalServiceUtil.getCategoriesByOfferAsString(((Long) arguments[0]).longValue(),
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType) arguments[1]);
+                (java.lang.Integer) arguments[1]);
         }
 
         if (_methodName110.equals(name) &&
@@ -839,8 +823,7 @@ public class AHOfferLocalServiceClpInvoker {
                 Arrays.deepEquals(_methodParameterTypes117, parameterTypes)) {
             return AHOfferLocalServiceUtil.getOffers(((Integer) arguments[0]).intValue(),
                 ((Integer) arguments[1]).intValue(),
-                (java.lang.String) arguments[2],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType) arguments[3]);
+                (java.lang.String) arguments[2], (java.lang.String) arguments[3]);
         }
 
         if (_methodName118.equals(name) &&
@@ -853,8 +836,7 @@ public class AHOfferLocalServiceClpInvoker {
             return AHOfferLocalServiceUtil.getOffersForOrganization(((Long) arguments[0]).longValue(),
                 ((Integer) arguments[1]).intValue(),
                 ((Integer) arguments[2]).intValue(),
-                (java.lang.String) arguments[3],
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType) arguments[4]);
+                (java.lang.String) arguments[3], (java.lang.String) arguments[4]);
         }
 
         if (_methodName120.equals(name) &&
@@ -867,7 +849,7 @@ public class AHOfferLocalServiceClpInvoker {
         if (_methodName121.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes121, parameterTypes)) {
             AHOfferLocalServiceUtil.setOfferStatus(((Long) arguments[0]).longValue(),
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus) arguments[1]);
+                (java.lang.Integer) arguments[1]);
 
             return null;
         }
@@ -876,7 +858,7 @@ public class AHOfferLocalServiceClpInvoker {
                 Arrays.deepEquals(_methodParameterTypes122, parameterTypes)) {
             AHOfferLocalServiceUtil.setSndContact((java.lang.Long) arguments[0],
                 ((Long) arguments[1]).longValue(),
-                (de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus) arguments[2]);
+                (java.lang.Integer) arguments[2]);
 
             return null;
         }

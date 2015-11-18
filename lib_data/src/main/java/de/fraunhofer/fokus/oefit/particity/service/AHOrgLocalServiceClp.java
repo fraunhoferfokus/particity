@@ -190,8 +190,7 @@ public class AHOrgLocalServiceClp implements AHOrgLocalService {
         _methodName25 = "getOrganisations";
 
         _methodParameterTypes25 = new String[] {
-                "int", "int", "java.lang.String",
-                "de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType"
+                "int", "int", "java.lang.String", "java.lang.String"
             };
 
         _methodName26 = "listOrganisations";
@@ -200,9 +199,7 @@ public class AHOrgLocalServiceClp implements AHOrgLocalService {
 
         _methodName27 = "setOrganisationStatus";
 
-        _methodParameterTypes27 = new String[] {
-                "long", "de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus"
-            };
+        _methodParameterTypes27 = new String[] { "long", "int" };
 
         _methodName28 = "updateLogoLocation";
 
@@ -870,8 +867,7 @@ public class AHOrgLocalServiceClp implements AHOrgLocalService {
 
     @Override
     public java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHOrg> getOrganisations(
-        int start, int end, java.lang.String column,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType order) {
+        int start, int end, java.lang.String column, java.lang.String order) {
         Object returnObj = null;
 
         try {
@@ -922,12 +918,10 @@ public class AHOrgLocalServiceClp implements AHOrgLocalService {
     }
 
     @Override
-    public void setOrganisationStatus(long orgId,
-        de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus status) {
+    public void setOrganisationStatus(long orgId, int status) {
         try {
             _invokableLocalService.invokeMethod(_methodName27,
-                _methodParameterTypes27,
-                new Object[] { orgId, ClpSerializer.translateInput(status) });
+                _methodParameterTypes27, new Object[] { orgId, status });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
 

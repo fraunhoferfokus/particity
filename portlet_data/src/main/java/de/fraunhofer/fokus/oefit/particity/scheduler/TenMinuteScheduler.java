@@ -103,7 +103,7 @@ public class TenMinuteScheduler implements MessageListener {
 			List<AHSubscription> recipients;
 			for (final AHOffer offer : offers) {
 				cats = AHOfferLocalServiceUtil.getCategoriesByOfferAsLong(
-				        offer.getOfferId(), E_CategoryType.SEARCH);
+				        offer.getOfferId(), E_CategoryType.SEARCH.getIntValue());
 				recipients = AHSubscriptionLocalServiceUtil
 				        .getUserAddressesByCatItems(cats);
 				if (recipients != null && recipients.size() > 0) {
