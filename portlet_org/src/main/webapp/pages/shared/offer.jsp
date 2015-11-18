@@ -231,7 +231,7 @@
 							<div class="col-md-8">
 								<bform:bffield path="descr" label="org.form.offer.field.descr"
 									helpLabel="org.form.offer.field.descr.help" type="textarea"
-									required="true" rows="8"
+									required="true" rows="8" cssClass="wysiwyg"
 									readonly="<%= isReadOnly ? \"true\" : \"false\" %>" />
 							</div>
 						</div>

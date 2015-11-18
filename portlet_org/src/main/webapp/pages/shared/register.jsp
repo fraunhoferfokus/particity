@@ -40,7 +40,7 @@
  
  
  
- boolean isOrgOwner = themeDisplay.isSignedIn() && data != null && data.getMail().trim().toLowerCase().equals(user.getEmailAddress().trim().toLowerCase());
+ boolean isOrgOwner = themeDisplay.isSignedIn() && data != null && data.getMail() != null && data.getMail().trim().toLowerCase().equals(user.getEmailAddress().trim().toLowerCase());
  //log.info("Got user mail: "+user.getEmailAddress()+", got organisation owner: "+data.getMail());
  
  String actionType = request.getParameter("actionType");
@@ -116,17 +116,17 @@
 							type="text" required="true" disabled="<%= disabled %>" />
 						<bform:bffield path="holder" label="org.form.addOrg.field.holder"
 							type="text" required="true" disabled="<%= disabled %>" />
+						<bform:bffield path="legalState"
+              label="org.form.addOrg.field.legalState" type="text"
+              required="true" disabled="<%= disabled %>" />
 					</div>
 					<div class="col-md-8">
 						<bform:bffield path="descr" label="org.form.addOrg.field.descr"
-							type="textarea" required="true" disabled="<%= disabled %>" />
+							type="textarea" required="true" disabled="<%= disabled %>" cssClass="wysiwyg" />
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xs-4">
-						<bform:bffield path="legalState"
-							label="org.form.addOrg.field.legalState" type="text"
-							required="true" disabled="<%= disabled %>" />
+					<div class="col-xs-4">						
 					</div>
 					<div class="col-xs-4">
 						<%

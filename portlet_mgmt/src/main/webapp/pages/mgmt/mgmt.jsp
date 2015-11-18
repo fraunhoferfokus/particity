@@ -304,14 +304,18 @@
        int end = start+max;
        if (end >= orgSize)
          end = orgSize;
-       //log.debug("Got "+orgSize+" organisations!");
+       
+       //log.info("Got "+orgSize+" organisations!");
        int pagesnum = orgSize/max;
        int pagenum = (start+max)/max;
        List<AHOrg> organisations = null;
        
        try {
-    	   organisations = AHOrgLocalServiceUtil.getOrganisations(start, end, E_TableColumn.valueOf(orgColumn).getColName(), order);
-       } catch (Throwable t) {}
+    	   //log.info("Got "+orgSize+" organisations, listing from "+start+"-"+end);
+    	   organisations = AHOrgLocalServiceUtil.getOrganisations(start, end, E_TableColumn.valueOf(orgColumn).getColName(), order.name());
+       } catch (Throwable t) {
+    	   log.warn(t);
+       }
        
        if (organisations != null) {
 	    	 for (AHOrg organisation: organisations) {
@@ -532,7 +536,7 @@
       List<AHOffer> offers = null;
       
       try {
-    	  offers = AHOfferLocalServiceUtil.getOffers(start, end, E_TableColumn.valueOf(offerColumn).getColName(), order);
+    	  offers = AHOfferLocalServiceUtil.getOffers(start, end, E_TableColumn.valueOf(offerColumn).getColName(), order.name());
       } catch (Throwable t) {}
       
       if (offers == null || offers.size() == 0) {
@@ -729,7 +733,7 @@
           if (publish > 0) {
                 strPublish = CustomServiceUtils.formatZoneDateTime(publish);
           } 
-          String strCategories = AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH);
+          String strCategories = AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH.getIntValue());
           
           String statusClass = "";
           if (status.equals(E_OfferStatus.VALIDATED))
@@ -1172,7 +1176,7 @@
 						                       case TEXTAREA:
 						                         %>
 													<textarea id="<%= key.toString() %>"
-														name="<%= key.toString() %>" class="form-control input-lg"
+														name="<%= key.toString() %>" class="form-control input-lg wysiwyg"
 														rows="5"><%= value %></textarea>
 													<%
 						                         break;

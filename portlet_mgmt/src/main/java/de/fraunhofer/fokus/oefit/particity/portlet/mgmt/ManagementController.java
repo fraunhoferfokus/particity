@@ -133,11 +133,11 @@ public class ManagementController extends BaseController {
 							                data.getContactTel());
 							AHOfferLocalServiceUtil.setSndContact(
 							        data.getOfferId(), contact.getContactId(),
-							        E_OfferStatus.VALIDATED);
+							        E_OfferStatus.VALIDATED.getIntValue());
 						} else {
 							m_objLog.debug("Saving with orga contact!");
 							AHOfferLocalServiceUtil.setOfferStatus(
-							        data.getOfferId(), E_OfferStatus.VALIDATED);
+							        data.getOfferId(), E_OfferStatus.VALIDATED.getIntValue());
 						}
 						// force unlock
 						CustomLockServiceHandler.unlock(
@@ -170,7 +170,7 @@ public class ManagementController extends BaseController {
 		final Long l_orgId = this.getOrgId(request);
 		if (l_orgId != null) {
 			AHOrgLocalServiceUtil.setOrganisationStatus(l_orgId,
-			        E_OrgStatus.VALIDATED);
+			        E_OrgStatus.VALIDATED.getIntValue());
 		}
 
 		m_objLog.debug("approveOrg::end");
@@ -228,7 +228,7 @@ public class ManagementController extends BaseController {
 			        data.getOfferId(), themeDisplay)) {
 				try {
 					AHOfferLocalServiceUtil.setOfferStatus(data.getOfferId(),
-					        E_OfferStatus.DISABLED);
+					        E_OfferStatus.DISABLED.getIntValue());
 					// force unlock
 					CustomLockServiceHandler.unlock(AHOffer.class.getName(),
 					        data.getOfferId(), themeDisplay);
@@ -265,7 +265,7 @@ public class ManagementController extends BaseController {
 		final Long l_orgId = this.getOrgId(request);
 		if (l_orgId != null) {
 			AHOrgLocalServiceUtil.setOrganisationStatus(l_orgId,
-			        E_OrgStatus.DISABLED);
+			        E_OrgStatus.DISABLED.getIntValue());
 		}
 
 		m_objLog.debug("disableOrg::end");
@@ -404,7 +404,7 @@ public class ManagementController extends BaseController {
 						        offerId);
 						if (sent) {
 							AHOfferLocalServiceUtil.addSocialStatus(offerId,
-							        smtype);
+							        smtype.getBitmask());
 						} else {
 							SessionErrors.add(request,
 							        "common.socialize.plugin.publishfail");

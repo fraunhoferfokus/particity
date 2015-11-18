@@ -72,7 +72,7 @@
 					</div>
 					<div class="col-md-8">
 						<bform:bffield path="descr" label="org.form.addOrg.field.descr"
-							type="textarea" required="true" disabled="true" />
+							type="textarea" required="true" disabled="true" cssClass="wysiwyg" />
 					</div>
 				</div>
 				<div class="row">

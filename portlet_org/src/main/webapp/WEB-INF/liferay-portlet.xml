@@ -15,6 +15,7 @@
 		<private-session-attributes>true</private-session-attributes>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<footer-portlet-css>/css/main.css</footer-portlet-css>
+		<footer-portlet-javascript>/js/ckeditor/ckeditor.js</footer-portlet-javascript>		
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>ahorgregistration</css-class-wrapper>
 
@@ -35,6 +36,7 @@
 		<footer-portlet-css>/css/leaflet.css</footer-portlet-css>
 		<footer-portlet-css>/css/Control.Geocoder.css</footer-portlet-css>
 		<footer-portlet-css>/css/main.css</footer-portlet-css>
+		<footer-portlet-javascript>/js/ckeditor/ckeditor.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/leaflet.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/Control.Geocoder.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>

@@ -363,7 +363,7 @@
         int pagesnum = offerSize/max;
         int pagenum = (start+max)/max;
         
-        List<AHOffer> offers = AHOfferLocalServiceUtil.getOffersForOrganization(organisation.getOrgId(), start, end, E_TableColumn.valueOf(offerColumn).getColName(), order);
+        List<AHOffer> offers = AHOfferLocalServiceUtil.getOffersForOrganization(organisation.getOrgId(), start, end, E_TableColumn.valueOf(offerColumn).getColName(), order.name());
         
         for (AHOffer offer: offers) {
         	E_OfferType type = E_OfferType.findByValue(offer.getType());
@@ -389,7 +389,7 @@
         	if (publish > 0) {
                 strPublish = CustomServiceUtils.formatZoneDateTime(publish);
           } 
-        	String strCategories = AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH);
+        	String strCategories = AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH.getIntValue());
         	
         	String statusClass = "";
         	if (status.equals(E_OfferStatus.NEW) || status.equals(E_OfferStatus.CHANGED)) {
@@ -403,7 +403,7 @@
 					<tr>
 						<td><spring:message code="<%= type.getMsgProperty() %>" /></td>
 						<td><a
-							title="<spring:message code="mgmt.tabs.org.item.action.view"/>"
+							title="<spring:message code="org.intern.tabs.offer.item.action.view"/>"
 							href="<portlet:actionURL>
                          <portlet:param name="action" value="viewOffer" />
                          <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
