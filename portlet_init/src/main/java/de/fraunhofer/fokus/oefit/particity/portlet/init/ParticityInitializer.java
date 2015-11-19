@@ -511,7 +511,8 @@ public class ParticityInitializer {
 			List<Portlet> portlets = layoutTypePortlet.getAllPortlets(columnId);
 			if (portlets != null) {
 				for (Portlet portlet: portlets) {
-					if (portlet.getPortletId().equals(PortletKeys.JOURNAL_CONTENT)) {
+					//m_objLog.info("Found portlet "+portlet.getPortletId()+" =? "+PortletKeys.JOURNAL_CONTENT);
+					if (portlet.getPortletId().startsWith(PortletKeys.JOURNAL_CONTENT+"_INSTANCE")) {
 						PortletPreferences prefs = PortletPreferencesLocalServiceUtil.getPreferences(companyId,
 				                ownerId,
 				                ownerType,
@@ -531,9 +532,10 @@ public class ParticityInitializer {
 		return result;
 	}
 	
-	public static void addArticle(E_ContextPath path, JournalArticle article, Layout layout, long userId, long groupId, long companyId) {
+	public static String addArticle(E_ContextPath path, JournalArticle article, Layout layout, long userId, long groupId, long companyId) {
+		String journalPortletId = null;
 		try {
-			String journalPortletId = addPortletToPage(layout, PortletKeys.JOURNAL_CONTENT, path, userId);
+			journalPortletId = addPortletToPage(layout, PortletKeys.JOURNAL_CONTENT, path, userId);
 	
 			long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
 			int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
@@ -553,7 +555,9 @@ public class ParticityInitializer {
 			PortletPreferencesLocalServiceUtil.updatePreferences(ownerId, ownerType, layout
 			                .getPlid(), journalPortletId, prefs);
 		} catch (Throwable t) {
+			journalPortletId = null;
 			m_objLog.warn(t);
 		}
+		return journalPortletId;
 	}
 }
