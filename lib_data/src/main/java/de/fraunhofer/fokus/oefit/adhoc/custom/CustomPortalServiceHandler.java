@@ -139,13 +139,10 @@ public class CustomPortalServiceHandler {
 	 *
 	 * @param themeDisplay the theme display of the administrator
 	 */
-	public static synchronized void checkInit(final ThemeDisplay themeDisplay) {
+	public static synchronized void checkInit(long groupId, long userId) {
 		if (!isSystemInitialized()) {
 
 			try {
-
-				final long groupId = themeDisplay.getScopeGroupId();
-				final long userId = themeDisplay.getUserId();
 
 				createOrganisationLogoFolder(groupId, userId);
 
@@ -167,22 +164,24 @@ public class CustomPortalServiceHandler {
 		ctx.setAddGuestPermissions(true);
 		// ctx.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 
+		String orgFolder = getConfigValue(E_ConfigKey.ORGANISATION_LOGO_FOLDER);
+		
 		Folder parent = null;
 		try {
 			parent = DLAppServiceUtil.getFolder(groupId, 0,
-			        Constants.ORGANISATION_LOGO_FOLDER);
+			        orgFolder);
 		} catch (final Throwable t) {
 		}
 
 		if (parent == null) {
 			parent = DLAppServiceUtil.addFolder(groupId, 0,
-			        Constants.ORGANISATION_LOGO_FOLDER, "", ctx);
+			        orgFolder, "", ctx);
 			m_objLog.info("Folder "
-			        + Constants.ORGANISATION_LOGO_FOLDER
+			        + orgFolder
 			        + " created ....");
 		} else {
 			m_objLog.info("Folder "
-			        + Constants.ORGANISATION_LOGO_FOLDER
+			        + orgFolder
 			        + " already existing ....");
 		}
 

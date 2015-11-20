@@ -418,8 +418,10 @@ public class CustomOrgServiceHandler {
 
 			long parentId = -1;
 			try {
+				String orgFolder = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.ORGANISATION_LOGO_FOLDER);
+				
 				final DLFolder parent = DLFolderLocalServiceUtil.getFolder(
-				        groupId, 0, Constants.ORGANISATION_LOGO_FOLDER);
+				        groupId, 0, orgFolder);
 				if (parent != null)
 				{
 					parentId = parent.getFolderId();

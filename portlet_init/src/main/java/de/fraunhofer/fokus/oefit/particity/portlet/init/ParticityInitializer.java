@@ -54,6 +54,7 @@ import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portlet.journal.service.JournalArticleServiceUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 
 public class ParticityInitializer {
@@ -63,6 +64,12 @@ public class ParticityInitializer {
 	private static Log m_objLog = LogFactoryUtil.getLog(ParticityInitializer.class);
 	
 	public static void init() {
+		if (!isWizardAvailable()) {
+			m_objLog.warn("Setup wizard was already initialized before. Delete portlet painit to remove this message for future server restarts.");
+			return;
+		}
+			
+		
 		try {
 			// debug-list available portlets
 			/*List<Portlet> portlets = PortletLocalServiceUtil.getPortlets();
@@ -103,10 +110,25 @@ public class ParticityInitializer {
 			} catch (NoSuchUserException e) {}
 			// add sample content
 			initSampleContent(globalGroupId, globalAdminId, globalCompanyId, layouts);
+			
+			// call initialization of additional settings that require initialization, even if this wizard is not available
+			CustomPortalServiceHandler.checkInit(globalGroupId, globalAdminId);
+			// set wizard flag to prevent additional runs of this method on future restarts
+			CustomPortalServiceHandler.setConfig(E_ConfigKey.WIZARDFLAG, "true");
 
 		} catch (Throwable t) {
 			m_objLog.error(t);
 		}
+	}
+	
+	/**
+	 * Checks if the wizard was already run. Uses a portlet configuration setting.
+	 *
+	 * @return true, if wizard was already run once without error, false otherwise
+	 */
+	public static boolean isWizardAvailable() {
+		final String cfgVal = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.WIZARDFLAG);
+		return cfgVal != null && cfgVal.equals("true");
 	}
 	
 	public static void initSampleContent(long groupId, long adminId, long companyId, Map<E_ContextPath, Layout> layouts) {

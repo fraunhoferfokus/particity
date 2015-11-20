@@ -277,7 +277,14 @@ public enum E_ConfigKey {
 
 	/** Initial initialization. */
 	INITFLAG(E_ConfigCategory.NONE, "", "false"),
-
+	
+	/** Setup wizard already run. */
+	WIZARDFLAG(E_ConfigCategory.NONE, "", "false"),
+	
+	/** Where to put uploads of organisation logos */
+	ORGANISATION_LOGO_FOLDER(E_ConfigCategory.NONE, "","Organisation-Logos");
+	
+	
 	;
 
 	/**

@@ -377,7 +377,14 @@ public class AdminController extends BaseController {
 	public String render(final RenderRequest request,
 	        final RenderResponse response, final Model model) {
 		m_objLog.trace("render::start");
-		CustomPortalServiceHandler.checkInit(this.getThemeDisplay(request));
+		
+		// get IDs of current session
+		long groupId = getGroupId(request);
+		long userId = getUserId(request);
+		
+		// check whether portal already initialized
+		CustomPortalServiceHandler.checkInit(groupId, userId);
+		
 		String page = request.getParameter("jspPage");
 		if (page == null) {
 			page = "admin";

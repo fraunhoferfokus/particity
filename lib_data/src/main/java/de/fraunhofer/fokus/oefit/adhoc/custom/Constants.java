@@ -61,9 +61,6 @@ public class Constants {
 	public static final String	DEFAULT_JODA_DATETIME_FORMAT	= DEFAULT_JODA_DATE_FORMAT
 	                                                                 + " "
 	                                                                 + DEFAULT_JODA_TIME_FORMAT;
-
-	/** The directory to upload logos to (created automatically on login of a user with DEFAULT_ROLE_ADMINISTRATION */
-	public static final String	ORGANISATION_LOGO_FOLDER	 = "Organisations-Logos";
 	
 	/** Portal mode for demonstration purposes (e.g. restricted) */
 	public static final int PORTAL_MODE_DEMO = -1;

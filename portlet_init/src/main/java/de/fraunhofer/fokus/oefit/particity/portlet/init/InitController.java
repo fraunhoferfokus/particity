@@ -67,6 +67,7 @@ import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
