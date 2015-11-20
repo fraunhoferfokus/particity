@@ -42,6 +42,8 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
@@ -109,6 +111,10 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 			tmp.setUpdated(System.currentTimeMillis());
 			tmp.setHolder(holder);
 			tmp.setLegalStatus(legalStatus);
+			// set valid, if it does not require additional input or check by mgmt and moderation is disabled
+			if (!CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.MODERATE_ORGS)) {
+				tmp.setStatus(E_OrgStatus.VALIDATED.getIntValue());
+			}
 			result = this.updateAHOrg(tmp);
 		} catch (final SystemException e) {
 			m_objLog.error(e);

@@ -44,8 +44,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType;
@@ -186,6 +188,10 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 						this.getAHOfferPersistence().removeAHCatEntrieses(
 						        offerId, entries);
 					}
+				}
+				// set valid, if it does not require additional input or check by mgmt and moderation is disabled
+				if (!result.isContactAgency() && !CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.MODERATE_OFFERS)) {
+					result.setStatus(E_OfferStatus.VALIDATED.getIntValue());
 				}
 				result = this.updateAHOffer(result);
 			}

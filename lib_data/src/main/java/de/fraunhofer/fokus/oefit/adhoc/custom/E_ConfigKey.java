@@ -288,8 +288,13 @@ public enum E_ConfigKey {
 	WIZARDFLAG(E_ConfigCategory.NONE, "", "false"),
 	
 	/** Where to put uploads of organisation logos */
-	ORGANISATION_LOGO_FOLDER(E_ConfigCategory.NONE, "","Organisation-Logos");
+	ORGANISATION_LOGO_FOLDER(E_ConfigCategory.NONE, "","Organisation-Logos"),
 	
+	/** Moderate offers **/
+	MODERATE_OFFERS(E_ConfigCategory.NONE, "", "true"),
+	
+	/** Moderate organisations **/
+	MODERATE_ORGS(E_ConfigCategory.NONE, "", "true")
 	
 	;
 
