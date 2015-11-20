@@ -23,3 +23,6 @@ $(".wysiwyg").each(function() {
 		]
 	}  );
 })
+
+// initialize switches
+$("input[class*=switch]").bootstrapSwitch();

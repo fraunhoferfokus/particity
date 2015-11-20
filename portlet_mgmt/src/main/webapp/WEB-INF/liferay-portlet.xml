@@ -18,12 +18,15 @@
 		<footer-portlet-css>/css/Control.Geocoder.css</footer-portlet-css>
 		<footer-portlet-css>/css/main.css</footer-portlet-css>
 		<footer-portlet-css>/css/font-awesome.min.css</footer-portlet-css>
+		<footer-portlet-css>/css/bootstrap-switch.min.css</footer-portlet-css>
+		<footer-portlet-javascript>/js/bootstrap-switch.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/ckeditor/ckeditor.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/leaflet.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/Control.Geocoder.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/offer.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/backend.js</footer-portlet-javascript>
+		
 		<css-class-wrapper>ahmgmt</css-class-wrapper>
 
 		<add-default-resource>true</add-default-resource>

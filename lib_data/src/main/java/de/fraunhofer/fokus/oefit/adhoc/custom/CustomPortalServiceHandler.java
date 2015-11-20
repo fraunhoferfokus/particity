@@ -405,6 +405,7 @@ public class CustomPortalServiceHandler {
 	 * @param request the portlet request
 	 */
 	public static void saveConfig(final ActionRequest request) {
+		
 		final Enumeration<String> paramNames = request.getParameterNames();
 		while (paramNames.hasMoreElements()) {
 			final String keyName = paramNames.nextElement();
@@ -417,7 +418,7 @@ public class CustomPortalServiceHandler {
 
 				final String value = request.getParameter(keyName);
 				if (value != null) {
-					// m_objLog.debug("Accepting save parameter: "+keyName+" with value: "+value);
+					m_objLog.info("Accepting save parameter: "+keyName+" with value: "+value);
 					final String oldVal = getConfigValue(key);
 					if (!oldVal.equals(value)) {
 						m_objLog.debug("Setting changed parameter: " + keyName);

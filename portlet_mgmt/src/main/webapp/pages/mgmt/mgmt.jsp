@@ -1183,6 +1183,24 @@
 														rows="5"><%= value %></textarea>
 													<%
 						                         break;
+						                       case YESNO:
+						                    	   String checkedTrue="checked=\"checked\"";
+						                    	   String checkedFalse="checked=\"checked\"";
+						                    	   if (value != null && value.trim().equalsIgnoreCase("true")) {
+						                    		   checkedFalse = "";
+						                    	   } else
+						                    		   checkedTrue = "";
+						                    	   %>
+						                           <input id="<%= key.toString() %>True"
+						                             name="<%= key.toString() %>" class=""
+						                             type="<%= key.getType().getHtmlType() %>"
+						                             value="true" <%= checkedTrue %>><spring:message code="common.html.radio.on" />
+						                           <input id="<%= key.toString() %>False"
+                                         name="<%= key.toString() %>" class=""
+                                         type="<%= key.getType().getHtmlType() %>"
+                                         value="false" <%= checkedFalse %>><spring:message code="common.html.radio.off" />
+						                           <%
+						                    	   break;
 						                      }
 						                     %>
 

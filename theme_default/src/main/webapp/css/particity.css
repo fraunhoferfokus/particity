@@ -309,7 +309,7 @@ td {
 	font-weight: bold;
 }
 
-input, textarea, .uneditable-input {
+input[type=text], textarea, .uneditable-input {
 	width: 100% !important;
 	min-height: 24px !important;
 	padding: 8px 12px !important;

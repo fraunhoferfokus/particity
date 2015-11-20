@@ -235,7 +235,7 @@ public enum E_ConfigKey {
 	        "Lieber Interessent!<br/><br/>es gibt [$OFFER_COUNT$] neue Angebote, die Sie interessieren könnten:<br/><br/>[$OFFER_LIST_EXT:baseUrl=/suche-kenntnisse/$]<br/><br/>Zur Verwaltung Ihres Newsletter oder zur Abmeldung verwenden Sie bitte folgenden Link:<br/>[$PORTAL_URL$]/newsletter?uuid=[$TO_UUID$]<br/>Vielen Dank für Ihr Engagement!<br/>Ihr adhoc-Team"),
 
 	/** Switch for Facebook-integration */
-	SOCIAL_FB_ENABLED(E_ConfigCategory.SOCIALFB, E_ConfigType.CHECKBOX, "mgmt.cfg.key.fb.enable", "true"),
+	SOCIAL_FB_ENABLED(E_ConfigCategory.SOCIALFB, E_ConfigType.YESNO, "mgmt.cfg.key.fb.enable", "true"),
 	        
 	/** Facebook consumer key/token Facebook access key/token. */
 	SOCIAL_FB_APPID(E_ConfigCategory.SOCIALFB, "mgmt.cfg.key.fbappid.title", ""),
@@ -257,7 +257,7 @@ public enum E_ConfigKey {
 	        "Die Organisation [$ORG_NAME$] hat ein neues Angebot [$OFFER_NAME$] eingestellt unter: [$OFFER_URL$]"),
 	
 	/** Switch for Twitter-integration */
-	SOCIAL_TW_ENABLED(E_ConfigCategory.SOCIALTW, E_ConfigType.CHECKBOX, "mgmt.cfg.key.tw.enable", "true"),
+	SOCIAL_TW_ENABLED(E_ConfigCategory.SOCIALTW, E_ConfigType.YESNO, "mgmt.cfg.key.tw.enable", "true"),
 	        
 	/** Twitter consumer key/token Twitter access key/token. */
 	SOCIAL_TW_CK(E_ConfigCategory.SOCIALTW, "mgmt.cfg.key.twck.title", ""),
