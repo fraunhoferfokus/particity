@@ -176,4 +176,16 @@ public class FacebookClient implements I_SocialMediaClient {
 		return result;
 	}
 
+	@Override
+    public boolean isEnabled() {
+	    return CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.SOCIAL_FB_ENABLED);
+    }
+
+	@Override
+    public String getCssClass() {
+	    return "fa fa-facebook-square";
+    }
+	
+	
+
 }

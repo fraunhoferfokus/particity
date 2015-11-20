@@ -343,6 +343,18 @@ public class CustomPortalServiceHandler {
 		}
 		return value;
 	}
+	
+	/**
+	 * Checks if a configuration key that holds a boolean setting is set to true
+	 * 
+	 * @param key the configuration key
+	 *
+	 * @return true, if the configuration key is a string representation of Boolean.TRUE
+	 */
+	public static boolean isConfigEnabled(E_ConfigKey key) {
+		final String cfgVal = getConfigValue(key);
+		return cfgVal != null && cfgVal.equals("true");
+	}
 
 	/**
 	 * Check whether a given user exists

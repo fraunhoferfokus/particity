@@ -102,6 +102,9 @@
   int orgChangedSize = AHOrgLocalServiceUtil.countNewOrg();
   int offerChangedSize = AHOfferLocalServiceUtil.countNewOffer();
   
+  boolean fbEnabled = CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.SOCIAL_FB_ENABLED);
+  boolean twEnabled = CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.SOCIAL_TW_ENABLED);
+  
   %>
 
 <div class="container-fluid">
@@ -768,54 +771,54 @@
 								code="<%= status.getMsgProperty() %>" /></td>
 						<td>
 							<%
-            String smLogo;
-            Boolean isOnline;
-            for (E_SocialMediaPlugins sm: E_SocialMediaPlugins.values()) {
-            	isOnline = smOnlineMap.get(sm);
-            	if (isOnline == null) {
-            		I_SocialMediaClient smclient = SocialMediaFactory.getClient(sm);
-            		isOnline = smclient != null && smclient.isConnected();
-            		smOnlineMap.put(sm,isOnline);
-            	}
-            	smLogo = "<i class='fa fa-square'></i>";
-            	switch (sm) {
-            	 case TWITTER:
-            		 smLogo = "<i class='fa fa-twitter-square'></i>";
-            		 break;
-            	 case FACEBOOK:
-            		 smLogo = "<i class='fa fa-facebook-square'></i>";
-            		 break;
-            	}
-            
-            	  if (!status.equals(E_OfferStatus.VALIDATED)) {
-            		  %> <span data-toggle="tooltip" data-placement="top"
-							title="<spring:message code="common.socialize.plugin.inactive"/>"
-							class="smicon inactive"><%= smLogo %></span> <%
-            	  } else if (!isOnline) {
-                  %> <span data-toggle="tooltip"
-							class="smicon noconnect" data-placement="top"
-							title="<spring:message code="common.socialize.plugin.noconnect"/>"><%= smLogo %></span>
-							<%
-            	  } else if (sm.matchesBitmask(offer.getSocialStatus())) {
-                  %> <span class="smicon" data-toggle="tooltip"
-							data-placement="top"
-							title="<spring:message code="common.socialize.plugin.published"/>"><%= smLogo %></span>
-							<%
-                } else {
-			            %> <a data-placement="top" data-toggle="tooltip"
-							title="<spring:message code="common.socialize.plugin.publish"/> <spring:message code="<%= sm.getMsgTitleProp() %>"/>"
-							href="<portlet:actionURL>
-			                         <portlet:param name="action" value="publishSocial" />
-			                         <portlet:param name="type" value="<%= sm.toString() %>" />
-			                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
-			                         <portlet:param name="tabId" value="offer" />
-			                         <portlet:param name="page" value="<%= Integer.toString(pagenum) %>" />
-			                         <portlet:param name="column" value="<%= offerColumn %>" />
-			                         <portlet:param name="order" value="<%= orderStr %>" />
-			                       </portlet:actionURL>"
-							class="smicon active <%= demoDisabled %>"><%= smLogo %></a> <%
-              }
-            }
+							if (fbEnabled || twEnabled) {
+		            String smLogo;
+		            Boolean isOnline;
+		            boolean isEnabled;
+		            for (E_SocialMediaPlugins sm: E_SocialMediaPlugins.values()) {
+		            	isOnline = smOnlineMap.get(sm);
+		            	smLogo = "<i class='fa fa-square'></i>";
+		            	if (isOnline == null) {
+		            		I_SocialMediaClient smclient = SocialMediaFactory.getClient(sm);
+		            		// skip display of logo, if not enabled at all
+		            		if (!smclient.isEnabled())
+		            			continue;
+		            		if (smclient.getCssClass() != null)
+		            			smLogo = "<span class='"+smclient.getCssClass()+"'></span>";
+		            		isOnline = smclient != null && smclient.isConnected();
+		            		smOnlineMap.put(sm,isOnline);
+		            	}
+		            
+		            	  if (!status.equals(E_OfferStatus.VALIDATED)) {
+		            		  %> <span data-toggle="tooltip" data-placement="top"
+									title="<spring:message code="common.socialize.plugin.inactive"/>"
+									class="smicon inactive"><%= smLogo %></span> <%
+		            	  } else if (!isOnline) {
+		                  %> <span data-toggle="tooltip"
+									class="smicon noconnect" data-placement="top"
+									title="<spring:message code="common.socialize.plugin.noconnect"/>"><%= smLogo %></span>
+									<%
+		            	  } else if (sm.matchesBitmask(offer.getSocialStatus())) {
+		                  %> <span class="smicon" data-toggle="tooltip"
+									data-placement="top"
+									title="<spring:message code="common.socialize.plugin.published"/>"><%= smLogo %></span>
+									<%
+		                } else {
+					            %> <a data-placement="top" data-toggle="tooltip"
+									title="<spring:message code="common.socialize.plugin.publish"/> <spring:message code="<%= sm.getMsgTitleProp() %>"/>"
+									href="<portlet:actionURL>
+					                         <portlet:param name="action" value="publishSocial" />
+					                         <portlet:param name="type" value="<%= sm.toString() %>" />
+					                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+					                         <portlet:param name="tabId" value="offer" />
+					                         <portlet:param name="page" value="<%= Integer.toString(pagenum) %>" />
+					                         <portlet:param name="column" value="<%= offerColumn %>" />
+					                         <portlet:param name="order" value="<%= orderStr %>" />
+					                       </portlet:actionURL>"
+									class="smicon active <%= demoDisabled %>"><%= smLogo %></a> <%
+		              }
+		            }
+							}
             %>
 						</td>
 						<td>

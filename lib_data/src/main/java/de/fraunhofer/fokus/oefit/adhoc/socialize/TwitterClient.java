@@ -185,4 +185,15 @@ public class TwitterClient implements I_SocialMediaClient {
 		return result;
 	}
 
+	
+	@Override
+    public boolean isEnabled() {
+	    return CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.SOCIAL_TW_ENABLED);
+    }
+	
+	@Override
+    public String getCssClass() {
+	    return "fa fa-twitter-square";
+    }
+	
 }

@@ -41,6 +41,18 @@ import java.net.URL;
 public interface I_SocialMediaClient {
 
 	/**
+	 * Check whether this client is actually enabled
+	 * 
+	 * There is no hard definition, what enabled means. A service could be 
+	 * disabled, because no API is available, or (usually) because it
+	 * depends upon a global configuration settings that can be set by the
+	 * user at some point
+	 * 
+	 * @return true, if enabled, false otherwise
+	 */
+	public boolean isEnabled();
+	
+	/**
 	 * Checks if the client is connected
 	 *
 	 * @return true, if is connected
@@ -72,4 +84,11 @@ public interface I_SocialMediaClient {
 	 */
 	public boolean send(URL url, String message);
 
+	/**
+	 * Returns a CSS class that represents this plugin. Usually this CSS 
+	 * contains some sort of logo for representing the provider
+	 * 
+	 * @return The CSS class representing this implementation
+	 */
+	public String getCssClass();
 }

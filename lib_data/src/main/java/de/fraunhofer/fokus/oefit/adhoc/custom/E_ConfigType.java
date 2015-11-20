@@ -45,7 +45,8 @@ public enum E_ConfigType {
 	TEXTAREA("textarea"),
 	
 	/** HTML input as checkbox. */
-	CHECKBOX("checkbox");
+	CHECKBOX("checkbox"),
+	;
 
 	private String	m_strHtml;
 
