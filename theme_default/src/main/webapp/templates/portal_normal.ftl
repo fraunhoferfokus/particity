@@ -29,7 +29,7 @@
 	<meta name="apple-mobile-web-app-title" content="${the_title}">
 	<link rel="apple-touch-startup-image" href="${images_folder}/webapp.png"/>
 	<link rel="apple-touch-icon-precomposed" href="${images_folder}/webapp.png">
-	<link rel="stylesheet" type="text/css" href="${css_folder}/shariff.min.css">	
+	<link rel="stylesheet" type="text/css" href="${css_folder}/shariff.complete.css">	
 	<script src="${javascript_folder}/jquery-2.0.3.js" type="text/javascript"></script>
 	${theme.include(top_head_include)}
 	<link rel="stylesheet" type="text/css" href="${css_folder}/bootstrap.css">

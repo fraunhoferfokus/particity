@@ -55,7 +55,7 @@
   else {
 	  log.warn("Got no offerId!");
   }
-  log.info("Got request, modal "+isModal+", offerId "+offerId+", orgUrl "+orgUrl+", offerUrl "+offerUrl);
+  //log.info("Got request, modal "+isModal+", offerId "+offerId+", orgUrl "+orgUrl+", offerUrl "+offerUrl);
   %>
 
 
