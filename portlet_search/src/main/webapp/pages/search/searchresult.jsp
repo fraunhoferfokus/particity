@@ -41,31 +41,21 @@
 <% 
   Log log = LogFactoryUtil.getLog(this.getClass().getName());
  
-  boolean isModal = ParamUtil.getBoolean(request, "modal");
-  
-  /*String pportletid = request.getParameter("portletId");
-  String pplid = request.getParameter("plid");
-  log.info("Portlet ID is "+pportletid+", plid is "+pplid);
-  String baseUrl = request.getParameter("baseUrl");*/
+  boolean isModal = ParamUtil.getBoolean(request, "modal",false);
   
   String orgUrl = request.getParameter("orgUrl");
   String offerUrl = request.getParameter("offerUrl");
-  
-  
-  /*Long pplidnum = -1L;
-  if (pplid != null && pplid.trim().length() > 0)
-	  pplidnum = Long.parseLong(pplid);*/
   
   OfferForm data = null;
   Long offerId = ParamUtil.getLong(request, "offerId");
   if (offerId != null) {
 	  data = CustomOfferServiceHandler.getOffer(offerId);
-	  log.info("Got offerId "+offerId);
 	  request.setAttribute("data", data);
   }
   else {
 	  log.warn("Got no offerId!");
   }
+  log.info("Got request, modal "+isModal+", offerId "+offerId+", orgUrl "+orgUrl+", offerUrl "+offerUrl);
   %>
 
 
@@ -100,7 +90,7 @@
    %>
 	<a class="btn btn-default"
 		href="<portlet:renderURL></portlet:renderURL>"><spring:message
-			code="org.offer.back" /></a>
+			code="search.offer.back" /></a>
 	<%
    }
   %>

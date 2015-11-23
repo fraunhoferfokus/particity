@@ -14,7 +14,7 @@
   String catIds = GetterUtil.getString(portletPreferences.getValue("categoryId", "-1"));
   catIds = ","+catIds+",";
 
-  List<AHCategories> cats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH);
+  List<AHCategories> cats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH.getIntValue());
   
   %>
 

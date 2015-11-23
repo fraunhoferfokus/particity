@@ -110,12 +110,14 @@ function addModal(modalid,detailid,count, maxcount) {
 		          }
 		      }
 		    );
+		    //console.log("Stored modal with id "+id);
+		    showModal(modalid,detailid,count);
 		  }
 		);
 		//validateModal(modals[id]);
 		//console.log("Modal "+id+" initialized!");
 		//$(id+" .modal-body").scrollTop(0);
-		showModal(modalid,detailid,count);
+		
 	}
 }
 
@@ -209,6 +211,7 @@ function loadModal(modalid,orgUrl, offerUrl, count, offerId) {
 	      },
 	      success: function(data) {
 	        elem.empty();
+	        //console.log("Got data "+data);
 	        elem.html(data);
 	      },
 	      dataType: "html"
