@@ -69,7 +69,10 @@ public class TenMinuteScheduler implements MessageListener {
 	public void receive(final Message message) throws MessageListenerException {
 		try {
 
-			this.sendNewsletter();
+			boolean newsletterIsEnabled = CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.ENABLE_NEWSLETTER);
+			
+			if (newsletterIsEnabled)
+				this.sendNewsletter();
 
 			m_objLog.info("Ten-Minute scheduler update done.");
 		} catch (final Throwable t) {

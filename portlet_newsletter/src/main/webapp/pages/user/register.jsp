@@ -1,3 +1,5 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
@@ -16,6 +18,8 @@
 <% 
   Log log = LogFactoryUtil.getLog(this.getClass().getName());
  
+  boolean isEnabled = CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.ENABLE_NEWSLETTER);
+
   %>
 
 <portlet:actionURL var="addUrl">
@@ -31,6 +35,10 @@
 					code="user.register.jsp.descr" /></small>
 		</h1>
 	</div>
+
+  <%
+   if (isEnabled) {
+  %>
 
 	<form:form modelAttribute="data" id="approveOfferForm"
 		data-ajax="false" method="post" action="<%= addUrl %>">
@@ -132,5 +140,19 @@
 			</div>
 		</div>
 	</form:form>
+
+  <%
+    } 
+   // newsletter not enabled
+   else {
+    	%>
+    	
+    	<div class="alert alert-info">
+    	 <spring:message code="user.newsletter.disabled" />
+    	</div>
+    	
+    	<%
+    }
+  %>
 
 </div>

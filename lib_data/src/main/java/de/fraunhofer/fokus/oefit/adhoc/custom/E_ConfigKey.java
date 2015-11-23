@@ -221,13 +221,13 @@ public enum E_ConfigKey {
 	        "mgmt.cfg.key.mail.body",
 	        "Lieber Interessent!<br/><br/>Sie haben unseren personalisierten Newsletter über diese E-Mail Adresse abboniert. Zur Bestätigung klicken Sie bitte hier:<br/>[$PORTAL_URL$]/newsletter?uuid=[$TO_UUID$]!<br/><br/> Vielen Dank für Ihr Engagement!<br/>Ihr adhoc-Team"),
 
-	/** Newsletter confirmation subject. */
+	/** Newsletter update subject. */
 	NEWS_UPDATE_SUBJ(
 	        E_ConfigCategory.NEWSUPD,
 	        "mgmt.cfg.key.mail.subj",
 	        "[adhoc-boerse] [$OFFER_COUNT$] neue Angebote"),
 	
-	/** Newsletter confirmation body. */
+	/** Newsletter update body. */
 	NEWS_UPDATE_BODY(
 	        E_ConfigCategory.NEWSUPD,
 	        E_ConfigType.TEXTAREA,
@@ -294,7 +294,10 @@ public enum E_ConfigKey {
 	MODERATE_OFFERS(E_ConfigCategory.NONE, "", "true"),
 	
 	/** Moderate organisations **/
-	MODERATE_ORGS(E_ConfigCategory.NONE, "", "true")
+	MODERATE_ORGS(E_ConfigCategory.NONE, "", "true"),
+	
+	/** Moderate organisations **/
+	ENABLE_NEWSLETTER(E_ConfigCategory.NONE, "", "true"),
 	
 	;
 
