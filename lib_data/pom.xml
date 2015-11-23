@@ -51,6 +51,7 @@
                       <goal>generate</goal>
                   </goals>
                   <configuration>
+                    <noFileHeader>true</noFileHeader>
 	                  <schemaDirectory>src/main/xsd</schemaDirectory>
 										<schemaIncludes>
 										    <include>ImportExport-v1_0_0.xsd</include>
@@ -60,9 +61,8 @@
 										    <include>globalbindings.xjb</include>
 										</bindingIncludes>
 										<extension>true</extension>
-										<generateDirectory>src/main/java</generateDirectory>
+										<generateDirectory>src/main/generated</generateDirectory>
 										<!-- limit plugin to not scan whole source tree :) -->
-								    <produces><produce>nothing</produce></produces>
 										<args>
 						            <arg>-Xannotate</arg>
 						        </args>
@@ -76,6 +76,25 @@
                   </configuration>
               </execution>
           </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>add-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/main/generated</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 		</plugins>
 	</build>
