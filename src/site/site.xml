@@ -1,14 +1,5 @@
 <project name="Particity">
       <body>
-        <menu name="Usage"> 
-          <item name="About/Features" href="about.html"/>
-          <item name="Installation" href="install.html"/>
-        </menu>
-        <menu name="Development"> 
-          <item name="Release Notes" href="changelog.html"/>
-          <item name="TODO" href="todo.html"/>
-          <item name="Get involved" href="contact.html"/>
-        </menu>
         <menu ref="parent"/>
         <menu ref="license"/>
         <menu ref="reports"/>

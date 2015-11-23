@@ -4,42 +4,44 @@ Particity
 
  Welcome to particity!
 
- The term "particity" is an abstract noun and describes a quality measurement of participation.
- Particity aims to become platform that provides information on want ads and requests for help in the area of social engagement. 
- Particity is open-source and based on the infamous Liferay CMS. 
+ The term "particity" is an abstract noun and describes a quality measurement of participation. 
+ Particity aims to become platform that provides information on want ads and requests for help in the area of social engagement. Particity is open-source and based on the infamous Liferay CMS.  
 
- 
- << Note: Site documentation is in English, although some basic aspects (like portlet names and the default translation) are in German. >>
- 
- << Note2: Site documentation is still rudimentary and in very early stages. Expect more details on the upcoming roadmap - when it's done ;)  >>
- 
-Navigation
+------------
+Features
+------------ 
 
- This main section carries information about:
- 
- * Usage information
- 
-   * Brief {{{./about.html}description}} of the project
-   
-   * {{{./install.html}Installation}} notes for installation and deployment
-   
-   []
+ Some of our exciting features for <<organisations>>:
   
- * Various development notes
+  * Visitors can register on site as so called "owners" of an organisation
   
-  * A {{{./changelog.html}changelog}} on recent changes
+  * Owners of organisations may edit organisation details and add additional restricted editors
   
-  * A {{{./todo.html}list}} of things to be done
+  * Editors and owners of organisations can add want ads (offers/requests for help)
   
-  * {{{./contact.html}Contact}} details, on how to become part of the project
+  * Get notifications for new/changed/accepted want ads
   
-  * For more detailed documentation have a look at the project modules
+ Some convincing features for <<service providers>>:
   
-  []
+  * Moderate requests for new organisations and want ads
   
+  * Export contacts of organisations and newsletter-readers alike
+  
+  * Use one click to publish new offers using your Twitter or Facebook account
+
+ Some undeniable features for <<visitors>>:
+  
+  * Find want ads taylored to your needs and interests
+  
+  * Stay informed and sign up with your email for a personalized newsletter 
+
  []
 
- On the left you'll find a menu "Project Documentation" where you can find:
+------------
+Navigation
+------------
+
+ On the left you'll see a menu "Project Documentation" where you can find:
  
  * Project information (dependencies, license, modules)
  
