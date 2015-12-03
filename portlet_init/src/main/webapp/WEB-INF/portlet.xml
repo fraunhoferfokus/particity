@@ -27,7 +27,7 @@
 		<supported-locale>en</supported-locale>
 		<resource-bundle>de.fraunhofer.fokus.oefit.particity.Language.Language</resource-bundle>
 		<portlet-info>
-			<title>Particity Init Portlet</title>
+			<title>Particity Setup</title>
 			<short-title></short-title>
 			<keywords></keywords>
 		</portlet-info>
