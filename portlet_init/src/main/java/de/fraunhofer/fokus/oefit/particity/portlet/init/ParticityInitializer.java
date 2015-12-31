@@ -68,6 +68,42 @@ public class ParticityInitializer {
 			m_objLog.warn("Setup wizard was already initialized before. Delete portlet painit to remove this message for future server restarts.");
 			return;
 		}
+		
+		try {
+			// get default company
+			Group pGroup = null;
+			long globalCompanyId = -1;
+			long globalGroupId = -1;
+			long globalAdminId = -1;
+			Company company = CompanyLocalServiceUtil.getCompanyByWebId(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
+			// fallback
+			//if (company == null)
+				//company = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId());	
+			
+			pGroup = company.getGroup();
+			globalCompanyId = company.getCompanyId();
+			globalGroupId = pGroup.getGroupId();
+			globalAdminId = company.getDefaultUser().getUserId(); 
+
+			Layout home = getLayout(E_ContextPath.HOME.getPath());
+			if (home != null) {
+				String portletId = addPortletToPage(home, "painit_WAR_painitportlet", E_ContextPath.HOME, globalAdminId);			
+				m_objLog.info("Created welcome with portlet id "+portletId);
+			} else {
+				m_objLog.info("No home found under "+E_ContextPath.HOME.getPath());
+			}
+			
+		} catch (Throwable t) {
+			m_objLog.error(t);
+		}
+	}
+	
+	
+	public static void initOld() {
+		if (!isWizardAvailable()) {
+			m_objLog.warn("Setup wizard was already initialized before. Delete portlet painit to remove this message for future server restarts.");
+			return;
+		}
 			
 		
 		try {
@@ -83,7 +119,7 @@ public class ParticityInitializer {
 			long globalAdminId = -1;
 			Company company = null;
 			if (pGroup != null) {
-				company = CompanyLocalServiceUtil.getCompany(pGroup.getCompanyId()); 
+				company = CompanyLocalServiceUtil.getCompanyById(pGroup.getCompanyId()); 
 			} else {
 				company = CompanyLocalServiceUtil.getCompanyByMx(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
 				// fallback
@@ -127,8 +163,14 @@ public class ParticityInitializer {
 	 * @return true, if wizard was already run once without error, false otherwise
 	 */
 	public static boolean isWizardAvailable() {
-		final String cfgVal = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.WIZARDFLAG);
-		return cfgVal != null && cfgVal.equals("true");
+		boolean result = false;
+		// check if liferay already initialized
+		boolean isSystemSetupDone = !CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.WIZARDFLAG);
+		// if initialized yet, check whether particity is initialized as well
+		if (isSystemSetupDone) {
+			result = !CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.INITFLAG);
+		}
+		return result;
 	}
 	
 	public static void initSampleContent(long groupId, long adminId, long companyId, Map<E_ContextPath, Layout> layouts) {
@@ -204,6 +246,23 @@ public class ParticityInitializer {
 				result.put(role, lrRole);
 				m_objLog.info("Got role "+lrRole.getName());
 			}
+		}
+		return result;
+	}
+	
+	public static Layout getLayout(String context) {
+		Layout result = null;
+		try {
+			List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+			for (Layout layout: layouts) {
+				if (layout.getFriendlyURL().equals(context)) {
+					result = layout;
+					break;
+				} else
+					m_objLog.info("Found unmatching layout at "+layout.getFriendlyURL());
+			}
+		} catch (Throwable t) {
+			m_objLog.error(t);
 		}
 		return result;
 	}

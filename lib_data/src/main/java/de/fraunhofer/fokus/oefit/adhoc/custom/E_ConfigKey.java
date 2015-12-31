@@ -285,7 +285,7 @@ public enum E_ConfigKey {
 	INITFLAG(E_ConfigCategory.NONE, "", "false"),
 	
 	/** Setup wizard already run. */
-	WIZARDFLAG(E_ConfigCategory.NONE, "", "false"),
+	WIZARDFLAG(E_ConfigCategory.NONE, "", "true", "setup.wizard.enabled"),
 	
 	/** Where to put uploads of organisation logos */
 	ORGANISATION_LOGO_FOLDER(E_ConfigCategory.NONE, "","Organisation-Logos"),
