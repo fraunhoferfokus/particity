@@ -11,8 +11,27 @@
             <param-value>/../../conf/secureUrlFilter.properties</param-value>
     </init-param>
 	</servlet-filter>
+	   <servlet-filter>  
+    <servlet-filter-name>encodingFilter</servlet-filter-name>
+    <servlet-filter-impl>org.springframework.web.filter.CharacterEncodingFilter</servlet-filter-impl>  
+    <init-param>  
+       <param-name>encoding</param-name>  
+       <param-value>UTF-8</param-value>  
+    </init-param>  
+    <init-param>  
+       <param-name>forceEncoding</param-name>  
+       <param-value>true</param-value>  
+    </init-param>  
+    </servlet-filter>  
 	<servlet-filter-mapping>
-		<servlet-filter-name>Secure Liferay URL Filter</servlet-filter-name>	
+		<servlet-filter-name>encodingFilter</servlet-filter-name>	
 		<url-pattern>/*</url-pattern>
 	</servlet-filter-mapping>
+	   <servlet-filter-mapping>
+        <servlet-filter-name>Secure Liferay URL Filter</servlet-filter-name>    
+        <after-filter>encodingFilter</after-filter>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </servlet-filter-mapping>
 </hook>

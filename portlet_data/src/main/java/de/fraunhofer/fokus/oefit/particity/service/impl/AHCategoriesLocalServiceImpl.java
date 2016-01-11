@@ -86,6 +86,7 @@ public class AHCategoriesLocalServiceImpl extends
 	        final String description, int type)
 	        throws SystemException {
 
+		m_objLog.debug("addCategory::start("+name+")");
 		AHCategories result = this.getCategory(name, type);
 		if (result == null) {
 			result = this.createAHCategories(CounterLocalServiceUtil
@@ -95,6 +96,8 @@ public class AHCategoriesLocalServiceImpl extends
 			result.setDescr(description);
 			result = this.updateAHCategories(result);
 		}
+		m_objLog.debug("addCategory::end("+name+")");
+
 		return result;
 	}
 

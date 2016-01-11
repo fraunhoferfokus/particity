@@ -55,6 +55,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.annotation.ErrorsMethodArgumentResolver;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
@@ -135,7 +136,7 @@ public class AdminController extends BaseController {
 	 * @param response the response
 	 * @param model the model
 	 */
-	@RequestMapping(value = "view")
+	@RequestMapping(value = "view" /*, method = RequestMethod.POST,headers = "content-type=application/x-www-form-urlencoded"*/)
 	@ActionMapping(params = "action=addMainCategory")
 	public void addMainCategory(
 	        @ModelAttribute("data") final CategoryForm data,
@@ -147,7 +148,8 @@ public class AdminController extends BaseController {
 			return;
 		}
 		
-		m_objLog.debug("addMainCategory::start");
+		String name = data != null ? data.getName() : "N/A";
+		m_objLog.debug("addMainCategory::start("+name+")");
 
 		if (data != null) {
 				final E_CategoryType type = E_CategoryType.valueOf(data
@@ -157,7 +159,7 @@ public class AdminController extends BaseController {
 				data.clear();
 		}
 
-		m_objLog.debug("addMainCategory::end");
+		m_objLog.debug("addMainCategory::end("+name+")");
 	}
 
 	@RequestMapping(value = "view")

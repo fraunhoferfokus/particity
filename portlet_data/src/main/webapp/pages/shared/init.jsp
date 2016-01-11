@@ -1,6 +1,5 @@
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.Constants"%>
-<%@page contentType="text/html" isELIgnored="false"%>
-<%@page pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8"  isELIgnored="false" pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet"%>
 <%@ taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0"%>

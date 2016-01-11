@@ -24,7 +24,7 @@
 <%@page import="com.liferay.portal.util.PortalUtil"%>
 <%@page import="com.liferay.portal.model.User"%>
 <%@page import="com.liferay.portal.theme.ThemeDisplay"%>
-<%@ include file="../shared/init.jsp"%>
+<%@include file="../shared/init.jsp"%>
 
 <% 
   Log log = LogFactoryUtil.getLog(this.getClass().getName());
@@ -43,7 +43,6 @@
   
   Map<String, String> exportLogs = (Map<String, String>) request.getAttribute("exportLogs");
   Map<String, String> importLogs = (Map<String, String>) request.getAttribute("importLogs");
-  
   
   %>
 
@@ -271,7 +270,7 @@
 							<portlet:param name="action" value="addMainCategory" />
 						</portlet:actionURL>
 						<form:form modelAttribute="data" id="addMainCategoryForm"
-							data-ajax="false" method="post" action="${addCategoryUrl}">
+							data-ajax="false" method="post" action="${addCategoryUrl}" acceptCharset="UTF-8" enctype="application/x-www-form-urlencoded; charset=utf-8">
 						  <fieldset <%= demoDisabled %>>
 								<bform:bffield path="type" type="hidden"
 									value="<%= ctype.name() %>" />

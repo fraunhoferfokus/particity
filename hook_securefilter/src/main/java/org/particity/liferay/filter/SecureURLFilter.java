@@ -272,21 +272,23 @@ public class SecureURLFilter
 				User user = PortalUtil.getUser(request);
 				if (user != null)
 				{
-	
 					long userId = user.getUserId();
 					if ((ADMIN_ROLE_ID < 0)
 					        || UserLocalServiceUtil.hasRoleUser(ADMIN_ROLE_ID,
 					                userId))
 					{
-	
+
 						chain.doFilter(req, res);
+						return;
 					} else
 					{
 						userNotFound(req, res, chain);
+						return;
 					}
 				} else
 				{
 					userNotFound(req, res, chain);
+					return;
 				}
 			} catch (Exception e)
 			{
@@ -294,9 +296,11 @@ public class SecureURLFilter
 				        "Error in SecureURLFilter.doFilter(): \n")).append(
 				        e.getMessage()).toString());
 				userNotFound(req, res, chain);
+				return;
 			}
 		} else {
 			chain.doFilter(req, res);
+			return;
 		}
 	}
 
@@ -357,6 +361,7 @@ public class SecureURLFilter
 										redirect(res, true, targetUrl);
 										return;
 									} else {
+										log.info("Not internal, nor HTTPS -> allow");
 										chain.doFilter(req, res);
 										return;
 									}
