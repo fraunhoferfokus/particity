@@ -50,8 +50,9 @@
 %>
 
 <div class="container-fluid">
+
   <div class="page-header">
-    <h1>Setup</h1>
+    <h1><img style="height: 50px; width: auto;" src="/painit-portlet/images/logo.png">&nbsp;Particity - Setup</h1>
   </div>
   
   <portlet:actionURL var="initParticityUrl">
@@ -59,6 +60,7 @@
   </portlet:actionURL>
   
   <form data-ajax="false" method="post" action="${initParticityUrl}">
+      <div class="content">
 	  <div class="row">
 	    <h2>Rollen&nbsp;<small>Über Rollen werden unterschiedliche Funktionalitäten des Portals voneinander abgegrenzt. Neue Nutzer bekommen eine dieser Rollen zugewiesen.</small></h2>
 	    <div class="col-xs-10 col-xs-offset-1">
@@ -80,7 +82,7 @@
         </div>
 	    </div>
 	  </div>
-	  <div class="row">
+	  <div class="row" style="margin-top: 40px;">
       <h2>Portlets&nbsp;<small>Das Portal setzt sich aus einzelnen Bausteinen (Portlets) zusammen, die jeweils einen Teil der Basisfunktionalität von Particity ausmachen. Diese Bausteine werden Seiten zugeordnet, die über eine URL erreichbar sind.</small></h2>
       <div class="col-xs-10 col-xs-offset-1">
         <div class="row"  style="margin-top: 20px;">
@@ -132,8 +134,11 @@
           <div class="col-sm-6"><input type="text" class="form-control input-lg" name="page_<%= E_ContextPath.LEGALDETAILS.toString() %>" value="<%= E_ContextPath.LEGALDETAILS.getPath() %>"></div>
         </div>
       </div>
-      <div class="col-xs-10 col-xs-offset-1 text-center" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #999;">
-        <button type="submit">Konfiguration abschließen</button>
+    </div>
+    </div>
+    <div class="row footer">
+      <div class="col-xs-10 col-xs-offset-1 text-right">
+        <button class="btn btn-adhoc btn-lg" type="submit">Konfiguration abschließen</button>
       </div>
     </div>
   </form>

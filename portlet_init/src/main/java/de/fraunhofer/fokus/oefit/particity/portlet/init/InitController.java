@@ -33,6 +33,7 @@
  */
 package de.fraunhofer.fokus.oefit.particity.portlet.init;
 
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -171,6 +172,11 @@ public class InitController extends BaseController {
 		// setup layouts & content
 		if (pathMap.size() > 0)
 			ParticityInitializer.setup(pathMap);
+		
+		try {
+			response.sendRedirect("/");
+		} catch (IOException e) {
+		}
 		
 		m_objLog.trace("initParticity::end()");
 	}
