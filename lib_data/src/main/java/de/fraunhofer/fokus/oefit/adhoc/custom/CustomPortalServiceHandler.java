@@ -64,7 +64,6 @@ import com.liferay.portal.service.ResourcePermissionServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
@@ -200,6 +199,47 @@ public class CustomPortalServiceHandler {
 	}
 	
 	/**
+	 * Check whether a Liferay-Role matches any role defined by this enum
+	 *
+	 * @param cmpRole the Liferay role
+	 * @return the supported enum or null, if not supported
+	 */
+	public static E_Role matchesRole(final Role cmpRole) {
+		E_Role result = null;
+
+		if (cmpRole != null) {
+			for (final E_Role role : E_Role.values()) {
+				if (getRoleName(role).equals(cmpRole.getName())
+				        && role.getType() == cmpRole.getType()) {
+					result = role;
+					// System.out.println(role.getName()+" ("+role.getType()+") == "+cmpRole.getName()+" ("+cmpRole.getType()+")");
+					break;
+				} else {
+					// System.out.println(role.getName()+" ("+role.getType()+") != "+cmpRole.getName()+" ("+cmpRole.getType()+")");
+				}
+			}
+		}
+
+		return result;
+	}
+	
+	/**
+	 * Get actual/dynamic role name of a role containing a configuration reference
+	 * 
+	 * @param role The role
+	 * @return The role name
+	 */
+	public static String getRoleName(E_Role role) {
+		String name = role.getDefaultName();
+		
+		if (name == null && role.getKey() != null) {
+			name = CustomPortalServiceHandler.getConfigValue(role.getKey());
+		}
+		
+		return name;
+	}
+	
+	/**
 	 * Check for a specific role name and create a regular role if not existent
 	 *
 	 * @param companyId the company Id of the given role
@@ -207,7 +247,7 @@ public class CustomPortalServiceHandler {
 	 * @return the role
 	 */
 	public static Role checkRole(final long userId, final long companyId, final E_Role role) {
-		return checkRole(userId, companyId, role.getName(), role.getType());
+		return checkRole(userId, companyId, getRoleName(role), role.getType());
 	}
 	
 	/**

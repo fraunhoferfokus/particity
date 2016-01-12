@@ -35,6 +35,7 @@ package de.fraunhofer.fokus.oefit.particity.portlet.login.form;
 
 import java.util.List;
 
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
@@ -70,6 +71,7 @@ import com.liferay.portal.util.PortalUtil;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 
 /**
  * Controller for the login portlet
@@ -180,7 +182,7 @@ public class LoginController extends BaseController {
 						}
 						if (roles != null) {
 							for (final Role role : roles) {
-								erole = E_Role.matches(role);
+								erole = CustomPortalServiceHandler.matchesRole(role);
 								if (erole != null) {
 									break;
 								}

@@ -65,6 +65,7 @@
 		<module>portlet_org</module>
 		<module>portlet_newsletter</module>
 		<module>portlet_site</module>
+		<module>portlet_init</module>
 
 		<!-- themes/layout -->
 		<module>layout_2col</module>

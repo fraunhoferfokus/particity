@@ -51,6 +51,8 @@ import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 
 /**
@@ -176,7 +178,7 @@ public class BaseController {
 			}
 			if (roles != null) {
 				for (final Role role : roles) {
-					result = E_Role.matches(role);
+					result = CustomPortalServiceHandler.matchesRole(role);
 					if (result != null) {
 						break;
 					}
@@ -272,7 +274,7 @@ public class BaseController {
 			if (user != null) {
 				try {
 					final List<Role> roles = user.getRoles();
-					String mgmtRoleName = E_Role.MGMT.getName();
+					String mgmtRoleName = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.ROLE_NAME_MGMT);
 					for (final Role role : roles) {
 						if (role.getName().equals(mgmtRoleName)) {
 							result = true;
@@ -301,7 +303,7 @@ public class BaseController {
 			if (user != null) {
 				try {
 					final List<Role> roles = user.getRoles();
-					final String orgRoleName = E_Role.ORG.getName();
+					final String orgRoleName = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.ROLE_NAME_ORG);
 					for (final Role role : roles) {
 						if (role.getName().equals(orgRoleName)) {
 							result = true;

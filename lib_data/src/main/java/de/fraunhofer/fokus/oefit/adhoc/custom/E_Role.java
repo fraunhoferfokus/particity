@@ -46,6 +46,9 @@ public enum E_Role {
 	/** The null. */
 	NULL("@NIL@", RoleConstants.TYPE_REGULAR, "/"),
 	
+	/** The default site user = guest. */
+	SITEGUEST(RoleConstants.GUEST, RoleConstants.TYPE_REGULAR, "/"),
+	
 	/** The siteadmin. */
 	SITEADMIN(
 	        "Administrator",
@@ -64,31 +67,6 @@ public enum E_Role {
 	
 	/** The mgmt. */
 	MGMT(E_ConfigKey.ROLE_NAME_MGMT, RoleConstants.TYPE_REGULAR, "/int/verwaltung"), ;
-
-	/**
-	 * Check whether a Liferay-Role matches any role defined by this enum
-	 *
-	 * @param cmpRole the Liferay role
-	 * @return the supported enum or null, if not supported
-	 */
-	public static E_Role matches(final Role cmpRole) {
-		E_Role result = null;
-
-		if (cmpRole != null) {
-			for (final E_Role role : E_Role.values()) {
-				if (role.getName().equals(cmpRole.getName())
-				        && role.getType() == cmpRole.getType()) {
-					result = role;
-					// System.out.println(role.getName()+" ("+role.getType()+") == "+cmpRole.getName()+" ("+cmpRole.getType()+")");
-					break;
-				} else {
-					// System.out.println(role.getName()+" ("+role.getType()+") != "+cmpRole.getName()+" ("+cmpRole.getType()+")");
-				}
-			}
-		}
-
-		return result;
-	}
 
 	private E_ConfigKey m_objKey = null;;
 	private String m_strName = null;
@@ -128,14 +106,14 @@ public enum E_Role {
 		return this.m_objKey;
 	}
 
-	public String getName() {
-		String name = getName();
-		
-		if (name == null && getKey() != null) {
-			name = CustomPortalServiceHandler.getConfigValue(getKey());
-		}
-		
-		return name;
+	/**
+	 * Get the role's default name
+	 * NOTE: If there is a getKey() referenced, this value might have changed in the system configuration. Use <code>CustomPortalServiceHandler.getRoleName()</code> instead
+	 * 
+	 * @return
+	 */
+	public String getDefaultName() {
+		return m_strName;
 	}
 	
 	/**

@@ -1,24 +1,21 @@
 package de.fraunhofer.fokus.oefit.particity.portlet.init;
 
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.util.PortletKeys;
-
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 
 public enum E_ContextPath {
 
-	SETUP("/setup","Setup","Setup", true, RoleConstants.GUEST),
-	HOME("/home","Home","Home", true, RoleConstants.GUEST),
-	SEARCH("/search","Suche","Suche", true, RoleConstants.GUEST),
-	ADM(E_Role.ADMIN.getHomeUrl(),"Administration","Administration", false, E_Role.ADMIN.getName()),
-	ORG(E_Role.ORG.getHomeUrl(),"Organisation","Organisation", false, E_Role.ORG.getName()),
-	MGMT(E_Role.MGMT.getHomeUrl(),"Verwaltung","Verwaltung", false,E_Role.MGMT.getName()),
+	SETUP("/setup","Setup","Setup", true, E_Role.SITEGUEST),
+	HOME("/home","Home","Home", true, E_Role.SITEGUEST),
+	SEARCH("/search","Suche","Suche", true, E_Role.SITEGUEST),
+	ADM(E_Role.ADMIN.getHomeUrl(),"Administration","Administration", false, E_Role.ADMIN),
+	ORG(E_Role.ORG.getHomeUrl(),"Organisation","Organisation", false, E_Role.ORG),
+	MGMT(E_Role.MGMT.getHomeUrl(),"Verwaltung","Verwaltung", false,E_Role.MGMT),
 	PROFILE("/int/profile","Profil","Profil",false),
-	ORG_REGISTRATION("/organization","Organisation Registration","Organisation Registrierung", true, RoleConstants.GUEST),
-	USR_REGISTRATION("/user","Newsletter Registration","Newsletter Registration", true, RoleConstants.GUEST),
-	USR_NEWSLETTER("/newsletter","Newsletter","Newsletter",true, RoleConstants.GUEST),
-	DATAPOLICY("/datenschutz","Datenschutz","Datenschutz", true, RoleConstants.GUEST),
-	LEGALDETAILS("/impressum","Impressum","Impressum", true, RoleConstants.GUEST),
+	ORG_REGISTRATION("/organization","Organisation Registration","Organisation Registrierung", true, E_Role.SITEGUEST),
+	USR_REGISTRATION("/user","Newsletter Registration","Newsletter Registration", true, E_Role.SITEGUEST),
+	USR_NEWSLETTER("/newsletter","Newsletter","Newsletter",true, E_Role.SITEGUEST),
+	DATAPOLICY("/datenschutz","Datenschutz","Datenschutz", true, E_Role.SITEGUEST),
+	LEGALDETAILS("/impressum","Impressum","Impressum", true, E_Role.SITEGUEST),
 	;
 	
 	private static final String DEFAULT_THEME_NAME = "patheme_WAR_padefaulttheme";
@@ -29,14 +26,14 @@ public enum E_ContextPath {
 	private String m_strThemeId;
 	private String m_strTemplateId;
 	private String m_strColumnId;
-	private String[] m_objRoles;
+	private E_Role[] m_objRoles;
 	private boolean m_bNavHidden;
 	
-	private E_ContextPath(String path, String name, String title,  boolean hiddenFromNav, String... roles) { 
+	private E_ContextPath(String path, String name, String title,  boolean hiddenFromNav, E_Role... roles) { 
 		this(path, name, title, DEFAULT_THEME_NAME, "paAllColumns", "column-1", hiddenFromNav, roles);
 	}
 	
-	private E_ContextPath(String path, String name, String title, String themeId, String templateId, String columnId, boolean hiddenFromNav, String... roles) {
+	private E_ContextPath(String path, String name, String title, String themeId, String templateId, String columnId, boolean hiddenFromNav, E_Role... roles) {
 		m_strPth = path;
 		m_strName = name;
 		m_strTitle = title;
@@ -51,7 +48,7 @@ public enum E_ContextPath {
 		return m_bNavHidden;
 	}
 	
-	public String[] getRoles() {
+	public E_Role[] getRoles() {
 		return m_objRoles;
 	}
 	

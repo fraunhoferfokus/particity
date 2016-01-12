@@ -66,7 +66,7 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 
 public class ParticityInitializer {
 
-	private static final String PARTICITY_GROUP_NAME = "Particity";
+	//private static final String PARTICITY_GROUP_NAME = "Particity";
 	
 	private static Log m_objLog = LogFactoryUtil.getLog(ParticityInitializer.class);
 	
@@ -167,7 +167,7 @@ public class ParticityInitializer {
 		Layout site = getLayout(groupId, path.getPath());
 		try {
 			if (site == null) {
-				site = createLayout(adminId, companyId, groupId, path);
+				site = createLayout(adminId, companyId, groupId, path, null);
 			} else {
 				// clear portlets
 				clearPage(site);
@@ -193,34 +193,27 @@ public class ParticityInitializer {
 		return site;
 	}
 	
-	public static void initOld() {
+	public static void setup(Map<E_ContextPath, String> pathMap) {
+		
 		if (!isWizardAvailable()) {
 			m_objLog.warn("Setup wizard was already initialized before. Delete portlet painit to remove this message for future server restarts.");
 			return;
 		}
-			
+		
 		
 		try {
-			// debug-list available portlets
-			/*List<Portlet> portlets = PortletLocalServiceUtil.getPortlets();
-			for (Portlet portlet: portlets)
-				m_objLog.info("Found portlet: "+portlet.getPortletId());*/
-			
+
 			// get default company
-			Group pGroup = checkParticityGroup();
+			Group pGroup = null;
 			long globalCompanyId = -1;
 			long globalGroupId = -1;
 			long globalAdminId = -1;
-			Company company = null;
-			if (pGroup != null) {
-				company = CompanyLocalServiceUtil.getCompanyById(pGroup.getCompanyId()); 
-			} else {
-				company = CompanyLocalServiceUtil.getCompanyByMx(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
-				// fallback
-				if (company == null)
-					company = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId());	
-			}
+			Company company = CompanyLocalServiceUtil.getCompanyByWebId(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
+			// fallback
+			if (company == null)
+				company = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId());	
 			
+			pGroup = company.getGroup();
 			globalCompanyId = company.getCompanyId();
 			globalGroupId = pGroup.getGroupId();
 			globalAdminId = company.getDefaultUser().getUserId(); 
@@ -229,15 +222,15 @@ public class ParticityInitializer {
 			// initialize roles
 			Map<E_Role, Role> roles = getRoles(globalAdminId, globalCompanyId);
 			// initialize sites
-			Map<E_ContextPath, Layout> layouts = getLayouts(globalGroupId, globalAdminId, globalCompanyId);
+			Map<E_ContextPath, Layout> layouts = getLayouts(globalGroupId, globalAdminId, globalCompanyId, pathMap);
 			// add administrator
-			User adminUser = CustomPortalServiceHandler.createPortalUser("Particity", "Administrator", "admin@particity.de", globalCompanyId, pGroup.getGroupId(), Locale.GERMAN, false, "test", true);
+			//User adminUser = CustomPortalServiceHandler.createPortalUser("Particity", "Administrator", "admin@particity.de", globalCompanyId, pGroup.getGroupId(), Locale.GERMAN, false, "test", true);
 			// remove liferay admin
-			try {
+			/*try {
 				User defaultAdmin = UserLocalServiceUtil.getUserByEmailAddress(globalCompanyId, "test@liferay.com");
 				if (defaultAdmin != null)
 					UserLocalServiceUtil.deleteUser(defaultAdmin.getUserId());
-			} catch (NoSuchUserException e) {}
+			} catch (NoSuchUserException e) {}*/
 			// add sample content
 			initSampleContent(globalGroupId, globalAdminId, globalCompanyId, layouts);
 			
@@ -317,16 +310,17 @@ public class ParticityInitializer {
 		}
 	}
 	
-	public static Map<E_ContextPath, Layout> getLayouts(long groupId, long adminId, long companyId) {
+	public static Map<E_ContextPath, Layout> getLayouts(long groupId, long adminId, long companyId, Map<E_ContextPath, String> pathMap) {
 		Map<E_ContextPath, Layout> result = new HashMap<E_ContextPath, Layout>();
 		
-		for (E_ContextPath pth: E_ContextPath.values()) {
-			Layout layout = getLayout(groupId, pth.getPath());
+		for (E_ContextPath pth: pathMap.keySet()) {
+			String actualPath = pathMap.get(pth);
+			Layout layout = getLayout(groupId, actualPath);
 			if (layout == null) {
-				layout = createLayout(adminId, companyId, groupId, pth);
-				m_objLog.info("Created layout for URL "+pth.getPath());
+				layout = createLayout(adminId, companyId, groupId, pth, actualPath);
+				m_objLog.info("Created layout for URL "+actualPath);
 			} else
-				m_objLog.info("Found layout for URL "+pth.getPath());
+				m_objLog.info("Found layout for URL "+actualPath);
 			result.put(pth, layout);
 		}
 		return result;
@@ -336,7 +330,7 @@ public class ParticityInitializer {
 		Map<E_Role,Role> result = new HashMap<E_Role, Role>();
 		for (E_Role role: E_Role.values()) {
 			if (!role.equals(E_Role.NULL)) {
-				Role lrRole = CustomPortalServiceHandler.checkRole(adminUserId, companyId, role.getName(), RoleConstants.TYPE_REGULAR);
+				Role lrRole = CustomPortalServiceHandler.checkRole(adminUserId, companyId, role);
 				result.put(role, lrRole);
 				m_objLog.info("Got role "+lrRole.getName());
 			}
@@ -418,7 +412,7 @@ public class ParticityInitializer {
 		return template;
 	}
 	
-	public static Layout createLayout(long adminId, long companyId, long groupId, E_ContextPath path) {
+	public static Layout createLayout(long adminId, long companyId, long groupId, E_ContextPath path, String actualPath) {
 		Layout result = null;
 		
 		boolean privateLayout = false;
@@ -426,7 +420,9 @@ public class ParticityInitializer {
 		String description = null;
 		String type = LayoutConstants.TYPE_PORTLET;
 		ServiceContext ctx = new ServiceContext();
-
+		if (actualPath == null)
+			actualPath = path.getPath();
+		
 		try {
 			
 			result = LayoutLocalServiceUtil.addLayout(adminId, groupId,
@@ -508,8 +504,8 @@ public class ParticityInitializer {
 
 		if (path.getRoles() != null) {
 			boolean hasGuest = false;
-			for (String role: path.getRoles()) {
-				Role roleObj = RoleLocalServiceUtil.getRole(companyId,role);
+			for (E_Role role: path.getRoles()) {
+				Role roleObj = RoleLocalServiceUtil.getRole(companyId,CustomPortalServiceHandler.getRoleName(role));
 				if (roleObj != null) {
 				ResourcePermissionLocalServiceUtil.setResourcePermissions(
 						companyId,
@@ -518,7 +514,7 @@ public class ParticityInitializer {
 						primKey,
 						roleObj.getRoleId(), actionIds);
 				}
-				hasGuest |= role.equals(RoleConstants.GUEST);
+				hasGuest |= role.equals(E_Role.SITEGUEST);
 			}
 			if (!hasGuest) {
 				ResourcePermissionLocalServiceUtil.setResourcePermissions(
@@ -560,7 +556,7 @@ public class ParticityInitializer {
 
 	}
 	
-	public static Group checkParticityGroup() throws PortalException, SystemException {
+	/*public static Group checkParticityGroup() throws PortalException, SystemException {
 		Group group = getParticityGroup();
 
 		// create new group if required
@@ -580,9 +576,7 @@ public class ParticityInitializer {
 							if (layout.getName(Locale.ENGLISH,true).equals("Welcome")) {
 								LayoutLocalServiceUtil.deleteLayout(layout);
 								//m_objLog.info("Removed welcome layout");
-							} /*else {
-								m_objLog.info("Ignored existing layout "+layout.getName()+" and friendly url "+layout.getFriendlyURL());
-							}*/
+							} 
 						}
 					}
 				}
@@ -608,9 +602,9 @@ public class ParticityInitializer {
 		} else 
 			m_objLog.info("Found group "+PARTICITY_GROUP_NAME);
 		return group;
-	}
+	}*/
 	
-	public static Group getParticityGroup() throws SystemException {
+	/*public static Group getParticityGroup() throws SystemException {
 		Group group = null;
 
 		// check for existing group
@@ -624,7 +618,7 @@ public class ParticityInitializer {
 		}
 
 		return group;
-	}
+	}*/
 	
 	public static JournalArticle getArticle(long groupId, String name) {
 		JournalArticle result = null;
