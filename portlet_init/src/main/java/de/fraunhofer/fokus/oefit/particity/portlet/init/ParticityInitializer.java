@@ -277,6 +277,7 @@ public class ParticityInitializer {
 	
 	public static void initSampleContent(long groupId, long adminId, long companyId, Map<E_ContextPath, Layout> layouts) {
 		Layout layout = null;
+		Map<String, JournalArticle> articles = new HashMap<String, JournalArticle>();
 		for (E_SampleContent content: E_SampleContent.values()) {
 			try {
 				// add portlet to page
@@ -295,28 +296,33 @@ public class ParticityInitializer {
 					if (frontend != null) {
 						String contentSrc = IOUtils.toString(frontend);
 						if (contentSrc != null) {
-							JournalArticle article = getArticle(groupId, content.name());
+							JournalArticle article = articles.get(content.getDataPath());
 							if (article == null)
+								article = getArticle(groupId, content.name());
+							if (article == null) {
 								article = addArticle(adminId, groupId, content.name(), content.getTitle(), contentSrc);
+								//m_objLog.info("Added article for "+content.name());
+								articles.put(content.getDataPath(), article);
+							}
 							if (article != null) {
 								layout = layouts.get(content.getContext());
 								if (layout != null) {
 									// check if article not added yet
 									if (!checkArticleOnLayout(layout, article.getArticleId(), content.getContext().getColumnId(), companyId)) {
 										addArticle(content.getContext(), article,layout, adminId, groupId, companyId);
-										m_objLog.info("Added sample content "+content.name()+" for URL "+content.getContext().getPath());
+										m_objLog.debug("Added sample content "+content.name()+" for URL "+content.getContext().getPath());
 									} else {
-										m_objLog.info("Found existing sample content "+content.name()+" for URL "+content.getContext().getPath());
+										m_objLog.debug("Found existing sample content "+content.name()+" for URL "+content.getContext().getPath());
 									}
 								} else {
-									m_objLog.info("Could not find layout for sample content context path "+content.getContext().getPath());			
+									m_objLog.warn("Could not find layout for sample content context path "+content.getContext().getPath());			
 								}
 							} else {
-								m_objLog.info("Could not create sample content "+content.name()+" for URL "+content.getContext().getPath()+" (already exists?) ");
+								m_objLog.warn("Could not create sample content "+content.name()+" for URL "+content.getContext().getPath()+" (already exists?) ");
 							}
 						}
 					} else {
-						m_objLog.info("Could not load sample content "+content.name()+" for URL "+content.getContext().getPath()+" from "+content.getDataPath());
+						m_objLog.warn("Could not load sample content "+content.name()+" for URL "+content.getContext().getPath()+" from "+content.getDataPath());
 					}
 				}
 			} catch (Throwable t) {
@@ -333,9 +339,9 @@ public class ParticityInitializer {
 			Layout layout = getLayout(groupId, actualPath);
 			if (layout == null) {
 				layout = createLayout(adminId, companyId, groupId, pth, actualPath);
-				m_objLog.info("Created layout for URL "+actualPath);
+				m_objLog.debug("Created layout for URL "+actualPath);
 			} else {
-				m_objLog.info("Found layout for URL "+actualPath);
+				m_objLog.debug("Found layout for URL "+actualPath);
 				clearPage(layout);
 			}
 			result.put(pth, layout);
