@@ -33,6 +33,7 @@
  */
 package de.fraunhofer.fokus.oefit.particity.portlet.init;
 
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -67,6 +68,7 @@ import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
@@ -126,6 +128,37 @@ public class InitController extends BaseController {
 		m_objLog.trace("render::end(" + page + ")");
 
 		return page;
+	}
+	
+	@RequestMapping(value = "view")
+	@ActionMapping(params="action=initParticity")
+	public void initParticity(final RenderRequest request,
+	        final RenderResponse response,
+	        final Model model) {
+		m_objLog.trace("initParticity::start");
+
+		Enumeration<String> pnames = request.getParameterNames();
+		while (pnames.hasMoreElements()) {
+			String pname = pnames.nextElement();
+			String pval = request.getParameter(pname);
+			m_objLog.debug("Found parameter "+pname+" = "+pval);
+			if (pname.startsWith("role_")) {
+				pname = pname.replaceAll("role_", "");
+				E_Role role = null;
+				try {
+					role = E_Role.valueOf(pname);
+				} catch (Throwable t) {}
+				if (role != null) {
+					CustomPortalServiceHandler.setConfig(role.getKey(), pval);
+				} else
+					m_objLog.warn("Unknown role "+pname);
+			} else if (pname.startsWith("page_")) {
+				pname = pname.replaceAll("page_", "");
+			}
+			
+		}
+		
+		m_objLog.trace("initParticity::end()");
 	}
 
 	@PostConstruct

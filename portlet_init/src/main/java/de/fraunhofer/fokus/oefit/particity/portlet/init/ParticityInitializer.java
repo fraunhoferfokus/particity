@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.portlet.PortletPreferences;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.taglibs.standard.tag.common.core.RemoveTag;
 
 import com.liferay.portal.NoSuchUserException;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -35,17 +36,23 @@ import com.liferay.portal.model.RoleConstants;
 import com.liferay.portal.model.Theme;
 import com.liferay.portal.model.User;
 import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.security.permission.PermissionChecker;
+import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.security.permission.PermissionThreadLocal;
 import com.liferay.portal.service.CompanyLocalServiceUtil;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.LayoutLocalServiceUtil;
 import com.liferay.portal.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.service.LayoutTemplateLocalServiceUtil;
+import com.liferay.portal.service.PortletLocalServiceUtil;
 import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
+import com.liferay.portal.service.ResourceLocalServiceUtil;
 import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ThemeLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.service.permission.PortletPermissionUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portal.util.PortletKeys;
 import com.liferay.portlet.journal.model.JournalArticle;
@@ -77,17 +84,19 @@ public class ParticityInitializer {
 			long globalAdminId = -1;
 			Company company = CompanyLocalServiceUtil.getCompanyByWebId(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
 			// fallback
-			//if (company == null)
-				//company = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId());	
+			if (company == null)
+				company = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId());	
 			
 			pGroup = company.getGroup();
 			globalCompanyId = company.getCompanyId();
 			globalGroupId = pGroup.getGroupId();
 			globalAdminId = company.getDefaultUser().getUserId(); 
 
-			Layout home = getLayout(E_ContextPath.HOME.getPath());
-			if (home != null) {
-				String portletId = addPortletToPage(home, "painit_WAR_painitportlet", E_ContextPath.HOME, globalAdminId);			
+			// add setup
+			Layout layout = initLayout(globalCompanyId, globalAdminId, globalGroupId, E_ContextPath.HOME);
+
+			if (layout != null) {
+				String portletId = addPortletToPage(layout, "painit_WAR_painitportlet", E_ContextPath.HOME, globalAdminId);			
 				m_objLog.info("Created welcome with portlet id "+portletId);
 			} else {
 				m_objLog.info("No home found under "+E_ContextPath.HOME.getPath());
@@ -98,6 +107,91 @@ public class ParticityInitializer {
 		}
 	}
 	
+	public static boolean removeLayout(long groupId, String layoutPath) {
+		boolean result = false;
+		try {
+			Layout layout = getLayout(groupId, layoutPath);
+			if (layout != null) {
+				layout = LayoutLocalServiceUtil.deleteLayout(layout);
+				result = layout != null;
+			}
+		} catch (Throwable t) {
+			m_objLog.error(t);
+		}
+		return result;
+	}
+	
+	public static void clearPage(Layout layout) {
+		LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) layout.getLayoutType();
+		
+		long adminId = -1;
+		try {
+			// ger admin for this layout
+			User admin = getDefaultAdmin(layout.getCompanyId());
+			if (admin != null)
+				adminId = admin.getUserId();
+			
+			// set permissions for operations
+			PermissionChecker permissionChecker = PermissionCheckerFactoryUtil.create( admin );
+			PermissionThreadLocal.setPermissionChecker( permissionChecker );
+		
+		
+			// count all portlets currently registered for this column
+			List<String> portlets = layoutTypePortlet.getPortletIds();
+			//layout.
+			for (String portlet: portlets) {
+				try {
+						/*ResourceLocalServiceUtil.deleteResource(
+								                      layout.getCompanyId(), portlet,
+								            ResourceConstants.SCOPE_INDIVIDUAL,
+								            PortletPermissionUtil.getPrimaryKey(
+								            layout.getPlid(), portlet);*/
+						layoutTypePortlet.removePortletId(adminId, portlet,true);
+						// update the layout
+						LayoutLocalServiceUtil.updateLayout(layout.getGroupId(),
+			                    layout.isPrivateLayout(),
+			                    layout.getLayoutId(),
+			                    layout.getTypeSettings());
+				} catch (Throwable t) {
+					m_objLog.error(t);
+				}
+			}
+			
+			
+		} catch (Throwable t) {
+			m_objLog.error(t);
+		}
+	}
+	
+	public static Layout initLayout(long companyId, long adminId, long groupId, E_ContextPath path) {
+		Layout site = getLayout(groupId, path.getPath());
+		try {
+			if (site == null) {
+				site = createLayout(adminId, companyId, groupId, path);
+			} else {
+				// clear portlets
+				clearPage(site);
+			}
+			Theme theme = getTheme(companyId, path.getThemeId());
+			if (theme != null) {
+				site.setThemeId(path.getThemeId());
+				site = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
+						false, site.getLayoutId(), path.getThemeId(), "01", "", false);
+			} else
+				m_objLog.warn("Did not find theme "+path.getThemeId()+"!");
+            LayoutTemplate template = getLayoutTemplate(path.getTemplateId());
+			
+			LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) site.getLayoutType();
+			if (template != null) {
+				layoutTypePortlet.setLayoutTemplateId(0, path.getTemplateId(), false);
+			} else
+				m_objLog.warn("Did not find layout template "+path.getTemplateId()+"!");
+			updatePermissions(site, path);
+		} catch (Throwable t) {
+			m_objLog.error(t);
+		}
+		return site;
+	}
 	
 	public static void initOld() {
 		if (!isWizardAvailable()) {
@@ -250,7 +344,7 @@ public class ParticityInitializer {
 		return result;
 	}
 	
-	public static Layout getLayout(String context) {
+	/*public static Layout getLayout(String context) {
 		Layout result = null;
 		try {
 			List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
@@ -265,7 +359,7 @@ public class ParticityInitializer {
 			m_objLog.error(t);
 		}
 		return result;
-	}
+	}*/
 	
 	public static Layout getLayout(long groupId, String context) {
 		Layout result = null;
@@ -277,8 +371,51 @@ public class ParticityInitializer {
 		} catch (Throwable t) {
 			m_objLog.debug("No layout registered for group " + groupId
 					+ " with url " + context);
+			// retry searching manually
+			if (result == null) {
+				try {
+					List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+					for (Layout layout: layouts) {
+						if (layout.isPublicLayout() && layout.getFriendlyURL().equals(context)) {
+							result = layout;
+							m_objLog.info("Found matching public layout "+context+" with group "+result.getGroupId()+", company "+result.getCompanyId());
+						}
+					}
+				} catch (Throwable t2) {
+					t2.printStackTrace();
+				}
+			}
 		}
 		return result;
+	}
+	
+	public static Theme getTheme(long companyId, String themeId) {
+		Theme result = null;
+		
+		List<Theme> themes = ThemeLocalServiceUtil.getThemes(companyId);
+		for (Theme thm : themes) {
+			if (thm.getThemeId().equals(themeId)) {
+				result = thm;
+				break;
+			} else
+				m_objLog.debug("Found theme: "+thm.getThemeId());
+		}
+		
+		return result;
+	}
+	
+	public static LayoutTemplate getLayoutTemplate(String templateId) {
+		List<LayoutTemplate> ltemplates = LayoutTemplateLocalServiceUtil
+				.getLayoutTemplates();
+		LayoutTemplate template = null;
+		for (LayoutTemplate ltmplt : ltemplates) {
+			if (ltmplt.getLayoutTemplateId().equals(templateId)) {
+				template = ltmplt;
+				break;
+			} else
+				m_objLog.debug("Found template: "+ltmplt.getName()+", "+ltmplt.getLayoutTemplateId());
+		}
+		return template;
 	}
 	
 	public static Layout createLayout(long adminId, long companyId, long groupId, E_ContextPath path) {
@@ -298,16 +435,7 @@ public class ParticityInitializer {
 
 			// layout.setLayoutPrototypeLinkEnabled(false);
 
-			List<Theme> themes = ThemeLocalServiceUtil.getThemes(companyId);
-			Theme theme = null;
-			for (Theme thm : themes) {
-				if (thm.getThemeId().equals(path.getThemeId())) {
-					theme = thm;
-					break;
-				} 
-				 else {
-				 m_objLog.debug("Found theme: "+thm.getThemeId()+" with name "+thm.getName()); }
-			}
+			Theme theme = getTheme(companyId, path.getThemeId());
 			if (theme != null) {
 				result.setThemeId(path.getThemeId());
 				result = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
@@ -316,16 +444,7 @@ public class ParticityInitializer {
 				m_objLog.warn("Did not find theme: " + path.getThemeId() + " for url "
 						+ path.getPath());
 
-			List<LayoutTemplate> ltemplates = LayoutTemplateLocalServiceUtil
-					.getLayoutTemplates();
-			LayoutTemplate template = null;
-			for (LayoutTemplate ltmplt : ltemplates) {
-				if (ltmplt.getLayoutTemplateId().equals(path.getTemplateId())) {
-					template = ltmplt;
-					break;
-				} else
-					m_objLog.debug("Found template: "+ltmplt.getName()+", "+ltmplt.getLayoutTemplateId());
-			}
+			LayoutTemplate template = getLayoutTemplate(path.getTemplateId());
 			
 			LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) result
 					.getLayoutType();
@@ -641,4 +760,18 @@ public class ParticityInitializer {
 		}
 		return journalPortletId;
 	}
+	
+	public static User getDefaultAdmin(long companyId) {
+		User result = null;
+        Role role = null;
+        try {
+            role = RoleLocalServiceUtil.getRole(companyId, RoleConstants.ADMINISTRATOR);
+            List<User> admins = UserLocalServiceUtil.getRoleUsers(role.getRoleId());
+            if (admins != null && admins.size() > 0)
+            	result = admins.get(0);
+        } catch (final Exception e) {
+            m_objLog.error("Utils::getAdmin Exception", e);
+        }
+        return result;
+    }
 }

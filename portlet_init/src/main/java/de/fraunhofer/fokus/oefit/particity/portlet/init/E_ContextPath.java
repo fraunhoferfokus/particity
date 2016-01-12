@@ -7,6 +7,7 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 
 public enum E_ContextPath {
 
+	SETUP("/setup","Setup","Setup", true, RoleConstants.GUEST),
 	HOME("/home","Home","Home", true, RoleConstants.GUEST),
 	SEARCH("/search","Suche","Suche", true, RoleConstants.GUEST),
 	ADM(E_Role.ADMIN.getHomeUrl(),"Administration","Administration", false, E_Role.ADMIN.getName()),
