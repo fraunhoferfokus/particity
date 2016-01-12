@@ -74,14 +74,6 @@
 
 </main>
 
-
-  <footer>
-    
-    ${theme.runtime("56_INSTANCE_footer")}
-  
-  
-  </footer>
-
   <script src="${javascript_folder}/shariff.min.js" type="text/javascript"></script>
 
   ${theme.include(body_bottom_include)}
