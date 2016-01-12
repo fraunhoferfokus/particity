@@ -53,17 +53,17 @@ public enum E_Role {
 	        "/int/administration"),
 	
 	/** The admin. */
-	ADMIN(Constants.DEFAULT_ROLE_ADMINISTRATION,
+	ADMIN(E_ConfigKey.ROLE_NAME_ADM,
 	        RoleConstants.TYPE_REGULAR,
 	        "/int/administration"),
 	
 	/** The org. */
-	ORG(Constants.DEFAULT_ROLE_ORGANIZATION ,
+	ORG(E_ConfigKey.ROLE_NAME_ORG,
 	        RoleConstants.TYPE_REGULAR,
 	        "/int/organisation"),
 	
 	/** The mgmt. */
-	MGMT(Constants.DEFAULT_ROLE_MANAGEMENT, RoleConstants.TYPE_REGULAR, "/int/verwaltung"), ;
+	MGMT(E_ConfigKey.ROLE_NAME_MGMT, RoleConstants.TYPE_REGULAR, "/int/verwaltung"), ;
 
 	/**
 	 * Check whether a Liferay-Role matches any role defined by this enum
@@ -90,13 +90,22 @@ public enum E_Role {
 		return result;
 	}
 
-	private String	m_strName;
+	private E_ConfigKey m_objKey = null;;
+	private String m_strName = null;
 	private int	   m_numType;
-
 	private String	m_strHomeUrl;
 
-	private E_Role(final String title, final int type, final String userHomeUrl) {
-		this.m_strName = title;
+	private E_Role(final String name, final int type, final String userHomeUrl) {
+		this(name, null, type, userHomeUrl);
+	}
+	
+	private E_Role(final E_ConfigKey key, final int type, final String userHomeUrl) {
+		this(null, key, type, userHomeUrl);
+	}
+	
+	private E_Role(final String name, final E_ConfigKey key, final int type, final String userHomeUrl) {
+		this.m_strName = name;
+		this.m_objKey = key;
 		this.m_numType = type;
 		this.m_strHomeUrl = userHomeUrl;
 	}
@@ -111,14 +120,24 @@ public enum E_Role {
 	}
 
 	/**
-	 * Gets the name.
+	 * Gets the configuration key
 	 *
-	 * @return the name
+	 * @return the config key enum
 	 */
-	public String getName() {
-		return this.m_strName;
+	public E_ConfigKey getKey() {
+		return this.m_objKey;
 	}
 
+	public String getName() {
+		String name = getName();
+		
+		if (name == null && getKey() != null) {
+			name = CustomPortalServiceHandler.getConfigValue(getKey());
+		}
+		
+		return name;
+	}
+	
 	/**
 	 * Gets the type.
 	 *

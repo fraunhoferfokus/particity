@@ -198,7 +198,18 @@ public class CustomPortalServiceHandler {
 		        guestRole.getRoleId(), actionids);
 		
 	}
-
+	
+	/**
+	 * Check for a specific role name and create a regular role if not existent
+	 *
+	 * @param companyId the company Id of the given role
+	 * @param role the role enum
+	 * @return the role
+	 */
+	public static Role checkRole(final long userId, final long companyId, final E_Role role) {
+		return checkRole(userId, companyId, role.getName(), role.getType());
+	}
+	
 	/**
 	 * Check for a specific role name and create a regular role if not existent
 	 *
@@ -269,8 +280,7 @@ public class CustomPortalServiceHandler {
 
 		User user = null;
 		try {
-			final Role orgRole = checkRole(0, companyId,
-			        Constants.DEFAULT_ROLE_ORGANIZATION, RoleConstants.TYPE_REGULAR);
+			final Role orgRole = checkRole(0, companyId, E_Role.ORG);
 
 			try {
 				user = UserLocalServiceUtil.getUserByEmailAddress(companyId,

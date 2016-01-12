@@ -39,15 +39,6 @@ package de.fraunhofer.fokus.oefit.adhoc.custom;
  */
 public class Constants {
 
-	/** The organisation role, as defined and used in Liferay. */
-	public static final String	DEFAULT_ROLE_ORGANIZATION	 = "Engagement Organisation";
-	
-	/** The administration role, as defined and used in Liferay */
-	public static final String	DEFAULT_ROLE_ADMINISTRATION	 = "Engagement Administration";
-	
-	/** The management role, as defined and used in Liferay. */
-	public static final String	DEFAULT_ROLE_MANAGEMENT	     = "Engagement Verwaltung";
-
 	/** The default TimeZone-ID of the server (used for time conversions). */
 	public static final String	DEFAULT_TIMEZONE_ID	         = "Europe/Berlin";
 	

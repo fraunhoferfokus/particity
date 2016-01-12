@@ -272,9 +272,9 @@ public class BaseController {
 			if (user != null) {
 				try {
 					final List<Role> roles = user.getRoles();
+					String mgmtRoleName = E_Role.MGMT.getName();
 					for (final Role role : roles) {
-						if (role.getName().equals(
-						        Constants.DEFAULT_ROLE_MANAGEMENT)) {
+						if (role.getName().equals(mgmtRoleName)) {
 							result = true;
 							break;
 						}
@@ -301,9 +301,9 @@ public class BaseController {
 			if (user != null) {
 				try {
 					final List<Role> roles = user.getRoles();
+					final String orgRoleName = E_Role.ORG.getName();
 					for (final Role role : roles) {
-						if (role.getName().equals(
-						        Constants.DEFAULT_ROLE_ORGANIZATION)) {
+						if (role.getName().equals(orgRoleName)) {
 							result = true;
 							break;
 						}

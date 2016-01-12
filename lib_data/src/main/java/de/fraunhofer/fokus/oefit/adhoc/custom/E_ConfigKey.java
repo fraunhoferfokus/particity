@@ -299,6 +299,17 @@ public enum E_ConfigKey {
 	/** Moderate organisations **/
 	ENABLE_NEWSLETTER(E_ConfigCategory.NONE, "", "true"),
 	
+	/** Role for organisations */
+	ROLE_NAME_ORG(E_ConfigCategory.NONE, "", "Engagement Organisation"),
+	
+	/** Role for agency/management */
+	ROLE_NAME_MGMT(E_ConfigCategory.NONE, "", "Engagement Verwaltung"),
+	
+	/** Role for administration */
+	ROLE_NAME_ADM(E_ConfigCategory.NONE, "", "Engagement Administration"),
+	
+	;
+	
 	;
 
 	/**
