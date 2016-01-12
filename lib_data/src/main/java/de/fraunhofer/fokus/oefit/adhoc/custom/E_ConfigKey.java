@@ -309,8 +309,6 @@ public enum E_ConfigKey {
 	ROLE_NAME_ADM(E_ConfigCategory.NONE, "", "Engagement Administration"),
 	
 	;
-	
-	;
 
 	/**
 	 * Gets the by category.

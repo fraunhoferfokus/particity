@@ -232,6 +232,7 @@ public class CustomPortalServiceHandler {
 	public static String getRoleName(E_Role role) {
 		String name = role.getDefaultName();
 		
+		//m_objLog.info("Got role "+role.name()+" with rolename "+name+", and key "+role.getKey());
 		if (name == null && role.getKey() != null) {
 			name = CustomPortalServiceHandler.getConfigValue(role.getKey());
 		}
@@ -389,7 +390,7 @@ public class CustomPortalServiceHandler {
 		} else {
 			value = AHConfigLocalServiceUtil.getConfig(key.toString(),
 			        key.getDefaultValue());
-			// m_objLog.debug("Got portlet property "+key.toString()+" = "+value);
+			m_objLog.info("Got portlet property "+key.toString()+" = "+value);
 		}
 		return value;
 	}

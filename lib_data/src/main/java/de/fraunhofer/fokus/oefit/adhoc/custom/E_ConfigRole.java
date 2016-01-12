@@ -40,7 +40,7 @@ import com.liferay.portal.model.RoleConstants;
  * 
  * TODO: Should be made configurable in the settings
  */
-public enum E_Role {
+public enum E_ConfigRole {
 	
 	/** The null. */
 	NULL("@NIL@", RoleConstants.TYPE_REGULAR, "/"),
@@ -72,15 +72,15 @@ public enum E_Role {
 	private int	   m_numType;
 	private String	m_strHomeUrl;
 
-	private E_Role(String name, int type, String userHomeUrl) {
+	private E_ConfigRole(String name, int type, String userHomeUrl) {
 		this(name, null, type, userHomeUrl);
 	}
 	
-	private E_Role(final E_ConfigKey ckey, int type, String userHomeUrl) {
+	private E_ConfigRole(final E_ConfigKey ckey, int type, String userHomeUrl) {
 		this(null, ckey, type, userHomeUrl);
 	}
 	
-	private E_Role(String name, final E_ConfigKey key, int type, String userHomeUrl) {
+	private E_ConfigRole(String name, final E_ConfigKey key, int type, String userHomeUrl) {
 		this.m_strName = name;
 		this.m_objKey = key;
 		this.m_numType = type;
