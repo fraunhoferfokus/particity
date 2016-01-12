@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.fraunhofer.fokus.oefit</groupId>
-	<version>0.9.3</version>
+	<version>0.9.4-RC1</version>
 	<artifactId>particity-suite</artifactId>
 	<packaging>pom</packaging>
 	<name>particity-suite</name>
