@@ -13,7 +13,7 @@
 	<artifactId>lib_data</artifactId>
 	<packaging>jar</packaging>
 	<name>lib_data</name>
-  <description>Shared data library, carrying all data structures and basic service interfaces</description>
+    <description>Shared data library, carrying all data structures and basic service interfaces</description>
 
 	<build>
 		<resources>

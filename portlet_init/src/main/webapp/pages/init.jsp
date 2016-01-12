@@ -1,3 +1,4 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_Role"%>
 <%@page import="de.fraunhofer.fokus.oefit.particity.portlet.init.E_ContextPath"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.Constants"%>
@@ -67,15 +68,15 @@
 	      </div>
 	      <div class="row" style="margin-top: 20px;">
 	        <div class="col-sm-6"><strong>Administration</strong><br/><i>Die Administration verwaltet die grundlegenden Datenlisten (Suchkategorien, Länder, etc.)</i></div>
-	        <div class="col-sm-6"><input type="text" class="form-control input-lg" name="role_<%= E_Role.ADMIN.toString() %>" value="<%= E_Role.ADMIN.getName() %>"></div>
+	        <div class="col-sm-6"><input type="text" class="form-control input-lg" name="role_<%= E_Role.ADMIN.toString() %>" value="<%= CustomPortalServiceHandler.getRoleName(E_Role.ADMIN) %>"></div>
 	      </div>
 	      <div class="row" style="margin-top: 20px;">
           <div class="col-sm-6"><strong>Organisation</strong><br/><i>Organisationen können sich am Portal anmelden und Angebote einstellen, die für Nutzer sichtbar sind</i></div>
-          <div class="col-sm-6"><input type="text" class="form-control input-lg" name="role_<%= E_Role.ORG.toString() %>" value="<%= E_Role.ORG.getName() %>"></div>
+          <div class="col-sm-6"><input type="text" class="form-control input-lg" name="role_<%= E_Role.ORG.toString() %>" value="<%= CustomPortalServiceHandler.getRoleName(E_Role.ORG) %>"></div>
         </div>
         <div class="row" style="margin-top: 20px;">
           <div class="col-sm-6"><strong>Verwaltung</strong><br/><i>Die Verwaltung moderiert neue Organisationen und deren Angebote und kann grundlegende inhaltliche Einstellungen vornehmen</i></div>
-          <div class="col-sm-6"><input type="text" class="form-control input-lg" name="role_<%= E_Role.MGMT.toString() %>" value="<%= E_Role.MGMT.getName() %>"></div>
+          <div class="col-sm-6"><input type="text" class="form-control input-lg" name="role_<%= E_Role.MGMT.toString() %>" value="<%= CustomPortalServiceHandler.getRoleName(E_Role.MGMT) %>"></div>
         </div>
 	    </div>
 	  </div>

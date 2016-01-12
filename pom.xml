@@ -55,8 +55,8 @@
 		<!-- libs -->
 		<module>lib_data</module>
 
-    <!-- hooks -->
-    <module>hook_securefilter</module>
+        <!-- hooks -->
+        <module>hook_securefilter</module>
 
 		<!-- basic portlets -->
 		<module>portlet_data</module>
@@ -578,7 +578,7 @@
 
 
 	<repositories>
-		<repository>
+	    <repository>
 			<id>liferay-repo</id>
 			<name>Lifray Snapshots</name>
 			<url>https://repository.liferay.com/nexus/content/groups/liferay-ce</url>

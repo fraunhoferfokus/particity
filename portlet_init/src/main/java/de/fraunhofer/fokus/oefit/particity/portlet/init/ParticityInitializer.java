@@ -175,7 +175,7 @@ public class ParticityInitializer {
 			Theme theme = getTheme(companyId, path.getThemeId());
 			if (theme != null) {
 				site.setThemeId(path.getThemeId());
-				site = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
+				site = LayoutLocalServiceUtil.updateLookAndFeel(site.getGroupId(),
 						false, site.getLayoutId(), path.getThemeId(), "01", "", false);
 			} else
 				m_objLog.warn("Did not find theme "+path.getThemeId()+"!");
