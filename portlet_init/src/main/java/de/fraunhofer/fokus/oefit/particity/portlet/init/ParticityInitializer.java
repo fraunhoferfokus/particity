@@ -69,6 +69,10 @@ public class ParticityInitializer {
 	//private static final String PARTICITY_GROUP_NAME = "Particity";
 	
 	private static Log m_objLog = LogFactoryUtil.getLog(ParticityInitializer.class);
+	private static long globalCompanyId = -1;
+	private static long globalGroupId = -1;
+	private static long globalAdminId = -1;
+	
 	
 	public static void init() {
 		if (!isWizardAvailable()) {
@@ -77,11 +81,29 @@ public class ParticityInitializer {
 		}
 		
 		try {
+			// init static globals
+			if (globalCompanyId == -1)
+				initGlobals();
+
+			// add setup
+			Layout layout = initLayout(globalCompanyId, globalAdminId, globalGroupId, E_ContextPath.HOME);
+
+			if (layout != null) {
+				String portletId = addPortletToPage(layout, "painit_WAR_painitportlet", E_ContextPath.HOME, globalAdminId);			
+				m_objLog.info("Created welcome with portlet id "+portletId);
+			} else {
+				m_objLog.info("No home found under "+E_ContextPath.HOME.getPath());
+			}
+			
+		} catch (Throwable t) {
+			m_objLog.error(t);
+		}
+	}
+	
+	public static void initGlobals() {
+		try {
 			// get default company
 			Group pGroup = null;
-			long globalCompanyId = -1;
-			long globalGroupId = -1;
-			long globalAdminId = -1;
 			Company company = CompanyLocalServiceUtil.getCompanyByWebId(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
 			// fallback
 			if (company == null)
@@ -92,14 +114,18 @@ public class ParticityInitializer {
 			globalGroupId = pGroup.getGroupId();
 			globalAdminId = company.getDefaultUser().getUserId(); 
 
-			// add setup
-			Layout layout = initLayout(globalCompanyId, globalAdminId, globalGroupId, E_ContextPath.HOME);
-
+			// get welcome page
+			Layout layout = getLayout(globalGroupId, E_ContextPath.HOME.getPath());
 			if (layout != null) {
-				String portletId = addPortletToPage(layout, "painit_WAR_painitportlet", E_ContextPath.HOME, globalAdminId);			
-				m_objLog.info("Created welcome with portlet id "+portletId);
-			} else {
-				m_objLog.info("No home found under "+E_ContextPath.HOME.getPath());
+				// correct values
+				globalCompanyId = layout.getCompanyId();
+				globalGroupId = layout.getGroupId();
+				User admin = getDefaultAdmin(globalCompanyId);
+				if (admin != null) {
+					globalAdminId = admin.getUserId();
+					m_objLog.info("Corrected global admin to "+globalAdminId);
+				} else
+					m_objLog.info("Did not find global admin, using userId "+globalAdminId);
 			}
 			
 		} catch (Throwable t) {
@@ -202,27 +228,16 @@ public class ParticityInitializer {
 		
 		
 		try {
-
-			// get default company
-			Group pGroup = null;
-			long globalCompanyId = -1;
-			long globalGroupId = -1;
-			long globalAdminId = -1;
-			Company company = CompanyLocalServiceUtil.getCompanyByWebId(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
-			// fallback
-			if (company == null)
-				company = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId());	
 			
-			pGroup = company.getGroup();
-			globalCompanyId = company.getCompanyId();
-			globalGroupId = pGroup.getGroupId();
-			globalAdminId = company.getDefaultUser().getUserId(); 
-			
+			// init static globals
+			if (globalCompanyId == -1)
+				initGlobals();
 			
 			// initialize roles
 			Map<E_Role, Role> roles = getRoles(globalAdminId, globalCompanyId);
 			// initialize sites
-			Map<E_ContextPath, Layout> layouts = getLayouts(globalGroupId, globalAdminId, globalCompanyId, pathMap);
+			Map<E_ContextPath, Layout> layouts = clearLayouts(globalGroupId, globalAdminId, globalCompanyId, pathMap);
+			
 			// add administrator
 			//User adminUser = CustomPortalServiceHandler.createPortalUser("Particity", "Administrator", "admin@particity.de", globalCompanyId, pGroup.getGroupId(), Locale.GERMAN, false, "test", true);
 			// remove liferay admin
@@ -310,7 +325,7 @@ public class ParticityInitializer {
 		}
 	}
 	
-	public static Map<E_ContextPath, Layout> getLayouts(long groupId, long adminId, long companyId, Map<E_ContextPath, String> pathMap) {
+	public static Map<E_ContextPath, Layout> clearLayouts(long groupId, long adminId, long companyId, Map<E_ContextPath, String> pathMap) {
 		Map<E_ContextPath, Layout> result = new HashMap<E_ContextPath, Layout>();
 		
 		for (E_ContextPath pth: pathMap.keySet()) {
@@ -319,8 +334,10 @@ public class ParticityInitializer {
 			if (layout == null) {
 				layout = createLayout(adminId, companyId, groupId, pth, actualPath);
 				m_objLog.info("Created layout for URL "+actualPath);
-			} else
+			} else {
 				m_objLog.info("Found layout for URL "+actualPath);
+				clearPage(layout);
+			}
 			result.put(pth, layout);
 		}
 		return result;

@@ -34,7 +34,9 @@
 package de.fraunhofer.fokus.oefit.particity.portlet.init;
 
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.portlet.ActionRequest;
@@ -132,11 +134,12 @@ public class InitController extends BaseController {
 	
 	@RequestMapping(value = "view")
 	@ActionMapping(params="action=initParticity")
-	public void initParticity(final RenderRequest request,
-	        final RenderResponse response,
+	public void initParticity(final ActionRequest request,
+	        final ActionResponse response,
 	        final Model model) {
 		m_objLog.trace("initParticity::start");
 
+		Map<E_ContextPath, String> pathMap = new HashMap<E_ContextPath, String>();
 		Enumeration<String> pnames = request.getParameterNames();
 		while (pnames.hasMoreElements()) {
 			String pname = pnames.nextElement();
@@ -149,14 +152,25 @@ public class InitController extends BaseController {
 					role = E_Role.valueOf(pname);
 				} catch (Throwable t) {}
 				if (role != null) {
+					// setup role
 					CustomPortalServiceHandler.setConfig(role.getKey(), pval);
 				} else
 					m_objLog.warn("Unknown role "+pname);
 			} else if (pname.startsWith("page_")) {
 				pname = pname.replaceAll("page_", "");
+				E_ContextPath pth = null;
+				try {
+					pth = E_ContextPath.valueOf(pname);
+				} catch (Throwable t) {}
+				if (pth != null) {
+					pathMap.put(pth, pval);
+				}
 			}
 			
 		}
+		// setup layouts & content
+		if (pathMap.size() > 0)
+			ParticityInitializer.setup(pathMap);
 		
 		m_objLog.trace("initParticity::end()");
 	}

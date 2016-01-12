@@ -54,11 +54,11 @@
     <h1>Setup</h1>
   </div>
   
-  <portlet:actionURL var="addCategoryEntryUrl">
+  <portlet:actionURL var="initParticityUrl">
      <portlet:param name="action" value="initParticity" />
   </portlet:actionURL>
   
-  <form data-ajax="false" method="post" action="${initParticity}">
+  <form data-ajax="false" method="post" action="${initParticityUrl}">
 	  <div class="row">
 	    <h2>Rollen&nbsp;<small>Über Rollen werden unterschiedliche Funktionalitäten des Portals voneinander abgegrenzt. Neue Nutzer bekommen eine dieser Rollen zugewiesen.</small></h2>
 	    <div class="col-xs-10 col-xs-offset-1">
