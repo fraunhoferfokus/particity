@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -103,16 +104,15 @@ public class ParticityInitializer {
 	public static void initGlobals() {
 		try {
 			// get default company
-			Group pGroup = null;
 			Company company = CompanyLocalServiceUtil.getCompanyByWebId(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
 			// fallback
 			if (company == null)
 				company = CompanyLocalServiceUtil.getCompany(PortalUtil.getDefaultCompanyId());	
 			
-			pGroup = company.getGroup();
 			globalCompanyId = company.getCompanyId();
-			globalGroupId = pGroup.getGroupId();
+			globalGroupId = company.getGroup().getGroupId();
 			globalAdminId = company.getDefaultUser().getUserId(); 
+			m_objLog.info("Initial company is "+globalCompanyId+", group "+globalGroupId+", user "+globalAdminId);
 
 			// get welcome page
 			Layout layout = getLayout(globalGroupId, E_ContextPath.HOME.getPath());
@@ -123,9 +123,8 @@ public class ParticityInitializer {
 				User admin = getDefaultAdmin(globalCompanyId);
 				if (admin != null) {
 					globalAdminId = admin.getUserId();
-					m_objLog.info("Corrected global admin to "+globalAdminId);
-				} else
-					m_objLog.info("Did not find global admin, using userId "+globalAdminId);
+				} 
+				m_objLog.info("Corrected company is "+globalCompanyId+", group "+globalGroupId+", user "+globalAdminId);
 			}
 			
 		} catch (Throwable t) {
@@ -152,7 +151,7 @@ public class ParticityInitializer {
 		
 		long adminId = -1;
 		try {
-			// ger admin for this layout
+			// get admin for this layout
 			User admin = getDefaultAdmin(layout.getCompanyId());
 			if (admin != null)
 				adminId = admin.getUserId();
@@ -298,9 +297,9 @@ public class ParticityInitializer {
 						if (contentSrc != null) {
 							JournalArticle article = articles.get(content.getDataPath());
 							if (article == null)
-								article = getArticle(groupId, content.name());
+								article = getArticle(layout.getGroupId(), content.name());
 							if (article == null) {
-								article = addArticle(adminId, groupId, content.name(), content.getTitle(), contentSrc);
+								article = addArticle(adminId, layout.getGroupId(), content.name(), content.getTitle(), contentSrc);
 								//m_objLog.info("Added article for "+content.name());
 								articles.put(content.getDataPath(), article);
 							}
@@ -308,8 +307,8 @@ public class ParticityInitializer {
 								layout = layouts.get(content.getContext());
 								if (layout != null) {
 									// check if article not added yet
-									if (!checkArticleOnLayout(layout, article.getArticleId(), content.getContext().getColumnId(), companyId)) {
-										addArticle(content.getContext(), article,layout, adminId, groupId, companyId);
+									if (!checkArticleOnLayout(layout, article.getArticleId(), content.getContext().getColumnId(), layout.getCompanyId())) {
+										addArticle(content.getContext(), article,layout, adminId, layout.getGroupId(), layout.getCompanyId());
 										m_objLog.debug("Added sample content "+content.name()+" for URL "+content.getContext().getPath());
 									} else {
 										m_objLog.debug("Found existing sample content "+content.name()+" for URL "+content.getContext().getPath());
@@ -383,10 +382,10 @@ public class ParticityInitializer {
 		try {
 			result = LayoutLocalServiceUtil.getFriendlyURLLayout(groupId,
 					false, context);
-			m_objLog.warn("Found layout registered for group " + groupId
+			m_objLog.debug("Found layout registered for group " + groupId
 					+ " and url " + context);
 		} catch (Throwable t) {
-			m_objLog.debug("No layout registered for group " + groupId
+			m_objLog.warn("No layout registered for group " + groupId
 					+ " with url " + context);
 			// retry searching manually
 			if (result == null) {
@@ -396,6 +395,7 @@ public class ParticityInitializer {
 						if (layout.isPublicLayout() && layout.getFriendlyURL().equals(context)) {
 							result = layout;
 							m_objLog.info("Found matching public layout "+context+" with group "+result.getGroupId()+", company "+result.getCompanyId());
+							break;
 						}
 					}
 				} catch (Throwable t2) {
@@ -670,16 +670,27 @@ public class ParticityInitializer {
 				if (defLocale == null)
 					defLocale = Locale.GERMAN;
 		
-				String localShort = defLocale.getCountry()+"_"+defLocale.getLanguage();
+				String localShort = defLocale.getLanguage()+"_"+defLocale.getCountry();
 				
 				
 				Map<Locale, String> titleMap = new HashMap<Locale, String>();
 				titleMap.put(defLocale, title);
 				
+				
+				
+				//titleMap.put(Locale.GERMAN, title);
+				//titleMap.put(Locale.ENGLISH, title);
+				
 				ServiceContext ctx = new ServiceContext();
 				ctx.setScopeGroupId(groupId);
 				
 				String content = "<?xml version=\"1.0\"?><root available-locales=\""+localShort+"\" default-locale=\""+localShort+"\"><static-content language-id=\""+localShort+"\"><![CDATA[ "+srcContent+" ]]></static-content></root>";
+				
+				String lid = LocalizationUtil.getDefaultLocale(content);
+				Locale defaultLocale = LocaleUtil.fromLanguageId(lid);
+						
+				m_objLog.info("Adding title for locale "+defLocale+", short "+localShort+" with lid "+lid+" and defaultLocale "+defaultLocale+" with content "+title);
+
 				
 				result = JournalArticleLocalServiceUtil.addArticle(
 				    userId,
