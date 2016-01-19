@@ -44,6 +44,11 @@
 	color: #fff;
 }
 
+.header .login input[type=text], .header .login input[type=password] {
+	height: 30px;
+	padding: 5px 10px !important;
+}
+
 .header .loginWrapper form {
 	margin: 0px !important;
 }
