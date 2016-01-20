@@ -10,6 +10,13 @@ public enum E_SampleContent {
 	LEGALDETAILS_HEADER(E_ContextPath.LEGALDETAILS, "paheader_WAR_pasiteportlet"),
 	DATAPOLICY_HEADER(E_ContextPath.DATAPOLICY, "paheader_WAR_pasiteportlet"),
 	
+	// BREADCRUMBS
+	SEARCH_BREADCRUMBS(E_ContextPath.SEARCH, "73"),
+	NEWSL_BREADCRUMBS(E_ContextPath.USR_NEWSLETTER, "73"),
+	ORGREG_BREADCRUMBS(E_ContextPath.ORG_REGISTRATION, "73"),
+	LEGALDETAILS_BREADCRUMBS(E_ContextPath.LEGALDETAILS, "73"),
+	DATAPOLICY_BREADCRUMBS(E_ContextPath.DATAPOLICY, "73"),
+	
 	// FRONTEND
 	FRONTEND(E_ContextPath.HOME,"/../../data/frontend.html","Frontend"),
 	FRONTEND_LATEST(E_ContextPath.HOME,"palatest_WAR_pasearchportlet"),

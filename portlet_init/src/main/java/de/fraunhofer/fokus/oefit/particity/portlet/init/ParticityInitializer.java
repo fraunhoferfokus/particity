@@ -74,6 +74,7 @@ public class ParticityInitializer {
 	private static long globalCompanyId = -1;
 	private static long globalGroupId = -1;
 	private static long globalAdminId = -1;
+	private static long homeLayoutId = LayoutConstants.DEFAULT_PARENT_LAYOUT_ID;
 	
 	
 	public static void init() {
@@ -89,7 +90,7 @@ public class ParticityInitializer {
 
 			// add setup
 			Layout layout = initLayout(globalCompanyId, globalAdminId, globalGroupId, E_ContextPath.HOME);
-
+			
 			if (layout != null) {
 				String portletId = addPortletToPage(layout, "painit_WAR_painitportlet", E_ContextPath.HOME, globalAdminId);			
 				m_objLog.info("Created welcome with portlet id "+portletId);
@@ -121,6 +122,7 @@ public class ParticityInitializer {
 				// correct values
 				globalCompanyId = layout.getCompanyId();
 				globalGroupId = layout.getGroupId();
+				homeLayoutId = layout.getLayoutId();
 				User admin = getDefaultAdmin(globalCompanyId);
 				if (admin != null) {
 					globalAdminId = admin.getUserId();
@@ -147,7 +149,7 @@ public class ParticityInitializer {
 		return result;
 	}
 	
-	public static void clearPage(Layout layout) {
+	public static void clearPage(Layout layout, E_ContextPath path) {
 		LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) layout.getLayoutType();
 		
 		long adminId = -1;
@@ -183,6 +185,19 @@ public class ParticityInitializer {
 				}
 			}
 			
+			if ((path.isHidden() && !layout.isHidden())) {
+				layout.setHidden(true);
+				/*Locale defLocale = LocaleUtil.getDefault();
+				if (defLocale == null)
+					defLocale = Locale.GERMAN;
+						
+				Map<Locale, String> titleMap = new HashMap<Locale, String>();
+				titleMap.put(defLocale, path.getTitle());*/
+				layout.setTitle(path.getTitle());
+				layout.setName(path.getName());
+				LayoutLocalServiceUtil.updateLayout(layout);
+			}
+			
 			
 		} catch (Throwable t) {
 			m_objLog.error(t);
@@ -196,7 +211,7 @@ public class ParticityInitializer {
 				site = createLayout(adminId, companyId, groupId, path, null);
 			} else {
 				// clear portlets
-				clearPage(site);
+				clearPage(site, path);
 			}
 			Theme theme = getTheme(companyId, path.getThemeId());
 			if (theme != null) {
@@ -344,7 +359,7 @@ public class ParticityInitializer {
 				m_objLog.debug("Created layout for URL "+actualPath);
 			} else {
 				m_objLog.debug("Found layout for URL "+actualPath);
-				clearPage(layout);
+				clearPage(layout, pth);
 			}
 			result.put(pth, layout);
 		}
@@ -442,9 +457,9 @@ public class ParticityInitializer {
 		Layout result = null;
 		
 		boolean privateLayout = false;
-		long parentLayoutId = com.liferay.portal.model.LayoutConstants.DEFAULT_PARENT_LAYOUT_ID;
 		String description = null;
 		String type = path.getType();
+		long parentLayoutId = path.isHidden() ?  homeLayoutId : LayoutConstants.DEFAULT_PARENT_LAYOUT_ID;
 		ServiceContext ctx = new ServiceContext();
 		if (actualPath == null)
 			actualPath = path.getPath();
