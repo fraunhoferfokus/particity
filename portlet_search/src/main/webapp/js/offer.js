@@ -33,6 +33,27 @@ var radialmarkerobj = [];
 var searchData = {};
 var selectedItems = [];
 var selectedTypes = [];
+var mapUrl = "http://{s}.tile.osm.org/{z}/{x}/{y}.png";
+var mapAttrib = "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors";
+var mapId = "";
+var mapAt = "";
+
+function setMapData(opts) {
+	if (opts != null) {
+		if (opts.url != null && opts.url.length > 0) {
+			mapUrl = opts.url;
+		}
+		if (opts.attrib != null && opts.attrib.length > 0) {
+			mapAttrib = opts.attrib;
+		}
+		if (opts.id != null && opts.id.length > 0) {
+			mapId = opts.id;
+		}
+		if (opts.at != null && opts.at.length > 0) {
+			mapAt = opts.at;
+		}
+	}
+}
 
 function resetMarkers() {
 	markerobj = [];
@@ -64,11 +85,11 @@ function initRadialSearch(elem) {
 
 		console.log("Map tiles init ...");
 		L
-		.tileLayer(
-				'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-			{
-				attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-			}).addTo(radialmap);
+		.tileLayer(mapUrl, {
+		     attribution: mapAttrib,
+		     id: mapId,
+		 	 accessToken: mapAt
+		 }).addTo(radialmap);
 
 		radialmap.on('locationerror', function() {
 			console.log("browser-geolocation NOT found!")
@@ -191,11 +212,11 @@ function initSearchMap(elem) {
 
 		console.log("Map tiles init ...");
 		L
-				.tileLayer(
-						'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-						{
-							attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-						}).addTo(map);
+				.tileLayer(mapUrl, {
+				     attribution: mapAttrib,
+				     id: mapId,
+				 	 accessToken: mapAt
+				 }).addTo(map);
 
 		map.on('locationerror', function() {
 			console.log("browser-geolocation NOT found!")
@@ -243,11 +264,11 @@ function initOfferMap(elem) {
 
 		console.log("Map tiles init ...");
 		L
-				.tileLayer(
-						'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-						{
-							attribution : '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-						}).addTo(map);
+				.tileLayer(mapUrl, {
+				     attribution: mapAttrib,
+				     id: mapId,
+				 	 accessToken: mapAt
+				 }).addTo(map);
 		console.log("Map geocoder init ...");
 		// var geocoder = L.Control.geocoder().addTo(map);
 		geocoder = L.Control.Geocoder.nominatim({

@@ -1,3 +1,5 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomSearchServiceHandler"%>
@@ -45,6 +47,11 @@
   
   String ctxPth = request.getContextPath();
 
+  String mapUrl = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.OSM_URL);
+  String mapAttrib = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.OSM_ATTRIB);
+  String mapId = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.OSM_ID);
+  String mapAt = CustomPortalServiceHandler.getConfigValue(E_ConfigKey.OSM_AT);
+  
   %>
 
 <script>
@@ -53,6 +60,12 @@
       setText("search.modal.close",'<spring:message code="search.modal.close" />');
       setText("search.modal.prev",'<spring:message code="search.modal.prev" />');
       setText("search.modal.next",'<spring:message code="search.modal.next" />');
+      setMapData({
+    	 url: "<%=mapUrl%>",
+    	 attrib: '<%=mapAttrib%>',
+    	 id: "<%=mapId%>",
+    	 at: "<%=mapAt%>"
+      });
     })
 </script>
 
@@ -146,8 +159,7 @@
 				  }
 			  } else {
 				  %>
-				<div class="col-md-12 alert alert-info">Aktuell sind keine
-					Angebote verfügbar.</div>
+				<div class="col-md-12 alert alert-info"><spring:message code="latest.nooffer" /></div>
 				<%	  
 			  }
 			  %>

@@ -1,4 +1,6 @@
 
+<%@page import="com.liferay.portal.kernel.util.HtmlUtil"%>
+<%@page import="org.springframework.web.util.HtmlUtils"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigRole"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
@@ -1173,7 +1175,7 @@
 													<input id="<%= key.toString() %>"
 														name="<%= key.toString() %>" class="form-control input-lg"
 														type="<%= key.getType().getHtmlType() %>"
-														value="<%= value %>">
+														value="<%= HtmlUtil.escape(value) %>">
 													<%
 						                        break;
 						                       case TEXTAREA:

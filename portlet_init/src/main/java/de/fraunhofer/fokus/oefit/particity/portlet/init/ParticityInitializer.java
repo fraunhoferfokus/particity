@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.model.Company;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.GroupConstants;
@@ -333,8 +334,10 @@ public class ParticityInitializer {
 	public static Map<E_ContextPath, Layout> clearLayouts(long groupId, long adminId, long companyId, Map<E_ContextPath, String> pathMap) {
 		Map<E_ContextPath, Layout> result = new HashMap<E_ContextPath, Layout>();
 		
-		for (E_ContextPath pth: pathMap.keySet()) {
+		for (E_ContextPath pth: E_ContextPath.values()) {
 			String actualPath = pathMap.get(pth);
+			if (actualPath == null)
+				actualPath = pth.getPath();
 			Layout layout = getLayout(groupId, actualPath);
 			if (layout == null) {
 				layout = createLayout(adminId, companyId, groupId, pth, actualPath);
@@ -441,7 +444,7 @@ public class ParticityInitializer {
 		boolean privateLayout = false;
 		long parentLayoutId = com.liferay.portal.model.LayoutConstants.DEFAULT_PARENT_LAYOUT_ID;
 		String description = null;
-		String type = LayoutConstants.TYPE_PORTLET;
+		String type = path.getType();
 		ServiceContext ctx = new ServiceContext();
 		if (actualPath == null)
 			actualPath = path.getPath();
@@ -451,31 +454,42 @@ public class ParticityInitializer {
 			result = LayoutLocalServiceUtil.addLayout(adminId, groupId,
 					privateLayout, parentLayoutId, path.getName(), path.getTitle(), description,
 					type, path.isHidden(), path.getPath(), ctx);
+			
 
 			// layout.setLayoutPrototypeLinkEnabled(false);
-
-			Theme theme = getTheme(companyId, path.getThemeId());
-			if (theme != null) {
-				result.setThemeId(path.getThemeId());
-				result = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
-						false, result.getLayoutId(), path.getThemeId(), "01", "", false);
-			} else
-				m_objLog.warn("Did not find theme: " + path.getThemeId() + " for url "
-						+ path.getPath());
-
-			LayoutTemplate template = getLayoutTemplate(path.getTemplateId());
 			
-			LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) result
-					.getLayoutType();
-			if (template != null) {
-				layoutTypePortlet.setLayoutTemplateId(0, path.getTemplateId(), false);
-				m_objLog.debug("Set layout template: "
-						+ template.getLayoutTemplateId() + " for url "
-						+ path.getPath());
-			} else
-				m_objLog.warn("Did not find layout template: " + path.getTemplateId()
-						+ " for url " + path.getPath());
+			if (!type.equals(LayoutConstants.TYPE_URL)) {
 
+				Theme theme = getTheme(companyId, path.getThemeId());
+				if (theme != null) {
+					result.setThemeId(path.getThemeId());
+					result = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
+							false, result.getLayoutId(), path.getThemeId(), "01", "", false);
+				} else
+					m_objLog.warn("Did not find theme: " + path.getThemeId() + " for url "
+							+ path.getPath());
+	
+				LayoutTemplate template = getLayoutTemplate(path.getTemplateId());
+				
+				LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) result
+						.getLayoutType();
+				if (template != null) {
+					layoutTypePortlet.setLayoutTemplateId(0, path.getTemplateId(), false);
+					m_objLog.debug("Set layout template: "
+							+ template.getLayoutTemplateId() + " for url "
+							+ path.getPath());
+				} else
+					m_objLog.warn("Did not find layout template: " + path.getTemplateId()
+							+ " for url " + path.getPath());
+
+			} else {
+				// set the value of the "link to page"
+				UnicodeProperties props = result.getTypeSettingsProperties();
+				props.put( "url", path.getTitle() );
+				result.setTypeSettingsProperties( props );
+				LayoutLocalServiceUtil.updateLayout( result ); // 
+			}
+			
 			m_objLog.info("Added layout for url " + path.getPath() + ", group: "
 					+ groupId + ", company: " + companyId + ", user: "
 					+ adminId);
@@ -483,7 +497,7 @@ public class ParticityInitializer {
 			updatePermissions(result, path);
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
+			m_objLog.error(t);
 		}
 		return result;
 	}

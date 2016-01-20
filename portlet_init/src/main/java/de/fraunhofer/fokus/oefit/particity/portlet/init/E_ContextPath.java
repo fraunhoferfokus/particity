@@ -1,5 +1,7 @@
 package de.fraunhofer.fokus.oefit.particity.portlet.init;
 
+import com.liferay.portal.model.LayoutConstants;
+
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 
 public enum E_ContextPath {
@@ -16,6 +18,8 @@ public enum E_ContextPath {
 	USR_NEWSLETTER("/newsletter","Newsletter","Newsletter",true, E_Role.SITEGUEST),
 	DATAPOLICY("/datenschutz","Datenschutz","Datenschutz", true, E_Role.SITEGUEST),
 	LEGALDETAILS("/impressum","Impressum","Impressum", true, E_Role.SITEGUEST),
+	LOGOUT(LayoutConstants.TYPE_URL,"/abmelden","Abmelden","/c/portal/logout",false,E_Role.ADMIN, E_Role.ORG, E_Role.MGMT),
+	
 	;
 	
 	private static final String DEFAULT_THEME_NAME = "patheme_WAR_padefaulttheme";
@@ -28,12 +32,18 @@ public enum E_ContextPath {
 	private String m_strColumnId;
 	private E_Role[] m_objRoles;
 	private boolean m_bNavHidden;
+	private String m_strType;
 	
-	private E_ContextPath(String path, String name, String title,  boolean hiddenFromNav, E_Role... roles) { 
-		this(path, name, title, DEFAULT_THEME_NAME, "paAllColumns", "column-1", hiddenFromNav, roles);
+	private E_ContextPath(String type, String path, String name, String title,  boolean hiddenFromNav, E_Role... roles) { 
+		this(type, path, name, title, DEFAULT_THEME_NAME, "paAllColumns", "column-1", hiddenFromNav, roles);
 	}
 	
-	private E_ContextPath(String path, String name, String title, String themeId, String templateId, String columnId, boolean hiddenFromNav, E_Role... roles) {
+	private E_ContextPath(String path, String name, String title,  boolean hiddenFromNav, E_Role... roles) { 
+		this(LayoutConstants.TYPE_PORTLET, path, name, title, DEFAULT_THEME_NAME, "paAllColumns", "column-1", hiddenFromNav, roles);
+	}
+	
+	private E_ContextPath(String type, String path, String name, String title, String themeId, String templateId, String columnId, boolean hiddenFromNav, E_Role... roles) {
+		m_strType = type;
 		m_strPth = path;
 		m_strName = name;
 		m_strTitle = title;
@@ -74,6 +84,10 @@ public enum E_ContextPath {
 	
 	public String getColumnId() {
 		return m_strColumnId;
+	}
+	
+	public String getType() {
+		return m_strType;
 	}
 	
 	public static String getDefaultThemeName() {

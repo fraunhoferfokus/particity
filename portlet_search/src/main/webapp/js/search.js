@@ -1,5 +1,26 @@
 var modals = new Object();
 var texts = new Object();
+var mapUrl = "http://{s}.tile.osm.org/{z}/{x}/{y}.png";
+var mapAttrib = "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors";
+var mapId = "";
+var mapAt = "";
+
+function setMapData(opts) {
+	if (opts != null) {
+		if (opts.url != null && opts.url.length > 0) {
+			mapUrl = opts.url;
+		}
+		if (opts.attrib != null && opts.attrib.length > 0) {
+			mapAttrib = opts.attrib;
+		}
+		if (opts.id != null && opts.id.length > 0) {
+			mapId = opts.id;
+		}
+		if (opts.at != null && opts.at.length > 0) {
+			mapAt = opts.at;
+		}
+	}
+}
 
 L.NumberedDivIcon = L.Icon.extend({
 	options: {
@@ -250,8 +271,10 @@ function loadModal(modalid,orgUrl, offerUrl, count, offerId) {
 		 });
 	
 
-		 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-		     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+		 L.tileLayer(mapUrl, {
+		     attribution: mapAttrib,
+		     id: mapId,
+		 	 accessToken: mapAt
 		 }).addTo(map);
 		 
 		 

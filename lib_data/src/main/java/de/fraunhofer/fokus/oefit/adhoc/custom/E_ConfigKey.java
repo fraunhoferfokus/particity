@@ -278,6 +278,11 @@ public enum E_ConfigKey {
 	        "mgmt.cfg.key.fb.body",
 	        "Die Organisation [$ORG_NAME$] hat ein neues Angebot [$OFFER_NAME$] eingestellt unter [$OFFER_URL$]"),
 
+	OSM_URL(E_ConfigCategory.OSMMAP, "mgmt.cfg.key.osm.url", "http://{s}.tile.osm.org/{z}/{x}/{y}.png"),
+	OSM_ATTRIB(E_ConfigCategory.OSMMAP, "mgmt.cfg.key.osm.attrib", "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"),
+	OSM_ID(E_ConfigCategory.OSMMAP, "mgmt.cfg.key.osm.id", ""),
+	OSM_AT(E_ConfigCategory.OSMMAP, "mgmt.cfg.key.osm.at", ""),
+	        
 	/** Newsletter-Scheduler Settings. */
 	SCHED_NEWS(E_ConfigCategory.NONE, "", "-1"),
 

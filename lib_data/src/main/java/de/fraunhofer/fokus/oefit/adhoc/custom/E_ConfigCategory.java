@@ -149,6 +149,11 @@ public enum E_ConfigCategory {
 	        "mgmt.cfg.category.socialtw.title",
 	        "mgmt.cfg.category.socialtw.descr",
 	        E_ConfigRole.MGMT),
+	        
+	OSMMAP(E_ConfigDomain.EXTSERV,
+			"mgmt.cfg.category.osm.title",
+	        "mgmt.cfg.category.osm.descr",
+	        E_ConfigRole.MGMT),
 
 	;
 
