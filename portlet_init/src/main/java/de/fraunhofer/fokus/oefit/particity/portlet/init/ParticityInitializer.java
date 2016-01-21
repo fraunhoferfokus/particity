@@ -1,6 +1,7 @@
 package de.fraunhofer.fokus.oefit.particity.portlet.init;
 
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -294,50 +295,57 @@ public class ParticityInitializer {
 		Layout layout = null;
 		Map<String, JournalArticle> articles = new HashMap<String, JournalArticle>();
 		for (E_SampleContent content: E_SampleContent.values()) {
+			layout = layouts.get(content.getContext());
+			if (layout == null) {
+				m_objLog.info("Could not find layout for sample content context path "+content.getContext().getPath());
+				continue;
+			}
 			try {
 				// add portlet to page
 				if (content.isPorlet()) {
-					layout = layouts.get(content.getContext());
-					if (layout != null) {
-						addPortletToPage(layout, content.getDataPath(), content.getContext(), adminId);
-						m_objLog.info("Added sample content "+content.name()+" with portlet "+content.getDataPath()+" for URL "+content.getContext().getPath());
-					} else
-						m_objLog.info("Could not find layout for sample content context path "+content.getContext().getPath());
-					
+					addPortletToPage(layout, content.getDataPath(), content.getContext(), adminId);					
+					m_objLog.info("Added sample content "+content.name()+" with portlet "+content.getDataPath()+" for URL "+content.getContext().getPath());
 				} 
 				// import HTML as article + add to page
 				else {
-					InputStream frontend = ParticityInitializer.class.getResourceAsStream(content.getDataPath());
-					if (frontend != null) {
-						String contentSrc = IOUtils.toString(frontend);
-						if (contentSrc != null) {
-							JournalArticle article = articles.get(content.getDataPath());
-							if (article == null)
-								article = getArticle(layout.getGroupId(), content.name());
-							if (article == null) {
+					JournalArticle article = articles.get(content.getDataPath());
+					if (article == null)
+						article = getArticle(layout.getGroupId(), content.name());
+					if (article == null) {
+						InputStream frontend = ParticityInitializer.class.getResourceAsStream(content.getDataPath());
+						if (frontend != null) {
+							String contentSrc = IOUtils.toString(frontend);
+							if (contentSrc != null) {
 								article = addArticle(adminId, layout.getGroupId(), content.name(), content.getTitle(), contentSrc);
 								//m_objLog.info("Added article for "+content.name());
-								articles.put(content.getDataPath(), article);
-							}
-							if (article != null) {
-								layout = layouts.get(content.getContext());
-								if (layout != null) {
-									// check if article not added yet
-									if (!checkArticleOnLayout(layout, article.getArticleId(), content.getContext().getColumnId(), layout.getCompanyId())) {
-										addArticle(content.getContext(), article,layout, adminId, layout.getGroupId(), layout.getCompanyId());
-										m_objLog.debug("Added sample content "+content.name()+" for URL "+content.getContext().getPath());
-									} else {
-										m_objLog.debug("Found existing sample content "+content.name()+" for URL "+content.getContext().getPath());
-									}
-								} else {
-									m_objLog.warn("Could not find layout for sample content context path "+content.getContext().getPath());			
-								}
+								articles.put(content.getDataPath(), article);									
 							} else {
-								m_objLog.warn("Could not create sample content "+content.name()+" for URL "+content.getContext().getPath()+" (already exists?) ");
+								m_objLog.warn("Could not load sample content "+content.name()+" for URL "+content.getContext().getPath()+" from "+content.getDataPath());
 							}
 						}
+					}
+					if (article != null) {
+						layout = layouts.get(content.getContext());
+						if (layout != null) {
+							// is nested portlet?
+							if (content.hasParent()) {
+								setPortletArticle(content.getParentPortletId(), article.getArticleId(), layout, adminId, layout.getGroupId(), layout.getCompanyId());
+							} 
+							// is standalone portlet
+							else {
+								// check if article not added yet
+								if (!checkArticleOnLayout(layout, article.getArticleId(), content.getContext().getColumnId(), layout.getCompanyId())) {
+									addArticle(content.getContext(), article,layout, adminId, layout.getGroupId(), layout.getCompanyId());
+									m_objLog.debug("Added sample content "+content.name()+" for URL "+content.getContext().getPath());
+								} else {
+									m_objLog.debug("Found existing sample content "+content.name()+" for URL "+content.getContext().getPath());
+								}
+							}
+						} else {
+							m_objLog.warn("Could not find layout for sample content context path "+content.getContext().getPath());			
+						}
 					} else {
-						m_objLog.warn("Could not load sample content "+content.name()+" for URL "+content.getContext().getPath()+" from "+content.getDataPath());
+						m_objLog.warn("Could not create sample content "+content.name()+" for URL "+content.getContext().getPath()+" (already exists?) ");
 					}
 				}
 			} catch (Throwable t) {
@@ -527,7 +535,6 @@ public class ParticityInitializer {
 			int colSize = portlets != null ? portlets.size() : 0;
 			// add new portlet at the very end
 			result = layoutTypePortlet.addPortletId(userId, portletId, path.getColumnId(), colSize, false);
-	
 			
 			// update the layout
 			LayoutLocalServiceUtil.updateLayout(layout.getGroupId(),
@@ -793,6 +800,18 @@ public class ParticityInitializer {
 		String journalPortletId = null;
 		try {
 			journalPortletId = addPortletToPage(layout, PortletKeys.JOURNAL_CONTENT, path, userId);
+
+			setPortletArticle(journalPortletId, article.getArticleId() ,layout, userId, groupId, companyId);
+
+		} catch (Throwable t) {
+			journalPortletId = null;
+			m_objLog.warn(t);
+		}
+		return journalPortletId;
+	}
+	
+	public static void setPortletArticle(String portletId, String articleId, Layout layout, long userId, long groupId, long companyId) {
+		try {
 	
 			long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
 			int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
@@ -802,21 +821,21 @@ public class ParticityInitializer {
 	                ownerId,
 	                ownerType,
 	                layout.getPlid(),
-	                journalPortletId);
+					portletId);
 	
 			// set desired article id for content display portlet
-			prefs.setValue("articleId", article.getArticleId());
+			prefs.setValue("articleId", articleId);
 			prefs.setValue("groupId", String.valueOf(groupId));
 	
 			//update the portlet preferences
 			PortletPreferencesLocalServiceUtil.updatePreferences(ownerId, ownerType, layout
-			                .getPlid(), journalPortletId, prefs);
+			                .getPlid(), portletId, prefs);
 		} catch (Throwable t) {
-			journalPortletId = null;
 			m_objLog.warn(t);
 		}
-		return journalPortletId;
 	}
+	
+	
 	
 	public static User getDefaultAdmin(long companyId) {
 		User result = null;
@@ -831,4 +850,45 @@ public class ParticityInitializer {
         }
         return result;
     }
+
+	public static void test() {
+		try {
+			if (globalCompanyId == -1)
+				initGlobals();
+	
+			Layout layout = getLayout(globalGroupId, E_ContextPath.HOME.getPath());
+			
+			LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) layout.getLayoutType();
+	
+			List<Portlet> portlets = layoutTypePortlet.getAllPortlets();
+			if (portlets != null) {
+				for (Portlet portlet: portlets) {
+					m_objLog.info("Found portlet "+portlet.getPortletId()+" =? "+PortletKeys.JOURNAL_CONTENT);
+					if (portlet.getPortletId().startsWith(E_SampleContent.FRONTEND_HEADER.getDataPath())) {
+	
+						long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
+						int ownerType = PortletKeys.PREFS_OWNER_TYPE_LAYOUT;
+				
+						PortletPreferences prefs = PortletPreferencesLocalServiceUtil.getPreferences(globalCompanyId,
+				                ownerId,
+				                ownerType,
+				                layout.getPlid(),
+				                portlet.getPortletId());
+						
+						if (prefs != null) {
+							Enumeration<String> names = prefs.getNames();
+							while (names.hasMoreElements()) {
+								String name = names.nextElement();
+								m_objLog.info("Got preference "+name+"="+prefs.getValue(name, "N/A"));
+							}
+						} else {
+							m_objLog.info("Could not extract portlet prefs!");
+						}
+					}
+				}
+			}
+		} catch (Throwable t) {
+			m_objLog.error(t);
+		}
+	}
 }

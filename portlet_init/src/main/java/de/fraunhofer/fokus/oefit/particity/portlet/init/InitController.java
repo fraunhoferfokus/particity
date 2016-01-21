@@ -184,6 +184,8 @@ public class InitController extends BaseController {
 	@PostConstruct
 	public void init() {
 		ParticityInitializer.init();
+		
+		ParticityInitializer.test();
 	}
 	
 }

@@ -10,6 +10,24 @@ public enum E_SampleContent {
 	LEGALDETAILS_HEADER(E_ContextPath.LEGALDETAILS, "paheader_WAR_pasiteportlet"),
 	DATAPOLICY_HEADER(E_ContextPath.DATAPOLICY, "paheader_WAR_pasiteportlet"),
 	
+	// HEADER logo
+	FRONTEND_LOGO(E_ContextPath.HOME, "/../../data/logo.html","Logo","56_INSTANCE_head1"),
+	SEARCH_LOGO(E_ContextPath.SEARCH, "/../../data/logo.html","Logo","56_INSTANCE_head1"),
+	NEWSL_LOGO(E_ContextPath.USR_NEWSLETTER, "/../../data/logo.html","Logo","56_INSTANCE_head1"),
+	ORGREG_LOGO(E_ContextPath.ORG_REGISTRATION, "/../../data/logo.html","Logo","56_INSTANCE_head1"),
+	LEGALDETAILS_LOGO(E_ContextPath.LEGALDETAILS, "/../../data/logo.html","Logo","56_INSTANCE_head1"),
+	DATAPOLICY_LOGO(E_ContextPath.DATAPOLICY, "/../../data/logo.html","Logo","56_INSTANCE_head1"),
+	
+	// HEADER shariff
+	FRONTEND_SHARIFF(E_ContextPath.HOME, "/../../data/shariff.html","Logo","56_INSTANCE_head2"),
+	NEWSL_SHARIFF(E_ContextPath.USR_NEWSLETTER, "/../../data/shariff.html","Logo","56_INSTANCE_head2"),
+	ORGREG_SHARIFF(E_ContextPath.ORG_REGISTRATION, "/../../data/shariff.html","Logo","56_INSTANCE_head2"),
+	LEGALDETAILS_SHARIFF(E_ContextPath.LEGALDETAILS, "/../../data/shariff.html","Logo","56_INSTANCE_head2"),
+	DATAPOLICY_SHARIFF(E_ContextPath.DATAPOLICY, "/../../data/shariff.html","Logo","56_INSTANCE_head2"),
+	
+	// HEADER newsletter ad
+	SEARCH_NEWSAD(E_ContextPath.SEARCH, "/../../data/newsletter.html","Newsletter-Ad","56_INSTANCE_head2"),
+	
 	// BREADCRUMBS
 	SEARCH_BREADCRUMBS(E_ContextPath.SEARCH, "73"),
 	NEWSL_BREADCRUMBS(E_ContextPath.USR_NEWSLETTER, "73"),
@@ -53,18 +71,22 @@ public enum E_SampleContent {
 	private String m_strDataPath;
 	private String m_strTitle;
 	private boolean m_bIsPortlet = false;
+	private String m_strParentPortletId;
 	
 	private E_SampleContent(E_ContextPath pth, String portletId) {
-		m_objContextPath = pth;
-		m_strDataPath = portletId;
-		m_strTitle = null;
+		this(pth,portletId,null);
 		m_bIsPortlet = true;
 	}
 	
 	private E_SampleContent(E_ContextPath path, String file, String title) {
+		this(path,file,title,null);
+	}
+	
+	private E_SampleContent(E_ContextPath path, String file, String title, String parentPortletId) {
 		m_objContextPath = path;
 		m_strDataPath = file;
 		m_strTitle = title;
+		m_strParentPortletId = parentPortletId;
 	}
 	
 	public String getTitle() {
@@ -83,4 +105,11 @@ public enum E_SampleContent {
 		return m_bIsPortlet;
 	}
 	
+	public boolean hasParent() {
+		return m_strParentPortletId != null;
+	}
+	
+	public String getParentPortletId() {
+		return m_strParentPortletId;
+	}
 }
