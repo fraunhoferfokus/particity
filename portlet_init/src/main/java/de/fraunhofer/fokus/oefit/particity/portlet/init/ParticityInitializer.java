@@ -94,9 +94,9 @@ public class ParticityInitializer {
 			
 			if (layout != null) {
 				String portletId = addPortletToPage(layout, "painit_WAR_painitportlet", E_ContextPath.HOME, globalAdminId);			
-				m_objLog.info("Created welcome with portlet id "+portletId);
+				m_objLog.debug("Created welcome with portlet id "+portletId);
 			} else {
-				m_objLog.info("No home found under "+E_ContextPath.HOME.getPath());
+				m_objLog.debug("No home found under "+E_ContextPath.HOME.getPath());
 			}
 			
 		} catch (Throwable t) {
@@ -115,7 +115,7 @@ public class ParticityInitializer {
 			globalCompanyId = company.getCompanyId();
 			globalGroupId = company.getGroup().getGroupId();
 			globalAdminId = company.getDefaultUser().getUserId(); 
-			m_objLog.info("Initial company is "+globalCompanyId+", group "+globalGroupId+", user "+globalAdminId);
+			m_objLog.debug("Initial company is "+globalCompanyId+", group "+globalGroupId+", user "+globalAdminId);
 
 			// get welcome page
 			Layout layout = getLayout(globalGroupId, E_ContextPath.HOME.getPath());
@@ -128,7 +128,7 @@ public class ParticityInitializer {
 				if (admin != null) {
 					globalAdminId = admin.getUserId();
 				} 
-				m_objLog.info("Corrected company is "+globalCompanyId+", group "+globalGroupId+", user "+globalAdminId);
+				m_objLog.debug("Corrected company is "+globalCompanyId+", group "+globalGroupId+", user "+globalAdminId);
 			}
 			
 		} catch (Throwable t) {
@@ -150,7 +150,7 @@ public class ParticityInitializer {
 		return result;
 	}
 	
-	public static void clearPage(Layout layout, E_ContextPath path) {
+	public static void clearPage(Layout layout, E_ContextPath path, String newPath) {
 		LayoutTypePortlet layoutTypePortlet = (LayoutTypePortlet) layout.getLayoutType();
 		
 		long adminId = -1;
@@ -196,9 +196,15 @@ public class ParticityInitializer {
 				titleMap.put(defLocale, path.getTitle());*/
 				layout.setTitle(path.getTitle());
 				layout.setName(path.getName());
-				LayoutLocalServiceUtil.updateLayout(layout);
+				layout = LayoutLocalServiceUtil.updateLayout(layout);				
 			}
-			
+			if (newPath != null && !path.getPath().equals(newPath)) {
+				m_objLog.debug("Changing friendly URL for layout from "+layout.getFriendlyURL()+" to "+newPath);
+				//layout.setFriendlyURL(newPath);
+				//layout = LayoutLocalServiceUtil.updateLayout(layout);
+				layout = LayoutLocalServiceUtil.updateFriendlyURL(layout.getPlid(), newPath, layout.getDefaultLanguageId());
+			}
+
 			
 		} catch (Throwable t) {
 			m_objLog.error(t);
@@ -212,7 +218,7 @@ public class ParticityInitializer {
 				site = createLayout(adminId, companyId, groupId, path, null);
 			} else {
 				// clear portlets
-				clearPage(site, path);
+				clearPage(site, path, null);
 			}
 			Theme theme = getTheme(companyId, path.getThemeId());
 			if (theme != null) {
@@ -263,7 +269,7 @@ public class ParticityInitializer {
 					UserLocalServiceUtil.deleteUser(defaultAdmin.getUserId());
 			} catch (NoSuchUserException e) {}*/
 			// add sample content
-			initSampleContent(globalGroupId, globalAdminId, globalCompanyId, layouts);
+			initSampleContent(globalGroupId, globalAdminId, globalCompanyId, layouts, pathMap);
 			
 			// call initialization of additional settings that require initialization, even if this wizard is not available
 			CustomPortalServiceHandler.checkInit(globalGroupId, globalAdminId);
@@ -291,20 +297,20 @@ public class ParticityInitializer {
 		return result;
 	}
 	
-	public static void initSampleContent(long groupId, long adminId, long companyId, Map<E_ContextPath, Layout> layouts) {
+	public static void initSampleContent(long groupId, long adminId, long companyId, Map<E_ContextPath, Layout> layouts, Map<E_ContextPath, String> pathMap) {
 		Layout layout = null;
 		Map<String, JournalArticle> articles = new HashMap<String, JournalArticle>();
 		for (E_SampleContent content: E_SampleContent.values()) {
 			layout = layouts.get(content.getContext());
 			if (layout == null) {
-				m_objLog.info("Could not find layout for sample content context path "+content.getContext().getPath());
+				m_objLog.debug("Could not find layout for sample content context path "+content.getContext().getPath());
 				continue;
 			}
 			try {
 				// add portlet to page
 				if (content.isPorlet()) {
 					addPortletToPage(layout, content.getDataPath(), content.getContext(), adminId);					
-					m_objLog.info("Added sample content "+content.name()+" with portlet "+content.getDataPath()+" for URL "+content.getContext().getPath());
+					m_objLog.debug("Added sample content "+content.name()+" with portlet "+content.getDataPath()+" for URL "+content.getContext().getPath());
 				} 
 				// import HTML as article + add to page
 				else {
@@ -316,8 +322,9 @@ public class ParticityInitializer {
 						if (frontend != null) {
 							String contentSrc = IOUtils.toString(frontend);
 							if (contentSrc != null) {
+								contentSrc = translatePaths(contentSrc, pathMap);
 								article = addArticle(adminId, layout.getGroupId(), content.name(), content.getTitle(), contentSrc);
-								//m_objLog.info("Added article for "+content.name());
+								//m_objLog.debug("Added article for "+content.name());
 								articles.put(content.getDataPath(), article);									
 							} else {
 								m_objLog.warn("Could not load sample content "+content.name()+" for URL "+content.getContext().getPath()+" from "+content.getDataPath());
@@ -354,6 +361,17 @@ public class ParticityInitializer {
 		}
 	}
 	
+	private static String translatePaths(String contentSrc,
+			Map<E_ContextPath, String> pathMap) {
+		String result = contentSrc;
+		
+		for (E_ContextPath path: pathMap.keySet()) {
+			result = result.replaceAll(path.getPath(), pathMap.get(path));
+		}
+		
+		return result;
+	}
+
 	public static Map<E_ContextPath, Layout> clearLayouts(long groupId, long adminId, long companyId, Map<E_ContextPath, String> pathMap) {
 		Map<E_ContextPath, Layout> result = new HashMap<E_ContextPath, Layout>();
 		
@@ -362,12 +380,15 @@ public class ParticityInitializer {
 			if (actualPath == null)
 				actualPath = pth.getPath();
 			Layout layout = getLayout(groupId, actualPath);
+			// if no layout at new path, try the original path setting
+			if (layout == null && !pth.getPath().equals(actualPath))
+				layout = getLayout(groupId, pth.getPath());
 			if (layout == null) {
 				layout = createLayout(adminId, companyId, groupId, pth, actualPath);
 				m_objLog.debug("Created layout for URL "+actualPath);
 			} else {
 				m_objLog.debug("Found layout for URL "+actualPath);
-				clearPage(layout, pth);
+				clearPage(layout, pth, actualPath);
 			}
 			result.put(pth, layout);
 		}
@@ -380,7 +401,7 @@ public class ParticityInitializer {
 			if (!role.equals(E_Role.NULL)) {
 				Role lrRole = CustomPortalServiceHandler.checkRole(adminUserId, companyId, role);
 				result.put(role, lrRole);
-				m_objLog.info("Got role "+lrRole.getName());
+				m_objLog.debug("Got role "+lrRole.getName());
 			}
 		}
 		return result;
@@ -395,7 +416,7 @@ public class ParticityInitializer {
 					result = layout;
 					break;
 				} else
-					m_objLog.info("Found unmatching layout at "+layout.getFriendlyURL());
+					m_objLog.debug("Found unmatching layout at "+layout.getFriendlyURL());
 			}
 		} catch (Throwable t) {
 			m_objLog.error(t);
@@ -420,7 +441,7 @@ public class ParticityInitializer {
 					for (Layout layout: layouts) {
 						if (layout.isPublicLayout() && layout.getFriendlyURL().equals(context)) {
 							result = layout;
-							m_objLog.info("Found matching public layout "+context+" with group "+result.getGroupId()+", company "+result.getCompanyId());
+							m_objLog.debug("Found matching public layout "+context+" with group "+result.getGroupId()+", company "+result.getCompanyId());
 							break;
 						}
 					}
@@ -476,7 +497,7 @@ public class ParticityInitializer {
 			
 			result = LayoutLocalServiceUtil.addLayout(adminId, groupId,
 					privateLayout, parentLayoutId, path.getName(), path.getTitle(), description,
-					type, path.isHidden(), path.getPath(), ctx);
+					type, path.isHidden(), actualPath, ctx);
 			
 
 			// layout.setLayoutPrototypeLinkEnabled(false);
@@ -513,7 +534,7 @@ public class ParticityInitializer {
 				LayoutLocalServiceUtil.updateLayout( result ); // 
 			}
 			
-			m_objLog.info("Added layout for url " + path.getPath() + ", group: "
+			m_objLog.debug("Added layout for url " + actualPath + ", group: "
 					+ groupId + ", company: " + companyId + ", user: "
 					+ adminId);
 
@@ -627,14 +648,14 @@ public class ParticityInitializer {
 			for (Group grp: groups) {
 				if (grp.getType() == GroupConstants.TYPE_SITE_OPEN) {
 					group = grp;
-					m_objLog.info("Found group "+group.getName()+" with url "+group.getFriendlyURL());
+					m_objLog.debug("Found group "+group.getName()+" with url "+group.getFriendlyURL());
 					// remove the default "Welcome" page
 					List<Layout> layouts = LayoutLocalServiceUtil.getLayouts(grp.getGroupId(), false, com.liferay.portal.model.LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
 					if (layouts != null) {
 						for (Layout layout: layouts) {
 							if (layout.getName(Locale.ENGLISH,true).equals("Welcome")) {
 								LayoutLocalServiceUtil.deleteLayout(layout);
-								//m_objLog.info("Removed welcome layout");
+								//m_objLog.debug("Removed welcome layout");
 							} 
 						}
 					}
@@ -657,9 +678,9 @@ public class ParticityInitializer {
 			//LayoutSetLocalServiceUtil.updateLayoutSetPrototypeLinkEnabled(group.getGroupId(), false, true, layoutsets.getUuid());
 
 			//List newLayouts = LayoutLocalServiceUtil.getLayouts(group.getGroupId(), false, LayoutConstants.DEFAULT_PARENT_LAYOUT_ID);
-			m_objLog.info("Created/modfied group "+group.getName()+", "+group.getDescriptiveName());
+			m_objLog.debug("Created/modfied group "+group.getName()+", "+group.getDescriptiveName());
 		} else 
-			m_objLog.info("Found group "+PARTICITY_GROUP_NAME);
+			m_objLog.debug("Found group "+PARTICITY_GROUP_NAME);
 		return group;
 	}*/
 	
@@ -725,7 +746,7 @@ public class ParticityInitializer {
 				String lid = LocalizationUtil.getDefaultLocale(content);
 				Locale defaultLocale = LocaleUtil.fromLanguageId(lid);
 						
-				m_objLog.info("Adding title for locale "+defLocale+", short "+localShort+" with lid "+lid+" and defaultLocale "+defaultLocale+" with content "+title);
+				m_objLog.debug("Adding title for locale "+defLocale+", short "+localShort+" with lid "+lid+" and defaultLocale "+defaultLocale+" with content "+title);
 
 				
 				result = JournalArticleLocalServiceUtil.addArticle(
@@ -775,7 +796,7 @@ public class ParticityInitializer {
 			List<Portlet> portlets = layoutTypePortlet.getAllPortlets(columnId);
 			if (portlets != null) {
 				for (Portlet portlet: portlets) {
-					//m_objLog.info("Found portlet "+portlet.getPortletId()+" =? "+PortletKeys.JOURNAL_CONTENT);
+					//m_objLog.debug("Found portlet "+portlet.getPortletId()+" =? "+PortletKeys.JOURNAL_CONTENT);
 					if (portlet.getPortletId().startsWith(PortletKeys.JOURNAL_CONTENT+"_INSTANCE")) {
 						PortletPreferences prefs = PortletPreferencesLocalServiceUtil.getPreferences(companyId,
 				                ownerId,
@@ -863,7 +884,7 @@ public class ParticityInitializer {
 			List<Portlet> portlets = layoutTypePortlet.getAllPortlets();
 			if (portlets != null) {
 				for (Portlet portlet: portlets) {
-					m_objLog.info("Found portlet "+portlet.getPortletId()+" =? "+PortletKeys.JOURNAL_CONTENT);
+					m_objLog.debug("Found portlet "+portlet.getPortletId()+" =? "+PortletKeys.JOURNAL_CONTENT);
 					if (portlet.getPortletId().startsWith(E_SampleContent.FRONTEND_HEADER.getDataPath())) {
 	
 						long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;
@@ -879,10 +900,10 @@ public class ParticityInitializer {
 							Enumeration<String> names = prefs.getNames();
 							while (names.hasMoreElements()) {
 								String name = names.nextElement();
-								m_objLog.info("Got preference "+name+"="+prefs.getValue(name, "N/A"));
+								m_objLog.debug("Got preference "+name+"="+prefs.getValue(name, "N/A"));
 							}
 						} else {
-							m_objLog.info("Could not extract portlet prefs!");
+							m_objLog.debug("Could not extract portlet prefs!");
 						}
 					}
 				}
