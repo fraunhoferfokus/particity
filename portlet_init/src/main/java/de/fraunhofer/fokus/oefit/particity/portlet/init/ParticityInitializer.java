@@ -66,6 +66,9 @@ import com.liferay.portlet.journal.service.JournalArticleServiceUtil;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
+import de.particity.impexp.ImportFailedException;
+import de.particity.impexp.ImportWriter;
+import de.particity.impexp.ImporterFactory;
 
 public class ParticityInitializer {
 
@@ -241,7 +244,7 @@ public class ParticityInitializer {
 		return site;
 	}
 	
-	public static void setup(Map<E_ContextPath, String> pathMap) {
+	public static void setup(Map<E_ContextPath, String> pathMap, Map<E_SetupParam, String> paramMap) {
 		
 		if (!isWizardAvailable()) {
 			m_objLog.warn("Setup wizard was already initialized before. Delete portlet painit to remove this message for future server restarts.");
@@ -270,7 +273,7 @@ public class ParticityInitializer {
 			} catch (NoSuchUserException e) {}*/
 			// add sample content
 			initSampleContent(globalGroupId, globalAdminId, globalCompanyId, layouts, pathMap);
-			
+			initCategories(paramMap);
 			// call initialization of additional settings that require initialization, even if this wizard is not available
 			CustomPortalServiceHandler.checkInit(globalGroupId, globalAdminId);
 			// set wizard flag to prevent additional runs of this method on future restarts
@@ -281,6 +284,41 @@ public class ParticityInitializer {
 		}
 	}
 	
+	private static void initCategories(Map<E_SetupParam, String> paramMap) {
+		if (paramMap != null && paramMap.size() > 0) {
+			for (E_SetupParam param: paramMap.keySet()) {
+				switch (param) {
+					case SAMPLECONTENT:
+						InputStream samples = ParticityInitializer.class.getResourceAsStream("/../../data/samplecontent.xml");
+						if (samples != null) {
+							try {
+								ImporterFactory.importData(samples, globalCompanyId, globalGroupId, globalAdminId);
+							} catch (ImportFailedException e) {
+								m_objLog.error(e);
+							}
+						}
+						break;
+					case SAMPLEUSER:
+						String user = paramMap.get(E_SetupParam.SAMPLEUSERNAME);
+						String pass = paramMap.get(E_SetupParam.SAMPLEUSERPASS);
+						m_objLog.info("Got sample user request "+user+", "+pass);
+						if (user != null && pass != null && user.trim().length() > 0 && pass.trim().length() > 0) {
+							User mgmtUser = CustomPortalServiceHandler.createPortalUser("Particity", "Verwaltung", user, globalCompanyId, globalGroupId, Locale.GERMAN, false, pass, false);
+							m_objLog.info("User added");
+							Role mgmtRole = CustomPortalServiceHandler.checkRole(globalAdminId, globalCompanyId, E_Role.MGMT);
+							try {
+								RoleLocalServiceUtil.addUserRole(mgmtUser.getUserId(), mgmtRole.getRoleId());
+								m_objLog.info("Role added");
+							} catch (SystemException e) {
+								m_objLog.error(e);
+							}
+						}
+						break;
+				}
+			}
+		}
+	}
+
 	/**
 	 * Checks if the wizard was already run. Uses a portlet configuration setting.
 	 *

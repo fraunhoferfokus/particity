@@ -141,11 +141,12 @@ public class InitController extends BaseController {
 		m_objLog.trace("initParticity::start");
 
 		Map<E_ContextPath, String> pathMap = new HashMap<E_ContextPath, String>();
+		Map<E_SetupParam, String> paramMap = new HashMap<E_SetupParam, String>();
 		Enumeration<String> pnames = request.getParameterNames();
 		while (pnames.hasMoreElements()) {
 			String pname = pnames.nextElement();
 			String pval = request.getParameter(pname);
-			m_objLog.debug("Found parameter "+pname+" = "+pval);
+			m_objLog.info("Found parameter "+pname+" = "+pval);
 			if (pname.startsWith("role_")) {
 				pname = pname.replaceAll("role_", "");
 				E_Role role = null;
@@ -166,13 +167,20 @@ public class InitController extends BaseController {
 				if (pth != null) {
 					pathMap.put(pth, pval);
 				}
-			}
-			
+		    } else if (pname.startsWith("opt_")) {
+				pname = pname.replaceAll("opt_", "");
+				E_SetupParam sp = null;
+				try {
+					sp = E_SetupParam.valueOf(pname);
+				} catch (Throwable t) {}
+				if (sp != null) {
+					paramMap.put(sp, pval);
+				} 
+		    }
 		}
 		// setup layouts & content
 		if (pathMap.size() > 0)
-			ParticityInitializer.setup(pathMap);
-		
+			ParticityInitializer.setup(pathMap, paramMap);		
 		try {
 			response.sendRedirect("/");
 		} catch (IOException e) {

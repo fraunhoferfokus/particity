@@ -135,6 +135,35 @@
         </div>
       </div>
     </div>
+    <div class="row" style="margin-top: 40px;">
+        <h2>Beispielinhalte hinzufügen&nbsp;<small>Über Beispielinhalte erhalten Sie sofort eine erste Orientierung für die Strukturierung Ihrer Seite</small></h2>
+        <div class="col-xs-10 col-xs-offset-1">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="opt_SAMPLECONTENT" checked> Kategorien hinzufügen (Suchkategorien, Länder, Arbeitszeiten)
+            </label>
+          </div>
+        </div>
+        <div class="col-xs-10 col-xs-offset-1">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="opt_SAMPLEUSER" checked> Verwaltungszugang einrichten (Voreinstellung: User <i>mgmt@particity.de</i>, Passwort <i>test</i>)
+            </label>
+          </div>
+        </div>
+        <div class="col-xs-4 col-xs-offset-2">
+         <div class="form-group">
+           <label for="mgmtMail">E-Mail Adresse</label>
+           <input type="email" name="opt_SAMPLEUSERNAME" class="form-control input-lg" id="mgmtMail" value="mgmt@particity.de">
+         </div>
+        </div>
+        <div class="col-xs-4">
+         <div class="form-group">
+           <label for="mgmtPass">Passwort</label>
+           <input type="password" name="opt_SAMPLEUSERPASS" class="form-control input-lg" id="mgmtPass" value="test">
+         </div>
+        </div>
+      </div>
     </div>
     <div class="row footer">
       <div class="col-xs-10 col-xs-offset-1 text-right">
