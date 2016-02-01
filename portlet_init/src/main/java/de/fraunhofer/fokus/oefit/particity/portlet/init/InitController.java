@@ -146,7 +146,7 @@ public class InitController extends BaseController {
 		while (pnames.hasMoreElements()) {
 			String pname = pnames.nextElement();
 			String pval = request.getParameter(pname);
-			m_objLog.info("Found parameter "+pname+" = "+pval);
+			m_objLog.debug("Found parameter "+pname+" = "+pval);
 			if (pname.startsWith("role_")) {
 				pname = pname.replaceAll("role_", "");
 				E_Role role = null;

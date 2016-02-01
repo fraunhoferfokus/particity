@@ -302,7 +302,13 @@ public class CustomPortalServiceHandler {
 	public static User createPortalUser(final String firstName,
 	        final String lastName, final String mail, final long companyId, final long groupId,
 	        final Locale locale, boolean sendMail) {
-		return createPortalUser(firstName, lastName, mail, companyId, groupId, locale, sendMail, null, false);
+		return createPortalUser(firstName, lastName, mail, companyId, groupId, locale, sendMail, null, false, null);
+	}
+	
+	public static User createPortalUser(final String firstName,
+	        final String lastName, final String mail, final long companyId, final long groupId,
+	        final Locale locale, boolean sendMail, String password, boolean isAdmin) {
+		return createPortalUser(firstName, lastName, mail, companyId, groupId, locale, sendMail, password, isAdmin, null);
 	}
 	
 	/**
@@ -317,11 +323,13 @@ public class CustomPortalServiceHandler {
 	 */
 	public static User createPortalUser(final String firstName,
 	        final String lastName, final String mail, final long companyId, final long groupId,
-	        final Locale locale, boolean sendMail, String password, boolean isAdmin) {
+	        final Locale locale, boolean sendMail, String password, boolean isAdmin, E_Role defaultRole) {
 
 		User user = null;
 		try {
-			final Role orgRole = checkRole(0, companyId, E_Role.ORG);
+			if (defaultRole == null)
+				defaultRole = E_Role.ORG;
+			final Role defRole = checkRole(0, companyId, defaultRole);
 
 			try {
 				user = UserLocalServiceUtil.getUserByEmailAddress(companyId,
@@ -341,7 +349,7 @@ public class CustomPortalServiceHandler {
 				//long[] userGroups = new long[]{groupId, guestSite.getGroupId()};
 				
 				long[] roles = new long[2];
-				roles[0] = orgRole.getRoleId();
+				roles[0] = defRole.getRoleId();
 				
 				if (isAdmin) {
 					final Role adminRole = checkRole(0, companyId,

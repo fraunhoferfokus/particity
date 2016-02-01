@@ -301,17 +301,15 @@ public class ParticityInitializer {
 					case SAMPLEUSER:
 						String user = paramMap.get(E_SetupParam.SAMPLEUSERNAME);
 						String pass = paramMap.get(E_SetupParam.SAMPLEUSERPASS);
-						m_objLog.info("Got sample user request "+user+", "+pass);
+						//m_objLog.info("Got sample user request "+user+", "+pass);
 						if (user != null && pass != null && user.trim().length() > 0 && pass.trim().length() > 0) {
-							User mgmtUser = CustomPortalServiceHandler.createPortalUser("Particity", "Verwaltung", user, globalCompanyId, globalGroupId, Locale.GERMAN, false, pass, false);
-							m_objLog.info("User added");
-							Role mgmtRole = CustomPortalServiceHandler.checkRole(globalAdminId, globalCompanyId, E_Role.MGMT);
-							try {
+							User mgmtUser = CustomPortalServiceHandler.createPortalUser("Particity", "Verwaltung", user, globalCompanyId, globalGroupId, Locale.GERMAN, false, pass, false, E_Role.MGMT);
+							//Role mgmtRole = CustomPortalServiceHandler.checkRole(globalAdminId, globalCompanyId, E_Role.MGMT);
+							/*try {
 								RoleLocalServiceUtil.addUserRole(mgmtUser.getUserId(), mgmtRole.getRoleId());
-								m_objLog.info("Role added");
 							} catch (SystemException e) {
 								m_objLog.error(e);
-							}
+							}*/
 						}
 						break;
 				}
@@ -622,6 +620,15 @@ public class ParticityInitializer {
 
 		if (path.getRoles() != null) {
 			boolean hasGuest = false;
+			// remove regular site member role (restrict page down to specific roles only)
+			ResourcePermissionLocalServiceUtil.setResourcePermissions(
+					companyId,
+					name,
+					scope,
+					primKey,
+					RoleLocalServiceUtil.getRole(companyId,
+							RoleConstants.SITE_MEMBER).getRoleId(), new String[0]);
+			
 			for (E_Role role: path.getRoles()) {
 				Role roleObj = RoleLocalServiceUtil.getRole(companyId,CustomPortalServiceHandler.getRoleName(role));
 				if (roleObj != null) {
