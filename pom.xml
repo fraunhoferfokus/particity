@@ -544,6 +544,8 @@
 				<configuration>
 					<maxmemory>1024m</maxmemory>
 					<aggregate>false</aggregate>
+					<!-- since Java8 to prevent exceptions on missing parameters  -->
+					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 			</plugin>
 
