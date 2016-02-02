@@ -9,8 +9,8 @@ RUN apt-get -qq update \
 # Get & extract liferay
 #
 RUN mkdir -p /opt/liferay \
-    && wget -c http://sourceforge.net/projects/lportal/files/Liferay%20Portal/6.2.3%20GA4/liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip \
-    && unzip liferay-portal-tomcat-6.2-ce-ga4-20150416163831865.zip -d /opt/liferay
+    && wget -c http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/6.2.5%20GA6/liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip \
+    && unzip liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip -d /opt/liferay
     
 # Add user
 RUN groupadd -r tomcat \
