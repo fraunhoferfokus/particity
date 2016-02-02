@@ -9,6 +9,7 @@ de.fraunhofer.fokus.oefit.particity.model.impl
 de.fraunhofer.fokus.oefit.particity.portlet
 de.fraunhofer.fokus.oefit.particity.portlet.admin
 de.fraunhofer.fokus.oefit.particity.portlet.header
+de.fraunhofer.fokus.oefit.particity.portlet.init
 de.fraunhofer.fokus.oefit.particity.portlet.latest
 de.fraunhofer.fokus.oefit.particity.portlet.login.form
 de.fraunhofer.fokus.oefit.particity.portlet.login.profile

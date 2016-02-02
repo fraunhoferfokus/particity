@@ -5,6 +5,3 @@ de.fraunhofer.fokus.oefit.particity.scheduler
 de.fraunhofer.fokus.oefit.particity.service.base
 de.fraunhofer.fokus.oefit.particity.service.impl
 de.fraunhofer.fokus.oefit.particity.service.persistence
-de.particity.impexp
-de.particity.impexp.imp
-de.particity.util

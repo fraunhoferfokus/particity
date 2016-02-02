@@ -9,4 +9,7 @@ de.fraunhofer.fokus.oefit.particity.portlet
 de.fraunhofer.fokus.oefit.particity.service
 de.fraunhofer.fokus.oefit.particity.service.messaging
 de.fraunhofer.fokus.oefit.particity.service.persistence
+de.particity.impexp
+de.particity.impexp.imp
 de.particity.schemagen.impexpv100
+de.particity.util

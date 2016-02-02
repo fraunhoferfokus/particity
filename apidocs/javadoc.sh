@@ -1,0 +1,1 @@
+/usr/local/openjdk8/jre/../bin/javadoc -J-Xmx1024m @options @packages

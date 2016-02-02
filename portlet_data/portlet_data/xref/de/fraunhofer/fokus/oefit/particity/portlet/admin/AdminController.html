@@ -63,358 +63,360 @@
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <strong class="jxr_keyword">import</strong> org.springframework.ui.Model;
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.bind.annotation.ModelAttribute;
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.bind.annotation.RequestMapping;
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.method.annotation.ErrorsMethodArgumentResolver;
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.portlet.bind.annotation.ActionMapping;
-<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.portlet.bind.annotation.RenderMapping;
-<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
-<a class="jxr_linenumber" name="L62" href="#L62">62</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.log.Log;
-<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.log.LogFactoryUtil;
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.servlet.SessionErrors;
-<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.upload.UploadPortletRequest;
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.util.PropsKeys;
-<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.util.PropsUtil;
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.util.PortalUtil;
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>  
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler;
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.forms.CategoryForm;
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.particity.model.AHCategories;
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <strong class="jxr_keyword">import</strong> de.particity.impexp.ExportWriter;
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <strong class="jxr_keyword">import</strong> de.particity.impexp.ImportFailedException;
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  <strong class="jxr_keyword">import</strong> de.particity.impexp.ImporterFactory;
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>  
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment"> * Controller for basic administrative tasks</em>
-<a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment"> * </em>
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment"> * Redirects to admin/admin by default</em>
-<a class="jxr_linenumber" name="L86" href="#L86">86</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="L87" href="#L87">87</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="L88" href="#L88">88</a>  @Controller(<span class="jxr_string">"adminController"</span>)
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>  @RequestMapping(<span class="jxr_string">"view"</span>)
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../../de/fraunhofer/fokus/oefit/particity/portlet/admin/AdminController.html">AdminController</a> <strong class="jxr_keyword">extends</strong> BaseController {
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>  
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Log	 m_objLog	                        = LogFactoryUtil
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>  	                                                                        .getLog(AdminController.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>  
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong>	_CHECK_METHOD_ON_PROCESS_ACTION	= false;
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>  
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>  	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">	 * Adds the category entry.</em>
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> <em class="jxr_javadoccomment">	 * @param data the data</em>
-<a class="jxr_linenumber" name="L101" href="#L101">101</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 	@ActionMapping(params = <span class="jxr_string">"action=addCategoryEntry"</span>)
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addCategoryEntry(
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> 	        @ModelAttribute(<span class="jxr_string">"data"</span>) <strong class="jxr_keyword">final</strong> CategoryForm data,
-<a class="jxr_linenumber" name="L109" href="#L109">109</a> 	        <strong class="jxr_keyword">final</strong> ActionRequest request, <strong class="jxr_keyword">final</strong> ActionResponse response,
-<a class="jxr_linenumber" name="L110" href="#L110">110</a> 	        <strong class="jxr_keyword">final</strong> Model model) {
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		<strong class="jxr_keyword">if</strong> (Constants.RESTRICT_TO_DEMO) {
-<a class="jxr_linenumber" name="L113" href="#L113">113</a> 			m_objLog.debug(<span class="jxr_string">"addCategoryEntry::denied()"</span>);
-<a class="jxr_linenumber" name="L114" href="#L114">114</a> 			SessionErrors.add(request, <span class="jxr_string">"common.demo.denied"</span>);
-<a class="jxr_linenumber" name="L115" href="#L115">115</a> 			<strong class="jxr_keyword">return</strong>;
-<a class="jxr_linenumber" name="L116" href="#L116">116</a> 		}
-<a class="jxr_linenumber" name="L117" href="#L117">117</a> 		
-<a class="jxr_linenumber" name="L118" href="#L118">118</a> 		m_objLog.debug(<span class="jxr_string">"addCategoryEntry::start"</span>);
-<a class="jxr_linenumber" name="L119" href="#L119">119</a> 
-<a class="jxr_linenumber" name="L120" href="#L120">120</a> 		<strong class="jxr_keyword">if</strong> (data != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L121" href="#L121">121</a> 			response.setRenderParameter(<span class="jxr_string">"catId"</span>, data.getCat());
-<a class="jxr_linenumber" name="L122" href="#L122">122</a> 			response.setRenderParameter(<span class="jxr_string">"tab"</span>, data.getType());
-<a class="jxr_linenumber" name="L123" href="#L123">123</a> 			CustomCategoryServiceHandler.addCategoryEntry(data);
-<a class="jxr_linenumber" name="L124" href="#L124">124</a> 			data.clear();
-<a class="jxr_linenumber" name="L125" href="#L125">125</a> 		}
-<a class="jxr_linenumber" name="L126" href="#L126">126</a> 
-<a class="jxr_linenumber" name="L127" href="#L127">127</a> 		m_objLog.debug(<span class="jxr_string">"addCategoryEntry::end"</span>);
-<a class="jxr_linenumber" name="L128" href="#L128">128</a> 	}
-<a class="jxr_linenumber" name="L129" href="#L129">129</a> 
-<a class="jxr_linenumber" name="L130" href="#L130">130</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L131" href="#L131">131</a> <em class="jxr_javadoccomment">	 * Adds the main category.</em>
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">	 * @param data the data</em>
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
-<a class="jxr_linenumber" name="L135" href="#L135">135</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
-<a class="jxr_linenumber" name="L137" href="#L137">137</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> 	@ActionMapping(params = <span class="jxr_string">"action=addMainCategory"</span>)
-<a class="jxr_linenumber" name="L140" href="#L140">140</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addMainCategory(
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> 	        @ModelAttribute(<span class="jxr_string">"data"</span>) <strong class="jxr_keyword">final</strong> CategoryForm data,
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> 	        <strong class="jxr_keyword">final</strong> ActionRequest request, <strong class="jxr_keyword">final</strong> ActionResponse response,
-<a class="jxr_linenumber" name="L143" href="#L143">143</a> 	        <strong class="jxr_keyword">final</strong> Model model) {
-<a class="jxr_linenumber" name="L144" href="#L144">144</a> 		<strong class="jxr_keyword">if</strong> (Constants.RESTRICT_TO_DEMO) {
-<a class="jxr_linenumber" name="L145" href="#L145">145</a> 			m_objLog.debug(<span class="jxr_string">"addMainCategory::denied()"</span>);
-<a class="jxr_linenumber" name="L146" href="#L146">146</a> 			SessionErrors.add(request, <span class="jxr_string">"common.demo.denied"</span>);
-<a class="jxr_linenumber" name="L147" href="#L147">147</a> 			<strong class="jxr_keyword">return</strong>;
-<a class="jxr_linenumber" name="L148" href="#L148">148</a> 		}
-<a class="jxr_linenumber" name="L149" href="#L149">149</a> 		
-<a class="jxr_linenumber" name="L150" href="#L150">150</a> 		m_objLog.debug(<span class="jxr_string">"addMainCategory::start"</span>);
-<a class="jxr_linenumber" name="L151" href="#L151">151</a> 
-<a class="jxr_linenumber" name="L152" href="#L152">152</a> 		<strong class="jxr_keyword">if</strong> (data != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L153" href="#L153">153</a> 				<strong class="jxr_keyword">final</strong> E_CategoryType type = E_CategoryType.valueOf(data
-<a class="jxr_linenumber" name="L154" href="#L154">154</a> 				        .getType());
-<a class="jxr_linenumber" name="L155" href="#L155">155</a> 				CustomCategoryServiceHandler.addMainCategory(data, type);
-<a class="jxr_linenumber" name="L156" href="#L156">156</a> 				response.setRenderParameter(<span class="jxr_string">"tab"</span>, data.getType());
-<a class="jxr_linenumber" name="L157" href="#L157">157</a> 				data.clear();
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 		}
-<a class="jxr_linenumber" name="L159" href="#L159">159</a> 
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> 		m_objLog.debug(<span class="jxr_string">"addMainCategory::end"</span>);
-<a class="jxr_linenumber" name="L161" href="#L161">161</a> 	}
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> 
-<a class="jxr_linenumber" name="L163" href="#L163">163</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
-<a class="jxr_linenumber" name="L164" href="#L164">164</a> 	@ActionMapping(params = <span class="jxr_string">"action=exportDatabase"</span>)
-<a class="jxr_linenumber" name="L165" href="#L165">165</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> exportDb(<strong class="jxr_keyword">final</strong> ActionRequest request, <strong class="jxr_keyword">final</strong> ActionResponse response,
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> 	        <strong class="jxr_keyword">final</strong> Model model) {
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> 		m_objLog.debug(<span class="jxr_string">"exportDatabase::start"</span>);
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> 		
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> 		ByteArrayOutputStream bout = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> 		<em class="jxr_comment">//GZIPOutputStream zipout = null;</em>
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> 		
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> 		<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L173" href="#L173">173</a> 			HttpServletRequest httpServletRequest = (HttpServletRequest) PortalUtil
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> 					.getHttpServletRequest(request);
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> 			HttpServletResponse httpServletResponse = (HttpServletResponse) PortalUtil
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> 					.getHttpServletResponse(response);
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> 	
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> 			httpServletResponse.setHeader(<span class="jxr_string">"Expires"</span>, <span class="jxr_string">"0"</span>);
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> 			httpServletResponse.setHeader(<span class="jxr_string">"Cache-Control"</span>,
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> 					<span class="jxr_string">"must-revalidate, post-check=0, pre-check=0"</span>);
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> 			httpServletResponse.setHeader(<span class="jxr_string">"Pragma"</span>, <span class="jxr_string">"public"</span>);
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> 			
-<a class="jxr_linenumber" name="L183" href="#L183">183</a> 			
-<a class="jxr_linenumber" name="L184" href="#L184">184</a> 			ExportWriter export = <strong class="jxr_keyword">new</strong> <a href="../../../../../../../de/particity/impexp/ExportWriter.html">ExportWriter</a>(getCompanyId(request));
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.bind.annotation.RequestMethod;
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.method.annotation.ErrorsMethodArgumentResolver;
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.portlet.bind.annotation.ActionMapping;
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <strong class="jxr_keyword">import</strong> org.springframework.web.portlet.bind.annotation.RenderMapping;
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.log.Log;
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.log.LogFactoryUtil;
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.servlet.SessionErrors;
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.upload.UploadPortletRequest;
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.util.PropsKeys;
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.kernel.util.PropsUtil;
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  <strong class="jxr_keyword">import</strong> com.liferay.portal.util.PortalUtil;
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler;
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.adhoc.forms.CategoryForm;
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.particity.model.AHCategories;
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  <strong class="jxr_keyword">import</strong> de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  <strong class="jxr_keyword">import</strong> de.particity.impexp.ExportWriter;
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  <strong class="jxr_keyword">import</strong> de.particity.impexp.ImportFailedException;
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  <strong class="jxr_keyword">import</strong> de.particity.impexp.ImporterFactory;
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  <em class="jxr_javadoccomment"> * Controller for basic administrative tasks</em>
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  <em class="jxr_javadoccomment"> * Redirects to admin/admin by default</em>
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  @Controller(<span class="jxr_string">"adminController"</span>)
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  @RequestMapping(<span class="jxr_string">"view"</span>)
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../../de/fraunhofer/fokus/oefit/particity/portlet/admin/AdminController.html">AdminController</a> <strong class="jxr_keyword">extends</strong> BaseController {
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Log	 m_objLog	                        = LogFactoryUtil
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  	                                                                        .getLog(AdminController.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong>	_CHECK_METHOD_ON_PROCESS_ACTION	= false;
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  <em class="jxr_javadoccomment">	 * Adds the category entry.</em>
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> <em class="jxr_javadoccomment">	 * @param data the data</em>
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 	@ActionMapping(params = <span class="jxr_string">"action=addCategoryEntry"</span>)
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addCategoryEntry(
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 	        @ModelAttribute(<span class="jxr_string">"data"</span>) <strong class="jxr_keyword">final</strong> CategoryForm data,
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 	        <strong class="jxr_keyword">final</strong> ActionRequest request, <strong class="jxr_keyword">final</strong> ActionResponse response,
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 	        <strong class="jxr_keyword">final</strong> Model model) {
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		<strong class="jxr_keyword">if</strong> (Constants.RESTRICT_TO_DEMO) {
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 			m_objLog.debug(<span class="jxr_string">"addCategoryEntry::denied()"</span>);
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 			SessionErrors.add(request, <span class="jxr_string">"common.demo.denied"</span>);
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 			<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 		}
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 		
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 		m_objLog.debug(<span class="jxr_string">"addCategoryEntry::start"</span>);
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		<strong class="jxr_keyword">if</strong> (data != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 			response.setRenderParameter(<span class="jxr_string">"catId"</span>, data.getCat());
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 			response.setRenderParameter(<span class="jxr_string">"tab"</span>, data.getType());
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 			CustomCategoryServiceHandler.addCategoryEntry(data);
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 			data.clear();
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		}
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 		m_objLog.debug(<span class="jxr_string">"addCategoryEntry::end"</span>);
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 	}
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> <em class="jxr_javadoccomment">	 * Adds the main category.</em>
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> <em class="jxr_javadoccomment">	 * @param data the data</em>
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span> <em class="jxr_comment">/*, method = RequestMethod.POST,headers = "content-type=application/x-www-form-urlencoded"*/</em>)
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 	@ActionMapping(params = <span class="jxr_string">"action=addMainCategory"</span>)
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addMainCategory(
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 	        @ModelAttribute(<span class="jxr_string">"data"</span>) <strong class="jxr_keyword">final</strong> CategoryForm data,
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 	        <strong class="jxr_keyword">final</strong> ActionRequest request, <strong class="jxr_keyword">final</strong> ActionResponse response,
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 	        <strong class="jxr_keyword">final</strong> Model model) {
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 		<strong class="jxr_keyword">if</strong> (Constants.RESTRICT_TO_DEMO) {
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 			m_objLog.debug(<span class="jxr_string">"addMainCategory::denied()"</span>);
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 			SessionErrors.add(request, <span class="jxr_string">"common.demo.denied"</span>);
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> 			<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 		}
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 		
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 		String name = data != <strong class="jxr_keyword">null</strong> ? data.getName() : <span class="jxr_string">"N/A"</span>;
+<a class="jxr_linenumber" name="L152" href="#L152">152</a> 		m_objLog.debug(<span class="jxr_string">"addMainCategory::start("</span>+name+<span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L153" href="#L153">153</a> 
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 		<strong class="jxr_keyword">if</strong> (data != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L155" href="#L155">155</a> 				<strong class="jxr_keyword">final</strong> E_CategoryType type = E_CategoryType.valueOf(data
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> 				        .getType());
+<a class="jxr_linenumber" name="L157" href="#L157">157</a> 				CustomCategoryServiceHandler.addMainCategory(data, type);
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 				response.setRenderParameter(<span class="jxr_string">"tab"</span>, data.getType());
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 				data.clear();
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 		}
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 		m_objLog.debug(<span class="jxr_string">"addMainCategory::end("</span>+name+<span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> 	}
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> 
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 	@ActionMapping(params = <span class="jxr_string">"action=exportDatabase"</span>)
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> exportDb(<strong class="jxr_keyword">final</strong> ActionRequest request, <strong class="jxr_keyword">final</strong> ActionResponse response,
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 	        <strong class="jxr_keyword">final</strong> Model model) {
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 		m_objLog.debug(<span class="jxr_string">"exportDatabase::start"</span>);
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 		
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 		ByteArrayOutputStream bout = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 		<em class="jxr_comment">//GZIPOutputStream zipout = null;</em>
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> 		
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> 		<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 			HttpServletRequest httpServletRequest = (HttpServletRequest) PortalUtil
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 					.getHttpServletRequest(request);
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 			HttpServletResponse httpServletResponse = (HttpServletResponse) PortalUtil
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 					.getHttpServletResponse(response);
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 	
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 			httpServletResponse.setHeader(<span class="jxr_string">"Expires"</span>, <span class="jxr_string">"0"</span>);
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 			httpServletResponse.setHeader(<span class="jxr_string">"Cache-Control"</span>,
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> 					<span class="jxr_string">"must-revalidate, post-check=0, pre-check=0"</span>);
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 			httpServletResponse.setHeader(<span class="jxr_string">"Pragma"</span>, <span class="jxr_string">"public"</span>);
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 			
 <a class="jxr_linenumber" name="L185" href="#L185">185</a> 			
-<a class="jxr_linenumber" name="L186" href="#L186">186</a> 			SimpleDateFormat sdf = <strong class="jxr_keyword">new</strong> SimpleDateFormat(<span class="jxr_string">"yyyy-dd-MM"</span>);
-<a class="jxr_linenumber" name="L187" href="#L187">187</a> 			String dateStr = sdf.format(Calendar.getInstance().getTime());
-<a class="jxr_linenumber" name="L188" href="#L188">188</a> 			String lrHome = PropsUtil.get(PropsKeys.LIFERAY_HOME);
-<a class="jxr_linenumber" name="L189" href="#L189">189</a> 			
-<a class="jxr_linenumber" name="L190" href="#L190">190</a> 			<strong class="jxr_keyword">boolean</strong> toFileDone = false;
-<a class="jxr_linenumber" name="L191" href="#L191">191</a> 			<em class="jxr_comment">// write to file</em>
-<a class="jxr_linenumber" name="L192" href="#L192">192</a> 			<strong class="jxr_keyword">if</strong> (lrHome != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L193" href="#L193">193</a> 				File lrBackupDir = <strong class="jxr_keyword">new</strong> File(lrHome+File.separator+<span class="jxr_string">"backup"</span>);
-<a class="jxr_linenumber" name="L194" href="#L194">194</a> 				<strong class="jxr_keyword">if</strong> (!lrBackupDir.exists()) {
-<a class="jxr_linenumber" name="L195" href="#L195">195</a> 					lrBackupDir.mkdir();
-<a class="jxr_linenumber" name="L196" href="#L196">196</a> 				}
-<a class="jxr_linenumber" name="L197" href="#L197">197</a> 				<strong class="jxr_keyword">if</strong> (lrBackupDir.exists()) {
-<a class="jxr_linenumber" name="L198" href="#L198">198</a> 					File backupFile = <strong class="jxr_keyword">new</strong> File(lrBackupDir,<span class="jxr_string">"particity_"</span>+dateStr+<span class="jxr_string">".xml"</span>);
-<a class="jxr_linenumber" name="L199" href="#L199">199</a> 					<strong class="jxr_keyword">if</strong> (backupFile.exists())
-<a class="jxr_linenumber" name="L200" href="#L200">200</a> 						toFileDone = backupFile.delete();
-<a class="jxr_linenumber" name="L201" href="#L201">201</a> 					<strong class="jxr_keyword">if</strong> (!backupFile.exists()) {
-<a class="jxr_linenumber" name="L202" href="#L202">202</a> 						toFileDone = backupFile.createNewFile();
-<a class="jxr_linenumber" name="L203" href="#L203">203</a> 						<strong class="jxr_keyword">if</strong> (toFileDone) {
-<a class="jxr_linenumber" name="L204" href="#L204">204</a> 							m_objLog.debug(<span class="jxr_string">"Writing out to "</span>+backupFile.getAbsolutePath());
-<a class="jxr_linenumber" name="L205" href="#L205">205</a> 							FileOutputStream fout = <strong class="jxr_keyword">new</strong> FileOutputStream(backupFile);
-<a class="jxr_linenumber" name="L206" href="#L206">206</a> 							export.writeToStream(fout);
-<a class="jxr_linenumber" name="L207" href="#L207">207</a> 							fout.flush();
-<a class="jxr_linenumber" name="L208" href="#L208">208</a> 							fout.close();
-<a class="jxr_linenumber" name="L209" href="#L209">209</a> 							<em class="jxr_comment">//SessionMessages.add(request, "request_processed", "admin.jsp.db.export.success");</em>
-<a class="jxr_linenumber" name="L210" href="#L210">210</a> 							response.setRenderParameter(<span class="jxr_string">"exportFilename"</span>, backupFile.getAbsolutePath());
-<a class="jxr_linenumber" name="L211" href="#L211">211</a> 							Map&lt;String, String&gt; logs = export.getLog();
-<a class="jxr_linenumber" name="L212" href="#L212">212</a> 							export.cleanup();
-<a class="jxr_linenumber" name="L213" href="#L213">213</a> 							request.setAttribute(<span class="jxr_string">"exportLogs"</span>, logs);
-<a class="jxr_linenumber" name="L214" href="#L214">214</a> 						} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L215" href="#L215">215</a> 							m_objLog.warn(<span class="jxr_string">"Could not create backup file at "</span>+backupFile.getAbsolutePath());
-<a class="jxr_linenumber" name="L216" href="#L216">216</a> 						}
-<a class="jxr_linenumber" name="L217" href="#L217">217</a> 					}
-<a class="jxr_linenumber" name="L218" href="#L218">218</a> 				} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L219" href="#L219">219</a> 					m_objLog.warn(<span class="jxr_string">"Could not create backup directory at "</span>+lrBackupDir.getAbsolutePath());
-<a class="jxr_linenumber" name="L220" href="#L220">220</a> 				}
-<a class="jxr_linenumber" name="L221" href="#L221">221</a> 				
-<a class="jxr_linenumber" name="L222" href="#L222">222</a> 			} <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="L223" href="#L223">223</a> 				m_objLog.warn(<span class="jxr_string">"Could not evaluate liferay home"</span>);
-<a class="jxr_linenumber" name="L224" href="#L224">224</a> 			}
-<a class="jxr_linenumber" name="L225" href="#L225">225</a> 			<em class="jxr_comment">// if for any reason the file could not be written, try to send it to the client</em>
-<a class="jxr_linenumber" name="L226" href="#L226">226</a> 			<strong class="jxr_keyword">if</strong> (!toFileDone) {
-<a class="jxr_linenumber" name="L227" href="#L227">227</a> 				<em class="jxr_comment">// write to client</em>
-<a class="jxr_linenumber" name="L228" href="#L228">228</a> 				bout = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
-<a class="jxr_linenumber" name="L229" href="#L229">229</a> 				export.writeToStream(bout);
-<a class="jxr_linenumber" name="L230" href="#L230">230</a> 				bout.flush();
-<a class="jxr_linenumber" name="L231" href="#L231">231</a> 					
-<a class="jxr_linenumber" name="L232" href="#L232">232</a> 				com.liferay.portal.kernel.servlet.ServletResponseUtil.sendFile(
-<a class="jxr_linenumber" name="L233" href="#L233">233</a> 						httpServletRequest, httpServletResponse, <span class="jxr_string">"particity_"</span>+dateStr+<span class="jxr_string">".xml"</span>, bout.toByteArray());
-<a class="jxr_linenumber" name="L234" href="#L234">234</a> 				Map&lt;String, String&gt; logs = export.getLog();
-<a class="jxr_linenumber" name="L235" href="#L235">235</a> 				export.cleanup();
-<a class="jxr_linenumber" name="L236" href="#L236">236</a> 				request.setAttribute(<span class="jxr_string">"exportLogs"</span>, logs);
-<a class="jxr_linenumber" name="L237" href="#L237">237</a> 			}
-<a class="jxr_linenumber" name="L238" href="#L238">238</a> 		} <strong class="jxr_keyword">catch</strong> (Throwable t) {
-<a class="jxr_linenumber" name="L239" href="#L239">239</a> 			m_objLog.error(<span class="jxr_string">"Error exporting data"</span>,t);
-<a class="jxr_linenumber" name="L240" href="#L240">240</a> 		} <strong class="jxr_keyword">finally</strong> {
-<a class="jxr_linenumber" name="L241" href="#L241">241</a> 			<strong class="jxr_keyword">if</strong> (bout != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L242" href="#L242">242</a> 				<strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L243" href="#L243">243</a> 	                bout.close();
-<a class="jxr_linenumber" name="L244" href="#L244">244</a>                 } <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="L245" href="#L245">245</a>                 }
-<a class="jxr_linenumber" name="L246" href="#L246">246</a> 			}
-<a class="jxr_linenumber" name="L247" href="#L247">247</a> 		}
-<a class="jxr_linenumber" name="L248" href="#L248">248</a> 		
-<a class="jxr_linenumber" name="L249" href="#L249">249</a> 		response.setRenderParameter(<span class="jxr_string">"tab"</span>, <span class="jxr_string">"dbtools"</span>);
-<a class="jxr_linenumber" name="L250" href="#L250">250</a> 		m_objLog.debug(<span class="jxr_string">"exportDatabase::end"</span>);
-<a class="jxr_linenumber" name="L251" href="#L251">251</a> 	}
-<a class="jxr_linenumber" name="L252" href="#L252">252</a> 	
-<a class="jxr_linenumber" name="L253" href="#L253">253</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L254" href="#L254">254</a> <em class="jxr_javadoccomment">	 * Gets the data.</em>
-<a class="jxr_linenumber" name="L255" href="#L255">255</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">	 * @return the data</em>
-<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> 	@ModelAttribute(<span class="jxr_string">"data"</span>)
-<a class="jxr_linenumber" name="L259" href="#L259">259</a> 	<strong class="jxr_keyword">public</strong> CategoryForm getData() {
-<a class="jxr_linenumber" name="L260" href="#L260">260</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> CategoryForm();
-<a class="jxr_linenumber" name="L261" href="#L261">261</a> 	}
-<a class="jxr_linenumber" name="L262" href="#L262">262</a> 
-<a class="jxr_linenumber" name="L263" href="#L263">263</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> <em class="jxr_javadoccomment">	 * Checks if is check method on process action.</em>
-<a class="jxr_linenumber" name="L265" href="#L265">265</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">	 * @return true, if is check method on process action</em>
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L268" href="#L268">268</a> 	<strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">boolean</strong> isCheckMethodOnProcessAction() {
-<a class="jxr_linenumber" name="L269" href="#L269">269</a> 		<strong class="jxr_keyword">return</strong> _CHECK_METHOD_ON_PROCESS_ACTION;
-<a class="jxr_linenumber" name="L270" href="#L270">270</a> 	}
-<a class="jxr_linenumber" name="L271" href="#L271">271</a> 
-<a class="jxr_linenumber" name="L272" href="#L272">272</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
-<a class="jxr_linenumber" name="L273" href="#L273">273</a> 	@ActionMapping(params = <span class="jxr_string">"action=importDatabase"</span>)
-<a class="jxr_linenumber" name="L274" href="#L274">274</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> importDatabase(ActionRequest request, ActionResponse response) {
-<a class="jxr_linenumber" name="L275" href="#L275">275</a> 	  m_objLog.debug(<span class="jxr_string">"importDatabase::start"</span>);
-<a class="jxr_linenumber" name="L276" href="#L276">276</a> 	  UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-<a class="jxr_linenumber" name="L277" href="#L277">277</a> 	  <em class="jxr_comment">//Enumeration&lt;?&gt; paramEnum = uploadRequest.getParameterNames();</em>
-<a class="jxr_linenumber" name="L278" href="#L278">278</a> 	  <em class="jxr_comment">//File tempFile = uploadRequest.getFile("file");</em>
-<a class="jxr_linenumber" name="L279" href="#L279">279</a> 	  <strong class="jxr_keyword">if</strong> (uploadRequest.getSize(<span class="jxr_string">"file"</span>) &gt; 0) {
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> 		  <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="L281" href="#L281">281</a> 			  InputStream fin = uploadRequest.getFileAsStream(<span class="jxr_string">"file"</span>, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> 			  <strong class="jxr_keyword">if</strong> (fin != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L283" href="#L283">283</a> 				  Map&lt;String,String&gt; logs = ImporterFactory.importData(fin, getCompanyId(request), getGroupId(request), getUserId(request));
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> 				  <strong class="jxr_keyword">if</strong> (logs != <strong class="jxr_keyword">null</strong>)
-<a class="jxr_linenumber" name="L285" href="#L285">285</a> 					  request.setAttribute(<span class="jxr_string">"importLogs"</span>, logs);
-<a class="jxr_linenumber" name="L286" href="#L286">286</a> 			  }
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> 		  } <strong class="jxr_keyword">catch</strong> (ImportFailedException t) {
-<a class="jxr_linenumber" name="L288" href="#L288">288</a> 			  response.setRenderParameter(<span class="jxr_string">"errorCode"</span>, t.getMessageCode());
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> 			  <em class="jxr_comment">//SessionErrors.add(request, t.getMessageCode());</em>
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> 			  m_objLog.warn(<span class="jxr_string">"Import failed"</span>,t);
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> 		  } <strong class="jxr_keyword">catch</strong> (Throwable t) {
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> 			ExportWriter export = <strong class="jxr_keyword">new</strong> ExportWriter(getCompanyId(request));
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> 			
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 			SimpleDateFormat sdf = <strong class="jxr_keyword">new</strong> SimpleDateFormat(<span class="jxr_string">"yyyy-dd-MM"</span>);
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 			String dateStr = sdf.format(Calendar.getInstance().getTime());
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 			String lrHome = PropsUtil.get(PropsKeys.LIFERAY_HOME);
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> 			
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 			<strong class="jxr_keyword">boolean</strong> toFileDone = false;
+<a class="jxr_linenumber" name="L193" href="#L193">193</a> 			<em class="jxr_comment">// write to file</em>
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 			<strong class="jxr_keyword">if</strong> (lrHome != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L195" href="#L195">195</a> 				File lrBackupDir = <strong class="jxr_keyword">new</strong> File(lrHome+File.separator+<span class="jxr_string">"backup"</span>);
+<a class="jxr_linenumber" name="L196" href="#L196">196</a> 				<strong class="jxr_keyword">if</strong> (!lrBackupDir.exists()) {
+<a class="jxr_linenumber" name="L197" href="#L197">197</a> 					lrBackupDir.mkdir();
+<a class="jxr_linenumber" name="L198" href="#L198">198</a> 				}
+<a class="jxr_linenumber" name="L199" href="#L199">199</a> 				<strong class="jxr_keyword">if</strong> (lrBackupDir.exists()) {
+<a class="jxr_linenumber" name="L200" href="#L200">200</a> 					File backupFile = <strong class="jxr_keyword">new</strong> File(lrBackupDir,<span class="jxr_string">"particity_"</span>+dateStr+<span class="jxr_string">".xml"</span>);
+<a class="jxr_linenumber" name="L201" href="#L201">201</a> 					<strong class="jxr_keyword">if</strong> (backupFile.exists())
+<a class="jxr_linenumber" name="L202" href="#L202">202</a> 						toFileDone = backupFile.delete();
+<a class="jxr_linenumber" name="L203" href="#L203">203</a> 					<strong class="jxr_keyword">if</strong> (!backupFile.exists()) {
+<a class="jxr_linenumber" name="L204" href="#L204">204</a> 						toFileDone = backupFile.createNewFile();
+<a class="jxr_linenumber" name="L205" href="#L205">205</a> 						<strong class="jxr_keyword">if</strong> (toFileDone) {
+<a class="jxr_linenumber" name="L206" href="#L206">206</a> 							m_objLog.debug(<span class="jxr_string">"Writing out to "</span>+backupFile.getAbsolutePath());
+<a class="jxr_linenumber" name="L207" href="#L207">207</a> 							FileOutputStream fout = <strong class="jxr_keyword">new</strong> FileOutputStream(backupFile);
+<a class="jxr_linenumber" name="L208" href="#L208">208</a> 							export.writeToStream(fout);
+<a class="jxr_linenumber" name="L209" href="#L209">209</a> 							fout.flush();
+<a class="jxr_linenumber" name="L210" href="#L210">210</a> 							fout.close();
+<a class="jxr_linenumber" name="L211" href="#L211">211</a> 							<em class="jxr_comment">//SessionMessages.add(request, "request_processed", "admin.jsp.db.export.success");</em>
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 							response.setRenderParameter(<span class="jxr_string">"exportFilename"</span>, backupFile.getAbsolutePath());
+<a class="jxr_linenumber" name="L213" href="#L213">213</a> 							Map&lt;String, String&gt; logs = export.getLog();
+<a class="jxr_linenumber" name="L214" href="#L214">214</a> 							export.cleanup();
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 							request.setAttribute(<span class="jxr_string">"exportLogs"</span>, logs);
+<a class="jxr_linenumber" name="L216" href="#L216">216</a> 						} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L217" href="#L217">217</a> 							m_objLog.warn(<span class="jxr_string">"Could not create backup file at "</span>+backupFile.getAbsolutePath());
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> 						}
+<a class="jxr_linenumber" name="L219" href="#L219">219</a> 					}
+<a class="jxr_linenumber" name="L220" href="#L220">220</a> 				} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L221" href="#L221">221</a> 					m_objLog.warn(<span class="jxr_string">"Could not create backup directory at "</span>+lrBackupDir.getAbsolutePath());
+<a class="jxr_linenumber" name="L222" href="#L222">222</a> 				}
+<a class="jxr_linenumber" name="L223" href="#L223">223</a> 				
+<a class="jxr_linenumber" name="L224" href="#L224">224</a> 			} <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 				m_objLog.warn(<span class="jxr_string">"Could not evaluate liferay home"</span>);
+<a class="jxr_linenumber" name="L226" href="#L226">226</a> 			}
+<a class="jxr_linenumber" name="L227" href="#L227">227</a> 			<em class="jxr_comment">// if for any reason the file could not be written, try to send it to the client</em>
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 			<strong class="jxr_keyword">if</strong> (!toFileDone) {
+<a class="jxr_linenumber" name="L229" href="#L229">229</a> 				<em class="jxr_comment">// write to client</em>
+<a class="jxr_linenumber" name="L230" href="#L230">230</a> 				bout = <strong class="jxr_keyword">new</strong> ByteArrayOutputStream();
+<a class="jxr_linenumber" name="L231" href="#L231">231</a> 				export.writeToStream(bout);
+<a class="jxr_linenumber" name="L232" href="#L232">232</a> 				bout.flush();
+<a class="jxr_linenumber" name="L233" href="#L233">233</a> 					
+<a class="jxr_linenumber" name="L234" href="#L234">234</a> 				com.liferay.portal.kernel.servlet.ServletResponseUtil.sendFile(
+<a class="jxr_linenumber" name="L235" href="#L235">235</a> 						httpServletRequest, httpServletResponse, <span class="jxr_string">"particity_"</span>+dateStr+<span class="jxr_string">".xml"</span>, bout.toByteArray());
+<a class="jxr_linenumber" name="L236" href="#L236">236</a> 				Map&lt;String, String&gt; logs = export.getLog();
+<a class="jxr_linenumber" name="L237" href="#L237">237</a> 				export.cleanup();
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> 				request.setAttribute(<span class="jxr_string">"exportLogs"</span>, logs);
+<a class="jxr_linenumber" name="L239" href="#L239">239</a> 			}
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> 		} <strong class="jxr_keyword">catch</strong> (Throwable t) {
+<a class="jxr_linenumber" name="L241" href="#L241">241</a> 			m_objLog.error(<span class="jxr_string">"Error exporting data"</span>,t);
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> 		} <strong class="jxr_keyword">finally</strong> {
+<a class="jxr_linenumber" name="L243" href="#L243">243</a> 			<strong class="jxr_keyword">if</strong> (bout != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> 				<strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L245" href="#L245">245</a> 	                bout.close();
+<a class="jxr_linenumber" name="L246" href="#L246">246</a>                 } <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="L247" href="#L247">247</a>                 }
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> 			}
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> 		}
+<a class="jxr_linenumber" name="L250" href="#L250">250</a> 		
+<a class="jxr_linenumber" name="L251" href="#L251">251</a> 		response.setRenderParameter(<span class="jxr_string">"tab"</span>, <span class="jxr_string">"dbtools"</span>);
+<a class="jxr_linenumber" name="L252" href="#L252">252</a> 		m_objLog.debug(<span class="jxr_string">"exportDatabase::end"</span>);
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> 	}
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> 	
+<a class="jxr_linenumber" name="L255" href="#L255">255</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L256" href="#L256">256</a> <em class="jxr_javadoccomment">	 * Gets the data.</em>
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> <em class="jxr_javadoccomment">	 * @return the data</em>
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L260" href="#L260">260</a> 	@ModelAttribute(<span class="jxr_string">"data"</span>)
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 	<strong class="jxr_keyword">public</strong> CategoryForm getData() {
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> CategoryForm();
+<a class="jxr_linenumber" name="L263" href="#L263">263</a> 	}
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> 
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L266" href="#L266">266</a> <em class="jxr_javadoccomment">	 * Checks if is check method on process action.</em>
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> <em class="jxr_javadoccomment">	 * @return true, if is check method on process action</em>
+<a class="jxr_linenumber" name="L269" href="#L269">269</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L270" href="#L270">270</a> 	<strong class="jxr_keyword">protected</strong> <strong class="jxr_keyword">boolean</strong> isCheckMethodOnProcessAction() {
+<a class="jxr_linenumber" name="L271" href="#L271">271</a> 		<strong class="jxr_keyword">return</strong> _CHECK_METHOD_ON_PROCESS_ACTION;
+<a class="jxr_linenumber" name="L272" href="#L272">272</a> 	}
+<a class="jxr_linenumber" name="L273" href="#L273">273</a> 
+<a class="jxr_linenumber" name="L274" href="#L274">274</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 	@ActionMapping(params = <span class="jxr_string">"action=importDatabase"</span>)
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> importDatabase(ActionRequest request, ActionResponse response) {
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 	  m_objLog.debug(<span class="jxr_string">"importDatabase::start"</span>);
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 	  UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+<a class="jxr_linenumber" name="L279" href="#L279">279</a> 	  <em class="jxr_comment">//Enumeration&lt;?&gt; paramEnum = uploadRequest.getParameterNames();</em>
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 	  <em class="jxr_comment">//File tempFile = uploadRequest.getFile("file");</em>
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 	  <strong class="jxr_keyword">if</strong> (uploadRequest.getSize(<span class="jxr_string">"file"</span>) &gt; 0) {
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> 		  <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> 			  InputStream fin = uploadRequest.getFileAsStream(<span class="jxr_string">"file"</span>, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> 			  <strong class="jxr_keyword">if</strong> (fin != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> 				  Map&lt;String,String&gt; logs = ImporterFactory.importData(fin, getCompanyId(request), getGroupId(request), getUserId(request));
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> 				  <strong class="jxr_keyword">if</strong> (logs != <strong class="jxr_keyword">null</strong>)
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> 					  request.setAttribute(<span class="jxr_string">"importLogs"</span>, logs);
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> 			  }
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> 		  } <strong class="jxr_keyword">catch</strong> (ImportFailedException t) {
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> 			  response.setRenderParameter(<span class="jxr_string">"errorCode"</span>, t.getMessageCode());
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> 			  <em class="jxr_comment">//SessionErrors.add(request, t.getMessageCode());</em>
 <a class="jxr_linenumber" name="L292" href="#L292">292</a> 			  m_objLog.warn(<span class="jxr_string">"Import failed"</span>,t);
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> 			  <em class="jxr_comment">//response.setRenderParameter("errorCode", ImportFailedException.);</em>
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> 		  }
-<a class="jxr_linenumber" name="L295" href="#L295">295</a> 		  
-<a class="jxr_linenumber" name="L296" href="#L296">296</a> 	  } 
-<a class="jxr_linenumber" name="L297" href="#L297">297</a> 	  
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> 	  response.setRenderParameter(<span class="jxr_string">"tab"</span>, <span class="jxr_string">"dbtools"</span>);
-<a class="jxr_linenumber" name="L299" href="#L299">299</a> 	  m_objLog.debug(<span class="jxr_string">"importDatabase::end"</span>);
-<a class="jxr_linenumber" name="L300" href="#L300">300</a> 	}
-<a class="jxr_linenumber" name="L301" href="#L301">301</a> 	
-<a class="jxr_linenumber" name="L302" href="#L302">302</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L303" href="#L303">303</a> <em class="jxr_javadoccomment">	 * Removes the category.</em>
-<a class="jxr_linenumber" name="L304" href="#L304">304</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L305" href="#L305">305</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
-<a class="jxr_linenumber" name="L307" href="#L307">307</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
-<a class="jxr_linenumber" name="L308" href="#L308">308</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L309" href="#L309">309</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
-<a class="jxr_linenumber" name="L310" href="#L310">310</a> 	@ActionMapping(params = <span class="jxr_string">"action=removeCategory"</span>)
-<a class="jxr_linenumber" name="L311" href="#L311">311</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> removeCategory(<strong class="jxr_keyword">final</strong> ActionRequest request,
-<a class="jxr_linenumber" name="L312" href="#L312">312</a> 	        <strong class="jxr_keyword">final</strong> ActionResponse response, <strong class="jxr_keyword">final</strong> Model model) {
-<a class="jxr_linenumber" name="L313" href="#L313">313</a> 		<strong class="jxr_keyword">if</strong> (Constants.RESTRICT_TO_DEMO) {
-<a class="jxr_linenumber" name="L314" href="#L314">314</a> 			m_objLog.debug(<span class="jxr_string">"removeCategory::denied()"</span>);
-<a class="jxr_linenumber" name="L315" href="#L315">315</a> 			SessionErrors.add(request, <span class="jxr_string">"common.demo.denied"</span>);
-<a class="jxr_linenumber" name="L316" href="#L316">316</a> 			<strong class="jxr_keyword">return</strong>;
-<a class="jxr_linenumber" name="L317" href="#L317">317</a> 		}
-<a class="jxr_linenumber" name="L318" href="#L318">318</a> 		
-<a class="jxr_linenumber" name="L319" href="#L319">319</a> 		m_objLog.debug(<span class="jxr_string">"removeCategory::start"</span>);
-<a class="jxr_linenumber" name="L320" href="#L320">320</a> 
-<a class="jxr_linenumber" name="L321" href="#L321">321</a> 		<strong class="jxr_keyword">final</strong> String catId = request.getParameter(<span class="jxr_string">"catId"</span>);
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> 		  } <strong class="jxr_keyword">catch</strong> (Throwable t) {
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> 			  m_objLog.warn(<span class="jxr_string">"Import failed"</span>,t);
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> 			  <em class="jxr_comment">//response.setRenderParameter("errorCode", ImportFailedException.);</em>
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> 		  }
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> 		  
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 	  } 
+<a class="jxr_linenumber" name="L299" href="#L299">299</a> 	  
+<a class="jxr_linenumber" name="L300" href="#L300">300</a> 	  response.setRenderParameter(<span class="jxr_string">"tab"</span>, <span class="jxr_string">"dbtools"</span>);
+<a class="jxr_linenumber" name="L301" href="#L301">301</a> 	  m_objLog.debug(<span class="jxr_string">"importDatabase::end"</span>);
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> 	}
+<a class="jxr_linenumber" name="L303" href="#L303">303</a> 	
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L305" href="#L305">305</a> <em class="jxr_javadoccomment">	 * Removes the category.</em>
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L307" href="#L307">307</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
+<a class="jxr_linenumber" name="L312" href="#L312">312</a> 	@ActionMapping(params = <span class="jxr_string">"action=removeCategory"</span>)
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> removeCategory(<strong class="jxr_keyword">final</strong> ActionRequest request,
+<a class="jxr_linenumber" name="L314" href="#L314">314</a> 	        <strong class="jxr_keyword">final</strong> ActionResponse response, <strong class="jxr_keyword">final</strong> Model model) {
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> 		<strong class="jxr_keyword">if</strong> (Constants.RESTRICT_TO_DEMO) {
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> 			m_objLog.debug(<span class="jxr_string">"removeCategory::denied()"</span>);
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 			SessionErrors.add(request, <span class="jxr_string">"common.demo.denied"</span>);
+<a class="jxr_linenumber" name="L318" href="#L318">318</a> 			<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> 		}
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 		
+<a class="jxr_linenumber" name="L321" href="#L321">321</a> 		m_objLog.debug(<span class="jxr_string">"removeCategory::start"</span>);
 <a class="jxr_linenumber" name="L322" href="#L322">322</a> 
-<a class="jxr_linenumber" name="L323" href="#L323">323</a> 		<strong class="jxr_keyword">if</strong> (catId != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L324" href="#L324">324</a> 			response.setRenderParameter(<span class="jxr_string">"catId"</span>, catId);
-<a class="jxr_linenumber" name="L325" href="#L325">325</a> 			<strong class="jxr_keyword">final</strong> Long l_catId = Long.parseLong(catId);
-<a class="jxr_linenumber" name="L326" href="#L326">326</a> 			<strong class="jxr_keyword">if</strong> (l_catId != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L327" href="#L327">327</a> 				CustomCategoryServiceHandler.deleteMainCategory(l_catId);
-<a class="jxr_linenumber" name="L328" href="#L328">328</a> 			}
-<a class="jxr_linenumber" name="L329" href="#L329">329</a> 		}
-<a class="jxr_linenumber" name="L330" href="#L330">330</a> 
-<a class="jxr_linenumber" name="L331" href="#L331">331</a> 		m_objLog.debug(<span class="jxr_string">"removeCategory::end"</span>);
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> 	}
-<a class="jxr_linenumber" name="L333" href="#L333">333</a> 
-<a class="jxr_linenumber" name="L334" href="#L334">334</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L335" href="#L335">335</a> <em class="jxr_javadoccomment">	 * Removes the category entry.</em>
-<a class="jxr_linenumber" name="L336" href="#L336">336</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L337" href="#L337">337</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
-<a class="jxr_linenumber" name="L338" href="#L338">338</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
-<a class="jxr_linenumber" name="L339" href="#L339">339</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
-<a class="jxr_linenumber" name="L340" href="#L340">340</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L341" href="#L341">341</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
-<a class="jxr_linenumber" name="L342" href="#L342">342</a> 	@ActionMapping(params = <span class="jxr_string">"action=removeCategoryEntry"</span>)
-<a class="jxr_linenumber" name="L343" href="#L343">343</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> removeCategoryEntry(<strong class="jxr_keyword">final</strong> ActionRequest request,
-<a class="jxr_linenumber" name="L344" href="#L344">344</a> 	        <strong class="jxr_keyword">final</strong> ActionResponse response, <strong class="jxr_keyword">final</strong> Model model) {
-<a class="jxr_linenumber" name="L345" href="#L345">345</a> 		<strong class="jxr_keyword">if</strong> (Constants.RESTRICT_TO_DEMO) {
-<a class="jxr_linenumber" name="L346" href="#L346">346</a> 			m_objLog.debug(<span class="jxr_string">"removeCategoryEntry::denied()"</span>);
-<a class="jxr_linenumber" name="L347" href="#L347">347</a> 			SessionErrors.add(request, <span class="jxr_string">"common.demo.denied"</span>);
-<a class="jxr_linenumber" name="L348" href="#L348">348</a> 			<strong class="jxr_keyword">return</strong>;
-<a class="jxr_linenumber" name="L349" href="#L349">349</a> 		}
-<a class="jxr_linenumber" name="L350" href="#L350">350</a> 		
-<a class="jxr_linenumber" name="L351" href="#L351">351</a> 		m_objLog.debug(<span class="jxr_string">"removeCategoryEntry::start"</span>);
-<a class="jxr_linenumber" name="L352" href="#L352">352</a> 
-<a class="jxr_linenumber" name="L353" href="#L353">353</a> 		<strong class="jxr_keyword">final</strong> String catId = request.getParameter(<span class="jxr_string">"catId"</span>);
-<a class="jxr_linenumber" name="L354" href="#L354">354</a> 		<strong class="jxr_keyword">final</strong> String itemId = request.getParameter(<span class="jxr_string">"itemId"</span>);
-<a class="jxr_linenumber" name="L355" href="#L355">355</a> 
-<a class="jxr_linenumber" name="L356" href="#L356">356</a> 		<strong class="jxr_keyword">if</strong> (catId != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L357" href="#L357">357</a> 			response.setRenderParameter(<span class="jxr_string">"catId"</span>, catId);
-<a class="jxr_linenumber" name="L358" href="#L358">358</a> 			<strong class="jxr_keyword">final</strong> Long l_itemId = Long.parseLong(itemId);
-<a class="jxr_linenumber" name="L359" href="#L359">359</a> 			<strong class="jxr_keyword">if</strong> (l_itemId != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L360" href="#L360">360</a> 				CustomCategoryServiceHandler.deleteCategoryEntry(l_itemId);
-<a class="jxr_linenumber" name="L361" href="#L361">361</a> 			}
-<a class="jxr_linenumber" name="L362" href="#L362">362</a> 		}
-<a class="jxr_linenumber" name="L363" href="#L363">363</a> 
-<a class="jxr_linenumber" name="L364" href="#L364">364</a> 		m_objLog.debug(<span class="jxr_string">"removeCategoryEntry::end"</span>);
-<a class="jxr_linenumber" name="L365" href="#L365">365</a> 	}
-<a class="jxr_linenumber" name="L366" href="#L366">366</a> 
-<a class="jxr_linenumber" name="L367" href="#L367">367</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L368" href="#L368">368</a> <em class="jxr_javadoccomment">	 * Render.</em>
-<a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L370" href="#L370">370</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
-<a class="jxr_linenumber" name="L371" href="#L371">371</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
-<a class="jxr_linenumber" name="L372" href="#L372">372</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
-<a class="jxr_linenumber" name="L373" href="#L373">373</a> <em class="jxr_javadoccomment">	 * @return the string</em>
-<a class="jxr_linenumber" name="L374" href="#L374">374</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L375" href="#L375">375</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
-<a class="jxr_linenumber" name="L376" href="#L376">376</a> 	@RenderMapping
-<a class="jxr_linenumber" name="L377" href="#L377">377</a> 	<strong class="jxr_keyword">public</strong> String render(<strong class="jxr_keyword">final</strong> RenderRequest request,
-<a class="jxr_linenumber" name="L378" href="#L378">378</a> 	        <strong class="jxr_keyword">final</strong> RenderResponse response, <strong class="jxr_keyword">final</strong> Model model) {
-<a class="jxr_linenumber" name="L379" href="#L379">379</a> 		m_objLog.trace(<span class="jxr_string">"render::start"</span>);
-<a class="jxr_linenumber" name="L380" href="#L380">380</a> 		
-<a class="jxr_linenumber" name="L381" href="#L381">381</a> 		<em class="jxr_comment">// get IDs of current session</em>
-<a class="jxr_linenumber" name="L382" href="#L382">382</a> 		<strong class="jxr_keyword">long</strong> groupId = getGroupId(request);
-<a class="jxr_linenumber" name="L383" href="#L383">383</a> 		<strong class="jxr_keyword">long</strong> userId = getUserId(request);
-<a class="jxr_linenumber" name="L384" href="#L384">384</a> 		
-<a class="jxr_linenumber" name="L385" href="#L385">385</a> 		<em class="jxr_comment">// check whether portal already initialized</em>
-<a class="jxr_linenumber" name="L386" href="#L386">386</a> 		CustomPortalServiceHandler.checkInit(groupId, userId);
-<a class="jxr_linenumber" name="L387" href="#L387">387</a> 		
-<a class="jxr_linenumber" name="L388" href="#L388">388</a> 		String page = request.getParameter(<span class="jxr_string">"jspPage"</span>);
-<a class="jxr_linenumber" name="L389" href="#L389">389</a> 		<strong class="jxr_keyword">if</strong> (page == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L390" href="#L390">390</a> 			page = <span class="jxr_string">"admin"</span>;
-<a class="jxr_linenumber" name="L391" href="#L391">391</a> 		}
-<a class="jxr_linenumber" name="L392" href="#L392">392</a> 		<strong class="jxr_keyword">final</strong> String error = request.getParameter(<span class="jxr_string">"error"</span>);
-<a class="jxr_linenumber" name="L393" href="#L393">393</a> 		<strong class="jxr_keyword">if</strong> (error != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L394" href="#L394">394</a> 			model.addAttribute(<span class="jxr_string">"error"</span>, error);
-<a class="jxr_linenumber" name="L395" href="#L395">395</a> 			m_objLog.warn(<span class="jxr_string">"Handing over error "</span> + error);
-<a class="jxr_linenumber" name="L396" href="#L396">396</a> 			<strong class="jxr_keyword">final</strong> String ePage = request.getParameter(<span class="jxr_string">"errorPage"</span>);
-<a class="jxr_linenumber" name="L397" href="#L397">397</a> 			<strong class="jxr_keyword">if</strong> (ePage != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L398" href="#L398">398</a> 				page = ePage;
-<a class="jxr_linenumber" name="L399" href="#L399">399</a> 			}
-<a class="jxr_linenumber" name="L400" href="#L400">400</a> 		} <em class="jxr_comment">/*</em>
-<a class="jxr_linenumber" name="L401" href="#L401">401</a> <em class="jxr_comment">		 * else { model.addAttribute("data", new BerliosProject()); }</em>
-<a class="jxr_linenumber" name="L402" href="#L402">402</a> <em class="jxr_comment">		 */</em>
-<a class="jxr_linenumber" name="L403" href="#L403">403</a> 		m_objLog.trace(<span class="jxr_string">"render::end("</span> + page + <span class="jxr_string">")"</span>);
-<a class="jxr_linenumber" name="L404" href="#L404">404</a> 		<strong class="jxr_keyword">return</strong> page;
-<a class="jxr_linenumber" name="L405" href="#L405">405</a> 	}
-<a class="jxr_linenumber" name="L406" href="#L406">406</a> 
-<a class="jxr_linenumber" name="L407" href="#L407">407</a> }
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> 		<strong class="jxr_keyword">final</strong> String catId = request.getParameter(<span class="jxr_string">"catId"</span>);
+<a class="jxr_linenumber" name="L324" href="#L324">324</a> 
+<a class="jxr_linenumber" name="L325" href="#L325">325</a> 		<strong class="jxr_keyword">if</strong> (catId != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> 			response.setRenderParameter(<span class="jxr_string">"catId"</span>, catId);
+<a class="jxr_linenumber" name="L327" href="#L327">327</a> 			<strong class="jxr_keyword">final</strong> Long l_catId = Long.parseLong(catId);
+<a class="jxr_linenumber" name="L328" href="#L328">328</a> 			<strong class="jxr_keyword">if</strong> (l_catId != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L329" href="#L329">329</a> 				CustomCategoryServiceHandler.deleteMainCategory(l_catId);
+<a class="jxr_linenumber" name="L330" href="#L330">330</a> 			}
+<a class="jxr_linenumber" name="L331" href="#L331">331</a> 		}
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 
+<a class="jxr_linenumber" name="L333" href="#L333">333</a> 		m_objLog.debug(<span class="jxr_string">"removeCategory::end"</span>);
+<a class="jxr_linenumber" name="L334" href="#L334">334</a> 	}
+<a class="jxr_linenumber" name="L335" href="#L335">335</a> 
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> <em class="jxr_javadoccomment">	 * Removes the category entry.</em>
+<a class="jxr_linenumber" name="L338" href="#L338">338</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
+<a class="jxr_linenumber" name="L340" href="#L340">340</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
+<a class="jxr_linenumber" name="L342" href="#L342">342</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L343" href="#L343">343</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
+<a class="jxr_linenumber" name="L344" href="#L344">344</a> 	@ActionMapping(params = <span class="jxr_string">"action=removeCategoryEntry"</span>)
+<a class="jxr_linenumber" name="L345" href="#L345">345</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> removeCategoryEntry(<strong class="jxr_keyword">final</strong> ActionRequest request,
+<a class="jxr_linenumber" name="L346" href="#L346">346</a> 	        <strong class="jxr_keyword">final</strong> ActionResponse response, <strong class="jxr_keyword">final</strong> Model model) {
+<a class="jxr_linenumber" name="L347" href="#L347">347</a> 		<strong class="jxr_keyword">if</strong> (Constants.RESTRICT_TO_DEMO) {
+<a class="jxr_linenumber" name="L348" href="#L348">348</a> 			m_objLog.debug(<span class="jxr_string">"removeCategoryEntry::denied()"</span>);
+<a class="jxr_linenumber" name="L349" href="#L349">349</a> 			SessionErrors.add(request, <span class="jxr_string">"common.demo.denied"</span>);
+<a class="jxr_linenumber" name="L350" href="#L350">350</a> 			<strong class="jxr_keyword">return</strong>;
+<a class="jxr_linenumber" name="L351" href="#L351">351</a> 		}
+<a class="jxr_linenumber" name="L352" href="#L352">352</a> 		
+<a class="jxr_linenumber" name="L353" href="#L353">353</a> 		m_objLog.debug(<span class="jxr_string">"removeCategoryEntry::start"</span>);
+<a class="jxr_linenumber" name="L354" href="#L354">354</a> 
+<a class="jxr_linenumber" name="L355" href="#L355">355</a> 		<strong class="jxr_keyword">final</strong> String catId = request.getParameter(<span class="jxr_string">"catId"</span>);
+<a class="jxr_linenumber" name="L356" href="#L356">356</a> 		<strong class="jxr_keyword">final</strong> String itemId = request.getParameter(<span class="jxr_string">"itemId"</span>);
+<a class="jxr_linenumber" name="L357" href="#L357">357</a> 
+<a class="jxr_linenumber" name="L358" href="#L358">358</a> 		<strong class="jxr_keyword">if</strong> (catId != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L359" href="#L359">359</a> 			response.setRenderParameter(<span class="jxr_string">"catId"</span>, catId);
+<a class="jxr_linenumber" name="L360" href="#L360">360</a> 			<strong class="jxr_keyword">final</strong> Long l_itemId = Long.parseLong(itemId);
+<a class="jxr_linenumber" name="L361" href="#L361">361</a> 			<strong class="jxr_keyword">if</strong> (l_itemId != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L362" href="#L362">362</a> 				CustomCategoryServiceHandler.deleteCategoryEntry(l_itemId);
+<a class="jxr_linenumber" name="L363" href="#L363">363</a> 			}
+<a class="jxr_linenumber" name="L364" href="#L364">364</a> 		}
+<a class="jxr_linenumber" name="L365" href="#L365">365</a> 
+<a class="jxr_linenumber" name="L366" href="#L366">366</a> 		m_objLog.debug(<span class="jxr_string">"removeCategoryEntry::end"</span>);
+<a class="jxr_linenumber" name="L367" href="#L367">367</a> 	}
+<a class="jxr_linenumber" name="L368" href="#L368">368</a> 
+<a class="jxr_linenumber" name="L369" href="#L369">369</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L370" href="#L370">370</a> <em class="jxr_javadoccomment">	 * Render.</em>
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L372" href="#L372">372</a> <em class="jxr_javadoccomment">	 * @param request the request</em>
+<a class="jxr_linenumber" name="L373" href="#L373">373</a> <em class="jxr_javadoccomment">	 * @param response the response</em>
+<a class="jxr_linenumber" name="L374" href="#L374">374</a> <em class="jxr_javadoccomment">	 * @param model the model</em>
+<a class="jxr_linenumber" name="L375" href="#L375">375</a> <em class="jxr_javadoccomment">	 * @return the string</em>
+<a class="jxr_linenumber" name="L376" href="#L376">376</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L377" href="#L377">377</a> 	@RequestMapping(value = <span class="jxr_string">"view"</span>)
+<a class="jxr_linenumber" name="L378" href="#L378">378</a> 	@RenderMapping
+<a class="jxr_linenumber" name="L379" href="#L379">379</a> 	<strong class="jxr_keyword">public</strong> String render(<strong class="jxr_keyword">final</strong> RenderRequest request,
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> 	        <strong class="jxr_keyword">final</strong> RenderResponse response, <strong class="jxr_keyword">final</strong> Model model) {
+<a class="jxr_linenumber" name="L381" href="#L381">381</a> 		m_objLog.trace(<span class="jxr_string">"render::start"</span>);
+<a class="jxr_linenumber" name="L382" href="#L382">382</a> 		
+<a class="jxr_linenumber" name="L383" href="#L383">383</a> 		<em class="jxr_comment">// get IDs of current session</em>
+<a class="jxr_linenumber" name="L384" href="#L384">384</a> 		<strong class="jxr_keyword">long</strong> groupId = getGroupId(request);
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> 		<strong class="jxr_keyword">long</strong> userId = getUserId(request);
+<a class="jxr_linenumber" name="L386" href="#L386">386</a> 		
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> 		<em class="jxr_comment">// check whether portal already initialized</em>
+<a class="jxr_linenumber" name="L388" href="#L388">388</a> 		CustomPortalServiceHandler.checkInit(groupId, userId);
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> 		
+<a class="jxr_linenumber" name="L390" href="#L390">390</a> 		String page = request.getParameter(<span class="jxr_string">"jspPage"</span>);
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> 		<strong class="jxr_keyword">if</strong> (page == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L392" href="#L392">392</a> 			page = <span class="jxr_string">"admin"</span>;
+<a class="jxr_linenumber" name="L393" href="#L393">393</a> 		}
+<a class="jxr_linenumber" name="L394" href="#L394">394</a> 		<strong class="jxr_keyword">final</strong> String error = request.getParameter(<span class="jxr_string">"error"</span>);
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> 		<strong class="jxr_keyword">if</strong> (error != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> 			model.addAttribute(<span class="jxr_string">"error"</span>, error);
+<a class="jxr_linenumber" name="L397" href="#L397">397</a> 			m_objLog.warn(<span class="jxr_string">"Handing over error "</span> + error);
+<a class="jxr_linenumber" name="L398" href="#L398">398</a> 			<strong class="jxr_keyword">final</strong> String ePage = request.getParameter(<span class="jxr_string">"errorPage"</span>);
+<a class="jxr_linenumber" name="L399" href="#L399">399</a> 			<strong class="jxr_keyword">if</strong> (ePage != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L400" href="#L400">400</a> 				page = ePage;
+<a class="jxr_linenumber" name="L401" href="#L401">401</a> 			}
+<a class="jxr_linenumber" name="L402" href="#L402">402</a> 		} <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="L403" href="#L403">403</a> <em class="jxr_comment">		 * else { model.addAttribute("data", new BerliosProject()); }</em>
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> <em class="jxr_comment">		 */</em>
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> 		m_objLog.trace(<span class="jxr_string">"render::end("</span> + page + <span class="jxr_string">")"</span>);
+<a class="jxr_linenumber" name="L406" href="#L406">406</a> 		<strong class="jxr_keyword">return</strong> page;
+<a class="jxr_linenumber" name="L407" href="#L407">407</a> 	}
+<a class="jxr_linenumber" name="L408" href="#L408">408</a> 
+<a class="jxr_linenumber" name="L409" href="#L409">409</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2015 <a href="http://www.fokus.fraunhofer.de">Fraunhofer FOKUS</a>. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016 <a href="http://www.fokus.fraunhofer.de">Fraunhofer FOKUS</a>. All rights reserved.</div>
 </body>
 </html>
