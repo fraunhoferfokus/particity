@@ -8,9 +8,11 @@ RUN apt-get -qq update \
 
 # Get & extract liferay
 #
-RUN mkdir -p /opt/liferay \
+RUN mkdir -p /opt/liferay/particiy \
     && wget -c http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/6.2.5%20GA6/liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip \
-    && unzip liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip -d /opt/liferay
+    && unzip liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip -d /opt/liferay \ 
+    && wget -c https://github.com/fraunhoferfokus/particity/releases/download/v0.9.4-rc1/particity_0.9.4-rc1.zip
+    && unzip particity_0.9.4-rc1.zip -d /opt/liferay/particity
     
 # Add user
 RUN groupadd -r tomcat \
@@ -20,12 +22,12 @@ RUN groupadd -r tomcat \
 # Expose default Liferay port
 EXPOSE 8080
 
-# Create working directory
+# Create working directory and add source
+# Note: If source actually contains a git clone, it will be compiled -
+#       which will take quite some time (and bandwidth+space), otherwise
+#       you may only keep this Dockerfile along with docker_config
+#       and we'll detect this and use the binaries (downloaded above) instead
 ADD ./ /tmp/particity
-
-# Compile stuff
-WORKDIR /tmp/particity
-RUN mvn clean package install
 
 # Force executable
 RUN chmod +x /tmp/particity/docker_config/docker_startLR.sh
