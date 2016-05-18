@@ -104,7 +104,7 @@ public class CustomOrgServiceHandler {
 		        form.getHolder(), form.getDescr(), form.getLegalState(),
 		        form.getAddrStreet(),
 		        form.getAddrNum(), form.getRegionCity(),
-		        form.getRegionCountry(), form.getRegionZip() != null ? Integer.parseInt(form.getRegionZip()) : -1,
+		        form.getRegionCountry(), form.getRegionZip(),
 		        form.getContactPhone(), form.getContactFax(),
 		        form.getContactMail(), form.getContactWeb(), form.getLogoFile(), 0, 0);
 	}
@@ -138,7 +138,7 @@ public class CustomOrgServiceHandler {
 	        final String holder, final String descr, final String legalStatus,
 	        final String street,
 	        final String streetNumber, final String city, final String country,
-	        final int zip,
+	        final String zip,
 	        final String tel, final String fax, final String mail,
 	        final String web, final CommonsMultipartFile logo, float coordsLat, float coordsLon) {
 		AHOrg result = null;
@@ -230,7 +230,7 @@ public class CustomOrgServiceHandler {
 			if (region != null) {
 				result.setRegionCity(region.getCity());
 				result.setRegionCountry(region.getCountry());
-				result.setRegionZip(Integer.toString(region.getZip()));
+				result.setRegionZip(region.getZip());
 			}
 			if (contact != null) {
 				result.setContactFax(contact.getFax());

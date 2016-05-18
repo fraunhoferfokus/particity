@@ -88,7 +88,7 @@ create table AHORG (
 
 create table AHREGION (
 	regionId LONG not null,
-	zip INTEGER not null,
+	zip VARCHAR(75) not null,
 	city VARCHAR(160) not null,
 	country VARCHAR(160) not null,
 	permissions INTEGER,

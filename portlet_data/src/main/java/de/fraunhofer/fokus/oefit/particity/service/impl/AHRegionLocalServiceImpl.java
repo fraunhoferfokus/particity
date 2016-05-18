@@ -83,7 +83,7 @@ public class AHRegionLocalServiceImpl extends AHRegionLocalServiceBaseImpl {
 	 */
 	@Override
 	public AHRegion addRegion(final String city, final String country,
-	        final int zip) {
+	        final String zip) {
 		AHRegion result = null;
 
 		result = this.getRegion(city, country, zip);
@@ -128,7 +128,7 @@ public class AHRegionLocalServiceImpl extends AHRegionLocalServiceBaseImpl {
 	 */
 	@Override
 	public AHRegion getRegion(final String city, final String country,
-	        final int zip) {
+	        final String zip) {
 		AHRegion result = null;
 
 		try {
@@ -183,7 +183,7 @@ public class AHRegionLocalServiceImpl extends AHRegionLocalServiceBaseImpl {
 	 */
 	@Override
 	public AHRegion removeRegion(final String city, final String country,
-	        final int zip) {
+	        final String zip) {
 		AHRegion result = null;
 
 		final AHRegion region = this.getRegion(city, country, zip);

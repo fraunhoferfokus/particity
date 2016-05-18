@@ -64,14 +64,15 @@ public interface AHRegionModel extends BaseModel<AHRegion> {
      *
      * @return the zip of this a h region
      */
-    public int getZip();
+    @AutoEscape
+    public String getZip();
 
     /**
      * Sets the zip of this a h region.
      *
      * @param zip the zip of this a h region
      */
-    public void setZip(int zip);
+    public void setZip(String zip);
 
     /**
      * Returns the city of this a h region.

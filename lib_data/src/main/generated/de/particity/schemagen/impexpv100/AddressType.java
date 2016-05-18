@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="street" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="country" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="city" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
- *         &lt;element name="zip" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="zip" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="coordLat" type="{http://www.w3.org/2001/XMLSchema}float"/&gt;
  *         &lt;element name="coordLon" type="{http://www.w3.org/2001/XMLSchema}float"/&gt;
  *       &lt;/sequence&gt;
@@ -52,7 +52,8 @@ public class AddressType {
     protected String country;
     @XmlElement(required = true)
     protected String city;
-    protected int zip;
+    @XmlElement(required = true)
+    protected String zip;
     protected float coordLat;
     protected float coordLon;
 
@@ -155,16 +156,24 @@ public class AddressType {
     /**
      * Gets the value of the zip property.
      * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
     /**
      * Sets the value of the zip property.
      * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setZip(int value) {
+    public void setZip(String value) {
         this.zip = value;
     }
 

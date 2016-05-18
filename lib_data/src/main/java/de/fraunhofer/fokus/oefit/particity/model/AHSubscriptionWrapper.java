@@ -263,8 +263,7 @@ public class AHSubscriptionWrapper implements AHSubscription,
     }
 
     @Override
-    public int compareTo(
-        de.fraunhofer.fokus.oefit.particity.model.AHSubscription ahSubscription) {
+    public int compareTo(AHSubscription ahSubscription) {
         return _ahSubscription.compareTo(ahSubscription);
     }
 
@@ -274,17 +273,17 @@ public class AHSubscriptionWrapper implements AHSubscription,
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHSubscription> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<AHSubscription> toCacheModel() {
         return _ahSubscription.toCacheModel();
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHSubscription toEscapedModel() {
+    public AHSubscription toEscapedModel() {
         return new AHSubscriptionWrapper(_ahSubscription.toEscapedModel());
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHSubscription toUnescapedModel() {
+    public AHSubscription toUnescapedModel() {
         return new AHSubscriptionWrapper(_ahSubscription.toUnescapedModel());
     }
 

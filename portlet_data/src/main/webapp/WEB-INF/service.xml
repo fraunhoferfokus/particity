@@ -10,7 +10,7 @@
 	<entity name="AHRegion" table="AHREGION" local-service="true"
 		remote-service="false">
 		<column name="regionId" type="long" primary="true"></column>
-		<column name="zip" type="int" primary="true"></column>
+		<column name="zip" type="String" primary="true"></column>
 		<column name="city" type="String" primary="true"></column>
 		<column name="country" type="String" primary="true"></column>
 		<!-- permissions can be used by application logic to decide where, how 

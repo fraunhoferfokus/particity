@@ -289,8 +289,7 @@ public class AHAddrWrapper implements AHAddr, ModelWrapper<AHAddr> {
     }
 
     @Override
-    public int compareTo(
-        de.fraunhofer.fokus.oefit.particity.model.AHAddr ahAddr) {
+    public int compareTo(AHAddr ahAddr) {
         return _ahAddr.compareTo(ahAddr);
     }
 
@@ -300,17 +299,17 @@ public class AHAddrWrapper implements AHAddr, ModelWrapper<AHAddr> {
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHAddr> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<AHAddr> toCacheModel() {
         return _ahAddr.toCacheModel();
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHAddr toEscapedModel() {
+    public AHAddr toEscapedModel() {
         return new AHAddrWrapper(_ahAddr.toEscapedModel());
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHAddr toUnescapedModel() {
+    public AHAddr toUnescapedModel() {
         return new AHAddrWrapper(_ahAddr.toUnescapedModel());
     }
 

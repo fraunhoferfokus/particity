@@ -53,7 +53,7 @@ public class AHRegionWrapper implements AHRegion, ModelWrapper<AHRegion> {
             setRegionId(regionId);
         }
 
-        Integer zip = (Integer) attributes.get("zip");
+        String zip = (String) attributes.get("zip");
 
         if (zip != null) {
             setZip(zip);
@@ -125,7 +125,7 @@ public class AHRegionWrapper implements AHRegion, ModelWrapper<AHRegion> {
     * @return the zip of this a h region
     */
     @Override
-    public int getZip() {
+    public java.lang.String getZip() {
         return _ahRegion.getZip();
     }
 
@@ -135,7 +135,7 @@ public class AHRegionWrapper implements AHRegion, ModelWrapper<AHRegion> {
     * @param zip the zip of this a h region
     */
     @Override
-    public void setZip(int zip) {
+    public void setZip(java.lang.String zip) {
         _ahRegion.setZip(zip);
     }
 
@@ -263,8 +263,7 @@ public class AHRegionWrapper implements AHRegion, ModelWrapper<AHRegion> {
     }
 
     @Override
-    public int compareTo(
-        de.fraunhofer.fokus.oefit.particity.model.AHRegion ahRegion) {
+    public int compareTo(AHRegion ahRegion) {
         return _ahRegion.compareTo(ahRegion);
     }
 
@@ -274,17 +273,17 @@ public class AHRegionWrapper implements AHRegion, ModelWrapper<AHRegion> {
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHRegion> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<AHRegion> toCacheModel() {
         return _ahRegion.toCacheModel();
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHRegion toEscapedModel() {
+    public AHRegion toEscapedModel() {
         return new AHRegionWrapper(_ahRegion.toEscapedModel());
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHRegion toUnescapedModel() {
+    public AHRegion toUnescapedModel() {
         return new AHRegionWrapper(_ahRegion.toUnescapedModel());
     }
 

@@ -56,6 +56,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.util.PortletUtils;
 
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -70,6 +71,9 @@ import com.liferay.portal.security.auth.Authenticator;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.util.URLUtil;
+import com.liferay.portlet.PortletURLUtil;
+import com.liferay.taglib.ui.LogoSelectorTag;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
@@ -115,6 +119,16 @@ public class InitController extends BaseController {
 	        final RenderResponse response,
 	        final Model model) {
 		m_objLog.trace("render::start");
+		if (getThemeDisplay(request).isSignedIn()) {
+			try {
+				HttpServletRequest oreq = PortalUtil.getHttpServletRequest(request);
+				oreq.getSession().invalidate();
+				PortalUtil.getHttpServletResponse(response).sendRedirect(getThemeDisplay(request).getURLSignOut());
+				return null;
+			} catch (IOException e) {
+				m_objLog.error(e);
+			}
+		}
 		String page = request.getParameter("jspPage");
 		if (page == null) {
 			page = "init";
@@ -193,7 +207,7 @@ public class InitController extends BaseController {
 	public void init() {
 		ParticityInitializer.init();
 		
-		ParticityInitializer.test();
+		//ParticityInitializer.test();
 	}
 	
 }

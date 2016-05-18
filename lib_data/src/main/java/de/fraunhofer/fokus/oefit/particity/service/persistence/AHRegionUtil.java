@@ -227,8 +227,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findByregionId_PrevAndNext(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
-        long regionId,
+        AHRegionPK ahRegionPK, long regionId,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -268,7 +267,8 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findByzip(
-        int zip) throws com.liferay.portal.kernel.exception.SystemException {
+        java.lang.String zip)
+        throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().findByzip(zip);
     }
 
@@ -286,7 +286,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findByzip(
-        int zip, int start, int end)
+        java.lang.String zip, int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().findByzip(zip, start, end);
     }
@@ -306,7 +306,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findByzip(
-        int zip, int start, int end,
+        java.lang.String zip, int start, int end,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().findByzip(zip, start, end, orderByComparator);
@@ -322,7 +322,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion findByzip_First(
-        int zip,
+        java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -338,7 +338,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion fetchByzip_First(
-        int zip,
+        java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().fetchByzip_First(zip, orderByComparator);
@@ -354,7 +354,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion findByzip_Last(
-        int zip,
+        java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -370,7 +370,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion fetchByzip_Last(
-        int zip,
+        java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().fetchByzip_Last(zip, orderByComparator);
@@ -387,8 +387,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findByzip_PrevAndNext(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
-        int zip,
+        AHRegionPK ahRegionPK, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -402,7 +401,7 @@ public class AHRegionUtil {
     * @param zip the zip
     * @throws SystemException if a system exception occurred
     */
-    public static void removeByzip(int zip)
+    public static void removeByzip(java.lang.String zip)
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeByzip(zip);
     }
@@ -414,7 +413,7 @@ public class AHRegionUtil {
     * @return the number of matching a h regions
     * @throws SystemException if a system exception occurred
     */
-    public static int countByzip(int zip)
+    public static int countByzip(java.lang.String zip)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().countByzip(zip);
     }
@@ -547,8 +546,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findBycity_PrevAndNext(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
-        java.lang.String city,
+        AHRegionPK ahRegionPK, java.lang.String city,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -588,7 +586,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findBycityAndZip(
-        java.lang.String city, int zip)
+        java.lang.String city, java.lang.String zip)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().findBycityAndZip(city, zip);
     }
@@ -608,7 +606,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findBycityAndZip(
-        java.lang.String city, int zip, int start, int end)
+        java.lang.String city, java.lang.String zip, int start, int end)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().findBycityAndZip(city, zip, start, end);
     }
@@ -629,7 +627,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findBycityAndZip(
-        java.lang.String city, int zip, int start, int end,
+        java.lang.String city, java.lang.String zip, int start, int end,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
@@ -647,7 +645,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion findBycityAndZip_First(
-        java.lang.String city, int zip,
+        java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -665,7 +663,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion fetchBycityAndZip_First(
-        java.lang.String city, int zip,
+        java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
@@ -683,7 +681,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion findBycityAndZip_Last(
-        java.lang.String city, int zip,
+        java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -701,7 +699,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion fetchBycityAndZip_Last(
-        java.lang.String city, int zip,
+        java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
@@ -720,8 +718,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findBycityAndZip_PrevAndNext(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
-        java.lang.String city, int zip,
+        AHRegionPK ahRegionPK, java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -737,7 +734,8 @@ public class AHRegionUtil {
     * @param zip the zip
     * @throws SystemException if a system exception occurred
     */
-    public static void removeBycityAndZip(java.lang.String city, int zip)
+    public static void removeBycityAndZip(java.lang.String city,
+        java.lang.String zip)
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeBycityAndZip(city, zip);
     }
@@ -750,7 +748,8 @@ public class AHRegionUtil {
     * @return the number of matching a h regions
     * @throws SystemException if a system exception occurred
     */
-    public static int countBycityAndZip(java.lang.String city, int zip)
+    public static int countBycityAndZip(java.lang.String city,
+        java.lang.String zip)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().countBycityAndZip(city, zip);
     }
@@ -765,7 +764,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findBycountryAndCityAndZip(
-        java.lang.String country, java.lang.String city, int zip)
+        java.lang.String country, java.lang.String city, java.lang.String zip)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().findBycountryAndCityAndZip(country, city, zip);
     }
@@ -786,8 +785,9 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findBycountryAndCityAndZip(
-        java.lang.String country, java.lang.String city, int zip, int start,
-        int end) throws com.liferay.portal.kernel.exception.SystemException {
+        java.lang.String country, java.lang.String city, java.lang.String zip,
+        int start, int end)
+        throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
                    .findBycountryAndCityAndZip(country, city, zip, start, end);
     }
@@ -809,8 +809,8 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static java.util.List<de.fraunhofer.fokus.oefit.particity.model.AHRegion> findBycountryAndCityAndZip(
-        java.lang.String country, java.lang.String city, int zip, int start,
-        int end,
+        java.lang.String country, java.lang.String city, java.lang.String zip,
+        int start, int end,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
@@ -830,7 +830,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion findBycountryAndCityAndZip_First(
-        java.lang.String country, java.lang.String city, int zip,
+        java.lang.String country, java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -850,7 +850,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion fetchBycountryAndCityAndZip_First(
-        java.lang.String country, java.lang.String city, int zip,
+        java.lang.String country, java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
@@ -870,7 +870,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion findBycountryAndCityAndZip_Last(
-        java.lang.String country, java.lang.String city, int zip,
+        java.lang.String country, java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -890,7 +890,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion fetchBycountryAndCityAndZip_Last(
-        java.lang.String country, java.lang.String city, int zip,
+        java.lang.String country, java.lang.String city, java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence()
@@ -911,8 +911,8 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion[] findBycountryAndCityAndZip_PrevAndNext(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK,
-        java.lang.String country, java.lang.String city, int zip,
+        AHRegionPK ahRegionPK, java.lang.String country, java.lang.String city,
+        java.lang.String zip,
         com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
@@ -930,7 +930,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static void removeBycountryAndCityAndZip(java.lang.String country,
-        java.lang.String city, int zip)
+        java.lang.String city, java.lang.String zip)
         throws com.liferay.portal.kernel.exception.SystemException {
         getPersistence().removeBycountryAndCityAndZip(country, city, zip);
     }
@@ -945,7 +945,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static int countBycountryAndCityAndZip(java.lang.String country,
-        java.lang.String city, int zip)
+        java.lang.String city, java.lang.String zip)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().countBycountryAndCityAndZip(country, city, zip);
     }
@@ -977,7 +977,7 @@ public class AHRegionUtil {
     * @return the new a h region
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion create(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK) {
+        AHRegionPK ahRegionPK) {
         return getPersistence().create(ahRegionPK);
     }
 
@@ -990,7 +990,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion remove(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK)
+        AHRegionPK ahRegionPK)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
         return getPersistence().remove(ahRegionPK);
@@ -1011,7 +1011,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion findByPrimaryKey(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK)
+        AHRegionPK ahRegionPK)
         throws com.liferay.portal.kernel.exception.SystemException,
             de.fraunhofer.fokus.oefit.particity.NoSuchAHRegionException {
         return getPersistence().findByPrimaryKey(ahRegionPK);
@@ -1025,7 +1025,7 @@ public class AHRegionUtil {
     * @throws SystemException if a system exception occurred
     */
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion fetchByPrimaryKey(
-        de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK ahRegionPK)
+        AHRegionPK ahRegionPK)
         throws com.liferay.portal.kernel.exception.SystemException {
         return getPersistence().fetchByPrimaryKey(ahRegionPK);
     }

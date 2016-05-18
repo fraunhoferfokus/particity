@@ -11,14 +11,14 @@ import java.io.Serializable;
  */
 public class AHRegionPK implements Comparable<AHRegionPK>, Serializable {
     public long regionId;
-    public int zip;
+    public String zip;
     public String city;
     public String country;
 
     public AHRegionPK() {
     }
 
-    public AHRegionPK(long regionId, int zip, String city, String country) {
+    public AHRegionPK(long regionId, String zip, String city, String country) {
         this.regionId = regionId;
         this.zip = zip;
         this.city = city;
@@ -33,11 +33,11 @@ public class AHRegionPK implements Comparable<AHRegionPK>, Serializable {
         this.regionId = regionId;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
@@ -77,13 +77,7 @@ public class AHRegionPK implements Comparable<AHRegionPK>, Serializable {
             return value;
         }
 
-        if (zip < pk.zip) {
-            value = -1;
-        } else if (zip > pk.zip) {
-            value = 1;
-        } else {
-            value = 0;
-        }
+        value = zip.compareTo(pk.zip);
 
         if (value != 0) {
             return value;
@@ -116,7 +110,7 @@ public class AHRegionPK implements Comparable<AHRegionPK>, Serializable {
 
         AHRegionPK pk = (AHRegionPK) obj;
 
-        if ((regionId == pk.regionId) && (zip == pk.zip) &&
+        if ((regionId == pk.regionId) && (zip.equals(pk.zip)) &&
                 (city.equals(pk.city)) && (country.equals(pk.country))) {
             return true;
         } else {

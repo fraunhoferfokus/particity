@@ -264,7 +264,7 @@ public class AHRegionLocalServiceUtil {
     }
 
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion addRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         return getService().addRegion(city, country, zip);
     }
 
@@ -274,7 +274,7 @@ public class AHRegionLocalServiceUtil {
     }
 
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion getRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         return getService().getRegion(city, country, zip);
     }
 
@@ -284,7 +284,7 @@ public class AHRegionLocalServiceUtil {
     }
 
     public static de.fraunhofer.fokus.oefit.particity.model.AHRegion removeRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         return getService().removeRegion(city, country, zip);
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class AHRegionSoap implements Serializable {
     private long _regionId;
-    private int _zip;
+    private String _zip;
     private String _city;
     private String _country;
     private int _permissions;
@@ -90,11 +90,11 @@ public class AHRegionSoap implements Serializable {
         _regionId = regionId;
     }
 
-    public int getZip() {
+    public String getZip() {
         return _zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         _zip = zip;
     }
 

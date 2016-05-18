@@ -242,7 +242,7 @@ public interface AHRegionLocalService extends BaseLocalService,
         throws java.lang.Throwable;
 
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion addRegion(
-        java.lang.String city, java.lang.String country, int zip);
+        java.lang.String city, java.lang.String country, java.lang.String zip);
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion getRegion(
@@ -250,11 +250,11 @@ public interface AHRegionLocalService extends BaseLocalService,
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion getRegion(
-        java.lang.String city, java.lang.String country, int zip);
+        java.lang.String city, java.lang.String country, java.lang.String zip);
 
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion removeRegion(
         long regionId);
 
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion removeRegion(
-        java.lang.String city, java.lang.String country, int zip);
+        java.lang.String city, java.lang.String country, java.lang.String zip);
 }

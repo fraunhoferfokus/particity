@@ -159,7 +159,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
         _methodName19 = "addRegion";
 
         _methodParameterTypes19 = new String[] {
-                "java.lang.String", "java.lang.String", "int"
+                "java.lang.String", "java.lang.String", "java.lang.String"
             };
 
         _methodName20 = "getRegion";
@@ -169,7 +169,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
         _methodName21 = "getRegion";
 
         _methodParameterTypes21 = new String[] {
-                "java.lang.String", "java.lang.String", "int"
+                "java.lang.String", "java.lang.String", "java.lang.String"
             };
 
         _methodName22 = "removeRegion";
@@ -179,7 +179,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
         _methodName23 = "removeRegion";
 
         _methodParameterTypes23 = new String[] {
-                "java.lang.String", "java.lang.String", "int"
+                "java.lang.String", "java.lang.String", "java.lang.String"
             };
     }
 
@@ -703,7 +703,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion addRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         Object returnObj = null;
 
         try {
@@ -714,7 +714,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
                         
                     ClpSerializer.translateInput(country),
                         
-                    zip
+                    ClpSerializer.translateInput(zip)
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -754,7 +754,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion getRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         Object returnObj = null;
 
         try {
@@ -765,7 +765,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
                         
                     ClpSerializer.translateInput(country),
                         
-                    zip
+                    ClpSerializer.translateInput(zip)
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);
@@ -805,7 +805,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion removeRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         Object returnObj = null;
 
         try {
@@ -816,7 +816,7 @@ public class AHRegionLocalServiceClp implements AHRegionLocalService {
                         
                     ClpSerializer.translateInput(country),
                         
-                    zip
+                    ClpSerializer.translateInput(zip)
                     });
         } catch (Throwable t) {
             t = ClpSerializer.translateThrowable(t);

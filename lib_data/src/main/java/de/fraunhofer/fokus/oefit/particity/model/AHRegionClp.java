@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class AHRegionClp extends BaseModelImpl<AHRegion> implements AHRegion {
     private long _regionId;
-    private int _zip;
+    private String _zip;
     private String _city;
     private String _country;
     private int _permissions;
@@ -85,7 +85,7 @@ public class AHRegionClp extends BaseModelImpl<AHRegion> implements AHRegion {
             setRegionId(regionId);
         }
 
-        Integer zip = (Integer) attributes.get("zip");
+        String zip = (String) attributes.get("zip");
 
         if (zip != null) {
             setZip(zip);
@@ -133,19 +133,19 @@ public class AHRegionClp extends BaseModelImpl<AHRegion> implements AHRegion {
     }
 
     @Override
-    public int getZip() {
+    public String getZip() {
         return _zip;
     }
 
     @Override
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         _zip = zip;
 
         if (_ahRegionRemoteModel != null) {
             try {
                 Class<?> clazz = _ahRegionRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setZip", int.class);
+                Method method = clazz.getMethod("setZip", String.class);
 
                 method.invoke(_ahRegionRemoteModel, zip);
             } catch (Exception e) {
@@ -300,13 +300,7 @@ public class AHRegionClp extends BaseModelImpl<AHRegion> implements AHRegion {
     public int compareTo(AHRegion ahRegion) {
         int value = 0;
 
-        if (getZip() < ahRegion.getZip()) {
-            value = -1;
-        } else if (getZip() > ahRegion.getZip()) {
-            value = 1;
-        } else {
-            value = 0;
-        }
+        value = getZip().compareTo(ahRegion.getZip());
 
         value = value * -1;
 

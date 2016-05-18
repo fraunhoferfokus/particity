@@ -42,12 +42,12 @@ public class AHRegionModelImpl extends BaseModelImpl<AHRegion>
     public static final String TABLE_NAME = "AHREGION";
     public static final Object[][] TABLE_COLUMNS = {
             { "regionId", Types.BIGINT },
-            { "zip", Types.INTEGER },
+            { "zip", Types.VARCHAR },
             { "city", Types.VARCHAR },
             { "country", Types.VARCHAR },
             { "permissions", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table AHREGION (regionId LONG not null,zip INTEGER not null,city VARCHAR(160) not null,country VARCHAR(160) not null,permissions INTEGER,primary key (regionId, zip, city, country))";
+    public static final String TABLE_SQL_CREATE = "create table AHREGION (regionId LONG not null,zip VARCHAR(75) not null,city VARCHAR(160) not null,country VARCHAR(160) not null,permissions INTEGER,primary key (regionId, zip, city, country))";
     public static final String TABLE_SQL_DROP = "drop table AHREGION";
     public static final String ORDER_BY_JPQL = " ORDER BY ahRegion.id.zip DESC";
     public static final String ORDER_BY_SQL = " ORDER BY AHREGION.zip DESC";
@@ -76,9 +76,8 @@ public class AHRegionModelImpl extends BaseModelImpl<AHRegion>
     private long _regionId;
     private long _originalRegionId;
     private boolean _setOriginalRegionId;
-    private int _zip;
-    private int _originalZip;
-    private boolean _setOriginalZip;
+    private String _zip;
+    private String _originalZip;
     private String _city;
     private String _originalCity;
     private String _country;
@@ -144,7 +143,7 @@ public class AHRegionModelImpl extends BaseModelImpl<AHRegion>
             setRegionId(regionId);
         }
 
-        Integer zip = (Integer) attributes.get("zip");
+        String zip = (String) attributes.get("zip");
 
         if (zip != null) {
             setZip(zip);
@@ -192,25 +191,27 @@ public class AHRegionModelImpl extends BaseModelImpl<AHRegion>
     }
 
     @Override
-    public int getZip() {
-        return _zip;
+    public String getZip() {
+        if (_zip == null) {
+            return StringPool.BLANK;
+        } else {
+            return _zip;
+        }
     }
 
     @Override
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         _columnBitmask = -1L;
 
-        if (!_setOriginalZip) {
-            _setOriginalZip = true;
-
+        if (_originalZip == null) {
             _originalZip = _zip;
         }
 
         _zip = zip;
     }
 
-    public int getOriginalZip() {
-        return _originalZip;
+    public String getOriginalZip() {
+        return GetterUtil.getString(_originalZip);
     }
 
     @Override
@@ -304,13 +305,7 @@ public class AHRegionModelImpl extends BaseModelImpl<AHRegion>
     public int compareTo(AHRegion ahRegion) {
         int value = 0;
 
-        if (getZip() < ahRegion.getZip()) {
-            value = -1;
-        } else if (getZip() > ahRegion.getZip()) {
-            value = 1;
-        } else {
-            value = 0;
-        }
+        value = getZip().compareTo(ahRegion.getZip());
 
         value = value * -1;
 
@@ -357,8 +352,6 @@ public class AHRegionModelImpl extends BaseModelImpl<AHRegion>
 
         ahRegionModelImpl._originalZip = ahRegionModelImpl._zip;
 
-        ahRegionModelImpl._setOriginalZip = false;
-
         ahRegionModelImpl._originalCity = ahRegionModelImpl._city;
 
         ahRegionModelImpl._originalCountry = ahRegionModelImpl._country;
@@ -373,6 +366,12 @@ public class AHRegionModelImpl extends BaseModelImpl<AHRegion>
         ahRegionCacheModel.regionId = getRegionId();
 
         ahRegionCacheModel.zip = getZip();
+
+        String zip = ahRegionCacheModel.zip;
+
+        if ((zip != null) && (zip.length() == 0)) {
+            ahRegionCacheModel.zip = null;
+        }
 
         ahRegionCacheModel.city = getCity();
 

@@ -276,7 +276,7 @@ public class AHRegionLocalServiceWrapper implements AHRegionLocalService,
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion addRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         return _ahRegionLocalService.addRegion(city, country, zip);
     }
 
@@ -288,7 +288,7 @@ public class AHRegionLocalServiceWrapper implements AHRegionLocalService,
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion getRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         return _ahRegionLocalService.getRegion(city, country, zip);
     }
 
@@ -300,7 +300,7 @@ public class AHRegionLocalServiceWrapper implements AHRegionLocalService,
 
     @Override
     public de.fraunhofer.fokus.oefit.particity.model.AHRegion removeRegion(
-        java.lang.String city, java.lang.String country, int zip) {
+        java.lang.String city, java.lang.String country, java.lang.String zip) {
         return _ahRegionLocalService.removeRegion(city, country, zip);
     }
 

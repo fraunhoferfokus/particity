@@ -236,8 +236,7 @@ public class AHCategoriesWrapper implements AHCategories,
     }
 
     @Override
-    public int compareTo(
-        de.fraunhofer.fokus.oefit.particity.model.AHCategories ahCategories) {
+    public int compareTo(AHCategories ahCategories) {
         return _ahCategories.compareTo(ahCategories);
     }
 
@@ -247,17 +246,17 @@ public class AHCategoriesWrapper implements AHCategories,
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHCategories> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<AHCategories> toCacheModel() {
         return _ahCategories.toCacheModel();
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHCategories toEscapedModel() {
+    public AHCategories toEscapedModel() {
         return new AHCategoriesWrapper(_ahCategories.toEscapedModel());
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHCategories toUnescapedModel() {
+    public AHCategories toUnescapedModel() {
         return new AHCategoriesWrapper(_ahCategories.toUnescapedModel());
     }
 

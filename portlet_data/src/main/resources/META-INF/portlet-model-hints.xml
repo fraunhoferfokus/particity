@@ -123,7 +123,7 @@
 	</model>
 	<model name="de.fraunhofer.fokus.oefit.particity.model.AHRegion">
 		<field name="regionId" type="long" />
-		<field name="zip" type="int" />
+		<field name="zip" type="String" />
 		<field name="city" type="String">
 			<hint-collection name="MEDIUMTEXT" />
 		</field>

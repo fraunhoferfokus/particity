@@ -158,7 +158,7 @@ public class AHRegionLocalServiceClpInvoker {
         _methodName78 = "addRegion";
 
         _methodParameterTypes78 = new String[] {
-                "java.lang.String", "java.lang.String", "int"
+                "java.lang.String", "java.lang.String", "java.lang.String"
             };
 
         _methodName79 = "getRegion";
@@ -168,7 +168,7 @@ public class AHRegionLocalServiceClpInvoker {
         _methodName80 = "getRegion";
 
         _methodParameterTypes80 = new String[] {
-                "java.lang.String", "java.lang.String", "int"
+                "java.lang.String", "java.lang.String", "java.lang.String"
             };
 
         _methodName81 = "removeRegion";
@@ -178,7 +178,7 @@ public class AHRegionLocalServiceClpInvoker {
         _methodName82 = "removeRegion";
 
         _methodParameterTypes82 = new String[] {
-                "java.lang.String", "java.lang.String", "int"
+                "java.lang.String", "java.lang.String", "java.lang.String"
             };
     }
 
@@ -286,8 +286,7 @@ public class AHRegionLocalServiceClpInvoker {
         if (_methodName78.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes78, parameterTypes)) {
             return AHRegionLocalServiceUtil.addRegion((java.lang.String) arguments[0],
-                (java.lang.String) arguments[1],
-                ((Integer) arguments[2]).intValue());
+                (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
         }
 
         if (_methodName79.equals(name) &&
@@ -298,8 +297,7 @@ public class AHRegionLocalServiceClpInvoker {
         if (_methodName80.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes80, parameterTypes)) {
             return AHRegionLocalServiceUtil.getRegion((java.lang.String) arguments[0],
-                (java.lang.String) arguments[1],
-                ((Integer) arguments[2]).intValue());
+                (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
         }
 
         if (_methodName81.equals(name) &&
@@ -310,8 +308,7 @@ public class AHRegionLocalServiceClpInvoker {
         if (_methodName82.equals(name) &&
                 Arrays.deepEquals(_methodParameterTypes82, parameterTypes)) {
             return AHRegionLocalServiceUtil.removeRegion((java.lang.String) arguments[0],
-                (java.lang.String) arguments[1],
-                ((Integer) arguments[2]).intValue());
+                (java.lang.String) arguments[1], (java.lang.String) arguments[2]);
         }
 
         throw new UnsupportedOperationException();

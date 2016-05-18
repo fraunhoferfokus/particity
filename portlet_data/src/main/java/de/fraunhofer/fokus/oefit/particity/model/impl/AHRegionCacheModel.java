@@ -20,7 +20,7 @@ import java.io.ObjectOutput;
  */
 public class AHRegionCacheModel implements CacheModel<AHRegion>, Externalizable {
     public long regionId;
-    public int zip;
+    public String zip;
     public String city;
     public String country;
     public int permissions;
@@ -49,7 +49,12 @@ public class AHRegionCacheModel implements CacheModel<AHRegion>, Externalizable 
         AHRegionImpl ahRegionImpl = new AHRegionImpl();
 
         ahRegionImpl.setRegionId(regionId);
-        ahRegionImpl.setZip(zip);
+
+        if (zip == null) {
+            ahRegionImpl.setZip(StringPool.BLANK);
+        } else {
+            ahRegionImpl.setZip(zip);
+        }
 
         if (city == null) {
             ahRegionImpl.setCity(StringPool.BLANK);
@@ -73,7 +78,7 @@ public class AHRegionCacheModel implements CacheModel<AHRegion>, Externalizable 
     @Override
     public void readExternal(ObjectInput objectInput) throws IOException {
         regionId = objectInput.readLong();
-        zip = objectInput.readInt();
+        zip = objectInput.readUTF();
         city = objectInput.readUTF();
         country = objectInput.readUTF();
         permissions = objectInput.readInt();
@@ -83,7 +88,12 @@ public class AHRegionCacheModel implements CacheModel<AHRegion>, Externalizable 
     public void writeExternal(ObjectOutput objectOutput)
         throws IOException {
         objectOutput.writeLong(regionId);
-        objectOutput.writeInt(zip);
+
+        if (zip == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(zip);
+        }
 
         if (city == null) {
             objectOutput.writeUTF(StringPool.BLANK);

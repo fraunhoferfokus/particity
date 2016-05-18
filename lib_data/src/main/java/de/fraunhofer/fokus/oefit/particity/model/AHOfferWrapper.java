@@ -596,8 +596,7 @@ public class AHOfferWrapper implements AHOffer, ModelWrapper<AHOffer> {
     }
 
     @Override
-    public int compareTo(
-        de.fraunhofer.fokus.oefit.particity.model.AHOffer ahOffer) {
+    public int compareTo(AHOffer ahOffer) {
         return _ahOffer.compareTo(ahOffer);
     }
 
@@ -607,17 +606,17 @@ public class AHOfferWrapper implements AHOffer, ModelWrapper<AHOffer> {
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHOffer> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<AHOffer> toCacheModel() {
         return _ahOffer.toCacheModel();
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHOffer toEscapedModel() {
+    public AHOffer toEscapedModel() {
         return new AHOfferWrapper(_ahOffer.toEscapedModel());
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHOffer toUnescapedModel() {
+    public AHOffer toUnescapedModel() {
         return new AHOfferWrapper(_ahOffer.toUnescapedModel());
     }
 

@@ -175,7 +175,7 @@
 				<div class="row">
 					<div class="col-md-4">
 						<bform:bffield path="regionZip"
-							label="org.form.addOrg.field.regionZip" type="number"
+							label="org.form.addOrg.field.regionZip" type="text"
 							required="true" disabled="<%= disabled %>" />
 					</div>
 					<div class="col-md-4">

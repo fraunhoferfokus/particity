@@ -94,7 +94,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             AHRegionModelImpl.FINDER_CACHE_ENABLED, AHRegionImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByzip",
             new String[] {
-                Integer.class.getName(),
+                String.class.getName(),
                 
             Integer.class.getName(), Integer.class.getName(),
                 OrderByComparator.class.getName()
@@ -102,13 +102,15 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
     public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ZIP = new FinderPath(AHRegionModelImpl.ENTITY_CACHE_ENABLED,
             AHRegionModelImpl.FINDER_CACHE_ENABLED, AHRegionImpl.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByzip",
-            new String[] { Integer.class.getName() },
+            new String[] { String.class.getName() },
             AHRegionModelImpl.ZIP_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_ZIP = new FinderPath(AHRegionModelImpl.ENTITY_CACHE_ENABLED,
             AHRegionModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByzip",
-            new String[] { Integer.class.getName() });
+            new String[] { String.class.getName() });
+    private static final String _FINDER_COLUMN_ZIP_ZIP_1 = "ahRegion.id.zip IS NULL";
     private static final String _FINDER_COLUMN_ZIP_ZIP_2 = "ahRegion.id.zip = ?";
+    private static final String _FINDER_COLUMN_ZIP_ZIP_3 = "(ahRegion.id.zip IS NULL OR ahRegion.id.zip = '')";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CITY = new FinderPath(AHRegionModelImpl.ENTITY_CACHE_ENABLED,
             AHRegionModelImpl.FINDER_CACHE_ENABLED, AHRegionImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBycity",
@@ -135,7 +137,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             AHRegionModelImpl.FINDER_CACHE_ENABLED, AHRegionImpl.class,
             FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBycityAndZip",
             new String[] {
-                String.class.getName(), Integer.class.getName(),
+                String.class.getName(), String.class.getName(),
                 
             Integer.class.getName(), Integer.class.getName(),
                 OrderByComparator.class.getName()
@@ -144,17 +146,19 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
         new FinderPath(AHRegionModelImpl.ENTITY_CACHE_ENABLED,
             AHRegionModelImpl.FINDER_CACHE_ENABLED, AHRegionImpl.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBycityAndZip",
-            new String[] { String.class.getName(), Integer.class.getName() },
+            new String[] { String.class.getName(), String.class.getName() },
             AHRegionModelImpl.CITY_COLUMN_BITMASK |
             AHRegionModelImpl.ZIP_COLUMN_BITMASK);
     public static final FinderPath FINDER_PATH_COUNT_BY_CITYANDZIP = new FinderPath(AHRegionModelImpl.ENTITY_CACHE_ENABLED,
             AHRegionModelImpl.FINDER_CACHE_ENABLED, Long.class,
             FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBycityAndZip",
-            new String[] { String.class.getName(), Integer.class.getName() });
+            new String[] { String.class.getName(), String.class.getName() });
     private static final String _FINDER_COLUMN_CITYANDZIP_CITY_1 = "ahRegion.id.city IS NULL AND ";
     private static final String _FINDER_COLUMN_CITYANDZIP_CITY_2 = "ahRegion.id.city = ? AND ";
     private static final String _FINDER_COLUMN_CITYANDZIP_CITY_3 = "(ahRegion.id.city IS NULL OR ahRegion.id.city = '') AND ";
+    private static final String _FINDER_COLUMN_CITYANDZIP_ZIP_1 = "ahRegion.id.zip IS NULL";
     private static final String _FINDER_COLUMN_CITYANDZIP_ZIP_2 = "ahRegion.id.zip = ?";
+    private static final String _FINDER_COLUMN_CITYANDZIP_ZIP_3 = "(ahRegion.id.zip IS NULL OR ahRegion.id.zip = '')";
     public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_COUNTRYANDCITYANDZIP =
         new FinderPath(AHRegionModelImpl.ENTITY_CACHE_ENABLED,
             AHRegionModelImpl.FINDER_CACHE_ENABLED, AHRegionImpl.class,
@@ -162,7 +166,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             "findBycountryAndCityAndZip",
             new String[] {
                 String.class.getName(), String.class.getName(),
-                Integer.class.getName(),
+                String.class.getName(),
                 
             Integer.class.getName(), Integer.class.getName(),
                 OrderByComparator.class.getName()
@@ -174,7 +178,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             "findBycountryAndCityAndZip",
             new String[] {
                 String.class.getName(), String.class.getName(),
-                Integer.class.getName()
+                String.class.getName()
             },
             AHRegionModelImpl.COUNTRY_COLUMN_BITMASK |
             AHRegionModelImpl.CITY_COLUMN_BITMASK |
@@ -185,7 +189,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             "countBycountryAndCityAndZip",
             new String[] {
                 String.class.getName(), String.class.getName(),
-                Integer.class.getName()
+                String.class.getName()
             });
     private static final String _FINDER_COLUMN_COUNTRYANDCITYANDZIP_COUNTRY_1 = "ahRegion.id.country IS NULL AND ";
     private static final String _FINDER_COLUMN_COUNTRYANDCITYANDZIP_COUNTRY_2 = "ahRegion.id.country = ? AND ";
@@ -193,7 +197,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
     private static final String _FINDER_COLUMN_COUNTRYANDCITYANDZIP_CITY_1 = "ahRegion.id.city IS NULL AND ";
     private static final String _FINDER_COLUMN_COUNTRYANDCITYANDZIP_CITY_2 = "ahRegion.id.city = ? AND ";
     private static final String _FINDER_COLUMN_COUNTRYANDCITYANDZIP_CITY_3 = "(ahRegion.id.city IS NULL OR ahRegion.id.city = '') AND ";
+    private static final String _FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_1 = "ahRegion.id.zip IS NULL";
     private static final String _FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_2 = "ahRegion.id.zip = ?";
+    private static final String _FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_3 = "(ahRegion.id.zip IS NULL OR ahRegion.id.zip = '')";
     private static final String _SQL_SELECT_AHREGION = "SELECT ahRegion FROM AHRegion ahRegion";
     private static final String _SQL_SELECT_AHREGION_WHERE = "SELECT ahRegion FROM AHRegion ahRegion WHERE ";
     private static final String _SQL_COUNT_AHREGION = "SELECT COUNT(ahRegion) FROM AHRegion ahRegion";
@@ -683,7 +689,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<AHRegion> findByzip(int zip) throws SystemException {
+    public List<AHRegion> findByzip(String zip) throws SystemException {
         return findByzip(zip, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
     }
 
@@ -701,7 +707,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<AHRegion> findByzip(int zip, int start, int end)
+    public List<AHRegion> findByzip(String zip, int start, int end)
         throws SystemException {
         return findByzip(zip, start, end, null);
     }
@@ -721,7 +727,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<AHRegion> findByzip(int zip, int start, int end,
+    public List<AHRegion> findByzip(String zip, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
         boolean pagination = true;
         FinderPath finderPath = null;
@@ -742,7 +748,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
 
         if ((list != null) && !list.isEmpty()) {
             for (AHRegion ahRegion : list) {
-                if ((zip != ahRegion.getZip())) {
+                if (!Validator.equals(zip, ahRegion.getZip())) {
                     list = null;
 
                     break;
@@ -762,7 +768,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
 
             query.append(_SQL_SELECT_AHREGION_WHERE);
 
-            query.append(_FINDER_COLUMN_ZIP_ZIP_2);
+            boolean bindZip = false;
+
+            if (zip == null) {
+                query.append(_FINDER_COLUMN_ZIP_ZIP_1);
+            } else if (zip.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ZIP_ZIP_3);
+            } else {
+                bindZip = true;
+
+                query.append(_FINDER_COLUMN_ZIP_ZIP_2);
+            }
 
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -783,7 +799,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
 
                 QueryPos qPos = QueryPos.getInstance(q);
 
-                qPos.add(zip);
+                if (bindZip) {
+                    qPos.add(zip);
+                }
 
                 if (!pagination) {
                     list = (List<AHRegion>) QueryUtil.list(q, getDialect(),
@@ -822,7 +840,8 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion findByzip_First(int zip, OrderByComparator orderByComparator)
+    public AHRegion findByzip_First(String zip,
+        OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = fetchByzip_First(zip, orderByComparator);
 
@@ -851,7 +870,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion fetchByzip_First(int zip,
+    public AHRegion fetchByzip_First(String zip,
         OrderByComparator orderByComparator) throws SystemException {
         List<AHRegion> list = findByzip(zip, 0, 1, orderByComparator);
 
@@ -872,7 +891,8 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion findByzip_Last(int zip, OrderByComparator orderByComparator)
+    public AHRegion findByzip_Last(String zip,
+        OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = fetchByzip_Last(zip, orderByComparator);
 
@@ -901,8 +921,8 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion fetchByzip_Last(int zip, OrderByComparator orderByComparator)
-        throws SystemException {
+    public AHRegion fetchByzip_Last(String zip,
+        OrderByComparator orderByComparator) throws SystemException {
         int count = countByzip(zip);
 
         if (count == 0) {
@@ -929,7 +949,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion[] findByzip_PrevAndNext(AHRegionPK ahRegionPK, int zip,
+    public AHRegion[] findByzip_PrevAndNext(AHRegionPK ahRegionPK, String zip,
         OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = findByPrimaryKey(ahRegionPK);
@@ -958,7 +978,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
     }
 
     protected AHRegion getByzip_PrevAndNext(Session session, AHRegion ahRegion,
-        int zip, OrderByComparator orderByComparator, boolean previous) {
+        String zip, OrderByComparator orderByComparator, boolean previous) {
         StringBundler query = null;
 
         if (orderByComparator != null) {
@@ -970,7 +990,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
 
         query.append(_SQL_SELECT_AHREGION_WHERE);
 
-        query.append(_FINDER_COLUMN_ZIP_ZIP_2);
+        boolean bindZip = false;
+
+        if (zip == null) {
+            query.append(_FINDER_COLUMN_ZIP_ZIP_1);
+        } else if (zip.equals(StringPool.BLANK)) {
+            query.append(_FINDER_COLUMN_ZIP_ZIP_3);
+        } else {
+            bindZip = true;
+
+            query.append(_FINDER_COLUMN_ZIP_ZIP_2);
+        }
 
         if (orderByComparator != null) {
             String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1033,7 +1063,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
 
         QueryPos qPos = QueryPos.getInstance(q);
 
-        qPos.add(zip);
+        if (bindZip) {
+            qPos.add(zip);
+        }
 
         if (orderByComparator != null) {
             Object[] values = orderByComparator.getOrderByConditionValues(ahRegion);
@@ -1059,7 +1091,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public void removeByzip(int zip) throws SystemException {
+    public void removeByzip(String zip) throws SystemException {
         for (AHRegion ahRegion : findByzip(zip, QueryUtil.ALL_POS,
                 QueryUtil.ALL_POS, null)) {
             remove(ahRegion);
@@ -1074,7 +1106,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public int countByzip(int zip) throws SystemException {
+    public int countByzip(String zip) throws SystemException {
         FinderPath finderPath = FINDER_PATH_COUNT_BY_ZIP;
 
         Object[] finderArgs = new Object[] { zip };
@@ -1087,7 +1119,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
 
             query.append(_SQL_COUNT_AHREGION_WHERE);
 
-            query.append(_FINDER_COLUMN_ZIP_ZIP_2);
+            boolean bindZip = false;
+
+            if (zip == null) {
+                query.append(_FINDER_COLUMN_ZIP_ZIP_1);
+            } else if (zip.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_ZIP_ZIP_3);
+            } else {
+                bindZip = true;
+
+                query.append(_FINDER_COLUMN_ZIP_ZIP_2);
+            }
 
             String sql = query.toString();
 
@@ -1100,7 +1142,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
 
                 QueryPos qPos = QueryPos.getInstance(q);
 
-                qPos.add(zip);
+                if (bindZip) {
+                    qPos.add(zip);
+                }
 
                 count = (Long) q.uniqueResult();
 
@@ -1608,7 +1652,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<AHRegion> findBycityAndZip(String city, int zip)
+    public List<AHRegion> findBycityAndZip(String city, String zip)
         throws SystemException {
         return findBycityAndZip(city, zip, QueryUtil.ALL_POS,
             QueryUtil.ALL_POS, null);
@@ -1629,7 +1673,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<AHRegion> findBycityAndZip(String city, int zip, int start,
+    public List<AHRegion> findBycityAndZip(String city, String zip, int start,
         int end) throws SystemException {
         return findBycityAndZip(city, zip, start, end, null);
     }
@@ -1650,7 +1694,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public List<AHRegion> findBycityAndZip(String city, int zip, int start,
+    public List<AHRegion> findBycityAndZip(String city, String zip, int start,
         int end, OrderByComparator orderByComparator) throws SystemException {
         boolean pagination = true;
         FinderPath finderPath = null;
@@ -1672,7 +1716,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
         if ((list != null) && !list.isEmpty()) {
             for (AHRegion ahRegion : list) {
                 if (!Validator.equals(city, ahRegion.getCity()) ||
-                        (zip != ahRegion.getZip())) {
+                        !Validator.equals(zip, ahRegion.getZip())) {
                     list = null;
 
                     break;
@@ -1704,7 +1748,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
                 query.append(_FINDER_COLUMN_CITYANDZIP_CITY_2);
             }
 
-            query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_2);
+            boolean bindZip = false;
+
+            if (zip == null) {
+                query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_1);
+            } else if (zip.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_3);
+            } else {
+                bindZip = true;
+
+                query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_2);
+            }
 
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1729,7 +1783,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
                     qPos.add(city);
                 }
 
-                qPos.add(zip);
+                if (bindZip) {
+                    qPos.add(zip);
+                }
 
                 if (!pagination) {
                     list = (List<AHRegion>) QueryUtil.list(q, getDialect(),
@@ -1769,7 +1825,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion findBycityAndZip_First(String city, int zip,
+    public AHRegion findBycityAndZip_First(String city, String zip,
         OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = fetchBycityAndZip_First(city, zip, orderByComparator);
@@ -1803,7 +1859,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion fetchBycityAndZip_First(String city, int zip,
+    public AHRegion fetchBycityAndZip_First(String city, String zip,
         OrderByComparator orderByComparator) throws SystemException {
         List<AHRegion> list = findBycityAndZip(city, zip, 0, 1,
                 orderByComparator);
@@ -1826,7 +1882,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion findBycityAndZip_Last(String city, int zip,
+    public AHRegion findBycityAndZip_Last(String city, String zip,
         OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = fetchBycityAndZip_Last(city, zip, orderByComparator);
@@ -1860,7 +1916,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public AHRegion fetchBycityAndZip_Last(String city, int zip,
+    public AHRegion fetchBycityAndZip_Last(String city, String zip,
         OrderByComparator orderByComparator) throws SystemException {
         int count = countBycityAndZip(city, zip);
 
@@ -1891,7 +1947,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public AHRegion[] findBycityAndZip_PrevAndNext(AHRegionPK ahRegionPK,
-        String city, int zip, OrderByComparator orderByComparator)
+        String city, String zip, OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = findByPrimaryKey(ahRegionPK);
 
@@ -1919,7 +1975,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
     }
 
     protected AHRegion getBycityAndZip_PrevAndNext(Session session,
-        AHRegion ahRegion, String city, int zip,
+        AHRegion ahRegion, String city, String zip,
         OrderByComparator orderByComparator, boolean previous) {
         StringBundler query = null;
 
@@ -1944,7 +2000,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             query.append(_FINDER_COLUMN_CITYANDZIP_CITY_2);
         }
 
-        query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_2);
+        boolean bindZip = false;
+
+        if (zip == null) {
+            query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_1);
+        } else if (zip.equals(StringPool.BLANK)) {
+            query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_3);
+        } else {
+            bindZip = true;
+
+            query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_2);
+        }
 
         if (orderByComparator != null) {
             String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2011,7 +2077,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             qPos.add(city);
         }
 
-        qPos.add(zip);
+        if (bindZip) {
+            qPos.add(zip);
+        }
 
         if (orderByComparator != null) {
             Object[] values = orderByComparator.getOrderByConditionValues(ahRegion);
@@ -2038,7 +2106,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public void removeBycityAndZip(String city, int zip)
+    public void removeBycityAndZip(String city, String zip)
         throws SystemException {
         for (AHRegion ahRegion : findBycityAndZip(city, zip, QueryUtil.ALL_POS,
                 QueryUtil.ALL_POS, null)) {
@@ -2055,7 +2123,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public int countBycityAndZip(String city, int zip)
+    public int countBycityAndZip(String city, String zip)
         throws SystemException {
         FinderPath finderPath = FINDER_PATH_COUNT_BY_CITYANDZIP;
 
@@ -2081,7 +2149,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
                 query.append(_FINDER_COLUMN_CITYANDZIP_CITY_2);
             }
 
-            query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_2);
+            boolean bindZip = false;
+
+            if (zip == null) {
+                query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_1);
+            } else if (zip.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_3);
+            } else {
+                bindZip = true;
+
+                query.append(_FINDER_COLUMN_CITYANDZIP_ZIP_2);
+            }
 
             String sql = query.toString();
 
@@ -2098,7 +2176,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
                     qPos.add(city);
                 }
 
-                qPos.add(zip);
+                if (bindZip) {
+                    qPos.add(zip);
+                }
 
                 count = (Long) q.uniqueResult();
 
@@ -2126,7 +2206,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public List<AHRegion> findBycountryAndCityAndZip(String country,
-        String city, int zip) throws SystemException {
+        String city, String zip) throws SystemException {
         return findBycountryAndCityAndZip(country, city, zip,
             QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
     }
@@ -2148,7 +2228,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public List<AHRegion> findBycountryAndCityAndZip(String country,
-        String city, int zip, int start, int end) throws SystemException {
+        String city, String zip, int start, int end) throws SystemException {
         return findBycountryAndCityAndZip(country, city, zip, start, end, null);
     }
 
@@ -2170,7 +2250,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public List<AHRegion> findBycountryAndCityAndZip(String country,
-        String city, int zip, int start, int end,
+        String city, String zip, int start, int end,
         OrderByComparator orderByComparator) throws SystemException {
         boolean pagination = true;
         FinderPath finderPath = null;
@@ -2197,7 +2277,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             for (AHRegion ahRegion : list) {
                 if (!Validator.equals(country, ahRegion.getCountry()) ||
                         !Validator.equals(city, ahRegion.getCity()) ||
-                        (zip != ahRegion.getZip())) {
+                        !Validator.equals(zip, ahRegion.getZip())) {
                     list = null;
 
                     break;
@@ -2241,7 +2321,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
                 query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_CITY_2);
             }
 
-            query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_2);
+            boolean bindZip = false;
+
+            if (zip == null) {
+                query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_1);
+            } else if (zip.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_3);
+            } else {
+                bindZip = true;
+
+                query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_2);
+            }
 
             if (orderByComparator != null) {
                 appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -2270,7 +2360,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
                     qPos.add(city);
                 }
 
-                qPos.add(zip);
+                if (bindZip) {
+                    qPos.add(zip);
+                }
 
                 if (!pagination) {
                     list = (List<AHRegion>) QueryUtil.list(q, getDialect(),
@@ -2312,7 +2404,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public AHRegion findBycountryAndCityAndZip_First(String country,
-        String city, int zip, OrderByComparator orderByComparator)
+        String city, String zip, OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = fetchBycountryAndCityAndZip_First(country, city,
                 zip, orderByComparator);
@@ -2351,7 +2443,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public AHRegion fetchBycountryAndCityAndZip_First(String country,
-        String city, int zip, OrderByComparator orderByComparator)
+        String city, String zip, OrderByComparator orderByComparator)
         throws SystemException {
         List<AHRegion> list = findBycountryAndCityAndZip(country, city, zip, 0,
                 1, orderByComparator);
@@ -2376,7 +2468,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public AHRegion findBycountryAndCityAndZip_Last(String country,
-        String city, int zip, OrderByComparator orderByComparator)
+        String city, String zip, OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = fetchBycountryAndCityAndZip_Last(country, city,
                 zip, orderByComparator);
@@ -2415,7 +2507,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public AHRegion fetchBycountryAndCityAndZip_Last(String country,
-        String city, int zip, OrderByComparator orderByComparator)
+        String city, String zip, OrderByComparator orderByComparator)
         throws SystemException {
         int count = countBycountryAndCityAndZip(country, city, zip);
 
@@ -2447,7 +2539,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public AHRegion[] findBycountryAndCityAndZip_PrevAndNext(
-        AHRegionPK ahRegionPK, String country, String city, int zip,
+        AHRegionPK ahRegionPK, String country, String city, String zip,
         OrderByComparator orderByComparator)
         throws NoSuchAHRegionException, SystemException {
         AHRegion ahRegion = findByPrimaryKey(ahRegionPK);
@@ -2476,7 +2568,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
     }
 
     protected AHRegion getBycountryAndCityAndZip_PrevAndNext(Session session,
-        AHRegion ahRegion, String country, String city, int zip,
+        AHRegion ahRegion, String country, String city, String zip,
         OrderByComparator orderByComparator, boolean previous) {
         StringBundler query = null;
 
@@ -2513,7 +2605,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_CITY_2);
         }
 
-        query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_2);
+        boolean bindZip = false;
+
+        if (zip == null) {
+            query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_1);
+        } else if (zip.equals(StringPool.BLANK)) {
+            query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_3);
+        } else {
+            bindZip = true;
+
+            query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_2);
+        }
 
         if (orderByComparator != null) {
             String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -2584,7 +2686,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
             qPos.add(city);
         }
 
-        qPos.add(zip);
+        if (bindZip) {
+            qPos.add(zip);
+        }
 
         if (orderByComparator != null) {
             Object[] values = orderByComparator.getOrderByConditionValues(ahRegion);
@@ -2613,7 +2717,7 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      */
     @Override
     public void removeBycountryAndCityAndZip(String country, String city,
-        int zip) throws SystemException {
+        String zip) throws SystemException {
         for (AHRegion ahRegion : findBycountryAndCityAndZip(country, city, zip,
                 QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
             remove(ahRegion);
@@ -2630,8 +2734,8 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
      * @throws SystemException if a system exception occurred
      */
     @Override
-    public int countBycountryAndCityAndZip(String country, String city, int zip)
-        throws SystemException {
+    public int countBycountryAndCityAndZip(String country, String city,
+        String zip) throws SystemException {
         FinderPath finderPath = FINDER_PATH_COUNT_BY_COUNTRYANDCITYANDZIP;
 
         Object[] finderArgs = new Object[] { country, city, zip };
@@ -2668,7 +2772,17 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
                 query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_CITY_2);
             }
 
-            query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_2);
+            boolean bindZip = false;
+
+            if (zip == null) {
+                query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_1);
+            } else if (zip.equals(StringPool.BLANK)) {
+                query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_3);
+            } else {
+                bindZip = true;
+
+                query.append(_FINDER_COLUMN_COUNTRYANDCITYANDZIP_ZIP_2);
+            }
 
             String sql = query.toString();
 
@@ -2689,7 +2803,9 @@ public class AHRegionPersistenceImpl extends BasePersistenceImpl<AHRegion>
                     qPos.add(city);
                 }
 
-                qPos.add(zip);
+                if (bindZip) {
+                    qPos.add(zip);
+                }
 
                 count = (Long) q.uniqueResult();
 

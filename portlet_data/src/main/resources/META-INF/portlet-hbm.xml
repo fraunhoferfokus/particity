@@ -105,7 +105,7 @@
 		<cache usage="read-write" />
 		<composite-id name="primaryKey" class="de.fraunhofer.fokus.oefit.particity.service.persistence.AHRegionPK">
 			<key-property name="regionId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-			<key-property name="zip" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="zip" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 			<key-property name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 			<key-property name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		</composite-id>

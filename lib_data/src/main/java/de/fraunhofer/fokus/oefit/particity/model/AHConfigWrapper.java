@@ -181,8 +181,7 @@ public class AHConfigWrapper implements AHConfig, ModelWrapper<AHConfig> {
     }
 
     @Override
-    public int compareTo(
-        de.fraunhofer.fokus.oefit.particity.model.AHConfig ahConfig) {
+    public int compareTo(AHConfig ahConfig) {
         return _ahConfig.compareTo(ahConfig);
     }
 
@@ -192,17 +191,17 @@ public class AHConfigWrapper implements AHConfig, ModelWrapper<AHConfig> {
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHConfig> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<AHConfig> toCacheModel() {
         return _ahConfig.toCacheModel();
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHConfig toEscapedModel() {
+    public AHConfig toEscapedModel() {
         return new AHConfigWrapper(_ahConfig.toEscapedModel());
     }
 
     @Override
-    public de.fraunhofer.fokus.oefit.particity.model.AHConfig toUnescapedModel() {
+    public AHConfig toUnescapedModel() {
         return new AHConfigWrapper(_ahConfig.toUnescapedModel());
     }
 

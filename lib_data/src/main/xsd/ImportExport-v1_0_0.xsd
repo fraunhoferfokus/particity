@@ -101,7 +101,7 @@
     		<element name="street" type="string"></element>
     		<element name="country" type="string"></element>
     		<element name="city" type="string"></element>
-    		<element name="zip" type="int"></element>
+    		<element name="zip" type="string"></element>
     		<element name="coordLat" type="float"></element>
     		<element name="coordLon" type="float"></element>
     	</sequence>

@@ -94,15 +94,15 @@ public class CustomOfferServiceHandler {
 		        data.getExpireDate(),
 		        data.getExpireTime());
 
-		int zip = 0;
+		String zip = "0";
 		try {
-			zip = Integer.parseInt(data.getRegionZip());
+			zip = data.getRegionZip();
 		} catch (Throwable t) {}
 		
 		return addOffer(data.getOfferId(), data.getTitle(), data.getDescr(), data.getOrgId(), type, data.getContactForename(), data.getContactSurname(), data.getContactTel(), data.getContactMail(), data.getContactSndForename(), data.getContactSndSurname(), data.getContactSndTel(), data.getContactSndMail(), data.getAddrStreet(), data.getAddrNum(), data.getAddrLat(), data.getAddrLon(), data.getRegionCity(), data.getRegionCountry(), zip, data.getWorkHours(), workType, l_cats, publishDate, expireDate, data.isRequireAgencyContact());
 	}
 	
-	public static AHOffer addOffer(long offerId, String title, String descr, long orgId, E_OfferType offerType, String contact1Fn, String contact1Sn, String contact1Phone, String contact1Mail, String contact2Fn, String contact2Sn, String contact2Phone, String contact2Mail, String street, String streetNr, float lat, float lon, String city, String country, int zip, String workHours, E_OfferWorkType workType, long[] categories, long publishDateTime, long expireDateTime, boolean agencyContact) {
+	public static AHOffer addOffer(long offerId, String title, String descr, long orgId, E_OfferType offerType, String contact1Fn, String contact1Sn, String contact1Phone, String contact1Mail, String contact2Fn, String contact2Sn, String contact2Phone, String contact2Mail, String street, String streetNr, float lat, float lon, String city, String country, String zip, String workHours, E_OfferWorkType workType, long[] categories, long publishDateTime, long expireDateTime, boolean agencyContact) {
 		AHOffer result = null;
 
 		try {
@@ -252,7 +252,7 @@ public class CustomOfferServiceHandler {
 			if (region != null) {
 				result.setRegionCity(region.getCity());
 				result.setRegionCountry(region.getCountry());
-				result.setRegionZip(Integer.toString(region.getZip()));
+				result.setRegionZip(region.getZip());
 			} else {
 				m_objLog.warn("No region for offer " + offer.getOfferId());
 			}
