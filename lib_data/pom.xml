@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>de.fraunhofer.fokus.oefit</groupId>
 		<artifactId>particity-suite</artifactId>
-		<version>0.9.4-RC1</version>
+		<version>0.9.5-alpha1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -13,15 +13,15 @@
 	<artifactId>lib_data</artifactId>
 	<packaging>jar</packaging>
 	<name>lib_data</name>
-    <description>Shared data library, carrying all data structures and basic service interfaces</description>
+	<description>Shared data library, carrying all data structures and basic service interfaces</description>
 
 	<build>
 		<resources>
-	    <resource>
-	        <directory>${basedir}/src/main/resources/</directory>
-	        <filtering>true</filtering>
-	    </resource>
-	  </resources>
+			<resource>
+				<directory>${basedir}/src/main/resources/</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<finalName>lib_data</finalName>
 		<plugins>
 			<plugin>
@@ -42,60 +42,60 @@
 				<artifactId>maven-resources-plugin</artifactId>
 			</plugin>
 			<plugin>
-          <groupId>org.jvnet.jaxb2.maven2</groupId>
-          <artifactId>maven-jaxb2-plugin</artifactId>
-          <version>0.12.3</version>
-          <executions>
-              <execution>
-                  <goals>
-                      <goal>generate</goal>
-                  </goals>
-                  <configuration>
-                    <noFileHeader>true</noFileHeader>
-	                  <schemaDirectory>src/main/xsd</schemaDirectory>
-										<schemaIncludes>
-										    <include>ImportExport-v1_0_0.xsd</include>
-										</schemaIncludes>
-										<bindingDirectory>src/main/xjb</bindingDirectory>
-										<bindingIncludes>
-										    <include>globalbindings.xjb</include>
-										</bindingIncludes>
-										<extension>true</extension>
-										<generateDirectory>src/main/generated</generateDirectory>
-										<!-- limit plugin to not scan whole source tree :) -->
-										<args>
-						            <arg>-Xannotate</arg>
-						        </args>
-						        <plugins>
-						            <plugin>
-												  <groupId>org.jvnet.jaxb2_commons</groupId>
-												  <artifactId>jaxb2-basics-annotate</artifactId>
-												  <version>1.0.2</version>
-												</plugin>
-						        </plugins>
-                  </configuration>
-              </execution>
-          </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>src/main/generated</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.12.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<noFileHeader>true</noFileHeader>
+							<schemaDirectory>src/main/xsd</schemaDirectory>
+							<schemaIncludes>
+								<include>ImportExport-v1_0_0.xsd</include>
+							</schemaIncludes>
+							<bindingDirectory>src/main/xjb</bindingDirectory>
+							<bindingIncludes>
+								<include>globalbindings.xjb</include>
+							</bindingIncludes>
+							<extension>true</extension>
+							<generateDirectory>src/main/generated</generateDirectory>
+							<!-- limit plugin to not scan whole source tree :) -->
+							<args>
+								<arg>-Xannotate</arg>
+							</args>
+							<plugins>
+								<plugin>
+									<groupId>org.jvnet.jaxb2_commons</groupId>
+									<artifactId>jaxb2-basics-annotate</artifactId>
+									<version>1.0.2</version>
+								</plugin>
+							</plugins>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/generated</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -173,10 +173,10 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
+		<!-- dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-		</dependency>
+		</dependency-->
 
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -184,10 +184,10 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
+		<!-- dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency-->
 
 		<dependency>
 			<groupId>org.twitter4j</groupId>

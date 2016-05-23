@@ -199,19 +199,20 @@ public interface AHContactModel extends BaseModel<AHContact> {
     public Object clone();
 
     @Override
-    public int compareTo(AHContact ahContact);
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHContact ahContact);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<AHContact> toCacheModel();
+    public CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHContact> toCacheModel();
 
     @Override
-    public AHContact toEscapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHContact toEscapedModel();
 
     @Override
-    public AHContact toUnescapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHContact toUnescapedModel();
 
     @Override
     public String toString();

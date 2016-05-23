@@ -269,19 +269,19 @@ public interface AHOrgModel extends BaseModel<AHOrg> {
     public Object clone();
 
     @Override
-    public int compareTo(AHOrg ahOrg);
+    public int compareTo(de.fraunhofer.fokus.oefit.particity.model.AHOrg ahOrg);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<AHOrg> toCacheModel();
+    public CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHOrg> toCacheModel();
 
     @Override
-    public AHOrg toEscapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHOrg toEscapedModel();
 
     @Override
-    public AHOrg toUnescapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHOrg toUnescapedModel();
 
     @Override
     public String toString();

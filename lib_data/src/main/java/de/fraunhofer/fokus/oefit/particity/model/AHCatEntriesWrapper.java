@@ -263,7 +263,8 @@ public class AHCatEntriesWrapper implements AHCatEntries,
     }
 
     @Override
-    public int compareTo(AHCatEntries ahCatEntries) {
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHCatEntries ahCatEntries) {
         return _ahCatEntries.compareTo(ahCatEntries);
     }
 
@@ -273,17 +274,17 @@ public class AHCatEntriesWrapper implements AHCatEntries,
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<AHCatEntries> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> toCacheModel() {
         return _ahCatEntries.toCacheModel();
     }
 
     @Override
-    public AHCatEntries toEscapedModel() {
+    public de.fraunhofer.fokus.oefit.particity.model.AHCatEntries toEscapedModel() {
         return new AHCatEntriesWrapper(_ahCatEntries.toEscapedModel());
     }
 
     @Override
-    public AHCatEntries toUnescapedModel() {
+    public de.fraunhofer.fokus.oefit.particity.model.AHCatEntries toUnescapedModel() {
         return new AHCatEntriesWrapper(_ahCatEntries.toUnescapedModel());
     }
 

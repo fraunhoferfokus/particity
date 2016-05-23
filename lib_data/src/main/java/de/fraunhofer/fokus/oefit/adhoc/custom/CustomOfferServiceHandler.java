@@ -33,9 +33,8 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.custom;
 
+import java.util.Arrays;
 import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -83,8 +82,11 @@ public class CustomOfferServiceHandler {
 
 		String[] categories = data.getCategories();
 		final String[] services = data.getServices();
-		categories = (String[]) ArrayUtils.addAll(categories, services);
-
+		//categories = (String[]) ArrayUtils.addAll(categories, services);
+		List<String> cats = Arrays.asList(categories);
+		cats.addAll(Arrays.asList(services));
+		categories = cats.toArray(new String[0]);
+		
 		final long[] l_cats = CustomServiceUtils.categoryStrToLong(categories);
 
 		final long publishDate = CustomServiceUtils.parseZoneDateTime(

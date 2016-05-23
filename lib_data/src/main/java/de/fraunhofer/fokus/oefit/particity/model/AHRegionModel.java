@@ -155,19 +155,20 @@ public interface AHRegionModel extends BaseModel<AHRegion> {
     public Object clone();
 
     @Override
-    public int compareTo(AHRegion ahRegion);
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHRegion ahRegion);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<AHRegion> toCacheModel();
+    public CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHRegion> toCacheModel();
 
     @Override
-    public AHRegion toEscapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHRegion toEscapedModel();
 
     @Override
-    public AHRegion toUnescapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHRegion toUnescapedModel();
 
     @Override
     public String toString();

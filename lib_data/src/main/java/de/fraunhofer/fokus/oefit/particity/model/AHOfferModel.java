@@ -328,19 +328,20 @@ public interface AHOfferModel extends BaseModel<AHOffer> {
     public Object clone();
 
     @Override
-    public int compareTo(AHOffer ahOffer);
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHOffer ahOffer);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<AHOffer> toCacheModel();
+    public CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHOffer> toCacheModel();
 
     @Override
-    public AHOffer toEscapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHOffer toEscapedModel();
 
     @Override
-    public AHOffer toUnescapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHOffer toUnescapedModel();
 
     @Override
     public String toString();

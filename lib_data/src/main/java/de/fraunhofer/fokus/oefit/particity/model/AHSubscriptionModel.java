@@ -152,19 +152,20 @@ public interface AHSubscriptionModel extends BaseModel<AHSubscription> {
     public Object clone();
 
     @Override
-    public int compareTo(AHSubscription ahSubscription);
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHSubscription ahSubscription);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<AHSubscription> toCacheModel();
+    public CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHSubscription> toCacheModel();
 
     @Override
-    public AHSubscription toEscapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHSubscription toEscapedModel();
 
     @Override
-    public AHSubscription toUnescapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHSubscription toUnescapedModel();
 
     @Override
     public String toString();

@@ -2552,5 +2552,8 @@ public class AHCatEntriesPersistenceImpl extends BasePersistenceImpl<AHCatEntrie
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
         FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+        TableMapperFactory.removeTableMapper("PARTICITY_sub_citm");
+        TableMapperFactory.removeTableMapper("PARTICITY_offer_citm");
     }
 }

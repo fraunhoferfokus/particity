@@ -33,10 +33,10 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.custom;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -49,7 +49,7 @@ public class CustomServiceUtils {
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(CustomServiceUtils.class);
 
-	private static DateTimeZone	m_objTZ	 = null;
+	private static ZoneId	m_objTZ	 = null;
 
 	/**
 	 * Parse a list of Long values from their String representation
@@ -76,12 +76,8 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneDate(final long date) {
-		String result = null;
-		DateTimeFormatter fmt = DateTimeFormat
-		        .forPattern(Constants.DEFAULT_JODA_DATE_FORMAT);
-		fmt = fmt.withZone(getTimeZone());
-		result = fmt.print(date);
-		return result;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_DATE_FORMAT);
+		return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
 	}
 
 	/**
@@ -92,12 +88,8 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneDateTime(final long date) {
-		String result = null;
-		DateTimeFormatter fmt = DateTimeFormat
-		        .forPattern(Constants.DEFAULT_JODA_DATETIME_FORMAT);
-		fmt = fmt.withZone(getTimeZone());
-		result = fmt.print(date);
-		return result;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_DATETIME_FORMAT);
+		return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
 	}
 
 	/**
@@ -108,12 +100,8 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneTime(final long date) {
-		String result = null;
-		DateTimeFormatter fmt = DateTimeFormat
-		        .forPattern(Constants.DEFAULT_JODA_TIME_FORMAT);
-		fmt = fmt.withZone(getTimeZone());
-		result = fmt.print(date);
-		return result;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_TIME_FORMAT);
+		return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
 	}
 
 	/**
@@ -121,16 +109,17 @@ public class CustomServiceUtils {
 	 *
 	 * @return the default time zone object
 	 */
-	public static DateTimeZone getTimeZone() {
-		DateTimeZone result = m_objTZ;
+	public static ZoneId getTimeZone() {
+		
+		ZoneId result = m_objTZ;
 		if (result == null) {
 			try {
-				result = DateTimeZone.forID(Constants.DEFAULT_TIMEZONE_ID);
+				result = ZoneId.of(Constants.DEFAULT_TIMEZONE_ID);
 			} catch (final Throwable t) {
-				result = DateTimeZone.getDefault();
+				result = ZoneId.systemDefault();
 				m_objLog.warn("Could not get timezone for "
 				        + Constants.DEFAULT_TIMEZONE_ID
-				        + ". Using system default " + result.getID());
+				        + ". Using system default " + result.getId());
 			}
 			m_objTZ = result;
 		}
@@ -146,12 +135,9 @@ public class CustomServiceUtils {
 	 * @return the numeric representation
 	 */
 	public static long parseZoneDateTime(final String date, final String time) {
-		long result = -1;
-		DateTimeFormatter fmt = DateTimeFormat
-		        .forPattern(Constants.DEFAULT_JODA_DATETIME_FORMAT);
-		fmt = fmt.withZone(getTimeZone());
-		result = fmt.parseDateTime(date + " " + time).getMillis();
-		return result;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_DATETIME_FORMAT);
+		LocalDateTime dateTime = LocalDateTime.parse(date+" "+time, formatter);
+		return dateTime.atZone(getTimeZone()).toInstant().toEpochMilli();
 	}
 
 	/**
@@ -184,7 +170,7 @@ public class CustomServiceUtils {
 	 * @return the current time in milliseconds
 	 */
 	public static long time() {
-		return DateTime.now(getTimeZone()).getMillis();
+		return LocalDateTime.now(getTimeZone()).atZone(getTimeZone()).toInstant().toEpochMilli();
 	}
 
 }

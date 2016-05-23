@@ -166,19 +166,20 @@ public interface AHAddrModel extends BaseModel<AHAddr> {
     public Object clone();
 
     @Override
-    public int compareTo(AHAddr ahAddr);
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHAddr ahAddr);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<AHAddr> toCacheModel();
+    public CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHAddr> toCacheModel();
 
     @Override
-    public AHAddr toEscapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHAddr toEscapedModel();
 
     @Override
-    public AHAddr toUnescapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHAddr toUnescapedModel();
 
     @Override
     public String toString();

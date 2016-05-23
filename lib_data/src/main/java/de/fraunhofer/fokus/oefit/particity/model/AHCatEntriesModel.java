@@ -152,19 +152,20 @@ public interface AHCatEntriesModel extends BaseModel<AHCatEntries> {
     public Object clone();
 
     @Override
-    public int compareTo(AHCatEntries ahCatEntries);
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHCatEntries ahCatEntries);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<AHCatEntries> toCacheModel();
+    public CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHCatEntries> toCacheModel();
 
     @Override
-    public AHCatEntries toEscapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHCatEntries toEscapedModel();
 
     @Override
-    public AHCatEntries toUnescapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHCatEntries toUnescapedModel();
 
     @Override
     public String toString();

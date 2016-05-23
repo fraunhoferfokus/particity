@@ -138,19 +138,20 @@ public interface AHCategoriesModel extends BaseModel<AHCategories> {
     public Object clone();
 
     @Override
-    public int compareTo(AHCategories ahCategories);
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHCategories ahCategories);
 
     @Override
     public int hashCode();
 
     @Override
-    public CacheModel<AHCategories> toCacheModel();
+    public CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHCategories> toCacheModel();
 
     @Override
-    public AHCategories toEscapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHCategories toEscapedModel();
 
     @Override
-    public AHCategories toUnescapedModel();
+    public de.fraunhofer.fokus.oefit.particity.model.AHCategories toUnescapedModel();
 
     @Override
     public String toString();

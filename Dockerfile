@@ -9,8 +9,8 @@ RUN apt-get -qq update \
 # Get & extract liferay
 #
 RUN mkdir -p /opt/liferay/particiy \
-    && wget -c http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/6.2.5%20GA6/liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip \
-    && unzip liferay-portal-tomcat-6.2-ce-ga6-20160112152609836.zip -d /opt/liferay \ 
+    && wget -c http://downloads.sourceforge.net/project/lportal/Liferay%20Portal/7.0.0%20GA1/liferay-portal-tomcat-7.0-ce-ga1-20160331161017956.zip \
+    && unzip liferay-portal-tomcat-7.0-ce-ga1-20160331161017956.zip -d /opt/liferay \ 
     && wget -c https://github.com/fraunhoferfokus/particity/releases/download/v0.9.4-rc1/particity_0.9.4-rc1.zip
     && unzip particity_0.9.4-rc1.zip -d /opt/liferay/particity
     

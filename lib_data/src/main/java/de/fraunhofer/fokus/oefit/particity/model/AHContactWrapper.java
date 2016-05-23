@@ -343,7 +343,8 @@ public class AHContactWrapper implements AHContact, ModelWrapper<AHContact> {
     }
 
     @Override
-    public int compareTo(AHContact ahContact) {
+    public int compareTo(
+        de.fraunhofer.fokus.oefit.particity.model.AHContact ahContact) {
         return _ahContact.compareTo(ahContact);
     }
 
@@ -353,17 +354,17 @@ public class AHContactWrapper implements AHContact, ModelWrapper<AHContact> {
     }
 
     @Override
-    public com.liferay.portal.model.CacheModel<AHContact> toCacheModel() {
+    public com.liferay.portal.model.CacheModel<de.fraunhofer.fokus.oefit.particity.model.AHContact> toCacheModel() {
         return _ahContact.toCacheModel();
     }
 
     @Override
-    public AHContact toEscapedModel() {
+    public de.fraunhofer.fokus.oefit.particity.model.AHContact toEscapedModel() {
         return new AHContactWrapper(_ahContact.toEscapedModel());
     }
 
     @Override
-    public AHContact toUnescapedModel() {
+    public de.fraunhofer.fokus.oefit.particity.model.AHContact toUnescapedModel() {
         return new AHContactWrapper(_ahContact.toUnescapedModel());
     }
 
