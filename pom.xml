@@ -41,10 +41,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tomcat.auto.deploy.dir>/opt/liferay/liferay-portal-6.2-ce-ga3/tomcat-7.0.42/webapps</tomcat.auto.deploy.dir>
-		<liferay.auto.deploy.dir>${tomcat.auto.deploy.dir}/../../deploy</liferay.auto.deploy.dir>
-		<liferay.version>6.2.5</liferay.version>
-		<plugin.version>6.2.5</plugin.version>
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.2.5.RELEASE</org.springframework-version>
 	</properties>
@@ -55,22 +51,23 @@
 		<!-- libs -->
 		<module>lib_data</module>
 
-        <!-- hooks -->
-        <module>hook_securefilter</module>
+		<!-- hooks -->
+		<module>hook_securefilter</module>
 
 		<!-- basic portlets -->
-		<module>portlet_data</module>
+		<module>portlet_admin</module>
 		<module>portlet_search</module>
 		<module>portlet_mgmt</module>
 		<module>portlet_org</module>
 		<module>portlet_newsletter</module>
 		<module>portlet_site</module>
 		<module>portlet_init</module>
+		<module>portlet_main</module>
 
 		<!-- themes/layout -->
-		<module>layout_2col</module>
+		<!-- module>layout_2col</module>
 		<module>layout_3col</module>
-		<module>theme_default</module>
+		<module>theme_default</module-->
 	</modules>
 
 
@@ -80,28 +77,38 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
-				<artifactId>portal-service</artifactId>
-				<version>${liferay.version}</version>
+				<artifactId>com.liferay.portal.kernel</artifactId>
+				<version>2.3.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
-				<artifactId>portal-impl</artifactId>
-				<version>${liferay.version}</version>
+				<artifactId>com.liferay.portal.impl</artifactId>
+				<version>2.3.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
-				<artifactId>util-bridges</artifactId>
-				<version>${liferay.version}</version>
+				<artifactId>com.liferay.util.bridges</artifactId>
+				<version>2.0.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
-				<artifactId>util-taglib</artifactId>
-				<version>${liferay.version}</version>
+				<artifactId>com.liferay.util.taglib</artifactId>
+				<version>2.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.liferay.portal</groupId>
-				<artifactId>util-java</artifactId>
-				<version>${liferay.version}</version>
+				<artifactId>com.liferay.util.java</artifactId>
+				<version>2.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.lock.api</artifactId>
+				<version>2.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.spring.extender</artifactId>
+				<version>2.0.2</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.portlet</groupId>
@@ -136,15 +143,22 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${org.springframework-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${org.springframework-version}</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jstl</artifactId>
 				<version>1.2</version>
 			</dependency>
-			<!-- dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.14</version>
-			</dependency-->
+			<!-- dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+				<version>1.2.14</version> </dependency -->
 			<dependency>
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
@@ -160,20 +174,12 @@
 			<dependency>
 				<groupId>javax.validation</groupId>
 				<artifactId>validation-api</artifactId>
-				<version>1.0.0.GA</version>
+				<version>1.1.0.Final</version>
 			</dependency>
 
-			<!-- dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin</artifactId>
-				<version>6.8.17</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.google.gwt</groupId>
-				<artifactId>gwt-user</artifactId>
-				<version>2.7.0</version>
-			</dependency-->
+			<!-- dependency> <groupId>com.vaadin</groupId> <artifactId>vaadin</artifactId> 
+				<version>6.8.17</version> </dependency> <dependency> <groupId>com.google.gwt</groupId> 
+				<artifactId>gwt-user</artifactId> <version>2.7.0</version> </dependency -->
 
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -191,80 +197,34 @@
 				<artifactId>jackson-annotations</artifactId>
 				<version>2.7.4</version>
 			</dependency>
-			
+
 			<dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core-asl</artifactId>
-                <version>2.7.4</version>
-            </dependency>
-			
-			<dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <version>2.7.4</version>
-            </dependency>
-            <!--  dependency>
-				<groupId>javax.ws.rs</groupId>
-				<artifactId>javax.ws.rs-api</artifactId>
-				<version>2.0-m01</version>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core-asl</artifactId>
+				<version>2.7.4</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.cloudgarden</groupId>
-				<artifactId>cgjsapi</artifactId>
-				<version>1.7.0</version>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>2.7.4</version>
 			</dependency>
-			<dependency>
-				<groupId>org.atmosphere</groupId>
-				<artifactId>nettosphere</artifactId>
-				<version>2.0.0.RC1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.atmosphere</groupId>
-				<artifactId>atmosphere-jersey</artifactId>
-				<version>1.1.0.RC1</version>
-			</dependency>
-			<dependency>
-				<groupId>org.atmosphere</groupId>
-				<artifactId>atmosphere-annotations</artifactId>
-				<version>1.1.0.RC1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-bundle</artifactId>
-				<version>1.14</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.hadoop</groupId>
-				<artifactId>zookeeper</artifactId>
-				<version>3.4.5</version>
-			</dependency>
-
-			<dependency>
-				<groupId>woodstox</groupId>
-				<artifactId>wstx-asl</artifactId>
-				<version>3.2.7</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.solr</groupId>
-				<artifactId>solr-core</artifactId>
-				<version>4.5.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.solr</groupId>
-				<artifactId>solr-solrj</artifactId>
-				<version>4.5.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.solr</groupId>
-				<artifactId>solr-test-framework</artifactId>
-				<version>4.5.1</version>
-			</dependency-->
+			<!-- dependency> <groupId>javax.ws.rs</groupId> <artifactId>javax.ws.rs-api</artifactId> 
+				<version>2.0-m01</version> </dependency> <dependency> <groupId>com.cloudgarden</groupId> 
+				<artifactId>cgjsapi</artifactId> <version>1.7.0</version> </dependency> <dependency> 
+				<groupId>org.atmosphere</groupId> <artifactId>nettosphere</artifactId> <version>2.0.0.RC1</version> 
+				</dependency> <dependency> <groupId>org.atmosphere</groupId> <artifactId>atmosphere-jersey</artifactId> 
+				<version>1.1.0.RC1</version> </dependency> <dependency> <groupId>org.atmosphere</groupId> 
+				<artifactId>atmosphere-annotations</artifactId> <version>1.1.0.RC1</version> 
+				</dependency> <dependency> <groupId>com.sun.jersey</groupId> <artifactId>jersey-bundle</artifactId> 
+				<version>1.14</version> </dependency> <dependency> <groupId>org.apache.hadoop</groupId> 
+				<artifactId>zookeeper</artifactId> <version>3.4.5</version> </dependency> 
+				<dependency> <groupId>woodstox</groupId> <artifactId>wstx-asl</artifactId> 
+				<version>3.2.7</version> </dependency> <dependency> <groupId>org.apache.solr</groupId> 
+				<artifactId>solr-core</artifactId> <version>4.5.1</version> </dependency> 
+				<dependency> <groupId>org.apache.solr</groupId> <artifactId>solr-solrj</artifactId> 
+				<version>4.5.1</version> </dependency> <dependency> <groupId>org.apache.solr</groupId> 
+				<artifactId>solr-test-framework</artifactId> <version>4.5.1</version> </dependency -->
 
 
 			<dependency>
@@ -279,29 +239,12 @@
 				<version>1.7.21</version>
 			</dependency>
 
-            <!--  dependency>
-				<groupId>org.noggit</groupId>
-				<artifactId>noggit</artifactId>
-				<version>0.5</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpmime</artifactId>
-				<version>4.3.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpcore</artifactId>
-				<version>4.3</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>4.3.1</version>
-			</dependency-->
+			<!-- dependency> <groupId>org.noggit</groupId> <artifactId>noggit</artifactId> 
+				<version>0.5</version> </dependency> <dependency> <groupId>org.apache.httpcomponents</groupId> 
+				<artifactId>httpmime</artifactId> <version>4.3.1</version> </dependency> 
+				<dependency> <groupId>org.apache.httpcomponents</groupId> <artifactId>httpcore</artifactId> 
+				<version>4.3</version> </dependency> <dependency> <groupId>org.apache.httpcomponents</groupId> 
+				<artifactId>httpclient</artifactId> <version>4.3.1</version> </dependency -->
 
 			<dependency>
 				<groupId>commons-io</groupId>
@@ -316,9 +259,9 @@
 			</dependency>
 
 			<dependency>
-			    <groupId>org.apache.commons</groupId>
-			    <artifactId>commons-lang3</artifactId>
-			    <version>3.4</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.4</version>
 			</dependency>
 
 
@@ -358,15 +301,41 @@
 				<version>2.4.1</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.jboss.weld.servlet</groupId>
+				<artifactId>weld-servlet</artifactId>
+				<version>2.3.4.Final</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.enterprise</groupId>
+				<artifactId>cdi-api</artifactId>
+				<version>2.0-EDR1</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>5.1.0.Final</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.liferay.cdi</groupId>
+				<artifactId>cdi-portlet-bridge-shared</artifactId>
+				<version>6.2.0.2</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.liferay.maven.plugins</groupId>
-				<artifactId>liferay-maven-plugin</artifactId>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.tools.service.builder</artifactId>
+				<version>1.0.114</version>
 			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -418,29 +387,6 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<groupId>com.liferay.maven.plugins</groupId>
-					<artifactId>liferay-maven-plugin</artifactId>
-					<version>${plugin.version}</version>
-					<dependencies>
-						<dependency>
-							<groupId>org.apache.jackrabbit</groupId>
-							<artifactId>jackrabbit-core</artifactId>
-							<version>2.1.2</version>
-							<exclusions>
-								<exclusion>
-									<groupId>org.slf4j</groupId>
-									<artifactId>jcl-over-slf4j</artifactId>
-								</exclusion>
-							</exclusions>
-						</dependency>
-					</dependencies>
-					<configuration>
-						<autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
-						<liferayVersion>${liferay.version}</liferayVersion>
-					</configuration>
-				</plugin>
-
-				<plugin>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
 						<encoding>${project.build.sourceEncoding}</encoding>
@@ -454,13 +400,13 @@
 						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
-                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <configuration>
-                        <outputDirectory>${basedir}/../deploy/</outputDirectory>
-                    </configuration>
-                </plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<configuration>
+						<outputDirectory>${basedir}/../deploy/</outputDirectory>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<extensions>
@@ -556,7 +502,7 @@
 				<configuration>
 					<maxmemory>1024m</maxmemory>
 					<aggregate>false</aggregate>
-					<!-- since Java8 to prevent exceptions on missing parameters  -->
+					<!-- since Java8 to prevent exceptions on missing parameters -->
 					<additionalparam>-Xdoclint:none</additionalparam>
 				</configuration>
 			</plugin>
@@ -580,25 +526,23 @@
 	</reporting>
 
 	<scm>
-    <connection>scm:git:git@github.com:fraunhoferfokus/particity.git</connection>
-    <developerConnection>scm:git:git@github.fraunhoferfokus/particity.git</developerConnection>
-    <url>http://github.com/fraunhoferfokus/particity</url>
-  </scm>
+		<connection>scm:git:git@github.com:fraunhoferfokus/particity.git</connection>
+		<developerConnection>scm:git:git@github.fraunhoferfokus/particity.git</developerConnection>
+		<url>http://github.com/fraunhoferfokus/particity</url>
+	</scm>
 
 	<distributionManagement>
-		<!-- >site>
-			<id>staging</id>
-			<url>file://${project.build.directory}/target/staging</url>
-		</site-->
+		<!-- >site> <id>staging</id> <url>file://${project.build.directory}/target/staging</url> 
+			</site -->
 		<site>
-        <id>${project.artifactId}-site</id>
-        <url>${project.baseUri}</url>
-     </site>
+			<id>${project.artifactId}-site</id>
+			<url>${project.baseUri}</url>
+		</site>
 	</distributionManagement>
 
 
 	<repositories>
-	    <repository>
+		<repository>
 			<id>liferay-repo</id>
 			<name>Lifray Snapshots</name>
 			<url>https://repository.liferay.com/nexus/content/groups/liferay-ce</url>

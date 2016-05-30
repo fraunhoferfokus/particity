@@ -43,14 +43,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.User;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
 
-import de.fraunhofer.fokus.oefit.adhoc.custom.Constants;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;

@@ -1,6 +1,6 @@
 package de.fraunhofer.fokus.oefit.particity.portlet.init;
 
-import com.liferay.portal.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutConstants;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 

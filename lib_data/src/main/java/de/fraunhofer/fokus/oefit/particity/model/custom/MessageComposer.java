@@ -34,18 +34,17 @@
 package de.fraunhofer.fokus.oefit.particity.model.custom;
 
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
@@ -152,7 +151,7 @@ public class MessageComposer {
 				this.m_objDefCompany = CompanyLocalServiceUtil.getCompanyByMx(PropsUtil.get(PropsKeys.COMPANY_DEFAULT_WEB_ID));
 			this.m_strPortalURL = PortalUtil.getPortalURL(
 			        this.m_objDefCompany.getVirtualHostname(),
-			        PortalUtil.getPortalPort(), false);
+			        PortalUtil.getPortalLocalPort(true), false);
 			// FIX: #5 - somethimes portal port is -1 for unknown reasons
 			if (this.m_strPortalURL.contains(":-1"))
 				this.m_strPortalURL = this.m_strPortalURL.replace(":-1", "");

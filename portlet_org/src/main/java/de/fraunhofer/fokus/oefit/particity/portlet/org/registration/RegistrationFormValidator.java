@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;

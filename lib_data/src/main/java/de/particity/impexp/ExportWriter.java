@@ -14,14 +14,14 @@ import javax.xml.bind.Marshaller;
 
 import org.apache.commons.io.IOUtils;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;

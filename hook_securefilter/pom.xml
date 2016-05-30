@@ -30,26 +30,27 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-service</artifactId>
+			<artifactId>com.liferay.portal.kernel</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-bridges</artifactId>
+			<artifactId>com.liferay.util.bridges</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-taglib</artifactId>
+			<artifactId>com.liferay.util.taglib</artifactId>
 			<scope>provided</scope>
+
 		</dependency>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-java</artifactId>
+			<artifactId>com.liferay.util.java</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -67,11 +68,11 @@
 			<artifactId>jsp-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		      <!-- Spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

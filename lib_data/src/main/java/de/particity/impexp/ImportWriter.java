@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.bind.JAXBElement;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler;

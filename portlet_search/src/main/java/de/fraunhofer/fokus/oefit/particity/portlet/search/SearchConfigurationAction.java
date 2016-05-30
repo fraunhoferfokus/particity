@@ -33,7 +33,10 @@
  */
 package de.fraunhofer.fokus.oefit.particity.portlet.search;
 
+import java.io.IOException;
+
 import javax.portlet.PortletConfig;
+import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -58,12 +61,20 @@ public class SearchConfigurationAction extends DefaultConfigurationAction {
 	/* (non-Javadoc)
 	 * @see com.liferay.portal.kernel.portlet.DefaultConfigurationAction#render(javax.portlet.PortletConfig, javax.portlet.RenderRequest, javax.portlet.RenderResponse)
 	 */
-	@Override
+	
+	/*@Override
 	public String render(final PortletConfig portletConfig,
 	        final RenderRequest renderRequest,
 	        final RenderResponse renderResponse)
 	        throws Exception {
 		return "/pages/search/config.jsp";
 	}
+
+	@Override
+	public void render(RenderRequest request, RenderResponse response)
+			throws PortletException, IOException {
+		// TODO Auto-generated method stub
+		super.render(request, response);
+	}*/
 
 }

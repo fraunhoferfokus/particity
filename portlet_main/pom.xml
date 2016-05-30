@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>de.fraunhofer.fokus.oefit</groupId>
+		<artifactId>particity-suite</artifactId>
+		<version>0.9.5-alpha1</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>portlet_main</artifactId>
+	<packaging>war</packaging>
+	<name>portlet_main</name>
+	<description>Main particity portlet</description>
+
+
+	<build>
+		<finalName>particity-portlet</finalName>
+		<plugins>
+			<!-- plugin> <groupId>com.liferay.maven.plugins</groupId> <artifactId>liferay-maven-plugin</artifactId> 
+				<configuration> <pluginName>${project.build.finalName}</pluginName> <pluginType>portlet</pluginType> 
+				<webappBaseDir>${basedir}</webappBaseDir> </configuration> </plugin -->
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<overwrite>true</overwrite>
+							<useBuildFilters>false</useBuildFilters>
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../portlet_org/src/main/resources</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+                                    <directory>${basedir}/../portlet_search/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../portlet_newsletter/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                 <resource>
+                                    <directory>${basedir}/../portlet_mgmt/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../portlet_site/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../portlet_init/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../portlet_admin/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+								<!-- resource> </resource -->
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-webapps</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<overwrite>true</overwrite>
+							<useBuildFilters>false</useBuildFilters>
+							<outputDirectory>${project.build.directory}/particity-portlet</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/../portlet_org/src/main/webapp</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_search/src/main/webapp</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+                                    <directory>${basedir}/../portlet_newsletter/src/main/webapp</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../portlet_mgmt/src/main/webapp</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../portlet_site/src/main/webapp</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../portlet_init/src/main/webapp</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${basedir}/../portlet_admin/src/main/webapp</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+
+		<!-- MODULES -->
+		<dependency>
+			<groupId>de.fraunhofer.fokus.oefit</groupId>
+			<artifactId>portlet_org</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.fraunhofer.fokus.oefit</groupId>
+			<artifactId>portlet_search</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.fraunhofer.fokus.oefit</groupId>
+			<artifactId>portlet_newsletter</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+            <groupId>de.fraunhofer.fokus.oefit</groupId>
+            <artifactId>portlet_mgmt</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.fraunhofer.fokus.oefit</groupId>
+            <artifactId>portlet_site</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.fraunhofer.fokus.oefit</groupId>
+            <artifactId>portlet_init</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.fraunhofer.fokus.oefit</groupId>
+            <artifactId>portlet_admin</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+		<!-- LIFERAY MAIN -->
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.portal.kernel</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.bridges</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.taglib</artifactId>
+			<scope>provided</scope>
+
+		</dependency>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>com.liferay.util.java</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- GENERAL PORTLET/SERVLET APIs -->
+		<dependency>
+			<groupId>javax.portlet</groupId>
+			<artifactId>portlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+
+		<!-- SPRING -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc-portlet</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>
+
+		<!-- CDI -->
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.el</groupId>
+					<artifactId>javax.el-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- HIBERNATE -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+	</dependencies>
+
+</project>

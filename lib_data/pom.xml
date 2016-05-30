@@ -25,14 +25,6 @@
 		<finalName>lib_data</finalName>
 		<plugins>
 			<plugin>
-				<groupId>com.liferay.maven.plugins</groupId>
-				<artifactId>liferay-maven-plugin</artifactId>
-				<configuration>
-					<webappBaseDir>${basedir}/../portlet_data/</webappBaseDir>
-					<pluginName>padata-portlet</pluginName>
-				</configuration>
-			</plugin>
-			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
 			<plugin>
@@ -99,27 +91,31 @@
 		</plugins>
 	</build>
 	<dependencies>
-
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-service</artifactId>
-			<scope>provided</scope>
+        <dependency>
+		    <groupId>com.liferay</groupId>
+		    <artifactId>com.liferay.portal.lock.api</artifactId>
+		    <scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-bridges</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-taglib</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-java</artifactId>
-			<!-- scope>provided</scope -->
-		</dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.portal.kernel</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.util.bridges</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.util.taglib</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.util.java</artifactId>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>javax.portlet</groupId>
 			<artifactId>portlet-api</artifactId>

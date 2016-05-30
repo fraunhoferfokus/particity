@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
@@ -31,15 +30,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.LiferayFilter;
 import com.liferay.portal.kernel.servlet.LiferayFilterTracker;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsUtil;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.util.PortalUtil;
 
 public class SecureURLFilter
         implements LiferayFilter
@@ -176,7 +175,7 @@ public class SecureURLFilter
 				                .getDefaultCompanyId());
 				DEFAULT_REDIRECT_URL = PortalUtil.getPortalURL(
 						defCompany.getVirtualHostname(),
-				        PortalUtil.getPortalPort(), false);
+				        PortalUtil.getPortalLocalPort(false), false);
 				// FIX: #5 - somethimes portal port is -1 for unknown reasons
 				if (DEFAULT_REDIRECT_URL.contains(":-1"))
 					DEFAULT_REDIRECT_URL = DEFAULT_REDIRECT_URL.replace(":-1", "");

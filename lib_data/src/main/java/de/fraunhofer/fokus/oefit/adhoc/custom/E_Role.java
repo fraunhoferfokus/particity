@@ -33,7 +33,7 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.custom;
 
-import com.liferay.portal.model.RoleConstants;
+import com.liferay.portal.kernel.model.RoleConstants;
 
 /**
  * An enum describing supported roles along with their default locations to redirect to after login.

@@ -35,14 +35,12 @@ package de.fraunhofer.fokus.oefit.particity.portlet.login.form;
 
 import java.util.List;
 
-
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -57,21 +55,21 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.LiferayPortletConfig;
+import com.liferay.portal.kernel.security.auth.Authenticator;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.JavaConstants;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.auth.Authenticator;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortalUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
-import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 
 /**
  * Controller for the login portlet

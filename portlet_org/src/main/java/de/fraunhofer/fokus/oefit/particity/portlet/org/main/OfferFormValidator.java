@@ -39,7 +39,7 @@ import org.springframework.validation.Validator;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.theme.ThemeDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm;

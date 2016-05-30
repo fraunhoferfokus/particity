@@ -40,33 +40,33 @@ import java.util.Map;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.security.auth.CompanyThreadLocal;
-import com.liferay.portal.security.auth.PrincipalThreadLocal;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
-import com.liferay.portal.security.permission.PermissionThreadLocal;
-import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.service.DLFileEntryLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
-import com.liferay.portlet.dynamicdatamapping.storage.Fields;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
 import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
@@ -454,7 +454,7 @@ public class CustomOrgServiceHandler {
 					file = DLFileEntryLocalServiceUtil.addFileEntry(userId,
 					        groupId, groupId, parentId, fileName,
 					        MimeTypesUtil.getContentType(fileName), fileName, "", "",
-					        -1L, new HashMap<String, Fields>(), null, new ByteArrayInputStream(logoData), logoData.length, ctx);
+					        -1L, new HashMap<String, DDMFormValues>(), null, new ByteArrayInputStream(logoData), logoData.length, ctx);
 
 					m_objLog.debug("File " + fileName + " added!");
 				} else {
@@ -462,7 +462,7 @@ public class CustomOrgServiceHandler {
 					        file.getFileEntryId(), fileName,
 					        MimeTypesUtil.getContentType(fileName), fileName, "", "",
 					        false, file.getFileEntryTypeId(),
-					        new HashMap<String, Fields>(), null, new ByteArrayInputStream(logoData), logoData.length, ctx);
+					        new HashMap<String, DDMFormValues>(), null, new ByteArrayInputStream(logoData), logoData.length, ctx);
 					m_objLog.debug("File " + fileName + " updated!");
 				}
 				if (file != null) {

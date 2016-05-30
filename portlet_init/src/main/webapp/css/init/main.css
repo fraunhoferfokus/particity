@@ -1,0 +1,29 @@
+.container-fluid {
+    background-color: #daf1ff;
+	color: #053154;
+	padding: 0px !important;
+}
+
+.page-header {
+	background-color: #3081b6;
+    border-bottom: 4px solid #5caadb;
+    color: #fff;
+    margin: 0px;
+    min-height: 50px;
+    width: 100%;
+    margin-top: 0px !important;
+    padding: 15px;
+}
+
+.footer {
+	margin-top: 20px; 
+	padding-top: 20px; 
+	border-top: 1px solid #999; 
+	background-color: rgb(48, 129, 182); 
+	color: #fff;
+	min-height: 100px;
+}
+
+.content {
+	padding: 20px;
+}

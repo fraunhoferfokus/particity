@@ -11,31 +11,15 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>portlet_init</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>portlet_init</name>
 	<description>Portlet for first-time initialization providing a default setup of the platform</description>
 	
 
 	<build>
-		<finalName>painit-portlet</finalName>
 		<plugins>
 			<plugin>
-				<groupId>com.liferay.maven.plugins</groupId>
-				<artifactId>liferay-maven-plugin</artifactId>
-				<configuration>
-					<pluginName>${project.build.finalName}</pluginName>
-					<pluginType>portlet</pluginType>
-					<webappBaseDir>${basedir}</webappBaseDir>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-			</plugin>
-			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
@@ -48,26 +32,27 @@
 	    
 	  </dependency>
 
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>portal-service</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-bridges</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-taglib</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.liferay.portal</groupId>
-			<artifactId>util-java</artifactId>
-			<!-- scope>provided</scope -->
-		</dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.portal.kernel</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.util.bridges</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.util.taglib</artifactId>
+            <scope>provided</scope>
+
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.util.java</artifactId>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>javax.portlet</groupId>
 			<artifactId>portlet-api</artifactId>

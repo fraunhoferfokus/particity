@@ -43,8 +43,8 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.theme.ThemeDisplay;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;

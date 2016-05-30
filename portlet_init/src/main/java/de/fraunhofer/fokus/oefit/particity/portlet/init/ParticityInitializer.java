@@ -10,64 +10,47 @@ import java.util.Map;
 import javax.portlet.PortletPreferences;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.taglibs.standard.tag.common.core.RemoveTag;
 
-import com.liferay.portal.NoSuchUserException;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutTemplate;
+import com.liferay.portal.kernel.model.LayoutTypePortlet;
+import com.liferay.portal.kernel.model.Portlet;
+import com.liferay.portal.kernel.model.ResourceConstants;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
+import com.liferay.portal.kernel.model.Theme;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
+import com.liferay.portal.kernel.service.LayoutTemplateLocalServiceUtil;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ThemeLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.UnicodeProperties;
-import com.liferay.portal.model.Company;
-import com.liferay.portal.model.Group;
-import com.liferay.portal.model.GroupConstants;
-import com.liferay.portal.model.Layout;
-import com.liferay.portal.model.LayoutConstants;
-import com.liferay.portal.model.LayoutSet;
-import com.liferay.portal.model.LayoutTemplate;
-import com.liferay.portal.model.LayoutTypePortlet;
-import com.liferay.portal.model.Portlet;
-import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.model.RoleConstants;
-import com.liferay.portal.model.Theme;
-import com.liferay.portal.model.User;
-import com.liferay.portal.security.permission.ActionKeys;
-import com.liferay.portal.security.permission.PermissionChecker;
-import com.liferay.portal.security.permission.PermissionCheckerFactoryUtil;
-import com.liferay.portal.security.permission.PermissionThreadLocal;
-import com.liferay.portal.service.CompanyLocalServiceUtil;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.LayoutLocalServiceUtil;
-import com.liferay.portal.service.LayoutSetLocalServiceUtil;
-import com.liferay.portal.service.LayoutTemplateLocalServiceUtil;
-import com.liferay.portal.service.PortletLocalServiceUtil;
-import com.liferay.portal.service.PortletPreferencesLocalServiceUtil;
-import com.liferay.portal.service.ResourceLocalServiceUtil;
-import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ThemeLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
-import com.liferay.portal.service.permission.PortletPermissionUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.portal.util.PortletKeys;
-import com.liferay.portlet.journal.model.JournalArticle;
-import com.liferay.portlet.journal.model.JournalArticleConstants;
-import com.liferay.portlet.journal.service.JournalArticleLocalServiceUtil;
-import com.liferay.portlet.journal.service.JournalArticleServiceUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_Role;
 import de.particity.impexp.ImportFailedException;
-import de.particity.impexp.ImportWriter;
 import de.particity.impexp.ImporterFactory;
 
 public class ParticityInitializer {
@@ -227,7 +210,7 @@ public class ParticityInitializer {
 			if (theme != null) {
 				site.setThemeId(path.getThemeId());
 				site = LayoutLocalServiceUtil.updateLookAndFeel(site.getGroupId(),
-						false, site.getLayoutId(), path.getThemeId(), "01", "", false);
+						false, site.getLayoutId(), path.getThemeId(), "01", "");
 			} else
 				m_objLog.warn("Did not find theme "+path.getThemeId()+"!");
             LayoutTemplate template = getLayoutTemplate(path.getTemplateId());
@@ -544,7 +527,7 @@ public class ParticityInitializer {
 				if (theme != null) {
 					result.setThemeId(path.getThemeId());
 					result = LayoutLocalServiceUtil.updateLookAndFeel(groupId,
-							false, result.getLayoutId(), path.getThemeId(), "01", "", false);
+							false, result.getLayoutId(), path.getThemeId(), "01", "");
 				} else
 					m_objLog.warn("Did not find theme: " + path.getThemeId() + " for url "
 							+ path.getPath());

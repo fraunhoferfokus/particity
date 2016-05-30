@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 7.0.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_7_0_0.dtd">
+
+<liferay-portlet-app>
+
+	<portlet>
+		<portlet-name>pasearch</portlet-name>
+		<icon>/icon.png</icon>
+		<configuration-action-class>de.fraunhofer.fokus.oefit.particity.portlet.search.SearchConfigurationAction</configuration-action-class>
+		<!-- friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class -->
+		<friendly-url-mapping>search</friendly-url-mapping>
+		<friendly-url-routes>de/partcity/portlet/pasearch-routes.xml</friendly-url-routes>
+		<instanceable>false</instanceable>
+
+
+		<private-session-attributes>true</private-session-attributes>
+
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+
+		<header-portlet-javascript>/js/search/leaflet.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/search/Control.Geocoder.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/search/search.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/search/offer.js</header-portlet-javascript>
+		<footer-portlet-css>/css/search/leaflet.css</footer-portlet-css>
+		<footer-portlet-css>/css/search/main.css</footer-portlet-css>
+
+		<footer-portlet-javascript>/js/search/main.js</footer-portlet-javascript>
+
+		<css-class-wrapper>ahsearch</css-class-wrapper>
+
+		<add-default-resource>true</add-default-resource>
+
+	</portlet>
+
+	<portlet>
+		<portlet-name>palatest</portlet-name>
+		<icon>/icon.png</icon>
+		<!-- friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class -->
+		<friendly-url-mapping>palatest</friendly-url-mapping>
+		<instanceable>false</instanceable>
+
+
+		<private-session-attributes>true</private-session-attributes>
+
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+
+		<header-portlet-javascript>/js/search/leaflet.js</header-portlet-javascript>
+		<footer-portlet-css>/css/search/leaflet.css</footer-portlet-css>
+		<footer-portlet-css>/css/search/main.css</footer-portlet-css>
+		<footer-portlet-css>/css/search/latest.css</footer-portlet-css>
+		<footer-portlet-javascript>/js/search/search.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/search/offer.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/search/main.js</footer-portlet-javascript>
+
+		<css-class-wrapper>ahlatest</css-class-wrapper>
+
+		<add-default-resource>true</add-default-resource>
+
+	</portlet>
+	
+	<portlet>
+        <portlet-name>paorgregistration</portlet-name>
+        <icon>/icon.png</icon>
+
+        <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>paorgregistration</friendly-url-mapping>
+        <instanceable>false</instanceable>
+
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/org/main.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/org/ckeditor/ckeditor.js</footer-portlet-javascript>     
+        <footer-portlet-javascript>/js/org/main.js</footer-portlet-javascript>
+        <css-class-wrapper>ahorgregistration</css-class-wrapper>
+
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+
+    <portlet>
+        <portlet-name>paorgmain</portlet-name>
+        <icon>/icon.png</icon>
+
+        <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>paorgmain</friendly-url-mapping>
+        <instanceable>false</instanceable>
+
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/org/leaflet.css</footer-portlet-css>
+        <footer-portlet-css>/css/org/Control.Geocoder.css</footer-portlet-css>
+        <footer-portlet-css>/css/org/main.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/org/ckeditor/ckeditor.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/org/leaflet.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/org/Control.Geocoder.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/org/main.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/org/offer.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/org/backend.js</footer-portlet-javascript>
+        <css-class-wrapper>ahorgmain</css-class-wrapper>
+
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>pausermain</portlet-name>
+        <icon>/icon.png</icon>
+
+        <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>pausermain</friendly-url-mapping>
+        <instanceable>false</instanceable>
+
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/news/main.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/news/main.js</footer-portlet-javascript>
+        <css-class-wrapper>ahusermain</css-class-wrapper>
+
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+
+    <portlet>
+        <portlet-name>pauserregistration</portlet-name>
+        <icon>/icon.png</icon>
+
+        <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>pauserregistration</friendly-url-mapping>
+        <instanceable>false</instanceable>
+
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/news/main.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/news/main.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/news/offer.js</footer-portlet-javascript>
+        <css-class-wrapper>ahuserregistration</css-class-wrapper>
+
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>pamgmt</portlet-name>
+        <icon>/icon.png</icon>
+
+        <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>pamgmt</friendly-url-mapping>
+        <instanceable>false</instanceable>
+
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/mgmt/leaflet.css</footer-portlet-css>
+        <footer-portlet-css>/css/mgmt/Control.Geocoder.css</footer-portlet-css>
+        <footer-portlet-css>/css/mgmt/main.css</footer-portlet-css>
+        <footer-portlet-css>/css/mgmt/font-awesome.min.css</footer-portlet-css>
+        <footer-portlet-css>/css/mgmt/bootstrap-switch.min.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/mgmt/bootstrap-switch.min.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/mgmt/ckeditor/ckeditor.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/mgmt/leaflet.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/mgmt/Control.Geocoder.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/mgmt/main.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/mgmt/offer.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/mgmt/backend.js</footer-portlet-javascript>
+        
+        <css-class-wrapper>ahmgmt</css-class-wrapper>
+
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>palogin</portlet-name>
+        <icon>/icon.png</icon>
+        <friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>palogin</friendly-url-mapping>
+        <instanceable>false</instanceable>
+        <private-session-attributes>false</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/site/main.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/site/main.js</footer-portlet-javascript>
+        <css-class-wrapper>ahlogin</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+
+    <portlet>
+        <portlet-name>paloginredirect</portlet-name>
+        <icon>/icon.png</icon>
+        <friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>paloginredirect</friendly-url-mapping>
+        <instanceable>false</instanceable>
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/site/main.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/site/main.js</footer-portlet-javascript>
+        <css-class-wrapper>ahloginredirect</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+
+    <portlet>
+        <portlet-name>paloginprofile</portlet-name>
+        <icon>/icon.png</icon>
+        <friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>paloginprofile</friendly-url-mapping>
+        <instanceable>false</instanceable>
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/site/main.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/site/main.js</footer-portlet-javascript>
+        <css-class-wrapper>ahloginprofile</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+
+    <portlet>
+        <portlet-name>paheader</portlet-name>
+        <icon>/icon.png</icon>
+        <friendly-url-mapper-class>de.fraunhofer.fokus.oefit.particity.custom.CustomURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>paheader</friendly-url-mapping>
+        <instanceable>false</instanceable>
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/site/header.css</footer-portlet-css>
+        <css-class-wrapper>ahheader</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>painit</portlet-name>
+        <icon>/icon.png</icon>
+        <friendly-url-mapping>painit</friendly-url-mapping>
+        <instanceable>false</instanceable>
+        <private-session-attributes>false</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/init/main.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/init/main.js</footer-portlet-javascript>
+        <css-class-wrapper>painit</css-class-wrapper>
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>paadmin</portlet-name>
+        <icon>/icon.png</icon>
+
+        <scheduler-entry>
+            <scheduler-description>TestScheduler</scheduler-description>
+            <scheduler-event-listener-class>
+                de.fraunhofer.fokus.oefit.particity.scheduler.TenMinuteScheduler
+            </scheduler-event-listener-class>
+            <trigger>
+                <simple>
+                    <simple-trigger-value>10</simple-trigger-value>
+                    <time-unit>minute</time-unit>
+                </simple>
+            </trigger>
+        </scheduler-entry>
+        <scheduler-entry>
+            <scheduler-description>TestScheduler</scheduler-description>
+            <scheduler-event-listener-class>
+                de.fraunhofer.fokus.oefit.particity.scheduler.DailyScheduler
+            </scheduler-event-listener-class>
+            <trigger>
+                <simple>
+                    <simple-trigger-value>1</simple-trigger-value>
+                    <time-unit>day</time-unit>
+                </simple>
+            </trigger>
+        </scheduler-entry>
+        <scheduler-entry>
+            <scheduler-description>TestScheduler</scheduler-description>
+            <scheduler-event-listener-class>
+                de.fraunhofer.fokus.oefit.particity.scheduler.WeeklyScheduler
+            </scheduler-event-listener-class>
+            <trigger>
+                <simple>
+                    <simple-trigger-value>1</simple-trigger-value>
+                    <time-unit>week</time-unit>
+                </simple>
+            </trigger>
+        </scheduler-entry>
+        <scheduler-entry>
+            <scheduler-description>TestScheduler</scheduler-description>
+            <scheduler-event-listener-class>
+                de.fraunhofer.fokus.oefit.particity.scheduler.HourlyScheduler
+            </scheduler-event-listener-class>
+            <trigger>
+                <simple>
+                    <simple-trigger-value>1</simple-trigger-value>
+                    <time-unit>hour</time-unit>
+                </simple>
+            </trigger>
+        </scheduler-entry>
+        <friendly-url-mapper-class>com.liferay.portal.kernel.portlet.DefaultFriendlyURLMapper</friendly-url-mapper-class>
+        <friendly-url-mapping>paadmin</friendly-url-mapping>
+        <instanceable>false</instanceable>
+
+        <private-session-attributes>true</private-session-attributes>
+        <requires-namespaced-parameters>false</requires-namespaced-parameters>
+        <footer-portlet-css>/css/admin/main.css</footer-portlet-css>
+        <footer-portlet-css>/css/admin/fileinput.min.css</footer-portlet-css>
+        <footer-portlet-javascript>/js/admin/main.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/admin/backend.js</footer-portlet-javascript>
+        <footer-portlet-javascript>/js/admin/fileinput.min.js</footer-portlet-javascript>
+        <css-class-wrapper>ahadmin</css-class-wrapper>
+
+        <add-default-resource>true</add-default-resource>
+    </portlet>
+    
+	<role-mapper>
+		<role-name>administrator</role-name>
+		<role-link>Administrator</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>guest</role-name>
+		<role-link>Guest</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>power-user</role-name>
+		<role-link>Power User</role-link>
+	</role-mapper>
+	<role-mapper>
+		<role-name>user</role-name>
+		<role-link>User</role-link>
+	</role-mapper>
+</liferay-portlet-app>
