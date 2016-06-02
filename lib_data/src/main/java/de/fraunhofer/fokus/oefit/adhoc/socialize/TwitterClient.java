@@ -35,6 +35,8 @@ package de.fraunhofer.fokus.oefit.adhoc.socialize;
 
 import java.net.URL;
 
+import javax.inject.Inject;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -45,11 +47,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
 import de.fraunhofer.fokus.oefit.particity.model.custom.MessageComposer;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.boundary.I_OfferController;
 
 /**
  * A Twitter client implementation using twitter4j
@@ -60,6 +61,10 @@ public class TwitterClient implements I_SocialMediaClient {
 
 	private static TwitterClient	m_objSelf	= null;
 
+
+	@Inject 
+	public I_OfferController offerCtrl;
+	
 	/**
 	 * Gets the single instance of TwitterClient.
 	 *
@@ -98,11 +103,11 @@ public class TwitterClient implements I_SocialMediaClient {
 		boolean result = false;
 		String msg = CustomPortalServiceHandler
 		        .getConfigValue(E_ConfigKey.SOCIAL_TW_MSG);
-		AHOffer offer = null;
-		AHOrg org = null;
+		I_OfferModel offer = null;
+		I_OrganizationModel org = null;
 		try {
-			offer = AHOfferLocalServiceUtil.getAHOffer(offerId);
-			org = AHOrgLocalServiceUtil.getAHOrg(offer.getOrgId());
+			offer = offerCtrl.get(offerId);
+			org = offer.getOrg();
 		} catch (final Throwable t) {
 		}
 		if (offer != null && msg != null && org != null) {

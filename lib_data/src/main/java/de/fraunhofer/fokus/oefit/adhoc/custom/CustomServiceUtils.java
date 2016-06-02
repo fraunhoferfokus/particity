@@ -76,8 +76,12 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneDate(final long date) {
+		return formatZoneDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
+	}
+	
+	public static String formatZoneDate(final LocalDateTime date) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_DATE_FORMAT);
-		return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
+		return formatter.format(date);
 	}
 
 	/**
@@ -88,8 +92,12 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneDateTime(final long date) {
+		return formatZoneDateTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
+	}
+	
+	public static String formatZoneDateTime(LocalDateTime date) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_DATETIME_FORMAT);
-		return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
+		return formatter.format(date);
 	}
 
 	/**
@@ -100,10 +108,14 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneTime(final long date) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_TIME_FORMAT);
-		return formatter.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
+		return formatZoneTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
 	}
 
+	public static String formatZoneTime(final LocalDateTime date) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_TIME_FORMAT);
+		return formatter.format(date);
+	}
+	
 	/**
 	 * Gets the time zone, as configured in Constants 
 	 *
@@ -138,6 +150,10 @@ public class CustomServiceUtils {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.DEFAULT_JODA_DATETIME_FORMAT);
 		LocalDateTime dateTime = LocalDateTime.parse(date+" "+time, formatter);
 		return dateTime.atZone(getTimeZone()).toInstant().toEpochMilli();
+	}
+	
+	public static long localDateTimeToMillis(LocalDateTime date) {
+		return date.atZone(getTimeZone()).toInstant().toEpochMilli();
 	}
 
 	/**

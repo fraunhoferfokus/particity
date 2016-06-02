@@ -33,14 +33,16 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.custom;
 
+import javax.inject.Inject;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.CategoryForm;
-import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
-import de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
+import de.particity.model.I_CategoryEntryModel;
+import de.particity.model.I_CategoryModel;
+import de.particity.model.boundary.I_CategoryController;
+import de.particity.model.boundary.I_CategoryEntryController;
 
 /**
  * Custom utility methods for all tasks regarding categories and category entries
@@ -50,7 +52,12 @@ public class CustomCategoryServiceHandler {
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(CustomCategoryServiceHandler.class);
 
-	public static AHCatEntries addCategoryEntry(CategoryForm data) {
+	@Inject
+	public static I_CategoryEntryController catEntryCtrl;
+	@Inject 
+	public static I_CategoryController catCtrl;
+	
+	public static I_CategoryEntryModel addCategoryEntry(CategoryForm data) {
 		
 		Long l_parentId = null;
 		Long l_catId = null;
@@ -73,20 +80,19 @@ public class CustomCategoryServiceHandler {
 		return addCategoryEntry(l_catId, data.getName(), data.getDescr(), l_parentId);
 	}
 	
-	public static AHCatEntries addCategoryEntry(long catId, String name, String descr, long parentId) {
-		return AHCatEntriesLocalServiceUtil
-		        .addCategoryEntry(catId, name, descr, parentId);
+	public static I_CategoryEntryModel addCategoryEntry(long catId, String name, String descr, long parentId) {
+		return catEntryCtrl.addCategoryEntry(catId, name, descr, parentId);
 	}
 
 	
-	public static AHCategories addMainCategory(CategoryForm data, E_CategoryType type) {
+	public static I_CategoryModel addMainCategory(CategoryForm data, E_CategoryType type) {
 		return addMainCategory(data.getName(), data.getDescr(), type);
 	}
 	
-	public static AHCategories addMainCategory(String name, String descr, E_CategoryType type) {
-		AHCategories result = null;
+	public static I_CategoryModel addMainCategory(String name, String descr, E_CategoryType type) {
+		I_CategoryModel result = null;
 		try {
-			result = AHCategoriesLocalServiceUtil.addCategory(name,descr, type.getIntValue());
+			result = catCtrl.addCategory(name,descr, type);
 		} catch (Throwable t) {
 			m_objLog.error("Error adding category",t);
 		}
@@ -95,10 +101,10 @@ public class CustomCategoryServiceHandler {
 	}
 
 	public static void deleteMainCategory(Long l_catId) {
-		AHCategoriesLocalServiceUtil.deleteCategoryById(l_catId);
+		catCtrl.delete(l_catId);
 	}
 	
 	public static void deleteCategoryEntry(Long l_itemId) {
-		CustomPersistanceServiceHandler.deleteCategoryEntryById(l_itemId);
+		catEntryCtrl.delete(l_itemId);
 	}
 }

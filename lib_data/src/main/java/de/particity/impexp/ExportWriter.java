@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
@@ -23,30 +24,26 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
-import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
-import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
-import de.fraunhofer.fokus.oefit.particity.model.AHContact;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.model.AHRegion;
-import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
-import de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHConfigLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHRegionLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil;
+import de.particity.model.I_AddressModel;
+import de.particity.model.I_CategoryEntryModel;
+import de.particity.model.I_CategoryModel;
+import de.particity.model.I_ContactModel;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.I_RegionModel;
+import de.particity.model.I_SubscriptionModel;
+import de.particity.model.boundary.I_AddressControler;
+import de.particity.model.boundary.I_CategoryController;
+import de.particity.model.boundary.I_CategoryEntryController;
+import de.particity.model.boundary.I_ConfigController;
+import de.particity.model.boundary.I_ContactController;
+import de.particity.model.boundary.I_OfferController;
+import de.particity.model.boundary.I_OrganizationController;
+import de.particity.model.boundary.I_RegionController;
+import de.particity.model.boundary.I_SubscriptionController;
 import de.particity.schemagen.impexpv100.AddressType;
 import de.particity.schemagen.impexpv100.CategoryEntryType;
 import de.particity.schemagen.impexpv100.CategoryType;
@@ -76,6 +73,33 @@ public class ExportWriter {
 	public static final String LOG_ORGANISATIONS = "ExpOrg";
 	public static final String LOG_OFFERS = "ExpOffer";
 	public static final String LOG_SUBSCRIPTIONS = "ExpSub";
+	
+	@Inject
+	public I_ConfigController cfgCtrl;
+	
+	@Inject 
+	public I_CategoryController catCtrl;
+	
+	@Inject
+	public I_CategoryEntryController catEntryCtrl;
+	
+	@Inject 
+	public I_OfferController offerCtrl;
+	
+	@Inject
+	public I_RegionController regionCtrl;
+	
+	@Inject
+	public I_AddressControler addressCtrl;
+	
+	@Inject
+	public I_ContactController contactCtrl;
+	
+	@Inject
+	public I_OrganizationController orgCtrl;
+	
+	@Inject
+	public I_SubscriptionController subCtr;
 	
 	private Set<Long> m_objExportedEntries;
 	
@@ -120,23 +144,23 @@ public class ExportWriter {
 	private void writeCategories(List<CategoryType> categories) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_CATEGORIES);
 		try {
-			int size = AHCategoriesLocalServiceUtil.getAHCategoriesesCount();
-			List<AHCategories> cats = null;
-			AHCategories cat = null;
+			int size = catCtrl.count();
+			List<I_CategoryModel> cats = null;
+			I_CategoryModel cat = null;
 			CategoryType catType = null;
 			for (int i = 0; i<size;i+=10) {
-				cats = AHCategoriesLocalServiceUtil.getAHCategorieses(i, i+10);
+				cats = catCtrl.get(i, i+10);
 				if (cats != null) {
 					for (int j=0; j<cats.size(); j++) {
 						cat = cats.get(j);
 						catType = new CategoryType();
-						catType.setCatId(cat.getCatId());
-						catType.setDescr(cat.getDescr());
+						catType.setCatId(cat.getId());
+						catType.setDescr(cat.getDescription());
 						catType.setName(cat.getName());
-						catType.setType(E_CategoryType.findByValue(cat.getType()).name());
+						catType.setType(cat.getType().name());
 						categories.add(catType);
 						log.log(cat.getName());
-						writeCategoryEntries(catType.getEntry(), cat.getCatId());
+						writeCategoryEntries(catType.getEntry(), cat.getId());
 					}
 				}
 			}
@@ -150,20 +174,20 @@ public class ExportWriter {
 	private void writeCategoryEntries(List<CategoryEntryType> entries, long catId) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().getLog(LOG_CATEGORIES);
 		try {
-			List<AHCatEntries> list = AHCatEntriesLocalServiceUtil.getCategoryEntries(catId);
-			AHCatEntries data = null;
+			List<I_CategoryEntryModel> list = catEntryCtrl.getByCategory(catId);
+			I_CategoryEntryModel data = null;
 			CategoryEntryType type = null;
 			for (int i=0; i<list.size();i++) {
 				data = list.get(i);
 				type = new CategoryEntryType();
-				type.setCatId(data.getCatId());
-				type.setItemId(data.getItemId());
+				type.setCatId(data.getCategory().getId());
+				type.setItemId(data.getId());
 				type.setName(data.getName());
-				type.setDescr(data.getDescr());
-				writeCategoryChildEntries(type.getChildEntry(),data.getItemId());
-				if (!m_objExportedEntries.contains(data.getItemId())) {
+				type.setDescr(data.getDescription());
+				writeCategoryChildEntries(type.getChildEntry(),data.getId());
+				if (!m_objExportedEntries.contains(data.getId())) {
 					log.log(data.getName());
-					m_objExportedEntries.add(data.getItemId());
+					m_objExportedEntries.add(data.getId());
 				}
 				// only support child to the third level
 				for (CategoryEntryType child: type.getChildEntry()) {
@@ -180,20 +204,20 @@ public class ExportWriter {
 	private void writeCategoryChildEntries(List<CategoryEntryType> childs, long itemId) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().getLog(LOG_CATEGORIES);
 		try {
-			List<AHCatEntries> list = AHCatEntriesLocalServiceUtil.getChildEntriesById(itemId);
-			AHCatEntries data = null;
+			List<I_CategoryEntryModel> list = catEntryCtrl.getChildEntriesById(itemId);
+			I_CategoryEntryModel data = null;
 			CategoryEntryType type = null;
 			for (int i=0; i<list.size();i++) {
 				data = list.get(i);
 				type = new CategoryEntryType();
-				type.setCatId(data.getCatId());
-				type.setItemId(data.getItemId());
+				type.setCatId(data.getCategory().getId());
+				type.setItemId(data.getId());
 				type.setName(data.getName());
-				type.setDescr(data.getDescr());
+				type.setDescr(data.getDescription());
 				childs.add(type);
-				if (!m_objExportedEntries.contains(data.getItemId())) {
+				if (!m_objExportedEntries.contains(data.getId())) {
 					log.log(data.getName());
-					m_objExportedEntries.add(data.getItemId());
+					m_objExportedEntries.add(data.getId());
 				}
 			}
 		} catch (Throwable t) {
@@ -208,7 +232,7 @@ public class ExportWriter {
 			ConfigurationType cfgObj = null;
 			String value = null;
 			for (E_ConfigKey ckey : E_ConfigKey.values()) {
-				value = AHConfigLocalServiceUtil.getConfig(ckey.name(), ckey.getDefaultValue());
+				value = cfgCtrl.get(ckey).getValue();
 				cfgObj = new ConfigurationType();
 				cfgObj.setKey(ckey.name());
 				cfgObj.setValue(value);
@@ -224,21 +248,21 @@ public class ExportWriter {
 	private void writeOrganisations(List<OrganisationType> organisations) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_ORGANISATIONS);
 		try {
-			int size = AHOrgLocalServiceUtil.getAHOrgsCount();
-			List<AHOrg> list = null;
-			AHOrg data = null;
+			int size = orgCtrl.count();
+			List<I_OrganizationModel> list = null;
+			I_OrganizationModel data = null;
 			OrganisationType type = null;
 			for (int i = 0; i<size;i+=10) {
-				list = AHOrgLocalServiceUtil.getAHOrgs(i, i+10);
+				list = orgCtrl.get(i, i+10);
 				if (list != null) {
 					for (int j=0; j<list.size(); j++) {
 						data= list.get(j);
 						type = new OrganisationType();
-						type.setUserlist(data.getUserlist());
-						type.setUpdated(data.getUpdated());
-						type.setStatus(E_OrgStatus.findByValue(data.getStatus()).name());
+						type.setUserlist(data.getUserList());
+						type.setUpdated(CustomServiceUtils.localDateTimeToMillis(data.getUpdated()));
+						type.setStatus(data.getStatus().name());
 						type.setOwner(data.getOwner());
-						type.setOrgId(data.getOrgId());
+						type.setOrgId(data.getId());
 						type.setName(data.getName());
 						DLFileEntry logoFile = getFileFromPath(data.getLogoLocation());
 						type.setLogo(getFileContent(logoFile));
@@ -247,9 +271,9 @@ public class ExportWriter {
 						type.setLegalStatus(data.getLegalStatus());
 						type.setHolder(data.getHolder());
 						type.setDescription(data.getDescription());
-						type.setCreated(data.getCreated());
-						type.setAddress(getAddressType(data.getAddressId()));
-						type.setContact(getContactType(data.getContactId()));
+						type.setCreated(CustomServiceUtils.localDateTimeToMillis(data.getCreated()));
+						type.setAddress(getAddressType(data.getAddress().getId()));
+						type.setContact(getContactType(data.getContact().getId()));
 						User lrUser = UserLocalServiceUtil.getUserByEmailAddress(m_numCompanyId, data.getOwner());
 						if (lrUser != null) {
 							type.setLoginPassword(lrUser.getPassword());
@@ -268,50 +292,50 @@ public class ExportWriter {
 	private void writeOffers(List<OfferType> offers) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_OFFERS);
 		try {
-			int size = AHOfferLocalServiceUtil.getAHOffersCount();
-			List<AHOffer> list = null;
-			AHOffer data = null;
+			int size = offerCtrl.count();
+			List<I_OfferModel> list = null;
+			I_OfferModel data = null;
 			OfferType type = null;
 			for (int i = 0; i<size;i+=10) {
-				list = AHOfferLocalServiceUtil.getAHOffers(i, i+10);
+				list = offerCtrl.get(i, i+10);
 				if (list != null) {
 					for (int j=0; j<list.size(); j++) {
 						data= list.get(j);
 						type = new OfferType();
-						type.setWorkType(E_OfferWorkType.findByValue(data.getWorkType()).name());
+						type.setWorkType(data.getWorkType().name());
 						type.setWorkTime(data.getWorkTime());
-						type.setUpdated(data.getUpdated());
-						type.setType(E_OfferType.findByValue(data.getType()).name());
+						type.setUpdated(CustomServiceUtils.localDateTimeToMillis(data.getUpdated()));
+						type.setType(data.getType().name());
 						type.setTitle(data.getTitle());
-						type.setStatus(E_OfferStatus.findByValue(data.getStatus()).name());
+						type.setStatus(data.getStatus().name());
 						type.setSocialStatus(data.getSocialStatus());
-						type.setPublish(data.getPublish());
-						type.setOfferId(data.getOfferId());
-						type.setOrgId(data.getOrgId());
-						type.setExpires(data.getExpires());
+						type.setPublish(CustomServiceUtils.localDateTimeToMillis(data.getPublish()));
+						type.setOfferId(data.getId());
+						type.setOrgId(data.getOrg().getId());
+						type.setExpires(CustomServiceUtils.localDateTimeToMillis(data.getExpires()));
 						type.setDescription(data.getDescription());
-						type.setCreated(data.getCreated());
-						type.setContactAgency(data.getContactAgency());
-						type.setAddress(getAddressType(data.getAdressId()));
-						type.setContact(getContactType(data.getContactId()));
-						type.setSndContact(getContactType(data.getSndContactId()));
-						List<AHCatEntries> entries = AHOfferLocalServiceUtil.getCategoriesByOffer(data.getOfferId(), E_CategoryType.SEARCH.getIntValue());
-						List<AHCatEntries> services = AHOfferLocalServiceUtil.getCategoriesByOffer(data.getOfferId(), E_CategoryType.OFFERCATS.getIntValue());
-						List<AHCatEntries> itemlist = entries;
+						type.setCreated(CustomServiceUtils.localDateTimeToMillis(data.getCreated()));
+						type.setContactAgency(data.isContactAgency());
+						type.setAddress(getAddressType(data.getAddress().getId()));
+						type.setContact(getContactType(data.getContact().getId()));
+						type.setSndContact(getContactType(data.getSndContact().getId()));
+						List<I_CategoryEntryModel> entries = offerCtrl.getCategoriesByOffer(data.getId(), E_CategoryType.SEARCH);
+						List<I_CategoryEntryModel> services = offerCtrl.getCategoriesByOffer(data.getId(), E_CategoryType.OFFERCATS);
+						List<I_CategoryEntryModel> itemlist = entries;
 						if (itemlist == null || itemlist.size() == 0)
 							itemlist = services;
 						else if (services != null && services.size() > 0)
 							itemlist.addAll(services);
 						if (itemlist != null && itemlist.size() > 0) {
 							List<CategoryEntryType> cats = type.getCategoryItem();
-							for (AHCatEntries entry: itemlist) {
+							for (I_CategoryEntryModel entry: itemlist) {
 								CategoryEntryType cet = new CategoryEntryType();
-								cet.setItemId(entry.getItemId());
+								cet.setItemId(entry.getId());
 								cats.add(cet);
 							} 
 						}
 						offers.add(type);
-						log.log(data.getOfferId()+" - "+data.getTitle());
+						log.log(data.getId()+" - "+data.getTitle());
 					}
 				}
 			}
@@ -324,26 +348,26 @@ public class ExportWriter {
 	private void writeSubscriptions(List<SubscriptionType> subscriptions) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_SUBSCRIPTIONS);
 		try {
-			int size = AHSubscriptionLocalServiceUtil.getAHSubscriptionsCount();
-			List<AHSubscription> list = null;
-			AHSubscription data = null;
+			int size = subCtr.count();
+			List<I_SubscriptionModel> list = null;
+			I_SubscriptionModel data = null;
 			SubscriptionType type = null;
 			for (int i = 0; i<size;i+=10) {
-				list = AHSubscriptionLocalServiceUtil.getAHSubscriptions(i, i+10);
+				list = subCtr.get(i, i+10);
 				if (list != null) {
 					for (int j=0; j<list.size(); j++) {
 						data= list.get(j);
 						type = new SubscriptionType();
-						type.setCreated(data.getCreated());
+						type.setCreated(CustomServiceUtils.localDateTimeToMillis(data.getCreated()));
 						type.setEmail(data.getEmail());
-						type.setStatus(E_SubscriptionStatus.findByValue(data.getStatus()).name());
+						type.setStatus(data.getStatus().name());
 						type.setUuid(data.getUuid());
-						List<AHCatEntries> entries = AHSubscriptionLocalServiceUtil.getCategoriesBySubscription(data.getSubId());
+						List<I_CategoryEntryModel> entries = data.getCategoryEntries();
 						if (entries != null && entries.size() > 0) {
 							List<CategoryEntryType> cats = type.getCategories();
-							for (AHCatEntries entry: entries) {
+							for (I_CategoryEntryModel entry: entries) {
 								CategoryEntryType cet = new CategoryEntryType();
-								cet.setItemId(entry.getItemId());
+								cet.setItemId(entry.getId());
 								cats.add(cet);
 							}
 						}
@@ -360,9 +384,9 @@ public class ExportWriter {
 	
 	private ContactType getContactType(long contactId) {
 		ContactType contactType = null;
-		AHContact contact = null;
+		I_ContactModel contact = null;
 		try {
-			contact = AHContactLocalServiceUtil.getAHContact(contactId);
+			contact = contactCtrl.get(contactId);
 		} catch (Throwable t) {}
 		if (contact != null) {
 			contactType = new ContactType();
@@ -379,12 +403,12 @@ public class ExportWriter {
 	
 	private AddressType getAddressType(long addrId) {
 		AddressType addrType = null;
-		AHAddr addr = null;
-		AHRegion regio = null;
+		I_AddressModel addr = null;
+		I_RegionModel regio = null;
 		try {
-			addr = AHAddrLocalServiceUtil.getAHAddr(addrId);
+			addr = addressCtrl.get(addrId);
 			if (addr != null)
-				regio = AHRegionLocalServiceUtil.getRegion(addr.getRegionId());
+				regio = addr.getRegion();
 		} catch (Throwable t) {}
 		if (addr != null) {
 			addrType = new AddressType();

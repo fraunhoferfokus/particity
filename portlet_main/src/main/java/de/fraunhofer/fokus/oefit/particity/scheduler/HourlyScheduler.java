@@ -35,6 +35,8 @@ package de.fraunhofer.fokus.oefit.particity.scheduler;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Message;
@@ -42,11 +44,11 @@ import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.messaging.MessageListenerException;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.model.custom.ModelNotificationRepository;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.boundary.I_OfferController;
+import de.particity.model.boundary.I_OrganizationController;
+import de.particity.model.listener.ModelNotificationRepository;
 
 /**
  * Scheduler for hourly tasks
@@ -58,19 +60,25 @@ public class HourlyScheduler implements MessageListener {
 
 	private static final long	HOUR	 = 1000 * 60 * 60;
 
+	@Inject
+	private I_OrganizationController orgCtrl;
+	
+	@Inject
+	private I_OfferController offerCtrl;
+	
 	private void notifyExpiredOffers() {
 		try {
 			final long now = CustomServiceUtils.time();
 			final long minExpired = now - HOUR;
-			final int orgSize = AHOrgLocalServiceUtil.getAHOrgsCount();
+			final int orgSize = orgCtrl.count();
 			if (orgSize > 0) {
-				List<AHOrg> orgs;
-				List<AHOffer> offer;
+				List<I_OrganizationModel> orgs;
+				List<I_OfferModel> offer;
 				for (int i = 0; i < orgSize; i += 5) {
-					orgs = AHOrgLocalServiceUtil.getAHOrgs(i, i + 5);
-					for (final AHOrg org : orgs) {
-						offer = AHOfferLocalServiceUtil
-						        .findExpiredOffersForOrg(org.getOrgId(),
+					orgs = orgCtrl.get(i, i + 5);
+					for (final I_OrganizationModel org : orgs) {
+						offer = offerCtrl
+						        .findExpiredForOrg(org.getId(),
 						                minExpired, now);
 						if (offer != null && offer.size() > 0) {
 							ModelNotificationRepository.getInstance()

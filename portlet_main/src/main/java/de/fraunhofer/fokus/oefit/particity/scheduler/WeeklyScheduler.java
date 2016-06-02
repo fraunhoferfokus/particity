@@ -35,6 +35,8 @@ package de.fraunhofer.fokus.oefit.particity.scheduler;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Message;
@@ -42,11 +44,11 @@ import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.messaging.MessageListenerException;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.model.custom.ModelNotificationRepository;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.boundary.I_OfferController;
+import de.particity.model.boundary.I_OrganizationController;
+import de.particity.model.listener.ModelNotificationRepository;
 
 /**
  * Scheduler for weekly tasks
@@ -58,24 +60,31 @@ public class WeeklyScheduler implements MessageListener {
 
 	private static final long	WEEK	 = 1000 * 60 * 60 * 24 * 7;
 
+	@Inject
+	private I_OrganizationController orgCtrl;
+	
+	@Inject
+	private I_OfferController offerCtrl;
+	
 	private void notifyInactiveOrganisations() {
 		try {
 			final long now = CustomServiceUtils.time();
 			final long minLastUpdate = now - WEEK;
-			final int orgSize = AHOrgLocalServiceUtil.getAHOrgsCount();
+			final int orgSize = orgCtrl.count();
 			if (orgSize > 0) {
-				List<AHOrg> orgs;
-				AHOffer offer;
+				List<I_OrganizationModel> orgs;
+				I_OfferModel offer;
 				for (int i = 0; i < orgSize; i += 5) {
-					orgs = AHOrgLocalServiceUtil.getAHOrgs(i, i + 5);
-					for (final AHOrg org : orgs) {
-						offer = AHOfferLocalServiceUtil
-						        .getLastOfferForOrganization(org.getOrgId());
+					orgs = orgCtrl.get(i, i + 5);
+					for (final I_OrganizationModel org : orgs) {
+						offer = offerCtrl
+						        .getLastOfferForOrganization(org.getId());
 						if (offer != null) {
-							if (offer.getUpdated() < minLastUpdate) {
+							long updated =CustomServiceUtils.localDateTimeToMillis(offer.getUpdated());
+							if (updated < minLastUpdate) {
 								ModelNotificationRepository.getInstance()
 								        .notifyOutdated(org,
-								                now - offer.getUpdated());
+								                now - updated);
 							}
 						}
 					}

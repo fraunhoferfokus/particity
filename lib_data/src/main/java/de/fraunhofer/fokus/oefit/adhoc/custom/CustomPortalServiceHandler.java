@@ -37,6 +37,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletPreferences;
 
@@ -71,8 +72,8 @@ import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
 import de.fraunhofer.fokus.oefit.adhoc.socialize.SocialMediaFactory;
 import de.fraunhofer.fokus.oefit.particity.model.custom.MessageComposer;
-import de.fraunhofer.fokus.oefit.particity.service.AHConfigLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.particity.model.boundary.I_ConfigController;
+import de.particity.model.boundary.I_OrganizationController;
 
 /**
  * Custom utility methods for tasks related to portal datastructures 
@@ -84,6 +85,12 @@ public class CustomPortalServiceHandler {
 
 	private static Boolean	 m_bInitialized	= null;
 
+	@Inject
+	public static I_OrganizationController orgCtrl;
+	
+	@Inject
+	public static I_ConfigController cfgCtrl;
+	
 	/**
 	 * Validates a given form object and changes user settings accordingly
 	 *
@@ -107,7 +114,7 @@ public class CustomPortalServiceHandler {
 				e.printStackTrace();
 			}
 			if (oldUser != null) {
-				AHOrgLocalServiceUtil.updateOwner(oldMail, newMail.trim());
+				orgCtrl.updateOwner(oldMail, newMail.trim());
 			}
 		} else {
 			m_objLog.debug("User mail not changed!");
@@ -396,8 +403,7 @@ public class CustomPortalServiceHandler {
 				m_objLog.error(e);
 			}
 		} else {
-			value = AHConfigLocalServiceUtil.getConfig(key.toString(),
-			        key.getDefaultValue());
+			value = cfgCtrl.get(key).getValue();
 			m_objLog.info("Got portlet property "+key.toString()+" = "+value);
 		}
 		return value;
@@ -509,7 +515,7 @@ public class CustomPortalServiceHandler {
 		if (key.isSystemProperty()) {
 			updatePortalPreferences(key.getSystemProperty(), value);
 		} else {
-			AHConfigLocalServiceUtil.setConfig(key.toString(), value);
+			cfgCtrl.update(key, value);
 		}
 
 	}

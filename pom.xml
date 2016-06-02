@@ -43,6 +43,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.2.5.RELEASE</org.springframework-version>
+		<deltaspike.version>1.6.1</deltaspike.version>
 	</properties>
 
 
@@ -65,9 +66,7 @@
 		<module>portlet_main</module>
 
 		<!-- themes/layout -->
-		<!-- module>layout_2col</module>
-		<module>layout_3col</module>
-		<module>theme_default</module-->
+		<!-- module>layout_2col</module> <module>layout_3col</module> <module>theme_default</module -->
 	</modules>
 
 
@@ -319,10 +318,59 @@
 				<version>5.1.0.Final</version>
 			</dependency>
 
+			<!-- dependency> <groupId>com.liferay.cdi</groupId> <artifactId>cdi-portlet-bridge-shared</artifactId> 
+				<version>6.2.0.2</version> </dependency -->
+
+
 			<dependency>
-				<groupId>com.liferay.cdi</groupId>
-				<artifactId>cdi-portlet-bridge-shared</artifactId>
-				<version>6.2.0.2</version>
+				<groupId>org.apache.deltaspike.distribution</groupId>
+				<artifactId>distributions-bom</artifactId>
+				<version>${deltaspike.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.apache.deltaspike.core</groupId>
+				<artifactId>deltaspike-core-api</artifactId>
+				<version>${deltaspike.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.deltaspike.core</groupId>
+				<artifactId>deltaspike-core-impl</artifactId>
+				<version>${deltaspike.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.deltaspike.modules</groupId>
+				<artifactId>deltaspike-jpa-module-api</artifactId>
+				<version>${deltaspike.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.deltaspike.modules</groupId>
+				<artifactId>deltaspike-jpa-module-impl</artifactId>
+				<version>${deltaspike.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.apache.deltaspike.modules</groupId>
+			    <artifactId>deltaspike-data-module-api</artifactId>
+			    <version>${deltaspike.version}</version>
+			    <scope>compile</scope>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.apache.deltaspike.modules</groupId>
+			    <artifactId>deltaspike-data-module-impl</artifactId>
+			    <version>${deltaspike.version}</version>
+			    <scope>runtime</scope>
 			</dependency>
 
 		</dependencies>

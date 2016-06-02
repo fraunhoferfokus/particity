@@ -35,11 +35,13 @@ package de.fraunhofer.fokus.oefit.adhoc.custom;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
+import de.particity.model.I_OfferModel;
+import de.particity.model.boundary.I_OfferController;
 
 /**
  * Custom utility methods that handle search requests
@@ -49,42 +51,9 @@ public class CustomSearchServiceHandler {
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(CustomSearchServiceHandler.class);
 
-	/*
-	 * public static Integer countSearch(SearchForm data) { Integer result = new
-	 * Integer(0); if (data.getOrgId() != null) { result =
-	 * AHOfferLocalServiceUtil
-	 * .countPublishedOffers(Long.parseLong(data.getOrgId())); } else if
-	 * (data.getCategories() != null && data.getCategories().length > 0) {
-	 * result =
-	 * AHOfferLocalServiceUtil.countOfferByCategoryItems(data.getCategories());
-	 * } else if (data.getTypes() != null && data.getTypes().length > 0) {
-	 * E_OfferType[] types = new E_OfferType[data.getTypes().length]; for (int
-	 * i=0; i<data.getTypes().length;i++) types[i] =
-	 * E_OfferType.valueOf(data.getTypes()[i]); result =
-	 * countByOfferTypes(types); } else if (data.getRootCategoriesStr() != null
-	 * && data.getRootCategoriesStr().trim().length() > 0) { result =
-	 * countByCategoriyId(strToLongArr(data.getRootCategoriesStr())); } else {
-	 * result = countAllPublished(); } return result; } public static
-	 * List<AHOffer> search(SearchForm data,int from, int to) { List <AHOffer>
-	 * result = new LinkedList<AHOffer>(); List<AHOffer> offers = null; if
-	 * (data.getOrgId() != null) { result =
-	 * AHOfferLocalServiceUtil.getPublishedOffers(from, to,
-	 * Long.parseLong(data.getOrgId())); } else if (data.getCategories() != null
-	 * && data.getCategories().length > 0) { offers =
-	 * AHOfferLocalServiceUtil.getOfferByCategoryItems
-	 * (data.getCategories(),from,to); if (offers != null)
-	 * result.addAll(offers); } else if (data.getTypes() != null &&
-	 * data.getTypes().length > 0) { E_OfferType[] types = new
-	 * E_OfferType[data.getTypes().length]; for (int i=0;
-	 * i<data.getTypes().length;i++) types[i] =
-	 * E_OfferType.valueOf(data.getTypes()[i]); offers =
-	 * searchByOfferTypes(types,from,to); if (offers != null)
-	 * result.addAll(offers); } else if (data.getRootCategoriesStr() != null &&
-	 * data.getRootCategoriesStr().trim().length() > 0) { result =
-	 * searchByCategoriyId(strToLongArr(data.getRootCategoriesStr()), from, to);
-	 * } else { result = searchAllPublished(from, to); } return result; }
-	 */
-
+	@Inject 
+	public static I_OfferController offerCtrl;
+	
 	/**
 	 * Count all published offers for all organisations
 	 *
@@ -101,7 +70,7 @@ public class CustomSearchServiceHandler {
 	 * @return the number of published offers for the given organisation
 	 */
 	public static Integer countAllPublished(final long orgId) {
-		return AHOfferLocalServiceUtil.countPublishedOffers(orgId);
+		return offerCtrl.countPublishedOffers(orgId);
 	}
 
 	/**
@@ -111,7 +80,7 @@ public class CustomSearchServiceHandler {
 	 * @return the number of published offers for the specified categories
 	 */
 	public static int countByCategoriyId(final Long[] catId) {
-		return AHOfferLocalServiceUtil.countOfferByCategoryId(catId);
+		return offerCtrl.countOfferByCategoryId(catId);
 	}
 
 	/**
@@ -121,7 +90,7 @@ public class CustomSearchServiceHandler {
 	 * @return the number of published offers for the specified item IDs
 	 */
 	public static int countByItemId(final String[] itemIds) {
-		return AHOfferLocalServiceUtil.countOfferByCategoryItems(itemIds);
+		return offerCtrl.countOfferByCategoryItems(itemIds);
 	}
 
 	/**
@@ -135,7 +104,7 @@ public class CustomSearchServiceHandler {
 		for (int i = 0; i < types.length; i++) {
 			itypes[i] = types[i].getIntValue();
 		}
-		return AHOfferLocalServiceUtil.countOfferByOfferTypes(itypes);
+		return offerCtrl.countOfferByOfferTypes(itypes);
 	}
 
 	/**
@@ -148,7 +117,7 @@ public class CustomSearchServiceHandler {
 	 */
 	public static Integer countByTypesAndItemsAndOrg(final String types,
 	        final String items, final long orgId, Float lat, Float lon, Integer dist) {
-		return AHOfferLocalServiceUtil.countOfferByTypesAndCItemsAndOrg(items,
+		return offerCtrl.countOfferByTypesAndCItemsAndOrg(items,
 		        types, orgId, lat, lon, dist);
 	}
 
@@ -159,7 +128,7 @@ public class CustomSearchServiceHandler {
 	 * @param to end index
 	 * @return a list of published offers with size() <= to-from
 	 */
-	public static List<AHOffer> searchAllPublished(final int from, final int to) {
+	public static List<I_OfferModel> searchAllPublished(final int from, final int to) {
 		return searchAllPublished(from, to, -1L);
 	}
 
@@ -171,9 +140,9 @@ public class CustomSearchServiceHandler {
 	 * @param orgId the organisation ID
 	 * @return a list of published offers with size() <= to-from for the given organisation
 	 */
-	public static List<AHOffer> searchAllPublished(final int from,
+	public static List<I_OfferModel> searchAllPublished(final int from,
 	        final int to, final long orgId) {
-		return AHOfferLocalServiceUtil.getPublishedOffers(from, to, orgId);
+		return offerCtrl.getPublishedOffers(from, to, orgId);
 	}
 
 	/**
@@ -184,9 +153,9 @@ public class CustomSearchServiceHandler {
 	 * @param to end index
 	 * @return a list of published offers with size() <= to-from for the given category IDs
 	 */
-	public static List<AHOffer> searchByCategoriyId(final Long[] catId,
+	public static List<I_OfferModel> searchByCategoriyId(final Long[] catId,
 	        final int from, final int to) {
-		return AHOfferLocalServiceUtil.getOfferByCategoryId(catId, from, to);
+		return offerCtrl.getOfferByCategoryId(catId, from, to);
 	}
 
 	/**
@@ -197,9 +166,9 @@ public class CustomSearchServiceHandler {
 	 * @param to end index
 	 * @return a list of published offers with size() <= to-from for the specified item IDs
 	 */
-	public static List<AHOffer> searchByItemId(final String[] itemIds,
+	public static List<I_OfferModel> searchByItemId(final String[] itemIds,
 	        final int from, final int to) {
-		return AHOfferLocalServiceUtil.getOfferByCategoryItems(itemIds, from,
+		return offerCtrl.getOfferByCategoryItems(itemIds, from,
 		        to);
 	}
 
@@ -211,13 +180,13 @@ public class CustomSearchServiceHandler {
 	 * @param to end index
 	 * @return a list of published offers with site() <= to-from for the given types
 	 */
-	public static List<AHOffer> searchByOfferTypes(final E_OfferType[] types,
+	public static List<I_OfferModel> searchByOfferTypes(final E_OfferType[] types,
 	        final int from, final int to) {
 		final int[] itypes = new int[types.length];
 		for (int i = 0; i < types.length; i++) {
 			itypes[i] = types[i].getIntValue();
 		}
-		return AHOfferLocalServiceUtil.getOfferByOfferTypes(itypes, from, to);
+		return offerCtrl.getOfferByOfferTypes(itypes, from, to);
 	}
 
 	/**
@@ -230,14 +199,14 @@ public class CustomSearchServiceHandler {
 	 * @param to end index
 	 * @return a list of published offers with site() <= to-from for the given parameters
 	 */
-	public static List<AHOffer> searchByTypesAndItemsAndOrg(final String types,
+	public static List<I_OfferModel> searchByTypesAndItemsAndOrg(final String types,
 	        final String items, final long orgId, final int from, final int to, Float lat, Float lon, Integer dist) {
-		return AHOfferLocalServiceUtil.getOfferByTypesAndCItemsAndOrg(items,
+		return offerCtrl.getOfferByTypesAndCItemsAndOrg(items,
 		        types, orgId, from, to, lat, lon, dist);
 	}
 	
-	public static List<AHOffer> getLatestPublishedOffers(int size) {
-		return AHOfferLocalServiceUtil.getPublishedOffers(0, size, -1);
+	public static List<I_OfferModel> getLatestPublishedOffers(int size) {
+		return offerCtrl.getPublishedOffers(0, size, -1);
 	}
 
 	/**

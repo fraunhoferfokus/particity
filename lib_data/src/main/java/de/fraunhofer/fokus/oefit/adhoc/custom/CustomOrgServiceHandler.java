@@ -38,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
@@ -45,7 +47,6 @@ import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -69,16 +70,16 @@ import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
-import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
-import de.fraunhofer.fokus.oefit.particity.model.AHContact;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.model.AHRegion;
-import de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHRegionLocalServiceUtil;
+import de.particity.model.I_AddressModel;
+import de.particity.model.I_CategoryModel;
+import de.particity.model.I_ContactModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.I_RegionModel;
+import de.particity.model.boundary.I_AddressControler;
+import de.particity.model.boundary.I_CategoryController;
+import de.particity.model.boundary.I_ContactController;
+import de.particity.model.boundary.I_OrganizationController;
+import de.particity.model.boundary.I_RegionController;
 
 /**
  * Custom utility methods for all tasks regarding organisations
@@ -88,6 +89,22 @@ public class CustomOrgServiceHandler {
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(CustomOrgServiceHandler.class);
 
+
+	@Inject
+	public static I_OrganizationController orgCtrl;
+	
+	@Inject
+	public static I_RegionController regionCtrl;
+	
+	@Inject
+	public static I_AddressControler addressCtrl;
+	
+	@Inject 
+	public static I_CategoryController catCtrl;
+	
+	@Inject
+	public static I_ContactController contactCtrl;
+	
 	/**
 	 * Add (or update) an organisation
 	 *
@@ -97,7 +114,7 @@ public class CustomOrgServiceHandler {
 	 * @param form the form object
 	 * @return the organisation added or changed
 	 */
-	public static AHOrg addOrganisation(final long companyId,
+	public static I_OrganizationModel addOrganisation(final long companyId,
 	        final long userId, final long groupId, final RegistrationForm form) {
 		return addOrganisation(companyId, userId, groupId, form.getMail(),
 		        form.getName(),
@@ -132,7 +149,7 @@ public class CustomOrgServiceHandler {
 	 * @param logo the logo of the organisation (or null)
 	 * @return the organisation added or changed
 	 */
-	public static AHOrg addOrganisation(final long companyId,
+	public static I_OrganizationModel addOrganisation(final long companyId,
 	        final long userId, final long groupId, final String owner,
 	        final String name,
 	        final String holder, final String descr, final String legalStatus,
@@ -141,14 +158,14 @@ public class CustomOrgServiceHandler {
 	        final String zip,
 	        final String tel, final String fax, final String mail,
 	        final String web, final CommonsMultipartFile logo, float coordsLat, float coordsLon) {
-		AHOrg result = null;
+		I_OrganizationModel result = null;
 
 		String countryName = country;
 
 		try {
 			final Long countryId = Long.parseLong(country);
-			final AHCategories countryCat = AHCategoriesLocalServiceUtil
-			        .getCategory(countryId);
+			final I_CategoryModel countryCat = catCtrl
+			        .get(countryId);
 			if (countryCat != null) {
 				countryName = countryCat.getName();
 			}
@@ -156,24 +173,24 @@ public class CustomOrgServiceHandler {
 			//m_objLog.warn(t);
 		}
 
-		final AHRegion region = AHRegionLocalServiceUtil.addRegion(city,
+		final I_RegionModel region = regionCtrl.add(city,
 		        countryName,
 		        zip);
-		final AHAddr address = AHAddrLocalServiceUtil.addAddress(street,
-		        streetNumber, null, null, region.getRegionId());
-		final AHContact contact = AHContactLocalServiceUtil.addContact(null,
+		final I_AddressModel address = addressCtrl.add(street,
+		        streetNumber, null, null, region);
+		final I_ContactModel contact = contactCtrl.add(null,
 		        null,
 		        tel, fax, mail, web);
 		// m_objLog.info("Trying to add/update an org for "+owner+" with name "+name);
-		result = AHOrgLocalServiceUtil.addOrganisation(owner, name, holder,
+		result = orgCtrl.add(owner, name, holder,
 		        descr,
-		        legalStatus, address.getAddrId(), contact.getContactId());
+		        legalStatus, address, contact);
 
 		if (userId > 0 && result != null && logo != null && logo.getSize() > 0) {
 			final String logoLocation = updateLogo(companyId, userId, groupId,
-			        result.getOrgId(), logo);
+			        result.getId(), logo);
 			if (logoLocation != null) {
-				AHOrgLocalServiceUtil.updateLogoLocation(result.getOrgId(),
+				orgCtrl.updateLogoLocation(result,
 				        logoLocation);
 			}
 		}
@@ -186,7 +203,7 @@ public class CustomOrgServiceHandler {
 	 * @param orgId the organisation's ID
 	 */
 	public static void deleteOrganisation(final Long orgId) {
-		AHOrgLocalServiceUtil.deleteOrganisation(orgId);
+		orgCtrl.delete(orgId);
 	}
 
 	/**
@@ -195,27 +212,16 @@ public class CustomOrgServiceHandler {
 	 * @param org the organisation model
 	 * @return the organisation's form
 	 */
-	public static RegistrationForm getOrganisation(final AHOrg org) {
+	public static RegistrationForm getOrganisation(final I_OrganizationModel org) {
 		RegistrationForm result = null;
 
-		// AHOrg org = AHOrgLocalServiceUtil.getOrganisationByOwner(owner);
+		// I_OrganizationModel org = I_OrganizationModelLocalServiceUtil.getOrganisationByOwner(owner);
 		if (org != null) {
-			AHContact contact = null;
-			AHAddr address = null;
-			AHRegion region = null;
-			try {
-				contact = AHContactLocalServiceUtil.getAHContact(org
-				        .getContactId());
-				address = AHAddrLocalServiceUtil.getAHAddr(org.getAddressId());
-				if (address != null) {
-					region = AHRegionLocalServiceUtil.getRegion(address
-					        .getRegionId());
-				}
-			} catch (final PortalException e) {
-				m_objLog.error(e);
-			} catch (final SystemException e) {
-				m_objLog.error(e);
-			}
+			I_ContactModel contact = org.getContact();
+			I_AddressModel address = org.getAddress();
+			I_RegionModel region = null;
+			if (address != null)
+				region = address.getRegion();
 
 			result = new RegistrationForm();
 			result.setDescr(org.getDescription());
@@ -240,7 +246,7 @@ public class CustomOrgServiceHandler {
 				result.setContactWeb(contact.getWww());
 				result.setContactSurname(contact.getSurname());
 			}
-			result.setOrgId(org.getOrgId());
+			result.setOrgId(org.getId());
 			result.setLogoFilename(org.getLogoLocation());
 		}
 
@@ -256,10 +262,8 @@ public class CustomOrgServiceHandler {
 	public static RegistrationForm getOrganisation(final long orgId) {
 		RegistrationForm result = null;
 		try {
-			final AHOrg org = AHOrgLocalServiceUtil.getAHOrg(orgId);
+			final I_OrganizationModel org = orgCtrl.get(orgId);
 			result = getOrganisation(org);
-		} catch (final PortalException e) {
-			m_objLog.error(e);
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}
@@ -283,12 +287,12 @@ public class CustomOrgServiceHandler {
 		final RegistrationForm result = getOrganisation(orgId);
 
 		final String countryName = result.getRegionCountry();
-		AHCategories countryCat = null;
+		I_CategoryModel countryCat = null;
 		try {
-			countryCat = AHCategoriesLocalServiceUtil.getCategory(countryName,
-			        E_CategoryType.COUNTRIES.getIntValue());
+			countryCat = catCtrl.get(countryName,
+			        E_CategoryType.COUNTRIES);
 			if (countryCat != null) {
-				result.setRegionCountry(Long.toString(countryCat.getCatId()));
+				result.setRegionCountry(Long.toString(countryCat.getId()));
 			}
 		} catch (final Throwable t) {
 		}
@@ -305,15 +309,13 @@ public class CustomOrgServiceHandler {
 		byte[] result = null;
 		final StringBuffer csv = new StringBuffer();
 		try {
-			final int size = AHOrgLocalServiceUtil.getAHOrgsCount();
-			List<AHOrg> orgs = null;
+			final int size = orgCtrl.count();
+			List<I_OrganizationModel> orgs = null;
 			for (int i = 0; i < size; i += 5) {
-				orgs = AHOrgLocalServiceUtil.getAHOrgs(i, i += 5);
-				for (final AHOrg org : orgs) {
-					final AHAddr addr = AHAddrLocalServiceUtil.getAHAddr(org
-					        .getAddressId());
-					final AHRegion reg = AHRegionLocalServiceUtil
-					        .getRegion(addr.getRegionId());
+				orgs = orgCtrl.get(i, i += 5);
+				for (final I_OrganizationModel org : orgs) {
+					final I_AddressModel addr = org.getAddress();
+					final I_RegionModel reg = addr.getRegion();
 					csv.append(org.getOwner()).append("\t")
 					        .append(org.getName()).append("\t")
 					        .append(addr.getStreet() + " " + addr.getNumber())
@@ -336,15 +338,13 @@ public class CustomOrgServiceHandler {
 	 * @param tDisplay the theme display of the current session
 	 * @return the organisation bound to the user, or null if none
 	 */
-	public static AHOrg getOrgByLiferayUser(final ThemeDisplay tDisplay) {
-		AHOrg result = null;
+	public static I_OrganizationModel getOrgByLiferayUser(final ThemeDisplay tDisplay) {
+		I_OrganizationModel result = null;
 		try {
 			final String ownerEmail = tDisplay.getUser().getEmailAddress();
-			result = AHOrgLocalServiceUtil
-			        .getOrganisationByOwnerMail(ownerEmail);
+			result = orgCtrl.getByOwnerMail(ownerEmail);
 			if (result == null) {
-				result = AHOrgLocalServiceUtil
-				        .getOrganisationByUserMail(ownerEmail);
+				result = orgCtrl.getByUserMail(ownerEmail);
 			}
 		} catch (final Throwable t) {
 			m_objLog.error(t);
@@ -362,14 +362,14 @@ public class CustomOrgServiceHandler {
 		long result = -1L;
 		try {
 			final String ownerEmail = tDisplay.getUser().getEmailAddress();
-			AHOrg org = AHOrgLocalServiceUtil
-			        .getOrganisationByOwnerMail(ownerEmail);
+			I_OrganizationModel org = orgCtrl
+			        .getByOwnerMail(ownerEmail);
 			if (org == null) {
-				org = AHOrgLocalServiceUtil
-				        .getOrganisationByUserMail(ownerEmail);
+				org = orgCtrl
+				        .getByUserMail(ownerEmail);
 			}
 			if (org != null) {
-				result = org.getOrgId();
+				result = org.getId();
 			}
 		} catch (final Throwable t) {
 			m_objLog.error(t);
@@ -387,9 +387,9 @@ public class CustomOrgServiceHandler {
 	public static boolean isOrgOwner(final long orgId, final String userMail) {
 		boolean result = true;
 		try {
-			final AHOrg org = AHOrgLocalServiceUtil
-			        .getOrganisationByOwnerMail(userMail);
-			if (org != null && org.getOrgId() == orgId) {
+			final I_OrganizationModel org = orgCtrl
+			        .getByOwnerMail(userMail);
+			if (org != null && org.getId() == orgId) {
 				result = true;
 			}
 		} catch (final Throwable t) {

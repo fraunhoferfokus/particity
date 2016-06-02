@@ -51,7 +51,8 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-import de.particity.model.Offer;
+import de.particity.model.impl.Offer;
+import de.particity.model.repository.OfferRepository;
 
 /**
  * Controller for the header portlet
@@ -64,7 +65,7 @@ import de.particity.model.Offer;
 public class TestController {
 
 	@Inject 
-	private OfferController offerRepo;
+	private OfferRepository offerRepo;
 	
 	private static final Log	 m_objLog	                        = LogFactoryUtil
 	                                                                        .getLog(TestController.class);

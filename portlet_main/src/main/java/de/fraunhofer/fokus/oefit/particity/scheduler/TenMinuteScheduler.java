@@ -38,6 +38,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Message;
@@ -48,11 +50,11 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
-import de.fraunhofer.fokus.oefit.particity.model.custom.MailListener;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_SubscriptionModel;
+import de.particity.model.boundary.I_OfferController;
+import de.particity.model.boundary.I_SubscriptionController;
+import de.particity.model.listener.MailListener;
 
 /**
  * Scheduler for tasks with 10-minute period
@@ -62,6 +64,12 @@ public class TenMinuteScheduler implements MessageListener {
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(TenMinuteScheduler.class);
 
+	@Inject
+	private I_OfferController offerCtrl;
+	
+	@Inject
+	private I_SubscriptionController subCtrl;
+	
 	/* (non-Javadoc)
 	 * @see com.liferay.portal.kernel.messaging.MessageListener#receive(com.liferay.portal.kernel.messaging.Message)
 	 */
@@ -97,23 +105,23 @@ public class TenMinuteScheduler implements MessageListener {
 				}
 			}
 
-			final List<AHOffer> offers = AHOfferLocalServiceUtil
-			        .getNewlyPublishedOffers(lastUpdate);
-			final Map<String, List<AHOffer>> offerUserMap = new HashMap<String, List<AHOffer>>();
-			final Map<String, AHSubscription> userSubscriptionMap = new HashMap<String, AHSubscription>();
-			List<AHOffer> userOffers;
+			final List<I_OfferModel> offers = offerCtrl
+			        .getNewlyPublished(lastUpdate);
+			final Map<String, List<I_OfferModel>> offerUserMap = new HashMap<String, List<I_OfferModel>>();
+			final Map<String, I_SubscriptionModel> userSubscriptionMap = new HashMap<String, I_SubscriptionModel>();
+			List<I_OfferModel> userOffers;
 			Long[] cats;
-			List<AHSubscription> recipients;
-			for (final AHOffer offer : offers) {
-				cats = AHOfferLocalServiceUtil.getCategoriesByOfferAsLong(
-				        offer.getOfferId(), E_CategoryType.SEARCH.getIntValue());
-				recipients = AHSubscriptionLocalServiceUtil
-				        .getUserAddressesByCatItems(cats);
+			List<I_SubscriptionModel> recipients;
+			for (final I_OfferModel offer : offers) {
+				cats = offerCtrl.getCategoriesAsLong(
+				        offer.getId(), E_CategoryType.SEARCH);
+				recipients = subCtrl
+				        .getUserAddressesByCategoryEntries(cats);
 				if (recipients != null && recipients.size() > 0) {
-					for (final AHSubscription rec : recipients) {
+					for (final I_SubscriptionModel rec : recipients) {
 						userOffers = offerUserMap.get(rec.getEmail());
 						if (userOffers == null) {
-							userOffers = new LinkedList<AHOffer>();
+							userOffers = new LinkedList<I_OfferModel>();
 							offerUserMap.put(rec.getEmail(), userOffers);
 							userSubscriptionMap.put(rec.getEmail(), rec);
 						}

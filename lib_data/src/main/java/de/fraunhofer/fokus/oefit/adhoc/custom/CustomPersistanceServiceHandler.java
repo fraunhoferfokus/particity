@@ -37,19 +37,21 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.NewsletterForm;
-import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.particity.model.AHContact;
-import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
-import de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil;
+import de.particity.model.I_CategoryEntryModel;
+import de.particity.model.I_ContactModel;
+import de.particity.model.I_SubscriptionModel;
+import de.particity.model.boundary.I_CategoryController;
+import de.particity.model.boundary.I_CategoryEntryController;
+import de.particity.model.boundary.I_ContactController;
+import de.particity.model.boundary.I_OfferController;
+import de.particity.model.boundary.I_SubscriptionController;
 
 /**
  * Custom utility methods for various tasks on portlet-related data structures that do not require for a separate handler class
@@ -59,6 +61,21 @@ public class CustomPersistanceServiceHandler {
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(CustomPersistanceServiceHandler.class);
 
+	@Inject 
+	public static I_CategoryController catCtrl;
+	
+	@Inject
+	public static I_CategoryEntryController catEntryCtrl;
+	
+	@Inject
+	public static I_OfferController offerCtrl;
+	
+	@Inject
+	public static I_ContactController contactCtrl;
+	
+	@Inject
+	public static I_SubscriptionController subCtrl;
+	
 	/**
 	 * Add (or receive an existing) contact address
 	 *
@@ -68,10 +85,10 @@ public class CustomPersistanceServiceHandler {
 	 * @param contactTel the contact telephone or mobile number
 	 * @return the AH contact added or found
 	 */
-	public static AHContact addContact(final String contactForename,
+	public static I_ContactModel addContact(final String contactForename,
 	        final String contactSurname, final String contactMail,
 	        final String contactTel) {
-		return AHContactLocalServiceUtil.addContact(contactForename,
+		return contactCtrl.add(contactForename,
 		        contactSurname, contactTel, null, contactMail, null);
 	}
 
@@ -81,7 +98,7 @@ public class CustomPersistanceServiceHandler {
 	 * @param data the form object
 	 * @return the subscription object
 	 */
-	public static AHSubscription addSubscription(final NewsletterForm data) {
+	public static I_SubscriptionModel addSubscription(final NewsletterForm data) {
 
 		final String[] categories = data.getCategories();
 		long[] l_cats = null;
@@ -92,12 +109,12 @@ public class CustomPersistanceServiceHandler {
 			}
 		}
 
-		return addSubscription(data.getMail(), l_cats, null, null);
+		return subCtrl.add(data.getMail(), l_cats, null, null);
 	}
 	
-	public static AHSubscription addSubscription(String mail, long[] categories, String uuid, E_SubscriptionStatus status) {
+	public static I_SubscriptionModel addSubscription(String mail, long[] categories, String uuid, E_SubscriptionStatus status) {
 
-		return  AHSubscriptionLocalServiceUtil.addSubscription(mail, categories, uuid, status);
+		return  subCtrl.add(mail, categories, uuid, status);
 	}
 
 	/**
@@ -106,18 +123,15 @@ public class CustomPersistanceServiceHandler {
 	 * @param entryId the category entry ID
 	 * @return the category entry just deleted, or <code>null</code> if not found
 	 */
-	public static AHCatEntries deleteCategoryEntryById(final long entryId) {
-		final AHCatEntries result = AHCatEntriesLocalServiceUtil
-		        .getCategoryEntryById(entryId);
+	public static I_CategoryEntryModel deleteCategoryEntryById(final long entryId) {
+		final I_CategoryEntryModel result = catEntryCtrl.get(entryId);
 		if (result != null) {
 			try {
 				// clear references
-				AHOfferLocalServiceUtil.clearAHCatEntriesAHOffers(result
-				        .getItemId());
-				AHSubscriptionLocalServiceUtil
-				        .clearAHCatEntriesAHSubscriptions(result.getItemId());
+				offerCtrl.clearFromCategoryEntryId(result.getId());
+				subCtrl.clearFromCategoryEntryId(result.getId());
 				// delete
-				AHCatEntriesLocalServiceUtil.deleteAHCatEntries(result);
+				catEntryCtrl.delete(result);
 			} catch (final SystemException e) {
 				m_objLog.error(e);
 			}
@@ -138,7 +152,7 @@ public class CustomPersistanceServiceHandler {
 		Map<Long, String> result = null;
 
 		try {
-			result = AHCategoriesLocalServiceUtil.getCategoryMap(type.getIntValue(),
+			result = catCtrl.getCategoryMap(type,
 			        includeEmpty);
 		} catch (final Throwable e) {
 			m_objLog.warn(e);
@@ -155,8 +169,8 @@ public class CustomPersistanceServiceHandler {
 	 */
 	public static int getSubscriptionsSize(final String email) {
 
-		final List<AHSubscription> subscriptions = AHSubscriptionLocalServiceUtil
-		        .getSubscriptionsByMail(email);
+		final List<I_SubscriptionModel> subscriptions = subCtrl
+		        .getByMail(email);
 
 		return subscriptions != null ? subscriptions.size() : 0;
 	}
@@ -169,7 +183,7 @@ public class CustomPersistanceServiceHandler {
 	public static byte[] getUsersAsCsv() {
 		byte[] result = null;
 
-		final List<String> addresses = AHSubscriptionLocalServiceUtil
+		final List<String> addresses = subCtrl
 		        .getUserAddresses();
 		final StringBuffer csv = new StringBuffer();
 		if (addresses != null) {

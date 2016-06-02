@@ -22,11 +22,11 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
-import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
+import de.particity.model.I_CategoryEntryModel;
+import de.particity.model.I_CategoryModel;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.I_SubscriptionModel;
 import de.particity.schemagen.impexpv100.CategoryEntryType;
 import de.particity.schemagen.impexpv100.CategoryType;
 import de.particity.schemagen.impexpv100.ConfigurationType;
@@ -95,10 +95,10 @@ public class ImportWriter {
 		if (categories != null && categories.size() > 0) {
 			de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_CATEGORIES);
 			for (CategoryType type: categories) {
-				AHCategories cat = CustomCategoryServiceHandler.addMainCategory(type.getName(), type.getDescr(), E_CategoryType.valueOf(type.getType()));
+				I_CategoryModel cat = CustomCategoryServiceHandler.addMainCategory(type.getName(), type.getDescr(), E_CategoryType.valueOf(type.getType()));
 				if (cat != null) {
 					log.log(cat.getName());
-					initCategoryEntries(type.getEntry(),cat.getCatId());
+					initCategoryEntries(type.getEntry(),cat.getId());
 				} else
 					log.err(type.getName());
 			}
@@ -110,16 +110,16 @@ public class ImportWriter {
 			de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().getLog(LOG_CATEGORIES);
 			for (CategoryEntryType entry: entries) {
 				if (!m_objCatEntryIdMap.containsKey(entry.getItemId())) {
-					AHCatEntries dbentry = CustomCategoryServiceHandler.addCategoryEntry(catId, entry.getName(), entry.getDescr(), -1);
+					I_CategoryEntryModel dbentry = CustomCategoryServiceHandler.addCategoryEntry(catId, entry.getName(), entry.getDescr(), -1);
 					if (dbentry != null) {
 						log.log(entry.getName());
-						m_objCatEntryIdMap.put(entry.getItemId(), dbentry.getItemId());
+						m_objCatEntryIdMap.put(entry.getItemId(), dbentry.getId());
 						if (entry.getChildEntry() != null && entry.getChildEntry().size() > 0) {
 							for (CategoryEntryType child: entry.getChildEntry()) {
 								if (!m_objCatEntryIdMap.containsKey(child.getItemId())) {
-									AHCatEntries dbchild = CustomCategoryServiceHandler.addCategoryEntry(catId, child.getName(), child.getDescr(), dbentry.getItemId());
+									I_CategoryEntryModel dbchild = CustomCategoryServiceHandler.addCategoryEntry(catId, child.getName(), child.getDescr(), dbentry.getId());
 									if (dbchild != null) {
-										m_objCatEntryIdMap.put(child.getItemId(), dbchild.getItemId());
+										m_objCatEntryIdMap.put(child.getItemId(), dbchild.getId());
 										log.log(child.getName());
 									} else
 										log.err(child.getName());
@@ -151,10 +151,10 @@ public class ImportWriter {
 		if (organisations != null && organisations.size() > 0) {
 			de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_ORGANISATIONS);
 			for (OrganisationType org: organisations) {
-				AHOrg dborg = CustomOrgServiceHandler.addOrganisation(m_objCompanyId, m_objUserId, m_objGroupId, org.getOwner(), org.getName(), org.getHolder(), org.getDescription(), org.getLegalStatus(), org.getAddress().getStreet(), org.getAddress().getHouse(), org.getAddress().getCity(), org.getAddress().getCountry(), org.getAddress().getZip(), org.getContact().getPhone(), org.getContact().getFax(), org.getContact().getEmail(), org.getContact().getWww(), null, org.getAddress().getCoordLat(), org.getAddress().getCoordLon());
+				I_OrganizationModel dborg = CustomOrgServiceHandler.addOrganisation(m_objCompanyId, m_objUserId, m_objGroupId, org.getOwner(), org.getName(), org.getHolder(), org.getDescription(), org.getLegalStatus(), org.getAddress().getStreet(), org.getAddress().getHouse(), org.getAddress().getCity(), org.getAddress().getCountry(), org.getAddress().getZip(), org.getContact().getPhone(), org.getContact().getFax(), org.getContact().getEmail(), org.getContact().getWww(), null, org.getAddress().getCoordLat(), org.getAddress().getCoordLon());
 				if (dborg != null) {
 					log.log(org.getName());
-					CustomOrgServiceHandler.updateLogo(m_objCompanyId, m_objUserId, m_objGroupId, dborg.getOrgId(), org.getLogo(), org.getLogoFilename());
+					CustomOrgServiceHandler.updateLogo(m_objCompanyId, m_objUserId, m_objGroupId, dborg.getId(), org.getLogo(), org.getLogoFilename());
 					
 					User lrUser = null;
 					try {
@@ -172,7 +172,7 @@ public class ImportWriter {
 	                    }
 					}
 	
-					m_objOrgIdMap.put(org.getOrgId(), dborg.getOrgId());
+					m_objOrgIdMap.put(org.getOrgId(), dborg.getId());
 				} else {
 					log.err(org.getName());
 				}
@@ -195,10 +195,10 @@ public class ImportWriter {
 					}
 				}
 				if (orgId != null) {
-					AHOffer dbOffer = CustomOfferServiceHandler.addOffer(-1L, offer.getTitle(), offer.getDescription(), orgId,  E_OfferType.valueOf(offer.getType()), offer.getContact().getForename(), offer.getContact().getSurname(), offer.getContact().getPhone(), offer.getContact().getEmail(), offer.getSndContact().getForename(), offer.getSndContact().getSurname(), offer.getSndContact().getPhone(), offer.getSndContact().getEmail(), offer.getAddress().getStreet(), offer.getAddress().getHouse(), offer.getAddress().getCoordLat(), offer.getAddress().getCoordLon(), offer.getAddress().getCity(), offer.getAddress().getCountry(), offer.getAddress().getZip(),
+					I_OfferModel dbOffer = CustomOfferServiceHandler.addOffer(-1L, offer.getTitle(), offer.getDescription(), orgId,  E_OfferType.valueOf(offer.getType()), offer.getContact().getForename(), offer.getContact().getSurname(), offer.getContact().getPhone(), offer.getContact().getEmail(), offer.getSndContact().getForename(), offer.getSndContact().getSurname(), offer.getSndContact().getPhone(), offer.getSndContact().getEmail(), offer.getAddress().getStreet(), offer.getAddress().getHouse(), offer.getAddress().getCoordLat(), offer.getAddress().getCoordLon(), offer.getAddress().getCity(), offer.getAddress().getCountry(), offer.getAddress().getZip(),
 							offer.getWorkTime(), E_OfferWorkType.valueOf(offer.getWorkType()), categories, offer.getPublish(), offer.getExpires(), offer.isContactAgency());
 					if (dbOffer != null) {
-						log.log(dbOffer.getOfferId()+" - "+dbOffer.getTitle());
+						log.log(dbOffer.getId()+" - "+dbOffer.getTitle());
 					} else {
 						log.err(offer.getOfferId()+" - "+offer.getTitle());
 					}
@@ -220,7 +220,7 @@ public class ImportWriter {
 						catEntries[i] = m_objCatEntryIdMap.get(sub.getCategories().get(i));
 					}
 				} 
-				AHSubscription subscr = CustomPersistanceServiceHandler.addSubscription(sub.getEmail(), catEntries, sub.getUuid(), E_SubscriptionStatus.valueOf(sub.getStatus()));
+				I_SubscriptionModel subscr = CustomPersistanceServiceHandler.addSubscription(sub.getEmail(), catEntries, sub.getUuid(), E_SubscriptionStatus.valueOf(sub.getStatus()));
 				if (subscr != null) {
 					log.log(subscr.getEmail());
 				} else {

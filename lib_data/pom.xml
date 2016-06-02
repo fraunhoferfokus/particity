@@ -203,6 +203,17 @@
 		<!-- dependency> <groupId>org.jsoup</groupId> <artifactId>jsoup</artifactId> 
 			</dependency -->
 
+        <!-- CDI -->
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.el</groupId>
+                    <artifactId>javax.el-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 	</dependencies>
 
 </project>

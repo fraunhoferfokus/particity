@@ -48,9 +48,9 @@ import com.liferay.portal.kernel.util.PropsUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.I_SubscriptionModel;
 
 /**
  * The message composer uses the configuration backend to replace
@@ -184,7 +184,7 @@ public class MessageComposer {
 	 * @param sub the sub
 	 * @return the string
 	 */
-	public String replaceNewsValues(final String src, final AHSubscription sub) {
+	public String replaceNewsValues(final String src, final I_SubscriptionModel sub) {
 		return replaceVar("TO_UUID", src, sub.getUuid());
 	}
 
@@ -211,9 +211,9 @@ public class MessageComposer {
 
 			if (list != null) {
 				for (final Object o : list) {
-					final AHOffer offer = (AHOffer) o;
+					final I_OfferModel offer = (I_OfferModel) o;
 					sb.append("<li><a href='").append(basePath)
-					        .append(offer.getOfferId()).append("'>")
+					        .append(offer.getId()).append("'>")
 					        .append(offer.getTitle()).append("</a>")
 					        .append("</li>");
 				}
@@ -225,7 +225,7 @@ public class MessageComposer {
 
 			if (list != null) {
 				for (final Object o : list) {
-					final AHOffer offer = (AHOffer) o;
+					final I_OfferModel offer = (I_OfferModel) o;
 					sb.append("<li>").append(offer.getTitle()).append("</li>");
 				}
 			}
@@ -254,9 +254,9 @@ public class MessageComposer {
 	 * @param offer the offer
 	 * @return the string
 	 */
-	public String replaceOfferValues(String src, final AHOffer offer) {
+	public String replaceOfferValues(String src, final I_OfferModel offer) {
 		src = replaceVar("OFFER_URL", src,
-		        this.m_strOfferPermaBase + offer.getOfferId());
+		        this.m_strOfferPermaBase + offer.getId());
 		return replaceVar("OFFER_NAME", src, offer.getTitle());
 	}
 
@@ -267,7 +267,7 @@ public class MessageComposer {
 	 * @param org the org
 	 * @return the string
 	 */
-	public String replaceOrgValues(final String src, final AHOrg org) {
+	public String replaceOrgValues(final String src, final I_OrganizationModel org) {
 		return replaceVar("ORG_NAME", src, org.getName());
 	}
 

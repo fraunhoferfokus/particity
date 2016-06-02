@@ -35,6 +35,8 @@ package de.fraunhofer.fokus.oefit.particity.scheduler;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.Message;
@@ -44,14 +46,14 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import de.fraunhofer.fokus.oefit.particity.model.AHAddr;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.model.AHRegion;
-import de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHRegionLocalServiceUtil;
+import de.particity.model.I_AddressModel;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.I_RegionModel;
+import de.particity.model.boundary.I_AddressControler;
+import de.particity.model.boundary.I_OfferController;
+import de.particity.model.boundary.I_OrganizationController;
+import de.particity.model.boundary.I_RegionController;
 
 /**
  * Scheduler for daily tasks
@@ -61,6 +63,18 @@ public class DailyScheduler implements MessageListener {
 	private static final Log	m_objLog	= LogFactoryUtil
 	                                             .getLog(DailyScheduler.class);
 
+	@Inject
+	private I_OfferController offerCtrl;
+	
+	@Inject
+	private I_OrganizationController orgCtrl;
+	
+	@Inject
+	private I_AddressControler addrCtrl;
+	
+	@Inject
+	private I_RegionController regionCtrl;
+	
 	/* (non-Javadoc)
 	 * @see com.liferay.portal.kernel.messaging.MessageListener#receive(com.liferay.portal.kernel.messaging.Message)
 	 */
@@ -87,27 +101,19 @@ public class DailyScheduler implements MessageListener {
 	 */
 	public void removeOffersWithoutAddresses() {
 		try {
-			final int offerSize = AHOfferLocalServiceUtil.getAHOffersCount();
+			final int offerSize = offerCtrl.count();
 			if (offerSize > 0) {
-				List<AHOffer> offers;
-				AHAddr addr;
+				List<I_OfferModel> offers;
+				I_AddressModel addr;
 				for (int i = 0; i < offerSize; i += 5) {
-					offers = AHOfferLocalServiceUtil.getAHOffers(i, i + 5);
-					for (final AHOffer offer : offers) {
-						try {
-							addr = AHAddrLocalServiceUtil.getAHAddr(offer
-							        .getAdressId());
-						} catch (final Throwable t) {
-							addr = null;
-						}
-						if (addr == null) {
-							AHOfferLocalServiceUtil.deleteAHOffer(offer
-							        .getOfferId());
+					offers = offerCtrl.get(i, i + 5);
+					for (final I_OfferModel offer : offers) {
+						if (offer.getAddress() == null) {
+							offerCtrl.delete(offer);
 							m_objLog.warn("Removing offer "
-							        + offer.getOfferId() + "/"
+							        + offer.getId() + "/"
 							        + offer.getTitle()
-							        + " due to missing address "
-							        + offer.getAdressId());
+							        + " due to missing address");
 						}
 					}
 				}
@@ -124,27 +130,18 @@ public class DailyScheduler implements MessageListener {
 	 */
 	public void removeOffersWithoutOrganisations() {
 		try {
-			final int offerSize = AHOfferLocalServiceUtil.getAHOffersCount();
+			final int offerSize = offerCtrl.count();
 			if (offerSize > 0) {
-				List<AHOffer> offers;
-				AHOrg org;
+				List<I_OfferModel> offers;
 				for (int i = 0; i < offerSize; i += 5) {
-					offers = AHOfferLocalServiceUtil.getAHOffers(i, i + 5);
-					for (final AHOffer offer : offers) {
-						final long orgId = offer.getOrgId();
-						try {
-							org = AHOrgLocalServiceUtil.getAHOrg(orgId);
-						} catch (final Throwable t) {
-							org = null;
-						}
-						if (org == null) {
-							AHOfferLocalServiceUtil.deleteAHOffer(offer
-							        .getOfferId());
+					offers = offerCtrl.get(i, i + 5);
+					for (final I_OfferModel offer : offers) {
+						if (offer.getOrg() == null) {
+							offerCtrl.delete(offer);
 							m_objLog.warn("Removing offer "
-							        + offer.getOfferId() + "/"
+							        + offer.getId() + "/"
 							        + offer.getTitle()
-							        + " due to missing organisation "
-							        + offer.getOrgId());
+							        + " due to missing organisation");
 						}
 					}
 				}
@@ -162,12 +159,12 @@ public class DailyScheduler implements MessageListener {
 	public void removeOrganisationsWithoutUsers() {
 		try {
 			final long companyId = PortalUtil.getDefaultCompanyId();
-			final int orgSize = AHOrgLocalServiceUtil.getAHOrgsCount();
+			final int orgSize = orgCtrl.count();
 			if (orgSize > 0) {
-				List<AHOrg> orgs;
+				List<I_OrganizationModel> orgs;
 				for (int i = 0; i < orgSize; i += 5) {
-					orgs = AHOrgLocalServiceUtil.getAHOrgs(i, i + 5);
-					for (final AHOrg org : orgs) {
+					orgs = orgCtrl.get(i, i + 5);
+					for (final I_OrganizationModel org : orgs) {
 						final String mail = org.getOwner();
 						User user = null;
 						try {
@@ -177,10 +174,9 @@ public class DailyScheduler implements MessageListener {
 						}
 						if (user == null) {
 							m_objLog.warn("Removing organisation "
-							        + org.getOrgId() + "/" + org.getName()
+							        + org.getId() + "/" + org.getName()
 							        + " due to missing user.");
-							AHOrgLocalServiceUtil.deleteOrganisation(org
-							        .getOrgId());
+							orgCtrl.delete(org);
 						}
 					}
 				}
@@ -197,17 +193,16 @@ public class DailyScheduler implements MessageListener {
 	 */
 	public void removeOrphanedAddresses() {
 		try {
-			final int addrSize = AHAddrLocalServiceUtil.getAHAddrsCount();
+			final int addrSize = addrCtrl.count();
 			if (addrSize > 0) {
-				List<AHAddr> addresses;
+				List<I_AddressModel> addresses;
 				for (int i = 0; i < addrSize; i += 5) {
-					addresses = AHAddrLocalServiceUtil.getAHAddrs(i, i + 5);
-					for (final AHAddr addr : addresses) {
-						final int size = AHOfferLocalServiceUtil
-						        .countOfferByAddress(addr.getAddrId());
+					addresses = addrCtrl.get(i, i + 5);
+					for (final I_AddressModel addr : addresses) {
+						final int size = offerCtrl
+						        .countOfferByAddress(addr.getId());
 						if (size <= 0) {
-							AHAddrLocalServiceUtil.deleteAHAddr(addr
-							        .getAddrId());
+							addrCtrl.delete(addr);
 							m_objLog.info("Removing address "
 							        + addr.getStreet() + " " + addr.getNumber()
 							        + " with " + size + " offers!");
@@ -227,18 +222,17 @@ public class DailyScheduler implements MessageListener {
 	 */
 	public void removeOrphanedRegions() {
 		try {
-			final int regSize = AHRegionLocalServiceUtil.getAHRegionsCount();
+			final int regSize = regionCtrl.count();
 			if (regSize > 0) {
-				List<AHRegion> regions;
+				List<I_RegionModel> regions;
 				for (int i = 0; i < regSize; i += 5) {
-					regions = AHRegionLocalServiceUtil.getAHRegions(i, i + 5);
-					for (final AHRegion region : regions) {
+					regions = regionCtrl.get(i, i + 5);
+					for (final I_RegionModel region : regions) {
 						// TODO : count only
-						final List<AHAddr> addrs = AHAddrLocalServiceUtil
-						        .findAddressesForRegion(region.getRegionId());
+						final List<I_AddressModel> addrs = addrCtrl
+						        .findForRegion(region.getId());
 						if (addrs == null || addrs.size() == 0) {
-							AHRegionLocalServiceUtil.removeRegion(region
-							        .getRegionId());
+							regionCtrl.delete(region);
 							m_objLog.info("Removing region " + region.getZip()
 							        + ", " + region.getCity()
 							        + " without addresses!");
