@@ -51,6 +51,8 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
+import de.particity.model.I_OfferModel;
+import de.particity.model.boundary.I_OfferController;
 import de.particity.model.impl.Offer;
 import de.particity.model.repository.OfferRepository;
 
@@ -65,7 +67,7 @@ import de.particity.model.repository.OfferRepository;
 public class TestController {
 
 	@Inject 
-	private OfferRepository offerRepo;
+	private I_OfferController offerRepo;
 	
 	private static final Log	 m_objLog	                        = LogFactoryUtil
 	                                                                        .getLog(TestController.class);
@@ -95,7 +97,7 @@ public class TestController {
 	        final RenderResponse response,
 	        final Model model) {
 		m_objLog.trace("render::start");
-		List<Offer> offers = offerRepo.getOffers();
+		List<I_OfferModel> offers = offerRepo.get(0, 10);
 		String page = "init";
 		m_objLog.trace("render::end(" + page + ")");
 

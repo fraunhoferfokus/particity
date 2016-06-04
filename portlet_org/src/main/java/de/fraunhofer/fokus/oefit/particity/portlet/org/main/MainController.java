@@ -36,6 +36,7 @@ package de.fraunhofer.fokus.oefit.particity.portlet.org.main;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -73,13 +74,13 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm;
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.particity.model.AHContact;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
-import de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.particity.model.I_ContactModel;
+import de.particity.model.I_OfferModel;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.boundary.I_ContactController;
+import de.particity.model.boundary.I_OfferController;
+import de.particity.model.boundary.I_OrganizationController;
 
 /**
  * Controller for the organisation backend
@@ -105,6 +106,12 @@ public class MainController extends BaseController {
 	@Autowired
 	private OfferFormValidator	 m_objOfferFormValidator;
 
+	@Inject
+	public static I_OrganizationController orgCtrl;
+	
+	@Inject 
+	public static I_OfferController offerCtrl;
+	
 	/**
 	 * Adds the offer.
 	 *
@@ -166,8 +173,8 @@ public class MainController extends BaseController {
 		this.m_objProfileFormValidator.validate(data, result);
 
 		if (!result.hasErrors() && orgId >= 0) {
-			final AHOrg org = AHOrgLocalServiceUtil
-			        .getOrganisationByOwnerMail(themeDisplay.getUser()
+			final I_OrganizationModel org = orgCtrl
+			        .getByOwnerMail(themeDisplay.getUser()
 			                .getEmailAddress());
 			if (org != null) {
 				final User newUser = CustomPortalServiceHandler
@@ -176,7 +183,7 @@ public class MainController extends BaseController {
 				                themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId(),
 				                themeDisplay.getLocale(),true);
 				if (newUser != null) {
-					AHOrgLocalServiceUtil.addOrganisationUser(orgId,
+					orgCtrl.addOrganisationUser(orgId,
 					        data.getMail());
 				}
 			}
@@ -239,12 +246,12 @@ public class MainController extends BaseController {
 		final ThemeDisplay themeDisplay = (ThemeDisplay) request
 		        .getAttribute(WebKeys.THEME_DISPLAY);
 
-		if (!CustomLockServiceHandler.isLocked(AHOffer.class.getName(),
+		if (!CustomLockServiceHandler.isLocked(I_OfferModel.class.getName(),
 		        offerId, themeDisplay)) {
 			try {
-				AHOfferLocalServiceUtil.deleteAHOffer(offerId);
+				offerCtrl.delete(offerId);
 				// force unlock
-				CustomLockServiceHandler.unlock(AHOffer.class.getName(),
+				CustomLockServiceHandler.unlock(I_OfferModel.class.getName(),
 				        offerId, themeDisplay);
 			} catch (final Throwable e) {
 				m_objLog.error(e);
@@ -305,7 +312,7 @@ public class MainController extends BaseController {
 			        .getDataList(E_CategoryType.OFFERTIME, false));
 			response.setRenderParameter("jspPage", "../shared/offer");
 			response.setRenderParameter("actionType", "edit");
-			CustomLockServiceHandler.lock(AHOffer.class.getName(),
+			CustomLockServiceHandler.lock(I_OfferModel.class.getName(),
 			        form.getOfferId(), themeDisplay);
 		}
 
@@ -401,18 +408,13 @@ public class MainController extends BaseController {
 		m_objLog.debug("prepareOffer::start()");
 
 		final ThemeDisplay themeDisplay = this.getThemeDisplay(request);
-		final AHOrg org = CustomOrgServiceHandler
+		final I_OrganizationModel org = CustomOrgServiceHandler
 		        .getOrgByLiferayUser(themeDisplay);
-		AHContact contact = null;
+		I_ContactModel contact = null;
 
 		final OfferForm form = new OfferForm();
 		if (org != null) {
-			try {
-				contact = AHContactLocalServiceUtil.getAHContact(org
-				        .getContactId());
-			} catch (final Throwable e) {
-				m_objLog.warn(e);
-			}
+			contact = org.getContact();
 			if (contact != null) {
 				form.setContactSndForename(contact.getForename());
 				form.setContactSndSurname(contact.getSurname());
@@ -518,7 +520,7 @@ public class MainController extends BaseController {
 
 		if (!result.hasErrors()) {
 			CustomOfferServiceHandler.addOffer(data);
-			CustomLockServiceHandler.unlock(AHOffer.class.getName(),
+			CustomLockServiceHandler.unlock(I_OfferModel.class.getName(),
 			        data.getOfferId(), themeDisplay);
 			data.clear();
 		} else {
@@ -578,7 +580,7 @@ public class MainController extends BaseController {
 		if (offerId != null && offerId >= 0) {
 			final ThemeDisplay themeDisplay = (ThemeDisplay) request
 			        .getAttribute(WebKeys.THEME_DISPLAY);
-			CustomLockServiceHandler.unlock(AHOffer.class.getName(), offerId,
+			CustomLockServiceHandler.unlock(I_OfferModel.class.getName(), offerId,
 			        themeDisplay);
 		}
 

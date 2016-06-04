@@ -52,8 +52,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.forms.NewsletterForm;
-import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
+import de.particity.model.I_SubscriptionModel;
 
 /**
  * Controller for the newsletter registration form
@@ -87,7 +87,7 @@ public class RegistrationController extends BaseController {
 		m_objLog.debug("addUser::start");
 
 		if (!result.hasErrors()) {
-			final AHSubscription sub = CustomPersistanceServiceHandler
+			final I_SubscriptionModel sub = CustomPersistanceServiceHandler
 			        .addSubscription(form);
 			m_objLog.info("New user with id: " + sub.getUuid());
 			response.setRenderParameter("jspPage", "registerSuccess");

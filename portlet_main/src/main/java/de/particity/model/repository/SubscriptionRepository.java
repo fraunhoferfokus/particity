@@ -1,6 +1,10 @@
 package de.particity.model.repository;
 
+import java.util.List;
+
 import org.apache.deltaspike.data.api.EntityRepository;
+import org.apache.deltaspike.data.api.FirstResult;
+import org.apache.deltaspike.data.api.MaxResults;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,4 +33,9 @@ public interface SubscriptionRepository extends EntityRepository<Subscription, S
 	
 	//@Query(named = Person.BY_MIN_AGE)
     //Long countAllOlderThan(int minAge);
+	
+	List<Subscription> findAll(@FirstResult int start, @MaxResults int pageSize);
+	
+	List<Subscription> findByEmail(String email);
+
 }

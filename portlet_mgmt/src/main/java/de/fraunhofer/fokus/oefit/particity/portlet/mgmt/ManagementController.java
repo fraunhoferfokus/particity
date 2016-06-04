@@ -35,6 +35,7 @@ package de.fraunhofer.fokus.oefit.particity.portlet.mgmt;
 
 import java.net.URL;
 
+import javax.inject.Inject;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -70,11 +71,11 @@ import de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
 import de.fraunhofer.fokus.oefit.adhoc.socialize.I_SocialMediaClient;
 import de.fraunhofer.fokus.oefit.adhoc.socialize.SocialMediaFactory;
-import de.fraunhofer.fokus.oefit.particity.model.AHContact;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.particity.model.I_ContactModel;
+import de.particity.model.I_OfferModel;
+import de.particity.model.boundary.I_OfferController;
+import de.particity.model.boundary.I_OrganizationController;
 
 /**
  * Controller for the management backend
@@ -94,6 +95,12 @@ public class ManagementController extends BaseController {
 	@Autowired
 	private OfferFormValidator	 m_objOfferFormValidator;
 
+	@Inject 
+	public static I_OfferController offerCtrl;
+	
+	@Inject
+	public static I_OrganizationController orgCtrl;
+	
 	/**
 	 * Approve offer.
 	 *
@@ -121,27 +128,27 @@ public class ManagementController extends BaseController {
 				final ThemeDisplay themeDisplay = (ThemeDisplay) request
 				        .getAttribute(WebKeys.THEME_DISPLAY);
 
-				if (!CustomLockServiceHandler.isLocked(AHOffer.class.getName(),
+				if (!CustomLockServiceHandler.isLocked(I_OfferModel.class.getName(),
 				        data.getOfferId(), themeDisplay)) {
 					try {
 						if (data.isRequireAgencyContact()) {
 							m_objLog.debug("Saving with agency contact!");
-							final AHContact contact = CustomPersistanceServiceHandler
+							final I_ContactModel contact = CustomPersistanceServiceHandler
 							        .addContact(data.getContactForename(),
 							                data.getContactSurname(),
 							                data.getContactMail(),
 							                data.getContactTel());
-							AHOfferLocalServiceUtil.setSndContact(
-							        data.getOfferId(), contact.getContactId(),
-							        E_OfferStatus.VALIDATED.getIntValue());
+							offerCtrl.setSndContact(
+							        data.getOfferId(), contact.getId(),
+							        E_OfferStatus.VALIDATED);
 						} else {
 							m_objLog.debug("Saving with orga contact!");
-							AHOfferLocalServiceUtil.setOfferStatus(
-							        data.getOfferId(), E_OfferStatus.VALIDATED.getIntValue());
+							offerCtrl.setOfferStatus(
+							        data.getOfferId(), E_OfferStatus.VALIDATED);
 						}
 						// force unlock
 						CustomLockServiceHandler.unlock(
-						        AHOffer.class.getName(), data.getOfferId(),
+						        I_OfferModel.class.getName(), data.getOfferId(),
 						        themeDisplay);
 					} catch (final Throwable e) {
 						m_objLog.error(e);
@@ -169,8 +176,8 @@ public class ManagementController extends BaseController {
 
 		final Long l_orgId = this.getOrgId(request);
 		if (l_orgId != null) {
-			AHOrgLocalServiceUtil.setOrganisationStatus(l_orgId,
-			        E_OrgStatus.VALIDATED.getIntValue());
+			orgCtrl.setOrganisationStatus(l_orgId,
+			        E_OrgStatus.VALIDATED);
 		}
 
 		m_objLog.debug("approveOrg::end");
@@ -199,7 +206,7 @@ public class ManagementController extends BaseController {
 		
 		final Long l_orgId = this.getOrgId(request);
 		if (l_orgId != null) {
-			AHOrgLocalServiceUtil.deleteOrganisation(l_orgId);
+			orgCtrl.delete(l_orgId);
 		}
 
 		m_objLog.debug("deleteOrg::end");
@@ -224,13 +231,13 @@ public class ManagementController extends BaseController {
 			final ThemeDisplay themeDisplay = (ThemeDisplay) request
 			        .getAttribute(WebKeys.THEME_DISPLAY);
 
-			if (!CustomLockServiceHandler.isLocked(AHOffer.class.getName(),
+			if (!CustomLockServiceHandler.isLocked(I_OfferModel.class.getName(),
 			        data.getOfferId(), themeDisplay)) {
 				try {
-					AHOfferLocalServiceUtil.setOfferStatus(data.getOfferId(),
-					        E_OfferStatus.DISABLED.getIntValue());
+					offerCtrl.setOfferStatus(data.getOfferId(),
+					        E_OfferStatus.DISABLED);
 					// force unlock
-					CustomLockServiceHandler.unlock(AHOffer.class.getName(),
+					CustomLockServiceHandler.unlock(I_OfferModel.class.getName(),
 					        data.getOfferId(), themeDisplay);
 				} catch (final Throwable e) {
 					m_objLog.error(e);
@@ -264,8 +271,8 @@ public class ManagementController extends BaseController {
 
 		final Long l_orgId = this.getOrgId(request);
 		if (l_orgId != null) {
-			AHOrgLocalServiceUtil.setOrganisationStatus(l_orgId,
-			        E_OrgStatus.DISABLED.getIntValue());
+			orgCtrl.setOrganisationStatus(l_orgId,
+			        E_OrgStatus.DISABLED);
 		}
 
 		m_objLog.debug("disableOrg::end");
@@ -293,7 +300,7 @@ public class ManagementController extends BaseController {
 			model.addAttribute("data", form);
 			response.setRenderParameter("jspPage", "../shared/offer");
 			response.setRenderParameter("actionType", "approve");
-			CustomLockServiceHandler.lock(AHOffer.class.getName(),
+			CustomLockServiceHandler.lock(I_OfferModel.class.getName(),
 			        form.getOfferId(), themeDisplay);
 		}
 
@@ -403,7 +410,7 @@ public class ManagementController extends BaseController {
 						final boolean sent = client.publishOffer(offerUrl,
 						        offerId);
 						if (sent) {
-							AHOfferLocalServiceUtil.addSocialStatus(offerId,
+							offerCtrl.addSocialStatus(offerId,
 							        smtype.getBitmask());
 						} else {
 							SessionErrors.add(request,
@@ -490,7 +497,7 @@ public class ManagementController extends BaseController {
 		if (offerId != null && offerId >= 0) {
 			final ThemeDisplay themeDisplay = (ThemeDisplay) request
 			        .getAttribute(WebKeys.THEME_DISPLAY);
-			CustomLockServiceHandler.unlock(AHOffer.class.getName(), offerId,
+			CustomLockServiceHandler.unlock(I_OfferModel.class.getName(), offerId,
 			        themeDisplay);
 		}
 		// redirect to offer tab

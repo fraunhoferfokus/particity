@@ -33,6 +33,7 @@
  */
 package de.fraunhofer.fokus.oefit.particity.portlet.user.main;
 
+import javax.inject.Inject;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -49,7 +50,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
-import de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil;
+import de.particity.model.boundary.I_SubscriptionController;
 
 /**
  * Controller for the per-user newsletter configuration
@@ -66,6 +67,9 @@ public class MainController extends BaseController {
 
 	private static final boolean	_CHECK_METHOD_ON_PROCESS_ACTION	= false;
 
+	@Inject
+	private I_SubscriptionController subCtrl;
+	
 	/**
 	 * Approve sub.
 	 *
@@ -84,7 +88,7 @@ public class MainController extends BaseController {
 			response.setRenderParameter("uuid", uuid);
 		}
 		if (subId != null) {
-			AHSubscriptionLocalServiceUtil.setSubscriptionStatus(subId,
+			subCtrl.setSubscriptionStatus(subId,
 			        E_SubscriptionStatus.VALIDATED);
 		}
 
@@ -101,15 +105,12 @@ public class MainController extends BaseController {
 	@ActionMapping(params = "action=deleteSub")
 	public void deleteSub(final ActionRequest request,
 	        final ActionResponse response, final Model model) {
-		final Long subId = this.getSubId(request);
-		m_objLog.debug("deleteSub::start(" + subId + ")");
-
 		final String uuid = request.getParameter("uuid");
+		m_objLog.debug("deleteSub::start(" + uuid + ")");
+
 		if (uuid != null) {
+			subCtrl.delete(uuid);
 			response.setRenderParameter("uuid", uuid);
-		}
-		if (subId != null) {
-			AHSubscriptionLocalServiceUtil.removeSubscription(subId);
 		}
 
 		m_objLog.debug("deleteSub::end");

@@ -17,7 +17,7 @@ public interface I_ModelController<T extends I_Model, V> {
 	
 	void delete(V pk);
 
-	int count();
+	long count();
 	
 	List<T> get(int from, int to);
 

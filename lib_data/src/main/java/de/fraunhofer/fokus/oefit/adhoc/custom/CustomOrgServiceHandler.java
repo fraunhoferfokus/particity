@@ -309,7 +309,7 @@ public class CustomOrgServiceHandler {
 		byte[] result = null;
 		final StringBuffer csv = new StringBuffer();
 		try {
-			final int size = orgCtrl.count();
+			final long size = orgCtrl.count();
 			List<I_OrganizationModel> orgs = null;
 			for (int i = 0; i < size; i += 5) {
 				orgs = orgCtrl.get(i, i += 5);

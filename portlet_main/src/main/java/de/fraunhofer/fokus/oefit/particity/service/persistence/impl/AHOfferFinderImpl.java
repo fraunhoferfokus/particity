@@ -33,29 +33,10 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.persistence.impl;
 
-import java.util.Iterator;
-import java.util.List;
-
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.portal.kernel.dao.orm.QueryPos;
-import com.liferay.portal.kernel.dao.orm.SQLQuery;
-import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.dao.orm.Type;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 
-import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.model.impl.AHOfferImpl;
-import de.fraunhofer.fokus.oefit.particity.service.persistence.AHOfferFinder;
-
-@ProviderType
-public class AHOfferFinderImpl extends AHOfferFinderBaseImpl
-		implements AHOfferFinder {
+public class AHOfferFinderImpl {
 	
 	private static final Log m_objLog = LogFactoryUtil
 			.getLog(AHOfferFinderImpl.class);
@@ -89,10 +70,7 @@ public class AHOfferFinderImpl extends AHOfferFinderBaseImpl
 			+ "COS(_LAT_ * PI() / 180) * COS(addr.coordLat * PI() / 180) * COS((_LON_ - addr.coordLon) * PI() / 180)) * 180 / PI())"
 			+" * 60 * 1.852) <= '_DIST_'";
 	
-	/*public static String getOfferByRadialSearch = "SELECT ((ACOS(SIN($lat * PI() / 180) * SIN(lat * PI() / 180) + "
-			+ "COS($lat * PI() / 180) * COS(lat * PI() / 180) * COS(($lon - lon) * PI() / 180)) * 180 / PI()) * 60 * 1.1515) AS distance" 
-			+" FROM AHADDR HAVING distance<='10' ORDER BY distance ASC";*/
-	
+	/*
 	@Override
 	public List<AHOffer> getOffersByDistance(long lon, long lat, int distInKm, int from, int to)
 			throws SystemException {
@@ -707,5 +685,5 @@ public class AHOfferFinderImpl extends AHOfferFinderBaseImpl
 		
 		return result.toString();
 	}
-
+	 */
 }

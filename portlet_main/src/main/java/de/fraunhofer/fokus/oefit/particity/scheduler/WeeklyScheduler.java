@@ -70,7 +70,7 @@ public class WeeklyScheduler implements MessageListener {
 		try {
 			final long now = CustomServiceUtils.time();
 			final long minLastUpdate = now - WEEK;
-			final int orgSize = orgCtrl.count();
+			final long orgSize = orgCtrl.count();
 			if (orgSize > 0) {
 				List<I_OrganizationModel> orgs;
 				I_OfferModel offer;

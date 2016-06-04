@@ -33,24 +33,11 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.persistence.impl;
 
-import java.util.List;
-
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.portal.kernel.dao.orm.SQLQuery;
-import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 
-import de.fraunhofer.fokus.oefit.particity.model.AHCategories;
-import de.fraunhofer.fokus.oefit.particity.model.impl.AHCategoriesImpl;
-import de.fraunhofer.fokus.oefit.particity.service.persistence.AHCategoriesFinder;
 
-@ProviderType
-public class AHCategoriesFinderImpl extends AHCategoriesFinderBaseImpl
-	implements AHCategoriesFinder	 {
+public class AHCategoriesFinderImpl {
 	
 	private static final Log m_objLog = LogFactoryUtil
 			.getLog(AHCategoriesFinderImpl.class);
@@ -61,7 +48,7 @@ public class AHCategoriesFinderImpl extends AHCategoriesFinderBaseImpl
 	public static String getInverseCategoriesByIdList = "select entry.* from AHCATS entry "
 			+ "WHERE entry.catId NOT IN ([$ITEM_IDS$])";
 	
-	
+	/*
 	@Override
 	public List<AHCategories> getCategoriesByListStr(String categoryIds)
 			throws SystemException {
@@ -115,5 +102,5 @@ public class AHCategoriesFinderImpl extends AHCategoriesFinderBaseImpl
 		}
 		return result;
 	}
-
+	 */
 }

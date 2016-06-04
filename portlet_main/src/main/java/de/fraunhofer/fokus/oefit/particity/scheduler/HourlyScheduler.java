@@ -70,7 +70,7 @@ public class HourlyScheduler implements MessageListener {
 		try {
 			final long now = CustomServiceUtils.time();
 			final long minExpired = now - HOUR;
-			final int orgSize = orgCtrl.count();
+			final long orgSize = orgCtrl.count();
 			if (orgSize > 0) {
 				List<I_OrganizationModel> orgs;
 				List<I_OfferModel> offer;

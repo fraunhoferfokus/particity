@@ -33,26 +33,6 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.impl;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
-
-import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
-import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
-import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.particity.model.AHOffer;
-import de.fraunhofer.fokus.oefit.particity.service.base.AHOfferLocalServiceBaseImpl;
-import de.fraunhofer.fokus.oefit.particity.service.persistence.AHCatEntriesFinderUtil;
-import de.fraunhofer.fokus.oefit.particity.service.persistence.AHOfferFinderUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -74,18 +54,9 @@ import de.fraunhofer.fokus.oefit.particity.service.persistence.AHOfferFinderUtil
  * @see de.fraunhofer.fokus.oefit.adhoc.service.base.AHOfferLocalServiceBaseImpl
  * @see de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil
  */
-public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS: Never reference this interface directly. Always use
-	 * {@link de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalServiceUtil}
-	 * to access the a h offer local service.
-	 */
-	private static final Log	m_objLog	= LogFactoryUtil
-	                                             .getLog(AHOfferLocalServiceImpl.class);
+public class AHOfferLocalServiceImpl {
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#addOffer(de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType, java.lang.String, java.lang.String, java.lang.String, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType, long, long, long, long, long, boolean, long, long[])
-	 */
+	/*
 	@Override
 	public AHOffer addOffer(int type, final String title,
 	        final String descr, final String workTime,
@@ -98,9 +69,6 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		        agencyContact, orgId, categories);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#addOffer(java.lang.Long, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType, java.lang.String, java.lang.String, java.lang.String, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType, long, long, long, long, long, boolean, long, long[])
-	 */
 	@Override
 	public AHOffer addOffer(final Long offerId, int type,
 	        final String title, final String descr, final String workTime,
@@ -197,9 +165,6 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#addSocialStatus(java.lang.Long, de.fraunhofer.fokus.oefit.adhoc.custom.E_SocialMediaPlugins)
-	 */
 	@Override
 	public void addSocialStatus(final Long offerId,
 	        final int smBitmask) {
@@ -214,9 +179,6 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#countNewOffer()
-	 */
 	@Override
 	public int countNewOffer() {
 		int result = 0;
@@ -232,9 +194,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#countOfferByAddress(long)
-	 */
+	
 	@Override
 	public int countOfferByAddress(final long addrId) {
 		int result = -1;
@@ -247,9 +207,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#countOfferByCategoryId(java.lang.Long[])
-	 */
+	
 	@Override
 	public Integer countOfferByCategoryId(final Long[] ids) {
 		Integer result = null;
@@ -262,9 +220,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#countOfferByCategoryItems(java.lang.String[])
-	 */
+	
 	@Override
 	public Integer countOfferByCategoryItems(final String[] categoryItems) {
 		Integer result = 0;
@@ -278,9 +234,6 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#countOfferByOfferTypes(int[])
-	 */
 	@Override
 	public Integer countOfferByOfferTypes(final int[] types) {
 		Integer result = null;
@@ -293,9 +246,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#countOfferByTypesAndCItemsAndOrg(java.lang.String, java.lang.String, long)
-	 */
+	
 	@Override
 	public Integer countOfferByTypesAndCItemsAndOrg(final String categoryItems,
 	        final String types, final long orgId, Float lat, Float lon, Integer dist) {
@@ -309,9 +260,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#countOffersForOrganization(long)
-	 */
+	
 	@Override
 	public int countOffersForOrganization(final long orgId) {
 		int result = 0;
@@ -325,9 +274,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#countPublishedOffers(long)
-	 */
+	
 	@Override
 	public Integer countPublishedOffers(final long orgId) {
 		Integer result = null;
@@ -348,9 +295,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#deleteOffersByOrg(long)
-	 */
+	
 	@Override
 	public void deleteOffersByOrg(final long orgId) {
 		try {
@@ -360,9 +305,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#findExpiredOffersForOrg(long, long, long)
-	 */
+	
 	@Override
 	public List<AHOffer> findExpiredOffersForOrg(final long orgId,
 	        final long startTime, final long endTime) {
@@ -376,9 +319,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getCategoriesByOffer(long, de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType)
-	 */
+	
 	@Override
 	public List<AHCatEntries> getCategoriesByOffer(final long offerId,
 	        final Integer type) {
@@ -394,9 +335,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getCategoriesByOfferAsLong(long, de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType)
-	 */
+	
 	@Override
 	public Long[] getCategoriesByOfferAsLong(final long offerId,
 	        final Integer type) {
@@ -409,9 +348,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getCategoriesByOfferAsString(long, de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType)
-	 */
+	
 	@Override
 	public String getCategoriesByOfferAsString(final long offerId,
 	        final Integer type) {
@@ -427,9 +364,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return strCategories.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getLastOfferForOrganization(long)
-	 */
+	
 	@Override
 	public AHOffer getLastOfferForOrganization(final long orgId) {
 
@@ -447,9 +382,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getNewlyPublishedOffers(long)
-	 */
+	
 	@Override
 	public List<AHOffer> getNewlyPublishedOffers(final long publishStartTime) {
 		List<AHOffer> result = new LinkedList<AHOffer>();
@@ -464,9 +397,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getOfferByCategoryId(java.lang.Long[], int, int)
-	 */
+
 	@Override
 	public List<AHOffer> getOfferByCategoryId(final Long[] ids,
 	        final int start, final int end) {
@@ -480,9 +411,6 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getOfferByCategoryItems(java.lang.String[], int, int)
-	 */
 	@Override
 	public List<AHOffer> getOfferByCategoryItems(final String[] categoryItems,
 	        final int start, final int end) {
@@ -496,9 +424,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getOfferByOfferTypes(int[])
-	 */
+	
 	@Override
 	public Integer getOfferByOfferTypes(final int[] types) {
 		Integer result = null;
@@ -511,9 +437,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getOfferByOfferTypes(int[], int, int)
-	 */
+	
 	@Override
 	public List<AHOffer> getOfferByOfferTypes(final int[] types,
 	        final int start, final int end) {
@@ -527,9 +451,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getOfferByTypesAndCItemsAndOrg(java.lang.String, java.lang.String, long, int, int)
-	 */
+	
 	@Override
 	public List<AHOffer> getOfferByTypesAndCItemsAndOrg(
 	        final String categoryItems, final String types, final long orgId,
@@ -545,9 +467,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getOffers(int, int, java.lang.String, de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType)
-	 */
+	
 	@Override
 	public List<AHOffer> getOffers(final int start, final int end,
 	        final String column, final String order) {
@@ -561,9 +481,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getOffersForOrganization(long)
-	 */
+	
 	@Override
 	public List<AHOffer> getOffersForOrganization(final long orgId) {
 		List<AHOffer> result = new LinkedList<AHOffer>();
@@ -577,9 +495,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getOffersForOrganization(long, int, int, java.lang.String, de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType)
-	 */
+	
 	@Override
 	public List<AHOffer> getOffersForOrganization(final long orgId,
 	        final int start, final int end, final String column,
@@ -595,9 +511,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#getPublishedOffers(int, int, long)
-	 */
+	
 	@Override
 	public List<AHOffer> getPublishedOffers(final int start, final int end,
 	        final long orgId) {
@@ -613,23 +527,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 				result = this.getAHOfferPersistence().findBystatusAndDate(
 				        E_OfferStatus.VALIDATED.getIntValue(), millis, millis,
 				        start, end);
-				/*
-				 * if (result.size() == 0) {
-				 * m_objLog.info("No results! Looking for misbehaviour ... ");
-				 * long currentTime = System.currentTimeMillis(); List<AHOffer>
-				 * offers = getAHOffers(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-				 * for (AHOffer offer: offers) { if (offer.getStatus() ==
-				 * E_OfferStatus.VALIDATED.getIntValue()) { long pubTime =
-				 * offer.getPublish(); long expTime = offer.getExpires(); if
-				 * (pubTime >= currentTime && expTime <= currentTime) {
-				 * m_objLog.
-				 * info("Got VALID offer "+offer.getTitle()+" with pubTime "
-				 * +pubTime+", expTime "+expTime+", currenTime "+currentTime); }
-				 * else m_objLog.info("Got INVALID offer "+offer.getTitle()+
-				 * " with pubTime "
-				 * +pubTime+", expTime "+expTime+", currenTime "+currentTime); }
-				 * } }
-				 */
+				
 			}
 		} catch (final SystemException e) {
 			m_objLog.error(e);
@@ -637,9 +535,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#setOfferStatus(long, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus)
-	 */
+	
 	@Override
 	public void setOfferStatus(final long offerId, final Integer status) {
 		try {
@@ -653,9 +549,7 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOfferLocalService#setSndContact(java.lang.Long, long, de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus)
-	 */
+	
 	@Override
 	public void setSndContact(final Long offerId, final long contactId,
 	        final Integer newStatus) {
@@ -674,4 +568,5 @@ public class AHOfferLocalServiceImpl extends AHOfferLocalServiceBaseImpl {
 			m_objLog.error(t);
 		}
 	}
+	*/
 }

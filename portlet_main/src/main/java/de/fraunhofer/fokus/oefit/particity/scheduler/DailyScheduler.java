@@ -101,7 +101,7 @@ public class DailyScheduler implements MessageListener {
 	 */
 	public void removeOffersWithoutAddresses() {
 		try {
-			final int offerSize = offerCtrl.count();
+			final long offerSize = offerCtrl.count();
 			if (offerSize > 0) {
 				List<I_OfferModel> offers;
 				I_AddressModel addr;
@@ -130,7 +130,7 @@ public class DailyScheduler implements MessageListener {
 	 */
 	public void removeOffersWithoutOrganisations() {
 		try {
-			final int offerSize = offerCtrl.count();
+			final long offerSize = offerCtrl.count();
 			if (offerSize > 0) {
 				List<I_OfferModel> offers;
 				for (int i = 0; i < offerSize; i += 5) {
@@ -159,7 +159,7 @@ public class DailyScheduler implements MessageListener {
 	public void removeOrganisationsWithoutUsers() {
 		try {
 			final long companyId = PortalUtil.getDefaultCompanyId();
-			final int orgSize = orgCtrl.count();
+			final long orgSize = orgCtrl.count();
 			if (orgSize > 0) {
 				List<I_OrganizationModel> orgs;
 				for (int i = 0; i < orgSize; i += 5) {
@@ -193,7 +193,7 @@ public class DailyScheduler implements MessageListener {
 	 */
 	public void removeOrphanedAddresses() {
 		try {
-			final int addrSize = addrCtrl.count();
+			final long addrSize = addrCtrl.count();
 			if (addrSize > 0) {
 				List<I_AddressModel> addresses;
 				for (int i = 0; i < addrSize; i += 5) {
@@ -222,7 +222,7 @@ public class DailyScheduler implements MessageListener {
 	 */
 	public void removeOrphanedRegions() {
 		try {
-			final int regSize = regionCtrl.count();
+			final long regSize = regionCtrl.count();
 			if (regSize > 0) {
 				List<I_RegionModel> regions;
 				for (int i = 0; i < regSize; i += 5) {

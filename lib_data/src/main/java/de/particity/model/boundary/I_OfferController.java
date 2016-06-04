@@ -3,6 +3,7 @@ package de.particity.model.boundary;
 import java.util.List;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
 import de.particity.model.I_AddressModel;
 import de.particity.model.I_CategoryEntryModel;
 import de.particity.model.I_ContactModel;
@@ -55,5 +56,11 @@ public interface I_OfferController extends I_ModelController<I_OfferModel, Long>
 	Long[] getCategoriesAsLong(long id, E_CategoryType search);
 
 	I_OfferModel getLastOfferForOrganization(long id);
+
+	void setSndContact(long offerId, long id, E_OfferStatus validated);
+
+	void setOfferStatus(long offerId, E_OfferStatus validated);
+
+	void addSocialStatus(Long offerId, int bitmask);
 
 }

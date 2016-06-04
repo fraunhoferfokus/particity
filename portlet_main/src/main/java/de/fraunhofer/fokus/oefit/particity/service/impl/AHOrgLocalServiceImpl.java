@@ -33,23 +33,6 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.impl;
 
-import java.util.List;
-
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil;
-import de.fraunhofer.fokus.oefit.particity.service.base.AHOrgLocalServiceBaseImpl;
-import de.fraunhofer.fokus.oefit.particity.service.persistence.AHOrgFinderUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -70,18 +53,9 @@ import de.fraunhofer.fokus.oefit.particity.service.persistence.AHOrgFinderUtil;
  * @see de.fraunhofer.fokus.oefit.adhoc.service.base.AHOrgLocalServiceBaseImpl
  * @see de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil
  */
-public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS: Never reference this interface directly. Always use
-	 * {@link de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalServiceUtil} to
-	 * access the a h org local service.
-	 */
-	private static final Log	m_objLog	= LogFactoryUtil
-	                                             .getLog(AHOrgLocalServiceImpl.class);
+public class AHOrgLocalServiceImpl {
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#addOrganisation(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, long, long)
-	 */
+	/*
 	@Override
 	public AHOrg addOrganisation(final String owner, final String name,
 	        final String holder, final String descr, final String legalStatus,
@@ -122,9 +96,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#addOrganisationUser(long, java.lang.String)
-	 */
+	
 	@Override
 	public void addOrganisationUser(final long orgId, final String userMail) {
 		try {
@@ -141,9 +113,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#countNewOrg()
-	 */
+	
 	@Override
 	public int countNewOrg() {
 		int result = 0;
@@ -159,9 +129,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#deleteOrganisation(long)
-	 */
+	
 	@Override
 	public void deleteOrganisation(final long orgId) {
 		try {
@@ -174,9 +142,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#getOrganisationByOwnerMail(java.lang.String)
-	 */
+	
 	@Override
 	public AHOrg getOrganisationByOwnerMail(final String owner) {
 		m_objLog.trace("getOrganisationByOwnerMail::start("+owner+")");
@@ -195,9 +161,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#getOrganisationByUserMail(java.lang.String)
-	 */
+	
 	@Override
 	public AHOrg getOrganisationByUserMail(final String userMail) {
 		m_objLog.trace("getOrganisationByUserMail::start("+userMail+")");
@@ -216,9 +180,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#getOrganisations(int, int, java.lang.String, de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType)
-	 */
+	
 	@Override
 	public List<AHOrg> getOrganisations(final int start, final int end,
 	        final String column, final String order) {
@@ -233,9 +195,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#listOrganisations()
-	 */
+	
 	@Override
 	public List<AHOrg> listOrganisations() {
 		List<AHOrg> result = null;
@@ -249,9 +209,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#setOrganisationStatus(long, de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus)
-	 */
+	
 	@Override
 	public void setOrganisationStatus(final long orgId, final int status) {
 		try {
@@ -267,9 +225,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#updateLogoLocation(long, java.lang.String)
-	 */
+	
 	@Override
 	public void updateLogoLocation(final long orgId, final String logoLocation) {
 		AHOrg org = null;
@@ -288,9 +244,7 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHOrgLocalService#updateOwner(java.lang.String, java.lang.String)
-	 */
+	
 	@Override
 	public void updateOwner(final String oldOwner, final String newOwner) {
 		List<AHOrg> orgs;
@@ -306,5 +260,5 @@ public class AHOrgLocalServiceImpl extends AHOrgLocalServiceBaseImpl {
 			m_objLog.error(e);
 		}
 	}
-
+	 */
 }

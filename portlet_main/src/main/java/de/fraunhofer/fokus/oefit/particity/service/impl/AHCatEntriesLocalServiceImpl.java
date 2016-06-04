@@ -33,19 +33,6 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.impl;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-import de.fraunhofer.fokus.oefit.particity.exception.NoSuchAHCatEntriesException;
-import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.particity.service.base.AHCatEntriesLocalServiceBaseImpl;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -67,64 +54,9 @@ import de.fraunhofer.fokus.oefit.particity.service.base.AHCatEntriesLocalService
  * @see de.fraunhofer.fokus.oefit.adhoc.service.base.AHCatEntriesLocalServiceBaseImpl
  * @see de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil
  */
-public class AHCatEntriesLocalServiceImpl
-        extends AHCatEntriesLocalServiceBaseImpl {
+public class AHCatEntriesLocalServiceImpl {
+
 	/*
-	 * NOTE FOR DEVELOPERS: Never reference this interface directly. Always use
-	 * {@link
-	 * de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalServiceUtil} to
-	 * access the a h cat entries local service.
-	 */
-	private static final Log	m_objLog	= LogFactoryUtil
-	                                             .getLog(AHCatEntriesLocalServiceImpl.class);
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalService#addCategoryEntry(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public AHCatEntries addCategoryEntry(long catId, final String name,
-	        final String description, long parentId) {
-		AHCatEntries result = null;
-
-		
-		if (name != null && catId >= 0) {
-			try {
-				result = this.createAHCatEntries(CounterLocalServiceUtil
-				        .increment(AHCatEntries.class.getName()));
-				result.setName(name);
-				result.setDescr(description);
-				result.setCatId(catId);
-				result.setParentId(parentId);
-				result = this.updateAHCatEntries(result);
-
-				m_objLog.info("Added category item " + result.getName()
-				        + " in category " + catId + " with parent "
-				        + parentId);
-			} catch (final SystemException e) {
-				m_objLog.error(e);
-			}
-		}
-
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalService#getCategoryEntries(long)
-	 */
-	@Override
-	public List<AHCatEntries> getCategoryEntries(final long catId) {
-		List<AHCatEntries> result = null;
-		try {
-			result = this.getAHCatEntriesPersistence().findBycat(catId);
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalService#getCategoryEntriesChildsSorted(long)
-	 */
 	@Override
 	public List<AHCatEntries> getCategoryEntriesChildsSorted(final long catId) {
 		List<AHCatEntries> result = null;
@@ -159,60 +91,8 @@ public class AHCatEntriesLocalServiceImpl
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalService#getCategoryEntryById(long)
-	 */
-	@Override
-	public AHCatEntries getCategoryEntryById(final long entryId) {
-		AHCatEntries result = null;
 
-		try {
-			result = this.getAHCatEntriesPersistence()
-			        .findByPrimaryKey(entryId);
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		} catch (final NoSuchAHCatEntriesException e) {
-			m_objLog.error(e);
-		}
 
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalService#getChildEntriesById(long)
-	 */
-	@Override
-	public List<AHCatEntries> getChildEntriesById(final long entryId) {
-		List<AHCatEntries> result = new LinkedList<AHCatEntries>();
-
-		try {
-			result = this.getAHCatEntriesPersistence().findByparent(entryId);
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalService#getEntriesForCatId(long)
-	 */
-	@Override
-	public List<AHCatEntries> getEntriesForCatId(final long catId) {
-		List<AHCatEntries> result = new LinkedList<AHCatEntries>();
-
-		try {
-			result = this.getAHCatEntriesPersistence().findBycat(catId);
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHCatEntriesLocalService#getEntryMapForCatId(long)
-	 */
 	@Override
 	public Map<Long, String> getEntryMapForCatId(final long catId) {
 		final Map<Long, String> result = new HashMap<Long, String>();
@@ -229,4 +109,5 @@ public class AHCatEntriesLocalServiceImpl
 
 		return result;
 	}
+	*/
 }

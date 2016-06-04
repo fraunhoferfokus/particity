@@ -33,6 +33,8 @@
  */
 package de.fraunhofer.fokus.oefit.particity.portlet.org.registration;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -41,8 +43,8 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.boundary.I_OrganizationController;
 
 /**
  * Validator for registration forms for new organisations
@@ -52,6 +54,9 @@ public class RegistrationFormValidator implements Validator {
 
 	private ThemeDisplay	m_objDisplay;
 
+	@Inject
+	public static I_OrganizationController orgCtrl;
+	
 	/**
 	 * Sets the theme display.
 	 *
@@ -78,7 +83,7 @@ public class RegistrationFormValidator implements Validator {
 
 		final boolean userExists = CustomPortalServiceHandler.hasUser(
 		        this.m_objDisplay.getCompanyId(), form.getMail());
-		final AHOrg org = AHOrgLocalServiceUtil.getOrganisationByOwnerMail(form
+		final I_OrganizationModel org = orgCtrl.getByOwnerMail(form
 		        .getMail());
 
 		// if the user has already an organisation registered, fail

@@ -1,5 +1,7 @@
 package de.particity.model.boundary;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -26,6 +28,45 @@ public class ContactController implements I_ContactController {
 	@Override
 	public I_ContactModel create() {
 		return new Contact();
+	}
+
+	@Override
+	public void delete(I_ContactModel entity) {
+		repo.remove((Contact) entity);
+	}
+
+	@Override
+	public void delete(Long pk) {
+		Contact entity = repo.findBy(pk);
+		if (entity != null)
+			delete(entity);
+	}
+
+	@Override
+	public long count() {
+		return repo.count();
+	}
+
+	@Override
+	public List<I_ContactModel> get(int from, int to) {
+		return (List) repo.findAll(from, to-from);
+	}
+
+	@Override
+	public I_ContactModel add(String forename, String surname,
+			String phone, String fax, String mail,
+			String www) {
+		Contact entity = repo.findByForenameAndSurnameAndEmail(forename, surname, mail);
+		if (entity == null) {
+			entity = new Contact();
+			entity.setEmail(mail);
+			entity.setForename(forename);
+			entity.setSurname(surname);
+		}
+		entity.setTel(phone);
+		entity.setFax(fax);
+		entity.setWww(www);
+		return persist(entity);
 	}
 	
 	

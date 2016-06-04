@@ -1,5 +1,7 @@
 package de.particity.model.boundary;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -27,6 +29,39 @@ public class ConfigController implements I_ConfigController {
 	@Override
 	public I_ConfigModel create() {
 		return new Config();
+	}
+
+	@Override
+	public void delete(I_ConfigModel entity) {
+		repo.remove((Config) entity);
+	}
+
+	@Override
+	public void delete(E_ConfigKey pk) {
+		Config entity = repo.findBy(pk);
+		if (entity != null)
+			repo.remove(entity);
+	}
+
+	@Override
+	public long count() {
+		return repo.count();
+	}
+
+	@Override
+	public List<I_ConfigModel> get(int from, int to) {
+		return (List) repo.findAll(from, to-from);
+	}
+
+	@Override
+	public void update(E_ConfigKey key, String value) {
+		Config entity = repo.findBy(key);
+		if (entity == null) {
+			entity = new Config();
+			entity.setName(key);
+		}
+		entity.setValue(value);
+		persist(entity);
 	}
 	
 	

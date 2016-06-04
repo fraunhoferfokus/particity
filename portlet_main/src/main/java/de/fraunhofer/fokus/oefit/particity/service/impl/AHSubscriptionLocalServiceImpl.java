@@ -33,20 +33,6 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.impl;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
-
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
-import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
-import de.fraunhofer.fokus.oefit.particity.service.base.AHSubscriptionLocalServiceBaseImpl;
-import de.fraunhofer.fokus.oefit.particity.service.persistence.AHCatEntriesFinderUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -68,62 +54,9 @@ import de.fraunhofer.fokus.oefit.particity.service.persistence.AHCatEntriesFinde
  * @see de.fraunhofer.fokus.oefit.adhoc.service.base.AHSubscriptionLocalServiceBaseImpl
  * @see de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil
  */
-public class AHSubscriptionLocalServiceImpl
-        extends AHSubscriptionLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS: Never reference this interface directly. Always use
-	 * {@link
-	 * de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalServiceUtil}
-	 * to access the a h subscription local service.
-	 */
-
-	private static final Log	m_objLog	= LogFactoryUtil
-	                                             .getLog(AHSubscriptionLocalServiceImpl.class);
-
-	public AHSubscription addSubscription(final String email,
-	        final long[] categories) {
-		return addSubscription(email, categories, null, null);
-	}
+public class AHSubscriptionLocalServiceImpl {
 	
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#addSubscription(java.lang.String, long[])
-	 */
-	@Override
-	public AHSubscription addSubscription(final String email,
-	        final long[] categories, String uuid, E_SubscriptionStatus status) {
-		AHSubscription result = null;
-
-		try {
-			final List<AHSubscription> subscriptions = this
-			        .getSubscriptionsByMail(email);
-			if (uuid == null && subscriptions != null && subscriptions.size() > 0) {
-				uuid = subscriptions.get(0).getUuid();
-			} else if (uuid == null) {
-				uuid = UUID.randomUUID().toString() + "-"
-				        + System.currentTimeMillis();
-			}
-			if (status == null)
-				status = E_SubscriptionStatus.NEW;
-			
-			result = this.createAHSubscription(CounterLocalServiceUtil
-			        .increment(AHSubscription.class.getName()));
-			result.setCreated(System.currentTimeMillis());
-			result.setEmail(email);
-			result.setUuid(uuid);
-			result.setStatus(status.getIntValue());
-			result = this.updateAHSubscription(result);
-			this.getAHSubscriptionPersistence().addAHCatEntrieses(
-			        result.getSubId(), categories);
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#getCategoriesBySubscription(long)
-	 */
+	/*
 	@Override
 	public List<AHCatEntries> getCategoriesBySubscription(final long subId) {
 		List<AHCatEntries> result = new LinkedList<AHCatEntries>();
@@ -138,9 +71,7 @@ public class AHSubscriptionLocalServiceImpl
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#getCategoriesBySubscriptionAsString(long)
-	 */
+
 	@Override
 	public String getCategoriesBySubscriptionAsString(final long subId) {
 		final List<AHCatEntries> categories = this
@@ -155,9 +86,6 @@ public class AHSubscriptionLocalServiceImpl
 		return strCategories.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#getSubscriptionsByMail(java.lang.String)
-	 */
 	@Override
 	public List<AHSubscription> getSubscriptionsByMail(final String email) {
 		List<AHSubscription> result = null;
@@ -174,9 +102,6 @@ public class AHSubscriptionLocalServiceImpl
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#getSubscriptionsByUuid(java.lang.String)
-	 */
 	@Override
 	public List<AHSubscription> getSubscriptionsByUuid(final String uuid) {
 		List<AHSubscription> result = null;
@@ -193,9 +118,7 @@ public class AHSubscriptionLocalServiceImpl
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#getUserAddresses()
-	 */
+
 	@Override
 	public List<String> getUserAddresses() {
 		final List<String> result = new LinkedList<String>();
@@ -213,9 +136,7 @@ public class AHSubscriptionLocalServiceImpl
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#getUserAddressesByCatItems(java.lang.Long[])
-	 */
+
 	@Override
 	public List<AHSubscription> getUserAddressesByCatItems(final Long[] catItems) {
 		List<AHSubscription> result = new LinkedList<AHSubscription>();
@@ -235,9 +156,7 @@ public class AHSubscriptionLocalServiceImpl
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#removeSubscription(long)
-	 */
+
 	@Override
 	public void removeSubscription(final long id) {
 		try {
@@ -248,9 +167,7 @@ public class AHSubscriptionLocalServiceImpl
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHSubscriptionLocalService#setSubscriptionStatus(long, de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus)
-	 */
+
 	@Override
 	public void setSubscriptionStatus(final long subId,
 	        final E_SubscriptionStatus status) {
@@ -263,4 +180,5 @@ public class AHSubscriptionLocalServiceImpl
 		}
 
 	}
+	*/
 }

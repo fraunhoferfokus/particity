@@ -1,9 +1,14 @@
 package de.particity.model.repository;
 
+import java.util.List;
+
 import org.apache.deltaspike.data.api.EntityRepository;
+import org.apache.deltaspike.data.api.FirstResult;
+import org.apache.deltaspike.data.api.MaxResults;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import de.particity.model.impl.Category;
 import de.particity.model.impl.CategoryEntry;
 
 @Repository
@@ -29,4 +34,11 @@ public interface CategoryEntryRepository extends EntityRepository<CategoryEntry,
 	
 	//@Query(named = Person.BY_MIN_AGE)
     //Long countAllOlderThan(int minAge);
+	
+	List<CategoryEntry> findAll(@FirstResult int start, @MaxResults int pageSize);
+	
+	List<CategoryEntry> findByCategory_id(long id);
+	
+	List<CategoryEntry> findByParentId(long parentId);
+
 }

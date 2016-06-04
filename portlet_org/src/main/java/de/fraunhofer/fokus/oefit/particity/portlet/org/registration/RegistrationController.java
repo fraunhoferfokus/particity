@@ -62,8 +62,8 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
 import de.fraunhofer.fokus.oefit.particity.portlet.BaseController;
+import de.particity.model.I_OrganizationModel;
 
 /**
  * Controller for the organisation registration form
@@ -112,7 +112,7 @@ public class RegistrationController extends BaseController {
 			        data.getName(), data.getHolder(), data.getMail(),
 			        themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId(), themeDisplay.getLocale(), true);
 			if (user != null) {
-				final AHOrg org = CustomOrgServiceHandler.addOrganisation(
+				final I_OrganizationModel org = CustomOrgServiceHandler.addOrganisation(
 				        this.getCompanyId(request), -1,
 				        this.getGroupId(request), data);
 				if (org == null) {

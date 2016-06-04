@@ -33,27 +33,10 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.persistence.impl;
 
-import java.util.List;
-
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.portal.kernel.dao.orm.QueryPos;
-import com.liferay.portal.kernel.dao.orm.SQLQuery;
-import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 
-import de.fraunhofer.fokus.oefit.particity.model.AHCatEntries;
-import de.fraunhofer.fokus.oefit.particity.model.AHSubscription;
-import de.fraunhofer.fokus.oefit.particity.model.impl.AHCatEntriesImpl;
-import de.fraunhofer.fokus.oefit.particity.model.impl.AHSubscriptionImpl;
-import de.fraunhofer.fokus.oefit.particity.service.persistence.AHCatEntriesFinder;
-
-@ProviderType
-public class AHCatEntriesFinderImpl extends AHCatEntriesFinderBaseImpl
-		implements AHCatEntriesFinder {
+public class AHCatEntriesFinderImpl {
 	
 	private static final Log m_objLog = LogFactoryUtil
 			.getLog(AHCatEntriesFinderImpl.class);
@@ -85,7 +68,7 @@ public class AHCatEntriesFinderImpl extends AHCatEntriesFinderBaseImpl
 			+ "ON map.subId=sub.subId AND sub.status=? AND map.itemId IN ([$ITEM_IDS$]) GROUP BY sub.email";
 	
 	
-	
+	/*
 	@Override
 	public List<AHSubscription> getSubscriptionMailsByCategoryitems(int status, String categoryItems)
 			throws SystemException {
@@ -217,20 +200,11 @@ public class AHCatEntriesFinderImpl extends AHCatEntriesFinderBaseImpl
 		return result.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * de.fraunhofer.fokus.oefit.adhoc.service.persistence.AHCatEntriesFinder
-	 * #getCategoriesByOffer(long)
-	 */
 	@Override
 	public List<AHCatEntries> getCategoriesByOffer(long offerId, Integer type)
 			throws SystemException {
 		List<AHCatEntries> result = null;
 
-		/*SessionFactory sessionFactory = (SessionFactory) PortalBeanLocatorUtil
-				.locate("liferaySessionFactory");*/
 		Session session = null;
 
 		try {
@@ -263,8 +237,7 @@ public class AHCatEntriesFinderImpl extends AHCatEntriesFinderBaseImpl
 			throws SystemException {
 		List<AHCatEntries> result = null;
 
-		/*SessionFactory sessionFactory = (SessionFactory) PortalBeanLocatorUtil
-				.locate("liferaySessionFactory");*/
+		
 		Session session = null;
 
 		try {
@@ -286,5 +259,7 @@ public class AHCatEntriesFinderImpl extends AHCatEntriesFinderBaseImpl
 		}
 		return result;
 	}
+	
+	*/
 
 }

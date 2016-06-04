@@ -1,10 +1,15 @@
 package de.particity.model.repository;
 
+import java.util.List;
+
 import org.apache.deltaspike.data.api.EntityRepository;
+import org.apache.deltaspike.data.api.FirstResult;
+import org.apache.deltaspike.data.api.MaxResults;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.particity.model.impl.Address;
+import de.particity.model.impl.Region;
 
 @Repository
 @Transactional
@@ -28,4 +33,11 @@ public interface AddressRepository extends EntityRepository<Address, Long> {
 	
 	//@Query(named = Person.BY_MIN_AGE)
     //Long countAllOlderThan(int minAge);
+	
+    List<Address> findByRegion_id(long id);
+    
+	List<Address> findAll(@FirstResult int start, @MaxResults int pageSize);
+	
+	Address findByStreetLikeAndNumberLikeAndRegion(String street, String number, Region region);
+
 }

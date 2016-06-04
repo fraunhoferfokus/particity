@@ -11,6 +11,12 @@ import javax.portlet.PortletPreferences;
 
 import org.apache.commons.io.IOUtils;
 
+import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
+import com.liferay.dynamic.data.mapping.kernel.DDMTemplateManagerUtil;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalArticleConstants;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -62,7 +68,8 @@ public class ParticityInitializer {
 	private static long globalGroupId = -1;
 	private static long globalAdminId = -1;
 	private static long homeLayoutId = LayoutConstants.DEFAULT_PARENT_LAYOUT_ID;
-	
+	private static final String JOURNAL_PORTLET_ID = "com_liferay_journal_content_web_portlet_JournalContentPortlet";
+	private static final String JOURNAL_STRUCTURE_DEFAULT = "basic-web-content";
 	
 	public static void init() {
 		if (!isWizardAvailable()) {
@@ -771,13 +778,14 @@ public class ParticityInitializer {
 				
 				String content = "<?xml version=\"1.0\"?><root available-locales=\""+localShort+"\" default-locale=\""+localShort+"\"><static-content language-id=\""+localShort+"\"><![CDATA[ "+srcContent+" ]]></static-content></root>";
 				
-				String lid = LocalizationUtil.getDefaultLocale(content);
+				String lid = LocalizationUtil.getDefaultLanguageId(content);
 				Locale defaultLocale = LocaleUtil.fromLanguageId(lid);
 						
 				m_objLog.debug("Adding title for locale "+defLocale+", short "+localShort+" with lid "+lid+" and defaultLocale "+defaultLocale+" with content "+title);
 
+				JournalArticleLocalServiceUtil.addArticle(userId, groupId, 0, titleMap, null, srcContent, JOURNAL_STRUCTURE_DEFAULT, JOURNAL_STRUCTURE_DEFAULT, ctx);
 				
-				result = JournalArticleLocalServiceUtil.addArticle(
+				/*result = JournalArticleLocalServiceUtil.addArticle(
 				    userId,
 				    groupId,
 				    0, // folder id
@@ -804,7 +812,7 @@ public class ParticityInitializer {
 				    null, StringPool.BLANK, // images, articleURL,
 				    ctx
 				    );
-				
+				*/
 		} catch (Throwable t) {
 			m_objLog.warn(t);
 		}
@@ -825,7 +833,7 @@ public class ParticityInitializer {
 			if (portlets != null) {
 				for (Portlet portlet: portlets) {
 					//m_objLog.debug("Found portlet "+portlet.getPortletId()+" =? "+PortletKeys.JOURNAL_CONTENT);
-					if (portlet.getPortletId().startsWith(PortletKeys.JOURNAL_CONTENT+"_INSTANCE")) {
+					if (portlet.getPortletId().startsWith(JOURNAL_PORTLET_ID+"_INSTANCE")) {
 						PortletPreferences prefs = PortletPreferencesLocalServiceUtil.getPreferences(companyId,
 				                ownerId,
 				                ownerType,
@@ -848,7 +856,7 @@ public class ParticityInitializer {
 	public static String addArticle(E_ContextPath path, JournalArticle article, Layout layout, long userId, long groupId, long companyId) {
 		String journalPortletId = null;
 		try {
-			journalPortletId = addPortletToPage(layout, PortletKeys.JOURNAL_CONTENT, path, userId);
+			journalPortletId = addPortletToPage(layout, JOURNAL_PORTLET_ID, path, userId);
 
 			setPortletArticle(journalPortletId, article.getArticleId() ,layout, userId, groupId, companyId);
 
@@ -912,7 +920,7 @@ public class ParticityInitializer {
 			List<Portlet> portlets = layoutTypePortlet.getAllPortlets();
 			if (portlets != null) {
 				for (Portlet portlet: portlets) {
-					m_objLog.debug("Found portlet "+portlet.getPortletId()+" =? "+PortletKeys.JOURNAL_CONTENT);
+					m_objLog.debug("Found portlet "+portlet.getPortletId()+" =? "+JOURNAL_PORTLET_ID);
 					if (portlet.getPortletId().startsWith(E_SampleContent.FRONTEND_HEADER.getDataPath())) {
 	
 						long ownerId = PortletKeys.PREFS_OWNER_ID_DEFAULT;

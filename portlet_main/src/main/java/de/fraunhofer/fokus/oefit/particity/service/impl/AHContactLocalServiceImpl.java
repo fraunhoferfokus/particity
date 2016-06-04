@@ -33,16 +33,6 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.impl;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-import de.fraunhofer.fokus.oefit.particity.model.AHContact;
-import de.fraunhofer.fokus.oefit.particity.service.base.AHContactLocalServiceBaseImpl;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -64,46 +54,9 @@ import de.fraunhofer.fokus.oefit.particity.service.base.AHContactLocalServiceBas
  * @see de.fraunhofer.fokus.oefit.adhoc.service.base.AHContactLocalServiceBaseImpl
  * @see de.fraunhofer.fokus.oefit.particity.service.AHContactLocalServiceUtil
  */
-public class AHContactLocalServiceImpl extends AHContactLocalServiceBaseImpl {
+public class AHContactLocalServiceImpl {
+	
 	/*
-	 * NOTE FOR DEVELOPERS: Never reference this interface directly. Always use
-	 * {@link de.fraunhofer.fokus.oefit.adhoc.service.AHContactLocalServiceUtil}
-	 * to access the a h contact local service.
-	 */
-
-	private static final Log	m_objLog	= LogFactoryUtil
-	                                             .getLog(AHContactLocalServiceImpl.class);
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHContactLocalService#addContact(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public AHContact addContact(final String forename, final String surname,
-	        final String phone, final String fax, final String mail,
-	        final String web) {
-		AHContact result = null;
-		try {
-			result = this.createAHContact(CounterLocalServiceUtil
-			        .increment(AHContact.class.getName()));
-			result.setEmail(mail);
-			result.setFax(fax);
-			result.setForename(forename);
-			result.setSurname(surname);
-			result.setMobile(phone);
-			result.setTel(phone);
-			result.setWww(web);
-			this.updateAHContact(result);
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHContactLocalService#getByMail(java.lang.String)
-	 */
-	@Override
 	public List<AHContact> getByMail(final String mail) {
 		List<AHContact> result = new LinkedList<AHContact>();
 
@@ -120,10 +73,6 @@ public class AHContactLocalServiceImpl extends AHContactLocalServiceBaseImpl {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.fraunhofer.fokus.oefit.adhoc.service.AHContactLocalService#getByName(java.lang.String, java.lang.String)
-	 */
-	@Override
 	public List<AHContact> getByName(final String forename, final String surname) {
 		List<AHContact> result = new LinkedList<AHContact>();
 
@@ -138,6 +87,6 @@ public class AHContactLocalServiceImpl extends AHContactLocalServiceBaseImpl {
 		}
 
 		return result;
-	}
+	}*/
 
 }

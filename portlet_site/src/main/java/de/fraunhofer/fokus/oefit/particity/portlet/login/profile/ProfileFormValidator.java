@@ -33,6 +33,8 @@
  */
 package de.fraunhofer.fokus.oefit.particity.portlet.login.profile;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -45,8 +47,8 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import de.fraunhofer.fokus.oefit.adhoc.forms.ProfileForm;
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil;
+import de.particity.model.I_OrganizationModel;
+import de.particity.model.boundary.I_OrganizationController;
 
 /**
  * Validator for user profile forms
@@ -58,6 +60,9 @@ public class ProfileFormValidator implements Validator {
 	                                             .getLog(ProfileFormValidator.class);
 
 	private ThemeDisplay	 m_objDisplay;
+	
+	@Inject
+	public static I_OrganizationController orgCtrl;
 
 	/**
 	 * Sets the theme display.
@@ -91,8 +96,8 @@ public class ProfileFormValidator implements Validator {
 		        && newMail.trim().length() > 0
 		        && !newMail.toLowerCase().trim()
 		                .equals(oldMail.toLowerCase().trim())) {
-			final AHOrg newOrg = AHOrgLocalServiceUtil
-			        .getOrganisationByOwnerMail(newMail.toLowerCase().trim());
+			final I_OrganizationModel newOrg = orgCtrl
+			        .getByOwnerMail(newMail.toLowerCase().trim());
 			if (newOrg != null) {
 				errors.rejectValue("mail", "notExistentErrorCode",
 				        "common.form.profile.field.mail.orgexists");

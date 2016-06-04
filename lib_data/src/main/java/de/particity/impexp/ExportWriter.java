@@ -144,7 +144,7 @@ public class ExportWriter {
 	private void writeCategories(List<CategoryType> categories) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_CATEGORIES);
 		try {
-			int size = catCtrl.count();
+			long size = catCtrl.count();
 			List<I_CategoryModel> cats = null;
 			I_CategoryModel cat = null;
 			CategoryType catType = null;
@@ -248,7 +248,7 @@ public class ExportWriter {
 	private void writeOrganisations(List<OrganisationType> organisations) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_ORGANISATIONS);
 		try {
-			int size = orgCtrl.count();
+			long size = orgCtrl.count();
 			List<I_OrganizationModel> list = null;
 			I_OrganizationModel data = null;
 			OrganisationType type = null;
@@ -292,7 +292,7 @@ public class ExportWriter {
 	private void writeOffers(List<OfferType> offers) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_OFFERS);
 		try {
-			int size = offerCtrl.count();
+			long size = offerCtrl.count();
 			List<I_OfferModel> list = null;
 			I_OfferModel data = null;
 			OfferType type = null;
@@ -348,7 +348,7 @@ public class ExportWriter {
 	private void writeSubscriptions(List<SubscriptionType> subscriptions) {
 		de.particity.util.PersistentLog.Log log = PersistentLog.getInstance().addLog(LOG_SUBSCRIPTIONS);
 		try {
-			int size = subCtr.count();
+			long size = subCtr.count();
 			List<I_SubscriptionModel> list = null;
 			I_SubscriptionModel data = null;
 			SubscriptionType type = null;

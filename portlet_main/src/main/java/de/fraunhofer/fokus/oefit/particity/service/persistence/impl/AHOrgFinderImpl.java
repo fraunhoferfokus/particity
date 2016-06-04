@@ -33,23 +33,10 @@
  */
 package de.fraunhofer.fokus.oefit.particity.service.persistence.impl;
 
-import java.util.List;
-
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.portal.kernel.dao.orm.SQLQuery;
-import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-import de.fraunhofer.fokus.oefit.particity.model.AHOrg;
-import de.fraunhofer.fokus.oefit.particity.model.impl.AHOrgImpl;
-import de.fraunhofer.fokus.oefit.particity.service.persistence.AHOrgFinder;
-
-@ProviderType
-public class AHOrgFinderImpl extends AHOrgFinderBaseImpl
-		implements AHOrgFinder {
+public class AHOrgFinderImpl  {
 	
 	private static final Log m_objLog = LogFactoryUtil
 			.getLog(AHOrgFinderImpl.class);
@@ -59,6 +46,7 @@ public class AHOrgFinderImpl extends AHOrgFinderBaseImpl
 	public static String getOrgCustomOrder = "select * from AHORG ORDER BY _COL_ _DIR_";
 	
 		
+	/*
 	@Override
 	public List<AHOrg> getOrganisationsByUserlistEntry(String userMailAddr)  throws SystemException {
 		List<AHOrg> result = null;
@@ -109,5 +97,5 @@ public class AHOrgFinderImpl extends AHOrgFinderBaseImpl
 		}
 		return result;
 	}
-
+	 */
 }
