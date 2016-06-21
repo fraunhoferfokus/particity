@@ -95,7 +95,7 @@ public class OfferForm {
 		this.m_numOfferId = -1;
 		this.m_strWorkHours = "-1";
 		this.m_numCreateDate = -1;
-		long time = CustomServiceUtils.time();
+		long time = CustomServiceUtils.timeMillis();
 		// two hours in the future
 		time += 1000 * 60 * 60 * 2;
 		this.m_numPublishDate = CustomServiceUtils.formatZoneDate(time);

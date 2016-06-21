@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
@@ -20,9 +22,17 @@ import de.particity.model.listener.OrgListener;
 @Entity
 @Table(name=Organization.TABLE)
 @EntityListeners(value=OrgListener.class)
+@NamedQueries({
+    @NamedQuery(name = Organization.getByUserListEntry,
+                query = Organization.getByUserListEntry_Query)
+})
 public class Organization implements I_OrganizationModel {
 	
 	public static final String TABLE = "pa_org";
+
+	public static final String getByUserListEntry = "org.byUser";
+	
+	public static final String getByUserListEntry_Query = "select * from "+TABLE+" org WHERE org.userList LIKE '%?1%'";
 
 	@Id
 	@GeneratedValue

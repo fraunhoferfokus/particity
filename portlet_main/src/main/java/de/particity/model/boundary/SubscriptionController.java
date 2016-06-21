@@ -8,10 +8,10 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
 import de.particity.model.I_CategoryEntryModel;
 import de.particity.model.I_SubscriptionModel;
-import de.particity.model.impl.CategoryEntry;
 import de.particity.model.impl.Subscription;
 import de.particity.model.repository.CategoryEntryRepository;
 import de.particity.model.repository.SubscriptionRepository;
@@ -47,9 +47,7 @@ public class SubscriptionController implements I_SubscriptionController {
 
 	@Override
 	public void delete(String pk) {
-		Subscription entity = repo.findBy(pk);
-		if (entity != null)
-			delete(entity);
+		repo.removeById(pk);
 	}
 
 	@Override
@@ -59,7 +57,7 @@ public class SubscriptionController implements I_SubscriptionController {
 
 	@Override
 	public List<I_SubscriptionModel> get(int from, int to) {
-		return (List) repo.findAll(from, to-from);
+		return repo.findAll(from, to-from);
 	}
 
 	@Override
@@ -83,7 +81,7 @@ public class SubscriptionController implements I_SubscriptionController {
 		if (categories != null) {
 			List<I_CategoryEntryModel> catEntries = new LinkedList<>();
 			for (long catEntryId: categories) {
-				CategoryEntry catEntry = catEntryRepo.findBy(catEntryId);
+				I_CategoryEntryModel catEntry = catEntryRepo.findBy(catEntryId);
 				if (catEntry != null)
 					catEntries.add(catEntry);
 			}
@@ -94,32 +92,48 @@ public class SubscriptionController implements I_SubscriptionController {
 
 	@Override
 	public void clearFromCategoryEntryId(long id) {
-		// TODO Auto-generated method stub
-		
+		I_CategoryEntryModel catEntry = catEntryRepo.findBy(id);
+		if (catEntry != null) {
+			List<I_SubscriptionModel> subs = repo.findByCategoryItems(E_SubscriptionStatus.VALIDATED, Long.toString(id));
+			if (subs != null) {
+				for (I_SubscriptionModel sub: subs) {
+					if (sub.getCategoryEntries().remove(catEntry))
+						repo.save(sub);
+				}
+			}
+		}
 	}
 
 	@Override
 	public List<I_SubscriptionModel> getByMail(String email) {
-		return (List) repo.findByEmail(email);
+		return repo.findByEmail(email);
 	}
 
 	@Override
 	public List<String> getUserAddresses() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<I_SubscriptionModel> getUserAddressesByCategoryEntries(
-			Long[] cats) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setSubscriptionStatus(Long subId, E_SubscriptionStatus validated) {
-		// TODO Auto-generated method stub
+		List<String> result = new LinkedList<>();
 		
+		List<I_SubscriptionModel> subs = repo.findUsers();
+		for (I_SubscriptionModel sub: subs)
+			result.add(sub.getEmail());
+		
+		return result;
+	}
+
+	@Override
+	public List<I_SubscriptionModel> getByCategoryEntries(
+			Long[] cats) {
+		String catStr = CustomServiceUtils.arrToStr(cats);
+		return repo.findByCategoryItems(E_SubscriptionStatus.VALIDATED, catStr);
+	}
+
+	@Override
+	public void setSubscriptionStatus(String uuid, E_SubscriptionStatus status) {
+		I_SubscriptionModel sub = repo.findBy(uuid);
+		if (sub != null) {
+			sub.setStatus(status);
+			repo.save(sub);
+		}
 	}
 	
 	

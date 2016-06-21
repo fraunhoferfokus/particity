@@ -33,6 +33,9 @@
  */
 package de.fraunhofer.fokus.oefit.adhoc.custom;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import com.liferay.portal.kernel.log.Log;
@@ -106,5 +109,29 @@ public class CustomCategoryServiceHandler {
 	
 	public static void deleteCategoryEntry(Long l_itemId) {
 		catEntryCtrl.delete(l_itemId);
+	}
+	
+	public static List<I_CategoryModel> getCategoryByType(E_CategoryType type) {
+		return catCtrl.getByType(type);
+	}
+	
+	public static List<I_CategoryEntryModel> getCategoryEntriesByCategoryId(long catId) {
+		return catEntryCtrl.getByCategory(catId);
+	}
+	
+	public static List<I_CategoryEntryModel> getCategoryEntriesByCategoryIdSorted(long catId) {
+		return catEntryCtrl.getByCategorySorted(catId);
+	}
+	
+	public static Map<Long, String> getEntryMapForCategoryId(long catId) {
+		return catEntryCtrl.getMapByCategoryId(catId);
+	}
+	
+	public static I_CategoryEntryModel getCategoryEntryById(long catEntryId) {
+		return catEntryCtrl.get(catEntryId);
+	}
+	
+	public static List<I_CategoryEntryModel> getChildCategoryEntriesByCategoryEntryId(long parentId) {
+		return catEntryCtrl.getChildEntriesById(parentId);
 	}
 }

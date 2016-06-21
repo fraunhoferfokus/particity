@@ -14,4 +14,6 @@ public interface I_CategoryController extends I_ModelController<I_CategoryModel,
 
 	Map<Long, String> getCategoryMap(E_CategoryType type, boolean includeEmpty);
 
+	List<I_CategoryModel> getByType(E_CategoryType type);
+
 }

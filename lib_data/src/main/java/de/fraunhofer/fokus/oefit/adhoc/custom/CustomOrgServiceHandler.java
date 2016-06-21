@@ -190,7 +190,7 @@ public class CustomOrgServiceHandler {
 			final String logoLocation = updateLogo(companyId, userId, groupId,
 			        result.getId(), logo);
 			if (logoLocation != null) {
-				orgCtrl.updateLogoLocation(result,
+				orgCtrl.updateLogoLocation(result.getId(),
 				        logoLocation);
 			}
 		}
@@ -521,5 +521,20 @@ public class CustomOrgServiceHandler {
 		return fileName;
 
 	}
+	
+	public static I_OrganizationModel getOrganisationById(long orgId) {
+		return orgCtrl.get(orgId);
+	}
+	
+	public static List<I_OrganizationModel> getOrganisations(int start, int end, String orderColumn, String orderType) {
+		return orgCtrl.get(start, end, orderColumn, orderType);
+	}
 
+	public static long countNewOrg() {
+		return orgCtrl.countByStatus(E_OrgStatus.NEW)+orgCtrl.countByStatus(E_OrgStatus.VALIDATED);
+	}
+	
+	public static long countOrg() {
+		return orgCtrl.count();
+	}
 }

@@ -200,7 +200,7 @@ public class DailyScheduler implements MessageListener {
 					addresses = addrCtrl.get(i, i + 5);
 					for (final I_AddressModel addr : addresses) {
 						final int size = offerCtrl
-						        .countOfferByAddress(addr.getId());
+						        .countByAddress(addr.getId());
 						if (size <= 0) {
 							addrCtrl.delete(addr);
 							m_objLog.info("Removing address "

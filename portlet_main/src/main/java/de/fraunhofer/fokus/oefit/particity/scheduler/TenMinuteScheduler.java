@@ -52,6 +52,7 @@ import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
 import de.particity.model.I_OfferModel;
 import de.particity.model.I_SubscriptionModel;
+import de.particity.model.boundary.I_CategoryEntryController;
 import de.particity.model.boundary.I_OfferController;
 import de.particity.model.boundary.I_SubscriptionController;
 import de.particity.model.listener.MailListener;
@@ -66,6 +67,9 @@ public class TenMinuteScheduler implements MessageListener {
 
 	@Inject
 	private I_OfferController offerCtrl;
+	
+	@Inject
+	private I_CategoryEntryController catEntryCtrl;
 	
 	@Inject
 	private I_SubscriptionController subCtrl;
@@ -93,7 +97,7 @@ public class TenMinuteScheduler implements MessageListener {
 	private void sendNewsletter() {
 		try {
 
-			final long now = CustomServiceUtils.time();
+			final long now = CustomServiceUtils.timeMillis();
 			final String strLastUpdate = CustomPortalServiceHandler
 			        .getConfigValue(E_ConfigKey.SCHED_NEWS);
 			long lastUpdate = 0;
@@ -113,10 +117,10 @@ public class TenMinuteScheduler implements MessageListener {
 			Long[] cats;
 			List<I_SubscriptionModel> recipients;
 			for (final I_OfferModel offer : offers) {
-				cats = offerCtrl.getCategoriesAsLong(
+				cats = catEntryCtrl.getByOfferAsLong(
 				        offer.getId(), E_CategoryType.SEARCH);
 				recipients = subCtrl
-				        .getUserAddressesByCategoryEntries(cats);
+				        .getByCategoryEntries(cats);
 				if (recipients != null && recipients.size() > 0) {
 					for (final I_SubscriptionModel rec : recipients) {
 						userOffers = offerUserMap.get(rec.getEmail());

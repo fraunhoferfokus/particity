@@ -1,4 +1,10 @@
 
+<%@page import="de.particity.model.I_CategoryEntryModel"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler"%>
+<%@page import="de.particity.model.I_CategoryModel"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOrgServiceHandler"%>
+<%@page import="de.particity.model.I_OfferModel"%>
+<%@page import="de.particity.model.I_OrganizationModel"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
 <%@page
@@ -6,28 +12,15 @@
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil"%>
-<%@page
 	import="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOrg"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOffer"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="init.jsp"%>
 
 <portlet:actionURL var="addUrl">
@@ -69,7 +62,7 @@
   //Object countries = request.getAttribute("countries");
   //Object workhours = request.getAttribute("workhours");
   
-  AHOrg orga = null;
+  I_OrganizationModel orga = null;
   
   String actionType = request.getParameter("actionType");
   
@@ -80,7 +73,7 @@
   String formUrl = addUrl;
   String backUrl = intBackUrl;
   if (actionType != null) {
-	  isChangeAllowed = data.getOfferId() >= 0 && !CustomLockServiceHandler.isLocked(AHOffer.class.getName(), data.getOfferId(), themeDisplay);
+	  isChangeAllowed = data.getOfferId() >= 0 && !CustomLockServiceHandler.isLocked(I_OfferModel.class.getName(), data.getOfferId(), themeDisplay);
 	  
 	  if (actionType.equals("edit")) {
 		  formUrl = saveUrl;
@@ -91,7 +84,7 @@
 	      long orgId = data.getOrgId();
 	      if (orgId >= 0) {
 	    	  try {
-	    		  orga = AHOrgLocalServiceUtil.getAHOrg(orgId);
+	    		  orga = CustomOrgServiceHandler.getOrganisationById(orgId);
 	    	  } catch (Throwable t) {
 	    		  log.error(t);
 	    	  }
@@ -508,28 +501,28 @@
 					<div class="col-xs-12 jumbotron">
 						<%
       
-      List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.OFFERCATS.getIntValue());
+      List<I_CategoryModel> rootcats = CustomCategoryServiceHandler.getCategoryByType(E_CategoryType.OFFERCATS);
       
-      List<AHCatEntries> childs;
-      for (AHCategories rootcat: rootcats) {
-        childs = AHCatEntriesLocalServiceUtil.getCategoryEntriesChildsSorted(rootcat.getCatId());
+      List<I_CategoryEntryModel> childs;
+      for (I_CategoryModel rootcat: rootcats) {
+        childs = CustomCategoryServiceHandler.getCategoryEntriesByCategoryIdSorted(rootcat.getId());
         if (childs != null && childs.size() > 0) {
           %>
-						<h4><%= rootcat.getName() %>&nbsp;&nbsp;<small><%= rootcat.getDescr() %></small>
+						<h4><%= rootcat.getName() %>&nbsp;&nbsp;<small><%= rootcat.getDescription() %></small>
 						</h4>
 						<div class="row">
 							<!-- start childs -->
 							<%
-          List<AHCatEntries> innerChilds;   
-          for (AHCatEntries child: childs) {
-            innerChilds = AHCatEntriesLocalServiceUtil.getChildEntriesById(child.getItemId());
+          List<I_CategoryEntryModel> innerChilds;   
+          for (I_CategoryEntryModel child: childs) {
+            innerChilds = CustomCategoryServiceHandler.getChildCategoryEntriesByCategoryEntryId(child.getId());
             if (innerChilds == null || innerChilds.size() == 0) {
             %>
 
 							<!-- div class="col-md-3"-->
 							<bform:bffield path="services" directLabel="true"
 								label="<%= child.getName() %>"
-								value="<%= Long.toString(child.getItemId()) %>" type="checkbox"
+								value="<%= Long.toString(child.getId()) %>" type="checkbox"
 								required="false"
 								readonly="<%= isReadOnly ? \"true\" : \"false\" %>" />
 							<!--/div-->
@@ -543,13 +536,13 @@
 								<div class="row">
 									<%
                  
-                 for (AHCatEntries innerChild: innerChilds) {
+                 for (I_CategoryEntryModel innerChild: innerChilds) {
                    %>
 									<!-- div class="col-md-3"-->
 
 									<bform:bffield path="services" directLabel="true"
 										label="<%= innerChild.getName() %>"
-										value="<%= Long.toString(innerChild.getItemId()) %>"
+										value="<%= Long.toString(innerChild.getId()) %>"
 										type="checkbox" required="false"
 										readonly="<%= isReadOnly ? \"true\" : \"false\" %>" />
 
@@ -583,28 +576,28 @@
 					<div class="col-xs-12 jumbotron">
 						<%
       
-      rootcats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH.getIntValue());
+      rootcats = CustomCategoryServiceHandler.getCategoryByType(E_CategoryType.SEARCH);
       
       
-      for (AHCategories rootcat: rootcats) {
-    	  childs = AHCatEntriesLocalServiceUtil.getCategoryEntriesChildsSorted(rootcat.getCatId());
+      for (I_CategoryModel rootcat: rootcats) {
+    	  childs = CustomCategoryServiceHandler.getCategoryEntriesByCategoryIdSorted(rootcat.getId());
     	  if (childs != null && childs.size() > 0) {
     		  %>
-						<h4><%= rootcat.getName() %>&nbsp;&nbsp;<small><%= rootcat.getDescr() %></small>
+						<h4><%= rootcat.getName() %>&nbsp;&nbsp;<small><%= rootcat.getDescription() %></small>
 						</h4>
 						<div class="row">
 							<!-- start childs -->
 							<%
-    		  List<AHCatEntries> innerChilds;	  
-    		  for (AHCatEntries child: childs) {
-    			  innerChilds = AHCatEntriesLocalServiceUtil.getChildEntriesById(child.getItemId());
+    		  List<I_CategoryEntryModel> innerChilds;	  
+    		  for (I_CategoryEntryModel child: childs) {
+    			  innerChilds = CustomCategoryServiceHandler.getChildCategoryEntriesByCategoryEntryId(child.getId());
     			  if (innerChilds == null || innerChilds.size() == 0) {
     			  %>
 
 							<!-- div class="col-md-3"-->
 							<bform:bffield path="categories" directLabel="true"
 								label="<%= child.getName() %>"
-								value="<%= Long.toString(child.getItemId()) %>" type="checkbox"
+								value="<%= Long.toString(child.getId()) %>" type="checkbox"
 								required="false"
 								readonly="<%= isReadOnly ? \"true\" : \"false\" %>" />
 							<!--/div-->
@@ -618,13 +611,13 @@
 								<div class="row">
 									<%
     				     
-    				     for (AHCatEntries innerChild: innerChilds) {
+    				     for (I_CategoryEntryModel innerChild: innerChilds) {
     				    	 %>
 									<!-- div class="col-md-3"-->
 
 									<bform:bffield path="categories" directLabel="true"
 										label="<%= innerChild.getName() %>"
-										value="<%= Long.toString(innerChild.getItemId()) %>"
+										value="<%= Long.toString(innerChild.getId()) %>"
 										type="checkbox" required="false"
 										readonly="<%= isReadOnly ? \"true\" : \"false\" %>" />
 

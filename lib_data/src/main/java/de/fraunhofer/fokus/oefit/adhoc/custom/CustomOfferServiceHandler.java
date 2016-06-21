@@ -52,6 +52,7 @@ import de.particity.model.I_OrganizationModel;
 import de.particity.model.I_RegionModel;
 import de.particity.model.boundary.I_AddressControler;
 import de.particity.model.boundary.I_CategoryController;
+import de.particity.model.boundary.I_CategoryEntryController;
 import de.particity.model.boundary.I_ContactController;
 import de.particity.model.boundary.I_OfferController;
 import de.particity.model.boundary.I_OrganizationController;
@@ -66,22 +67,25 @@ public class CustomOfferServiceHandler {
 	                                              .getLog(CustomOfferServiceHandler.class);
 
 	@Inject 
-	public static I_CategoryController catCtrl;
+	private static I_CategoryController catCtrl;
+	
+	@Inject
+	private static I_CategoryEntryController catEntryCtrl;
 	
 	@Inject 
-	public static I_OfferController offerCtrl;
+	private static I_OfferController offerCtrl;
 	
 	@Inject
-	public static I_RegionController regionCtrl;
+	private static I_RegionController regionCtrl;
 	
 	@Inject
-	public static I_AddressControler addressCtrl;
+	private static I_AddressControler addressCtrl;
 	
 	@Inject
-	public static I_ContactController contactCtrl;
+	private static I_ContactController contactCtrl;
 	
 	@Inject
-	public static I_OrganizationController orgCtrl;
+	private static I_OrganizationController orgCtrl;
 	
 	/**
 	 * Add an offer by its form object
@@ -164,8 +168,8 @@ public class CustomOfferServiceHandler {
 
 		if (org != null && region != null && address != null && contact != null
 		        && workType != null) {
-			result = offerCtrl.add(offerId, offerType.getIntValue(),
-			        title, descr, workHours, workType.getIntValue() ,publishDateTime, expireDateTime,
+			result = offerCtrl.add(offerId, offerType,
+			        title, descr, workHours, workType ,publishDateTime, expireDateTime,
 			        address, contact,
 			        contact2, agencyContact,
 			        orgId, categories);
@@ -245,7 +249,7 @@ public class CustomOfferServiceHandler {
 				m_objLog.warn("No address for offer " + offer.getId());
 			}
 
-			List<I_CategoryEntryModel> categories = offerCtrl.getCategoriesByOffer(offer.getId(), E_CategoryType.SEARCH);
+			List<I_CategoryEntryModel> categories = catEntryCtrl.getCategoryEntriesByOffer(offer.getId(), E_CategoryType.SEARCH);
 			if (categories != null && categories.size() > 0) {
 				final String[] catArr = new String[categories.size()];
 				for (int i = 0; i < categories.size(); i++) {
@@ -254,7 +258,7 @@ public class CustomOfferServiceHandler {
 				result.setCategories(catArr);
 			}
 
-			categories = offerCtrl.getCategoriesByOffer(
+			categories = catEntryCtrl.getCategoryEntriesByOffer(
 			        offer.getId(), E_CategoryType.OFFERCATS);
 			if (categories != null && categories.size() > 0) {
 				final String[] catArr = new String[categories.size()];
@@ -324,6 +328,41 @@ public class CustomOfferServiceHandler {
 		}
 
 		return result;
+	}
+	
+	public static String getCategoryEntriesByOfferAsString(I_OfferModel offer, E_CategoryType type) {
+		StringBuffer result = new StringBuffer();
+		
+		List<I_CategoryEntryModel> catEntries = catEntryCtrl.getCategoryEntriesByOffer(offer.getId(), type);
+		if (catEntries != null && catEntries.size() > 0) {
+			result.append(catEntries.get(0).getName());
+			for (int i=1; i<catEntries.size(); i++) {
+				result.append(", ").append(catEntries.get(i).getName());
+			}
+		}
+		
+		return result.toString();
+	}
+	
+	public static I_OfferModel getLastOfferForOrganization(long orgId) {
+		return offerCtrl.getLastForOrg(orgId);
+	}
+	
+	public static List<I_OfferModel> getOffer(int start, int end, String orderColumn, String orderType) {
+		return offerCtrl.get(start, end, orderColumn, orderType);
+	}
+
+	
+	public static long countOffer() {
+		return offerCtrl.count();
+	}
+	
+	public static int countOfferByCategoryEntry(Long categoryEntryId) {
+		return offerCtrl.countByCategoryEntries(new String[]{Long.toString(categoryEntryId)});
+	}
+	
+	public static int countNewOffer() {
+		return offerCtrl.countByStatus(E_OfferStatus.NEW)+offerCtrl.countByStatus(E_OfferStatus.CHANGED);
 	}
 
 }

@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import de.particity.model.I_CategoryEntryModel;
@@ -16,9 +18,19 @@ import de.particity.model.I_SubscriptionModel;
 
 @Entity
 @Table(name=CategoryEntry.TABLE)
+@NamedQueries({
+    @NamedQuery(name = CategoryEntry.getByTypeAndOffer,
+                query = "select * from "+CategoryEntry.TABLE+" entry "
+            			+ "INNER JOIN PARTICITY_offer_citm map ON map.itemId=entry.itemId "
+            			+ "INNER JOIN "+Category.TABLE+" cat ON entry.catId=cat.catId AND cat.type=?1 "
+            			+ "WHERE map.offerId=?2")
+})
 public class CategoryEntry implements I_CategoryEntryModel {
 	
 	public static final String TABLE = "pa_cat";
+	
+	public static final String getByTypeAndOffer = "categoryEntry.byTypeAndOffer";
+	
 
 	@Id
 	@GeneratedValue

@@ -183,7 +183,7 @@ public class MainController extends BaseController {
 				                themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId(),
 				                themeDisplay.getLocale(),true);
 				if (newUser != null) {
-					orgCtrl.addOrganisationUser(orgId,
+					orgCtrl.addUser(orgId,
 					        data.getMail());
 				}
 			}

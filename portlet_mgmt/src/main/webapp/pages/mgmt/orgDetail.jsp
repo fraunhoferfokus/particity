@@ -2,18 +2,9 @@
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 <% 

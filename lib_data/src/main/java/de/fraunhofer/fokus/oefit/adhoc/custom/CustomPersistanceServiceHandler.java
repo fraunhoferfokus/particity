@@ -199,4 +199,12 @@ public class CustomPersistanceServiceHandler {
 
 		return result;
 	}
+	
+	public static List<I_SubscriptionModel> getSubscriptions(int start, int end) {
+		return subCtrl.get(start, end);
+	}
+	
+	public static long countSubscriptions() {
+		return subCtrl.count();
+	}
 }

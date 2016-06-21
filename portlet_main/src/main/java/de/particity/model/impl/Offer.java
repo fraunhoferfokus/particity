@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
@@ -26,10 +28,61 @@ import de.particity.model.listener.OfferListener;
 @Entity
 @Table(name=Offer.TABLE)
 @EntityListeners(value=OfferListener.class)
+@NamedQueries({
+    @NamedQuery(name = Offer.getByCategoryEntries,
+                query = Offer.getByCategoryEntries_Query),
+    @NamedQuery(name = Offer.getByCategories,
+                query = Offer.getByCategories_Query),
+    @NamedQuery(name = Offer.getByTypes,
+                query = Offer.getByTypes_Query),
+    @NamedQuery(name = Offer.getByExpiredAndOrg,
+                query = Offer.getByExpiredAndOrg_Query),
+    @NamedQuery(name = Offer.getByIssuerTime,
+                query = Offer.getByIssuerTime_Query),
+    @NamedQuery(name = Offer.countByCategories,
+                query = Offer.countByCategories_Query),
+    @NamedQuery(name = Offer.countByCategoryEntries,
+                query = Offer.countByCategoryEntries_Query),
+    @NamedQuery(name = Offer.countByTypes,
+                query = Offer.countByTypes_Query)
+})
 public class Offer implements I_OfferModel {
 	
 	public static final String TABLE = "pa_offer";
+	
+	public static final String getByCategoryEntries 	= "offer.byCategoryEntries";
+	public static final String getByCategories 			= "offer.byCategories";
+	public static final String getByTypes 				= "offer.byTypes";
+	public static final String getByExpiredAndOrg		= "offer.byExpiredAndOrg";
+	public static final String getByIssuerTime		 	= "offer.getByIssuerTime";
+	public static final String countByCategories 		= "offer.countByCategories";
+	public static final String countByCategoryEntries 	= "offer.countByCategoryEntries";
+	public static final String countByTypes			 	= "offer.countByTypes";
+	
 
+
+	public static final String getByCategoryEntries_Query = "select offer.* from "+Offer.TABLE+" offer "
+			+ "INNER JOIN PARTICITY_offer_citm map ON map.offerId=offer.id "
+			+ "WHERE offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 AND map.itemId IN ([ ?4 ]) GROUP BY offer.id ORDER by offer.created";
+
+	public static final String getByCategories_Query = "select offer.* from PARTICITY_offer_citm map "
+			+ "INNER JOIN "+CategoryEntry.TABLE+" citm ON citm.itemId=map.itemId AND citm.catId IN ([ ?4 ]) "
+			+ "INNER JOIN "+Offer.TABLE+" offer ON map.offerId=offer.offerId "
+			+ "WHERE offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 GROUP BY offer.offerId ORDER by offer.created";
+	
+	public static final String getByTypes_Query = "select offer.* from "+Offer.TABLE+" offer WHERE offer.type_ IN ([ ?4 ]) "
+	+ "AND offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 ORDER by offer.created";
+	
+	public static final String getByExpiredAndOrg_Query = "select offer.* from "+Offer.TABLE+" offer "
+			+ "WHERE offer.orgId=?1 AND offer.expires >= ?2 AND offer.expires <= ?3 ORDER by offer.expires";
+	
+	public static final String getByIssuerTime_Query = "select offer.* from "+Offer.TABLE+" offer "
+			+ "WHERE offer.status=?1 AND offer.publish >= ?2 AND offer.publish < ?3 AND offer.expires > ?4 ORDER by offer.publish";
+	
+	public static final String countByCategories_Query = "select count(*) as COUNT_VALUE from ("+getByCategories_Query+") x";
+	public static final String countByCategoryEntries_Query = "select count(*) as COUNT_VALUE from ("+getByCategoryEntries_Query+") x";
+	public static final String countByTypes_Query = "select count(*) as COUNT_VALUE from ("+getByTypes_Query+") x";
+	
 	@Id
 	@GeneratedValue
 	private long id;

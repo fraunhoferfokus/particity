@@ -67,6 +67,70 @@ public class CustomServiceUtils {
 		}
 		return l_cats;
 	}
+	
+	public static String arrToStr(String[] categoryItems) {
+		StringBuffer result = new StringBuffer();
+		
+		if (categoryItems != null && categoryItems.length > 0) {
+			int i = 0;
+			String item;
+			for (;i<categoryItems.length;i++) {
+				item = categoryItems[i];
+				
+				if (item != null && item.trim().length() > 0) {
+					//m_objLog.info("Adding first category item "+i+": "+item);
+					result.append(item);
+					break;
+				}
+			}
+			
+			for (;i<categoryItems.length; i++) {
+				item = categoryItems[i];
+				if (item != null && item.trim().length() > 0) {
+					//m_objLog.info("Adding category item "+i+": "+item);
+					result.append(",").append(item);
+				}
+			}
+				
+		}
+		return result.toString();
+	}
+	
+	public static String arrToStr(Long[] ids) {
+		StringBuffer result = new StringBuffer();
+		
+		if (ids != null && ids.length > 0) {
+			result.append(ids[0]);
+			for (int i=1; i<ids.length; i++)
+				result.append(",").append(ids[i]);
+		}
+		
+		return result.toString();
+	}
+	
+	public static String arrToStr(int[] ids) {
+		StringBuffer result = new StringBuffer();
+		
+		if (ids != null && ids.length > 0) {
+			result.append(ids[0]);
+			for (int i=1; i<ids.length; i++)
+				result.append(",").append(ids[i]);
+		}
+		
+		return result.toString();
+	}
+	
+	public static String arrToStr(Enum[] enums) {
+		StringBuffer result = new StringBuffer();
+		
+		if (enums != null && enums.length > 0) {
+			result.append(enums[0].name());
+			for (int i=1; i<enums.length; i++)
+				result.append(",").append(enums[i].name());
+		}
+		
+		return result.toString();
+	}
 
 	/**
 	 * Format a numeric Date representation to a readable string, according to the default Date-format specified in Constants
@@ -76,7 +140,7 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneDate(final long date) {
-		return formatZoneDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
+		return formatZoneDate(toLocalDateTime(date));
 	}
 	
 	public static String formatZoneDate(final LocalDateTime date) {
@@ -92,7 +156,7 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneDateTime(final long date) {
-		return formatZoneDateTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
+		return formatZoneDateTime(toLocalDateTime(date));
 	}
 	
 	public static String formatZoneDateTime(LocalDateTime date) {
@@ -108,7 +172,7 @@ public class CustomServiceUtils {
 	 * @return the string representation
 	 */
 	public static String formatZoneTime(final long date) {
-		return formatZoneTime(LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone()));
+		return formatZoneTime(toLocalDateTime(date));
 	}
 
 	public static String formatZoneTime(final LocalDateTime date) {
@@ -155,6 +219,10 @@ public class CustomServiceUtils {
 	public static long localDateTimeToMillis(LocalDateTime date) {
 		return date.atZone(getTimeZone()).toInstant().toEpochMilli();
 	}
+	
+	public static LocalDateTime toLocalDateTime(long date) {
+		return LocalDateTime.ofInstant(Instant.ofEpochMilli(date), getTimeZone());
+	}
 
 	/**
 	 * Parse a list of Long values from an imploded String representation (using , as delimiter)
@@ -185,8 +253,14 @@ public class CustomServiceUtils {
 	 *
 	 * @return the current time in milliseconds
 	 */
-	public static long time() {
+	public static LocalDateTime time() {
+		return LocalDateTime.now();
+	}
+	
+	public static long timeMillis() {
 		return LocalDateTime.now(getTimeZone()).atZone(getTimeZone()).toInstant().toEpochMilli();
 	}
+
+	
 
 }

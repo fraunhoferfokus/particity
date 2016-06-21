@@ -40,9 +40,7 @@ public class CategoryController implements I_CategoryController {
 
 	@Override
 	public void delete(Long pk) {
-		Category cat = repo.findBy(pk);
-		if (cat != null)
-			repo.remove(cat);
+		repo.removeById(pk);
 	}
 
 	@Override
@@ -52,7 +50,7 @@ public class CategoryController implements I_CategoryController {
 
 	@Override
 	public List<I_CategoryModel> get(int from, int to) {
-		return (List) repo.findAll(from, to-from);
+		return repo.findAll(from, to-from);
 	}
 
 	@Override
@@ -77,7 +75,7 @@ public class CategoryController implements I_CategoryController {
 	public Map<Long, String> getCategoryMap(E_CategoryType type,
 			boolean includeEmpty) {
 		final Map<Long, String> result = new TreeMap<Long, String>();
-		final List<Category> cats = repo.findByType(type);
+		final List<I_CategoryModel> cats = repo.findByType(type);
 		if (cats != null) {
 			if (includeEmpty) {
 				result.put(-1L, "-");
@@ -87,6 +85,12 @@ public class CategoryController implements I_CategoryController {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public List<I_CategoryModel> getByType(E_CategoryType type) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -57,113 +57,6 @@ package de.fraunhofer.fokus.oefit.particity.service.impl;
 public class AHOfferLocalServiceImpl {
 
 	/*
-	@Override
-	public AHOffer addOffer(int type, final String title,
-	        final String descr, final String workTime,
-	        final Integer workType, final long publishDate,
-	        final long expireDate, final long addressId, final long contactId,
-	        final long contact2Id, final boolean agencyContact,
-	        final long orgId, final long[] categories) {
-		return this.addOffer(null, type, title, descr, workTime, workType,
-		        publishDate, expireDate, addressId, contactId, contact2Id,
-		        agencyContact, orgId, categories);
-	}
-
-	@Override
-	public AHOffer addOffer(final Long offerId, int type,
-	        final String title, final String descr, final String workTime,
-	        final Integer workType, final long publishDate,
-	        final long expireDate, final long addressId, final long contactId,
-	        final long contact2Id, final boolean agencyContact,
-	        final long orgId, final long[] categories) {
-		AHOffer result = null;
-
-		try {
-			if (offerId != null && offerId >= 0) {
-				try {
-					result = this.getAHOffer(offerId);
-				} catch (final PortalException e) {
-				}
-			} else {
-				result = this.createAHOffer(CounterLocalServiceUtil
-				        .increment(AHOffer.class.getName()));
-			}
-			if (result != null) {
-				final long now = CustomServiceUtils.time();
-
-				result.setAdressId(addressId);
-				result.setContactId(contactId);
-				result.setExpires(expireDate);
-				result.setDescription(descr);
-				// result.setRegionId(regionId);
-				result.setTitle(title);
-				result.setType(type);
-				result.setPublish(publishDate);
-				result.setWorkTime(workTime);
-				result.setUpdated(now);
-				result.setSndContactId(contact2Id);
-				result.setContactAgency(agencyContact);
-				result.setSocialStatus(0);
-
-				if (workType != null) {
-					result.setWorkType(workType);
-				}
-				if (offerId == null || offerId < 0) {
-					result.setOrgId(orgId);
-					result.setCreated(now);
-					result.setStatus(E_OfferStatus.NEW.getIntValue());
-					if (categories != null && categories.length > 0) {
-						this.getAHOfferPersistence().addAHCatEntrieses(
-						        result.getPrimaryKey(), categories);
-					}
-				} else {
-					result.setStatus(E_OfferStatus.CHANGED.getIntValue());
-					// TODO - evaluate whether it is worth the computation or
-					// whether a batch removeAll/addAll would be more efficient
-					final List<AHCatEntries> entries = this
-					        .getCategoriesByOffer(offerId, null);
-					final List<Long> entryIds = new LinkedList<Long>();
-					if (entries != null && entries.size() > 0) {
-						for (final AHCatEntries entry : entries) {
-							entryIds.add(entry.getItemId());
-						}
-					}
-					if (categories != null && categories.length > 0) {
-						for (int i = 0; i < categories.length; i++) {
-							if (!entryIds.contains(categories[i])) {
-								this.getAHOfferPersistence().addAHCatEntries(
-								        offerId, categories[i]);
-							}
-						}
-						if (entries != null && entries.size() > 0) {
-							final List<Long> newEntries = Arrays
-							        .asList(ArrayUtil.toArray(categories));
-							for (final Long entryId : entryIds) {
-								if (!newEntries.contains(entryId)) {
-									this.getAHOfferPersistence()
-									        .removeAHCatEntries(offerId,
-									                entryId);
-								}
-							}
-						}
-					} else if (entries.size() > 0) {
-						// remove all
-						this.getAHOfferPersistence().removeAHCatEntrieses(
-						        offerId, entries);
-					}
-				}
-				// set valid, if it does not require additional input or check by mgmt and moderation is disabled
-				if (!result.isContactAgency() && !CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.MODERATE_OFFERS)) {
-					result.setStatus(E_OfferStatus.VALIDATED.getIntValue());
-				}
-				result = this.updateAHOffer(result);
-			}
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-
-		return result;
-	}
 
 	@Override
 	public void addSocialStatus(final Long offerId,
@@ -220,20 +113,6 @@ public class AHOfferLocalServiceImpl {
 		return result;
 	}
 
-	
-	@Override
-	public Integer countOfferByCategoryItems(final String[] categoryItems) {
-		Integer result = 0;
-		try {
-			result = AHOfferFinderUtil.countOfferByCategoryitems(
-			        E_OfferStatus.VALIDATED.getIntValue(), categoryItems);
-		} catch (final SystemException e) {
-			result = 0;
-			m_objLog.error(e);
-		}
-		return result;
-	}
-
 	@Override
 	public Integer countOfferByOfferTypes(final int[] types) {
 		Integer result = null;
@@ -274,26 +153,6 @@ public class AHOfferLocalServiceImpl {
 		return result;
 	}
 
-	
-	@Override
-	public Integer countPublishedOffers(final long orgId) {
-		Integer result = null;
-		try {
-			final long millis = CustomServiceUtils.time();
-			if (orgId >= 0) {
-				result = this.getAHOfferPersistence()
-				        .countByorgAndstatusAndDate(orgId,
-				                E_OfferStatus.VALIDATED.getIntValue(), millis,
-				                millis);
-			} else {
-				result = this.getAHOfferPersistence().countBystatusAndDate(
-				        E_OfferStatus.VALIDATED.getIntValue(), millis, millis);
-			}
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-		return result;
-	}
 
 	
 	@Override
@@ -480,21 +339,6 @@ public class AHOfferLocalServiceImpl {
 		}
 		return result;
 	}
-
-	
-	@Override
-	public List<AHOffer> getOffersForOrganization(final long orgId) {
-		List<AHOffer> result = new LinkedList<AHOffer>();
-
-		try {
-			result = this.getAHOfferPersistence().findByorg(orgId);
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-
-		return result;
-	}
-
 	
 	@Override
 	public List<AHOffer> getOffersForOrganization(final long orgId,
@@ -505,30 +349,6 @@ public class AHOfferLocalServiceImpl {
 			result = AHOfferFinderUtil.getOffersByOrgWithCustomOrder(orgId,
 			        column, order, start, end);
 			// m_objLog.debug("Looking up organisations sorted by "+column.getColName()+" in order "+order.toString()+" from "+start+", to "+end);
-		} catch (final SystemException e) {
-			m_objLog.error(e);
-		}
-		return result;
-	}
-
-	
-	@Override
-	public List<AHOffer> getPublishedOffers(final int start, final int end,
-	        final long orgId) {
-		List<AHOffer> result = null;
-		try {
-			final long millis = CustomServiceUtils.time();
-			if (orgId >= 0) {
-				result = this.getAHOfferPersistence()
-				        .findByorgAndstatusAndDate(orgId,
-				                E_OfferStatus.VALIDATED.getIntValue(), millis,
-				                millis, start, end);
-			} else {
-				result = this.getAHOfferPersistence().findBystatusAndDate(
-				        E_OfferStatus.VALIDATED.getIntValue(), millis, millis,
-				        start, end);
-				
-			}
 		} catch (final SystemException e) {
 			m_objLog.error(e);
 		}

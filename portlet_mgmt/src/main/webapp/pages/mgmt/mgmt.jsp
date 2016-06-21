@@ -1,4 +1,11 @@
 
+<%@page import="de.particity.model.I_SubscriptionModel"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="de.particity.model.I_OfferModel"%>
+<%@page import="de.particity.model.I_OrganizationModel"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOrgServiceHandler"%>
 <%@page import="com.liferay.portal.kernel.util.HtmlUtil"%>
 <%@page import="org.springframework.web.util.HtmlUtils"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigRole"%>
@@ -25,33 +32,15 @@
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigCategory"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHSubscription"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOffer"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOrg"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 <% 
@@ -100,9 +89,9 @@
   String cfgCollaps = request.getParameter("cfgId");
   if (cfgCollaps == null)
 	  cfgCollaps = "";
-  
-  int orgChangedSize = AHOrgLocalServiceUtil.countNewOrg();
-  int offerChangedSize = AHOfferLocalServiceUtil.countNewOffer();
+   
+  long orgChangedSize = CustomOrgServiceHandler.countNewOrg();
+  long offerChangedSize = CustomOfferServiceHandler.countNewOffer();
   
   boolean fbEnabled = CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.SOCIAL_FB_ENABLED);
   boolean twEnabled = CustomPortalServiceHandler.isConfigEnabled(E_ConfigKey.SOCIAL_TW_ENABLED);
@@ -131,7 +120,7 @@
 					class="glyphicon glyphicon-globe"></span>&nbsp;<spring:message
 						code="mgmt.tabs.org.title" /> <%
       if (orgChangedSize > 0) {
-    	  %> <span class="badge badge-primary"><%= Integer.toString(orgChangedSize) %></span>
+    	  %> <span class="badge badge-primary"><%= Long.toString(orgChangedSize) %></span>
 					<%
       }
       %> </a></li>
@@ -140,7 +129,7 @@
 					class="glyphicon glyphicon-map-marker"></span>&nbsp;<spring:message
 						code="mgmt.tabs.offer.title" /> <%
       if (offerChangedSize > 0) {
-        %> <span class="badge badge-primary"><%= Integer.toString(offerChangedSize) %></span>
+        %> <span class="badge badge-primary"><%= Long.toString(offerChangedSize) %></span>
 					<%
       }
       %> </a></li>
@@ -162,7 +151,7 @@
 				<small><spring:message code="mgmt.tabs.org.descr" /></small>
 				<hr />
 				<%
-     int orgSize = AHOrgLocalServiceUtil.getAHOrgsCount();
+     long orgSize = CustomOrgServiceHandler.countOrg();
      
      if (orgSize == 0) {
     	 
@@ -308,40 +297,40 @@
        int start = skip;
        int end = start+max;
        if (end >= orgSize)
-         end = orgSize;
+         end = (int) orgSize;
        
        //log.info("Got "+orgSize+" organisations!");
-       int pagesnum = orgSize/max;
+       int pagesnum =(int) orgSize/max;
        int pagenum = (start+max)/max;
-       List<AHOrg> organisations = null;
+       List<I_OrganizationModel> organisations = null;
        
        try {
     	   //log.info("Got "+orgSize+" organisations, listing from "+start+"-"+end);
-    	   organisations = AHOrgLocalServiceUtil.getOrganisations(start, end, E_TableColumn.valueOf(orgColumn).getColName(), order.name());
+    	   organisations = CustomOrgServiceHandler.getOrganisations(start, end, E_TableColumn.valueOf(orgColumn).getColName(), order.name());
        } catch (Throwable t) {
     	   log.warn(t);
        }
        
        if (organisations != null) {
-	    	 for (AHOrg organisation: organisations) {
-	    		 E_OrgStatus status = E_OrgStatus.findByValue(organisation.getStatus());
-	    		 long lastOffer = -1;
-	    		 AHOffer offer = AHOfferLocalServiceUtil.getLastOfferForOrganization(organisation.getOrgId());
+	    	 for (I_OrganizationModel organisation: organisations) {
+	    		 E_OrgStatus status = organisation.getStatus();
+	    		 LocalDateTime lastOffer = null;
+	    		 I_OfferModel offer = CustomOfferServiceHandler.getLastOfferForOrganization(organisation.getId());
 	    		 if (offer != null) {
 	    			 lastOffer = offer.getUpdated();
 	    		 }
-	    		 long created = organisation.getCreated();
-	    		 long updated = organisation.getUpdated();
+	    		 LocalDateTime created = organisation.getCreated();
+	    		 LocalDateTime updated = organisation.getUpdated();
 	    		 String strCreated = "-";
 	    		 String strUpdated = "-";
 	    		 String strLastOffer = "-";
-	    		 if (created > 0) {
+	    		 if (created != null) {
 	    			 strCreated = CustomServiceUtils.formatZoneDateTime(created);
 	    		 }
-	    		 if (lastOffer > 0) {
+	    		 if (lastOffer != null) {
 	    	     strLastOffer = CustomServiceUtils.formatZoneDateTime(lastOffer);
 	    		 }
-	    		 if (updated > 0) {
+	    		 if (updated != null) {
 	    			 strUpdated = CustomServiceUtils.formatZoneDateTime(updated);
 	    		 }
 	    		 
@@ -364,7 +353,7 @@
 								title="<spring:message code="mgmt.tabs.org.item.action.view"/>"
 								href="<portlet:actionURL>
 	                         <portlet:param name="action" value="viewOrg" />
-	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getId()) %>" />
 	                       </portlet:actionURL>"><%= organisation.getName() %></a></td>
 							<td><%= organisation.getHolder() %></td>
 							<td><%= organisation.getOwner() %></td>
@@ -384,7 +373,7 @@
 										<li><a
 											href="<portlet:actionURL>
 	                         <portlet:param name="action" value="viewOrg" />
-	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getId()) %>" />
 	                       </portlet:actionURL>"><span
 												class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;<spring:message
 													code="mgmt.tabs.org.item.action.view" /></a></li>
@@ -395,7 +384,7 @@
 											href="<portlet:actionURL>
 	                         <portlet:param name="action" value="viewOrg" />
 	                         <portlet:param name="actionType" value="approve" />
-	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getId()) %>" />
 	                       </portlet:actionURL>"><span
 												class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;<spring:message
 													code="mgmt.tabs.org.item.action.edit" /></a></li>
@@ -409,7 +398,7 @@
 										<li><a
 											href="<portlet:actionURL>
 	                         <portlet:param name="action" value="disableOrg" />
-	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getId()) %>" />
 	                       </portlet:actionURL>"><span
 												class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>&nbsp;<spring:message
 													code="mgmt.tabs.org.item.action.disable" /></a></li>
@@ -419,7 +408,7 @@
 										<li><a
 											onclick="createModal('#modal','<spring:message code="mgmt.tabs.org.item.action.deleteHeader"/>','<spring:message code="mgmt.tabs.org.item.action.deleteBody"/><%= organisation.getName().replaceAll("'","") %>','<spring:message code="mgmt.tabs.org.item.action.deleteAbort"/>','<spring:message code="mgmt.tabs.org.item.action.deleteOk"/>','<portlet:actionURL>
 	                         <portlet:param name="action" value="deleteOrg" />
-	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getOrgId()) %>" />
+	                         <portlet:param name="orgId" value="<%= Long.toString(organisation.getId()) %>" />
 	                       </portlet:actionURL>')" class="<%= demoDisabled %>"><span
 												class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;<spring:message
 													code="mgmt.tabs.org.item.action.delete" /></a></li>
@@ -517,7 +506,7 @@
 				<hr />
 				<%
       
-      int offersSize = AHOfferLocalServiceUtil.getAHOffersCount();
+      long offersSize = CustomOfferServiceHandler.countOffer();
       int skip = 0;
       int max = 5;
       // only check if tab is active
@@ -535,13 +524,13 @@
       int start = skip;
       int end = start+max;
       if (end >= offersSize)
-    	  end = offersSize;
-      int pagesnum = offersSize/max;
+    	  end = (int) offersSize;
+      int pagesnum = (int) offersSize/max;
       int pagenum = (start+max)/max;
-      List<AHOffer> offers = null;
+      List<I_OfferModel> offers = null;
       
       try {
-    	  offers = AHOfferLocalServiceUtil.getOffers(start, end, E_TableColumn.valueOf(offerColumn).getColName(), order.name());
+    	  offers = CustomOfferServiceHandler.getOffer(start, end, E_TableColumn.valueOf(offerColumn).getColName(), order.name());
       } catch (Throwable t) {}
       
       if (offers == null || offers.size() == 0) {
@@ -701,44 +690,32 @@
 					<%
         Map<E_SocialMediaPlugins,Boolean> smOnlineMap = new HashMap<E_SocialMediaPlugins, Boolean>();
         log.info("Got "+offers.size()+" offers"+"("+start+","+end+")!"); 
-        for (AHOffer offer: offers) {
+        for (I_OfferModel offer: offers) {
         	try {
-        	long orgId = offer.getOrgId();
-        	// if orgId is invalid, assing new one
-        	// TODO: this should be done manually in maintenance
-        	if (orgId < 0) {
-        		List<AHOrg> orgs = AHOrgLocalServiceUtil.getAHOrgs(QueryUtil.ALL_POS, QueryUtil.ALL_POS);
-        		if (orgs.size() > 0) {
-        			orgId = orgs.get(0).getOrgId();
-        			offer.setOrgId(orgId);
-        			AHOfferLocalServiceUtil.updateAHOffer(offer);
-        		}
-        		
-        	}
-        	
-        	AHOrg org = AHOrgLocalServiceUtil.getAHOrg(orgId);
-          E_OfferType type = E_OfferType.findByValue(offer.getType());
-          E_OfferStatus status = E_OfferStatus.findByValue(offer.getStatus());
+        	long orgId = offer.getOrg().getId();
+        	I_OrganizationModel org = offer.getOrg();
+          E_OfferType type = offer.getType();
+          E_OfferStatus status = offer.getStatus();
           String title = offer.getTitle();
           String hours = offer.getWorkTime();
           //String strHours = hours > 0 ? hours+"h" : "-";
-          E_OfferWorkType workType = E_OfferWorkType.findByValue(offer.getWorkType());
-          long updated = offer.getUpdated();
-          long expires = offer.getExpires();
-          long publish = offer.getPublish();
+          E_OfferWorkType workType = offer.getWorkType();
+          LocalDateTime updated = offer.getUpdated();
+          LocalDateTime expires = offer.getExpires();
+          LocalDateTime publish = offer.getPublish();
           String strUpdated = "";
           String strExpires = "";
           String strPublish = "";
-          if (updated > 0) {
+          if (updated != null) {
             strUpdated = CustomServiceUtils.formatZoneDateTime(updated);
           } 
-          if (expires > 0) {
+          if (expires != null) {
                 strExpires = CustomServiceUtils.formatZoneDateTime(expires);
           } 
-          if (publish > 0) {
+          if (publish != null) {
                 strPublish = CustomServiceUtils.formatZoneDateTime(publish);
           } 
-          String strCategories = AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH.getIntValue());
+          String strCategories = CustomOfferServiceHandler.getCategoryEntriesByOfferAsString(offer, E_CategoryType.SEARCH);
           
           String statusClass = "";
           if (status.equals(E_OfferStatus.VALIDATED))
@@ -754,14 +731,14 @@
 							title="<spring:message code="mgmt.tabs.offer.item.action.view"/>"
 							href="<portlet:actionURL>
                          <portlet:param name="action" value="viewOffer" />
-                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
                        </portlet:actionURL>"><%= title %></a></td>
 						<td><spring:message code="<%= type.getMsgProperty() %>" /></td>
 						<td><a
 							title="<spring:message code="mgmt.tabs.org.item.action.view"/>"
 							href="<portlet:actionURL>
                          <portlet:param name="action" value="viewOrg" />
-                         <portlet:param name="orgId" value="<%= Long.toString(org.getOrgId()) %>" />
+                         <portlet:param name="orgId" value="<%= Long.toString(org.getId()) %>" />
                        </portlet:actionURL>"><%= org.getName() %></a></td>
 						<td><%= strCategories %></td>
 						<td><spring:message code="<%= workType.getMsgProperty() %>" /></td>
@@ -811,7 +788,7 @@
 									href="<portlet:actionURL>
 					                         <portlet:param name="action" value="publishSocial" />
 					                         <portlet:param name="type" value="<%= sm.toString() %>" />
-					                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+					                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
 					                         <portlet:param name="tabId" value="offer" />
 					                         <portlet:param name="page" value="<%= Integer.toString(pagenum) %>" />
 					                         <portlet:param name="column" value="<%= offerColumn %>" />
@@ -834,7 +811,7 @@
 									<li><a
 										href="<portlet:actionURL>
                          <portlet:param name="action" value="viewOffer" />
-                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
                        </portlet:actionURL>"><span
 											class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;&nbsp;<spring:message
 												code="mgmt.tabs.offer.item.action.view" /></a></li>
@@ -842,7 +819,7 @@
                  
                  String editIcon = "glyphicon-pencil";
                  String textClass = "";
-                 boolean isLocked = CustomLockServiceHandler.isLocked(AHOffer.class.getName(), offer.getOfferId(), themeDisplay); 
+                 boolean isLocked = CustomLockServiceHandler.isLocked(I_OfferModel.class.getName(), offer.getId(), themeDisplay); 
                  if (isLocked) {
                    editIcon = "glyphicon-lock";
                    textClass = "text-error";
@@ -853,7 +830,7 @@
 									<li class="<%=textClass%>"><a
 										href="<portlet:actionURL>
                          <portlet:param name="action" value="editOffer" />
-                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
                        </portlet:actionURL>"><span
 											class="glyphicon <%= editIcon %>" aria-hidden="true"></span>&nbsp;&nbsp;<spring:message
 												code="mgmt.tabs.offer.item.action.approve" /></a></li>
@@ -943,7 +920,7 @@
 				<small><spring:message code="mgmt.tabs.user.descr" /></small>
 				<hr />
 				<%
-      int userSize = AHSubscriptionLocalServiceUtil.getAHSubscriptionsCount();
+      long userSize = CustomPersistanceServiceHandler.countSubscriptions();
       skip = 0;
       max = 5;
       if (userTabClass.trim().length() > 0 && tablePage != null) {
@@ -960,13 +937,13 @@
       start = skip;
       end = start+max;
       if (end >= userSize)
-        end = userSize;
-      pagesnum = offersSize/max;
+        end = (int) userSize;
+      pagesnum = (int) offersSize/max;
       pagenum = (start+max)/max;
-      List<AHSubscription> subscriptions = null;
+      List<I_SubscriptionModel> subscriptions = null;
       
       try {
-    	  subscriptions = AHSubscriptionLocalServiceUtil.getAHSubscriptions(start, end); 
+    	  subscriptions = CustomPersistanceServiceHandler.getSubscriptions(start, end); 
       } catch (Throwable t) {}
       
       if (subscriptions == null || subscriptions.size() == 0) {
@@ -989,10 +966,10 @@
 
 					<%
         log.info("Got "+subscriptions.size()+" subscriptions"+"("+start+","+end+")!"); 
-        for (AHSubscription subscription: subscriptions) {
+        for (I_SubscriptionModel subscription: subscriptions) {
           try { 
           String created = CustomServiceUtils.formatZoneDateTime(subscription.getCreated());
-        	E_SubscriptionStatus status = E_SubscriptionStatus.findByValue(subscription.getStatus());
+        	E_SubscriptionStatus status = subscription.getStatus();
           
           String statusClass = "";
           if (status.equals(E_SubscriptionStatus.VALIDATED))

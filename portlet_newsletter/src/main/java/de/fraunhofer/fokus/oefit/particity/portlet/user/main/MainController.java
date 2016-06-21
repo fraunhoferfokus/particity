@@ -88,7 +88,7 @@ public class MainController extends BaseController {
 			response.setRenderParameter("uuid", uuid);
 		}
 		if (subId != null) {
-			subCtrl.setSubscriptionStatus(subId,
+			subCtrl.setSubscriptionStatus(uuid,
 			        E_SubscriptionStatus.VALIDATED);
 		}
 

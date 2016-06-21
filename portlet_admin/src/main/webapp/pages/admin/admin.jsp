@@ -1,24 +1,18 @@
 
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler"%>
+<%@page import="de.particity.model.I_CategoryEntryModel"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler"%>
+<%@page import="de.particity.model.I_CategoryModel"%>
 <%@page import="com.liferay.portal.kernel.language.LanguageUtil"%>
 <%@page import="de.particity.impexp.ExportWriter"%>
 <%@page import="org.springframework.ui.Model"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.Constants"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
 <%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil"%>
-<%@page
 	import="de.fraunhofer.fokus.oefit.particity.portlet.admin.AdminController"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.model.impl.AHCategoriesImpl"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
 <%@include file="../shared/init.jsp"%>
@@ -111,16 +105,16 @@
 				<div class="panel-group" id="accordion" role="tablist"
 					aria-multiselectable="true" style="margin-top: 20px;">
 					<%
-			  List<AHCategories> categories = AHCategoriesLocalServiceUtil.getCategories(ctype.getIntValue());
+			  List<I_CategoryModel> categories = CustomCategoryServiceHandler.getCategoryByType(ctype);
 			  String disabledStr = "";
 			  String activeStr = "";
 			  String catId;
-			  List<AHCatEntries> childs;
-			  for (AHCategories category: categories) {
+			  List<I_CategoryEntryModel> childs;
+			  for (I_CategoryModel category: categories) {
 				  disabledStr = "";
-				  catId = Long.toString(category.getCatId());
+				  catId = Long.toString(category.getId());
 				  activeStr = catId.equals(requestCatId) ? "in" : "";
-				  childs = AHCatEntriesLocalServiceUtil.getCategoryEntries(category.getCatId());
+				  childs = CustomCategoryServiceHandler.getCategoryEntriesByCategoryId(category.getId());
 				  if (childs.size() > 0)
 					  disabledStr = "disabled";
 				%>
@@ -133,14 +127,14 @@
 										<a data-toggle="collapse" data-parent="#accordion"
 											href="#collapse<%= catId %>" aria-expanded="true"
 											aria-controls="collapse<%= catId %>"> <%= category.getName() %>
-										</a>&nbsp;&nbsp; <small>(ID: <%= Long.toString(category.getCatId()) %>)<%= category.getDescr() %></small>
+										</a>&nbsp;&nbsp; <small>(ID: <%= Long.toString(category.getId()) %>)<%= category.getDescription() %></small>
 									</h4>
 								</div>
 								<div class="col-xs-4" style="text-align: right;">
 									<a
 										href="<portlet:actionURL>
                          <portlet:param name="action" value="removeCategory" />
-                         <portlet:param name="catId" value="<%= Long.toString(category.getCatId()) %>" />
+                         <portlet:param name="catId" value="<%= Long.toString(category.getId()) %>" />
                        </portlet:actionURL>"
 										class="btn btn-default <%=demoDisabled %>" <%= disabledStr %>><spring:message
 											code="admin.panel.category.delete" /></a>
@@ -170,21 +164,21 @@
 										</tr>
 
 										<%
-				        Map<Long, String> selectValues = AHCatEntriesLocalServiceUtil.getEntryMapForCatId(category.getCatId());
-				        List<AHCatEntries> dependencies = null;
+				        Map<Long, String> selectValues = CustomCategoryServiceHandler.getEntryMapForCategoryId(category.getId());
+				        List<I_CategoryEntryModel> dependencies = null;
 				        int childOfferSize = 0;
-				        for (AHCatEntries child: childs) {
+				        for (I_CategoryEntryModel child: childs) {
 				        	childOfferSize = 0;
 				        	disabledStr = "";
 				        	String parentStr = "-";
 				        	if (child.getParentId() >= 0) {
-				        		  AHCatEntries parent = AHCatEntriesLocalServiceUtil.getCategoryEntryById(child.getParentId());
+				        		  I_CategoryEntryModel parent = CustomCategoryServiceHandler.getCategoryEntryById(child.getParentId());
 				        		  if (parent != null)
 				        			  parentStr = parent.getName();
 				        	}
-				        	dependencies = AHCatEntriesLocalServiceUtil.getChildEntriesById(child.getItemId());
+				        	dependencies = CustomCategoryServiceHandler.getChildCategoryEntriesByCategoryEntryId(child.getId());
 				        	
-				        	childOfferSize = AHOfferLocalServiceUtil.countOfferByCategoryItems(new String[]{Long.toString(child.getItemId())});
+				        	childOfferSize = CustomOfferServiceHandler.countOfferByCategoryEntry(child.getId());
 				        	
 				        	if (dependencies.size() > 0)
 				        	 disabledStr = "disabled";
@@ -196,13 +190,13 @@
 				        	%>
 										<tr>
 											<td><%= child.getName() %></td>
-											<td><%= child.getDescr() %></td>
+											<td><%= child.getDescription() %></td>
 											<td><%= parentStr %></td>
 											<td><a href="#"
 												onclick="createModal('#modal','<spring:message code="admin.form.addCatEntry.deleteHeader"/>','<spring:message code="admin.form.addCatEntry.deleteBody"/><%= Integer.toString(childOfferSize)%>','<spring:message code="admin.form.addCatEntry.deleteAbort"/>','<spring:message code="admin.form.addCatEntry.deleteOk"/>','<portlet:actionURL>
                                 <portlet:param name="action" value="removeCategoryEntry" />
                                 <portlet:param name="catId" value="<%= catId %>" />
-                                <portlet:param name="itemId" value="<%= Long.toString(child.getItemId()) %>" />
+                                <portlet:param name="itemId" value="<%= Long.toString(child.getId()) %>" />
                                 </portlet:actionURL>')"
 												class="btn btn-default" <%= disabledStr %>><span
 													class="glyphicon glyphicon-minus" aria-hidden="true"></span>&nbsp;
@@ -235,7 +229,7 @@
 												</form:select></td>
 											<td><bform:bffield path="cat" type="hidden"
 													required="true"
-													value="<%= Long.toString(category.getCatId()) %>" />
+													value="<%= Long.toString(category.getId()) %>" />
 												<button type="submit" class="btn btn-default">
 													<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;
 													<spring:message code="admin.form.addCatEntry.submit" />

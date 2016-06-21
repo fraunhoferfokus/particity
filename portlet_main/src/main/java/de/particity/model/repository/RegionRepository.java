@@ -5,15 +5,17 @@ import java.util.List;
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.FirstResult;
 import org.apache.deltaspike.data.api.MaxResults;
+import org.apache.deltaspike.data.api.mapping.MappingConfig;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import de.particity.model.impl.Region;
+import de.particity.model.I_RegionModel;
+import de.particity.model.map.RegionMapper;
 
 @Repository
 @Transactional
-//@MappingConfig(value=)
-public interface RegionRepository extends EntityRepository<Region, Long> {
+@MappingConfig(RegionMapper.class)
+public interface RegionRepository extends EntityRepository<I_RegionModel, Long> {
 
 	
 	//@Query("select count(p) from Person p where p.age > ?1")
@@ -34,8 +36,10 @@ public interface RegionRepository extends EntityRepository<Region, Long> {
 	//@Query(named = Person.BY_MIN_AGE)
     //Long countAllOlderThan(int minAge);
 	
-	List<Region> findAll(@FirstResult int start, @MaxResults int pageSize);
+	void removeById(long id);
 
-	Region findByCountryAndCityAndZip(String country, String city, String zip);
+	List<I_RegionModel> findAll(@FirstResult int start, @MaxResults int pageSize);
+
+	I_RegionModel findByCountryAndCityAndZip(String country, String city, String zip);
 	
 }

@@ -68,7 +68,7 @@ public class WeeklyScheduler implements MessageListener {
 	
 	private void notifyInactiveOrganisations() {
 		try {
-			final long now = CustomServiceUtils.time();
+			final long now = CustomServiceUtils.timeMillis();
 			final long minLastUpdate = now - WEEK;
 			final long orgSize = orgCtrl.count();
 			if (orgSize > 0) {
@@ -78,7 +78,7 @@ public class WeeklyScheduler implements MessageListener {
 					orgs = orgCtrl.get(i, i + 5);
 					for (final I_OrganizationModel org : orgs) {
 						offer = offerCtrl
-						        .getLastOfferForOrganization(org.getId());
+						        .getLastForOrg(org.getId());
 						if (offer != null) {
 							long updated =CustomServiceUtils.localDateTimeToMillis(offer.getUpdated());
 							if (updated < minLastUpdate) {

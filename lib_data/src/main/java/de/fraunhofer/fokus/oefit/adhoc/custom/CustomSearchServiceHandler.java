@@ -70,7 +70,7 @@ public class CustomSearchServiceHandler {
 	 * @return the number of published offers for the given organisation
 	 */
 	public static Integer countAllPublished(final long orgId) {
-		return offerCtrl.countPublishedOffers(orgId);
+		return offerCtrl.countPublishedByOrg(orgId);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class CustomSearchServiceHandler {
 	 * @return the number of published offers for the specified categories
 	 */
 	public static int countByCategoriyId(final Long[] catId) {
-		return offerCtrl.countOfferByCategoryId(catId);
+		return offerCtrl.countByCategories(catId);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class CustomSearchServiceHandler {
 	 * @return the number of published offers for the specified item IDs
 	 */
 	public static int countByItemId(final String[] itemIds) {
-		return offerCtrl.countOfferByCategoryItems(itemIds);
+		return offerCtrl.countByCategoryEntries(itemIds);
 	}
 
 	/**
@@ -100,11 +100,7 @@ public class CustomSearchServiceHandler {
 	 * @return the number of published offers for the given type array
 	 */
 	public static Integer countByOfferTypes(final E_OfferType[] types) {
-		final int[] itypes = new int[types.length];
-		for (int i = 0; i < types.length; i++) {
-			itypes[i] = types[i].getIntValue();
-		}
-		return offerCtrl.countOfferByOfferTypes(itypes);
+		return offerCtrl.countByTypes(types);
 	}
 
 	/**
@@ -117,7 +113,7 @@ public class CustomSearchServiceHandler {
 	 */
 	public static Integer countByTypesAndItemsAndOrg(final String types,
 	        final String items, final long orgId, Float lat, Float lon, Integer dist) {
-		return offerCtrl.countOfferByTypesAndCItemsAndOrg(items,
+		return offerCtrl.countByTypesAndCategoryEntriesAndOrg(items,
 		        types, orgId, lat, lon, dist);
 	}
 
@@ -142,7 +138,7 @@ public class CustomSearchServiceHandler {
 	 */
 	public static List<I_OfferModel> searchAllPublished(final int from,
 	        final int to, final long orgId) {
-		return offerCtrl.getPublishedOffers(from, to, orgId);
+		return offerCtrl.getPublishedByOrg(orgId, from, to);
 	}
 
 	/**
@@ -155,7 +151,7 @@ public class CustomSearchServiceHandler {
 	 */
 	public static List<I_OfferModel> searchByCategoriyId(final Long[] catId,
 	        final int from, final int to) {
-		return offerCtrl.getOfferByCategoryId(catId, from, to);
+		return offerCtrl.getByCategories(catId, from, to);
 	}
 
 	/**
@@ -168,7 +164,7 @@ public class CustomSearchServiceHandler {
 	 */
 	public static List<I_OfferModel> searchByItemId(final String[] itemIds,
 	        final int from, final int to) {
-		return offerCtrl.getOfferByCategoryItems(itemIds, from,
+		return offerCtrl.getByCategoryEntries(itemIds, from,
 		        to);
 	}
 
@@ -182,11 +178,7 @@ public class CustomSearchServiceHandler {
 	 */
 	public static List<I_OfferModel> searchByOfferTypes(final E_OfferType[] types,
 	        final int from, final int to) {
-		final int[] itypes = new int[types.length];
-		for (int i = 0; i < types.length; i++) {
-			itypes[i] = types[i].getIntValue();
-		}
-		return offerCtrl.getOfferByOfferTypes(itypes, from, to);
+		return offerCtrl.getByTypes(types, from, to);
 	}
 
 	/**
@@ -201,12 +193,12 @@ public class CustomSearchServiceHandler {
 	 */
 	public static List<I_OfferModel> searchByTypesAndItemsAndOrg(final String types,
 	        final String items, final long orgId, final int from, final int to, Float lat, Float lon, Integer dist) {
-		return offerCtrl.getOfferByTypesAndCItemsAndOrg(items,
+		return offerCtrl.getByTypesAndCategoryEntriesAndOrg(items,
 		        types, orgId, from, to, lat, lon, dist);
 	}
 	
 	public static List<I_OfferModel> getLatestPublishedOffers(int size) {
-		return offerCtrl.getPublishedOffers(0, size, -1);
+		return offerCtrl.getPublishedByOrg(-1, 0, size);
 	}
 
 	/**

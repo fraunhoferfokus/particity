@@ -319,8 +319,8 @@ public class ExportWriter {
 						type.setAddress(getAddressType(data.getAddress().getId()));
 						type.setContact(getContactType(data.getContact().getId()));
 						type.setSndContact(getContactType(data.getSndContact().getId()));
-						List<I_CategoryEntryModel> entries = offerCtrl.getCategoriesByOffer(data.getId(), E_CategoryType.SEARCH);
-						List<I_CategoryEntryModel> services = offerCtrl.getCategoriesByOffer(data.getId(), E_CategoryType.OFFERCATS);
+						List<I_CategoryEntryModel> entries = catEntryCtrl.getCategoryEntriesByOffer(data.getId(), E_CategoryType.SEARCH);
+						List<I_CategoryEntryModel> services = catEntryCtrl.getCategoryEntriesByOffer(data.getId(), E_CategoryType.OFFERCATS);
 						List<I_CategoryEntryModel> itemlist = entries;
 						if (itemlist == null || itemlist.size() == 0)
 							itemlist = services;

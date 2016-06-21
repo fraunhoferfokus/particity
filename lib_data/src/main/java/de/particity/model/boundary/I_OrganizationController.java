@@ -19,12 +19,17 @@ public interface I_OrganizationController extends I_ModelController<I_Organizati
 
 	I_OrganizationModel getByUserMail(String ownerEmail);
 
-	void updateLogoLocation(I_OrganizationModel result, String logoLocation);
+	void updateLogoLocation(long orgId, String logoLocation);
 
-	void updateOwner(String oldMail, String trim);
+	void updateOwner(String oldMail, String newMail);
 
-	void addOrganisationUser(long orgId, String mail);
+	void addUser(long orgId, String mail);
 
-	void setOrganisationStatus(Long l_orgId, E_OrgStatus validated);
+	void setStatus(Long orgId, E_OrgStatus status);
+
+	int countByStatus(E_OrgStatus status);
+
+	List<I_OrganizationModel> get(int start, int end, String orderColumn,
+			String orderType);
 
 }

@@ -68,7 +68,7 @@ public class HourlyScheduler implements MessageListener {
 	
 	private void notifyExpiredOffers() {
 		try {
-			final long now = CustomServiceUtils.time();
+			final long now = CustomServiceUtils.timeMillis();
 			final long minExpired = now - HOUR;
 			final long orgSize = orgCtrl.count();
 			if (orgSize > 0) {

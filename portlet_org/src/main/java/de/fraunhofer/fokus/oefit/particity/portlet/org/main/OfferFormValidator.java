@@ -78,7 +78,7 @@ public class OfferFormValidator implements Validator {
 
 		final boolean isEdit = form.getOfferId() >= 0;
 
-		final long now = CustomServiceUtils.time();
+		final long now = CustomServiceUtils.timeMillis();
 		final String pubDateStr = form.getPublishDate();
 		final String expDateStr = form.getExpireDate();
 

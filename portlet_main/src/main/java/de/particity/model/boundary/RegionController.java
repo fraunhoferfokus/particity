@@ -37,9 +37,7 @@ public class RegionController implements I_RegionController {
 
 	@Override
 	public void delete(Long pk) {
-		Region entity = repo.findBy(pk);
-		if (entity != null)
-			delete(entity);
+		repo.removeById(pk);
 	}
 
 	@Override
@@ -49,7 +47,7 @@ public class RegionController implements I_RegionController {
 
 	@Override
 	public List<I_RegionModel> get(int from, int to) {
-		return (List) repo.findAll(from, to-from);
+		return repo.findAll(from, to-from);
 	}
 
 	@Override

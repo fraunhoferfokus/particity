@@ -16,8 +16,8 @@ public interface I_SubscriptionController extends I_ModelController<I_Subscripti
 
 	List<String> getUserAddresses();
 
-	List<I_SubscriptionModel> getUserAddressesByCategoryEntries(Long[] cats);
+	List<I_SubscriptionModel> getByCategoryEntries(Long[] cats);
 
-	void setSubscriptionStatus(Long subId, E_SubscriptionStatus validated);
+	void setSubscriptionStatus(String uuid, E_SubscriptionStatus validated);
 
 }

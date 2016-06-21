@@ -5,16 +5,18 @@ import java.util.List;
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.FirstResult;
 import org.apache.deltaspike.data.api.MaxResults;
+import org.apache.deltaspike.data.api.mapping.MappingConfig;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType;
-import de.particity.model.impl.Category;
+import de.particity.model.I_CategoryModel;
+import de.particity.model.map.CategoryMapper;
 
 @Repository
 @Transactional
-//@MappingConfig(value=)
-public interface CategoryRepository extends EntityRepository<Category, Long> {
+@MappingConfig(CategoryMapper.class)
+public interface CategoryRepository extends EntityRepository<I_CategoryModel, Long> {
 
 	
 	//@Query("select count(p) from Person p where p.age > ?1")
@@ -35,10 +37,12 @@ public interface CategoryRepository extends EntityRepository<Category, Long> {
 	//@Query(named = Person.BY_MIN_AGE)
     //Long countAllOlderThan(int minAge);
 	
-	List<Category> findAll(@FirstResult int start, @MaxResults int pageSize);
+	void removeById(long id);
 	
-	Category findByNameAndType(String name, E_CategoryType type);
+	List<I_CategoryModel> findAll(@FirstResult int start, @MaxResults int pageSize);
 	
-	List<Category> findByType(E_CategoryType type);
+	I_CategoryModel findByNameAndType(String name, E_CategoryType type);
+	
+	List<I_CategoryModel> findByType(E_CategoryType type);
 
 }

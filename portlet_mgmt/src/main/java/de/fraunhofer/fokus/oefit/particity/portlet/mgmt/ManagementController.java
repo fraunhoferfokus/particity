@@ -139,7 +139,7 @@ public class ManagementController extends BaseController {
 							                data.getContactMail(),
 							                data.getContactTel());
 							offerCtrl.setSndContact(
-							        data.getOfferId(), contact.getId(),
+							        data.getOfferId(), contact,
 							        E_OfferStatus.VALIDATED);
 						} else {
 							m_objLog.debug("Saving with orga contact!");
@@ -176,7 +176,7 @@ public class ManagementController extends BaseController {
 
 		final Long l_orgId = this.getOrgId(request);
 		if (l_orgId != null) {
-			orgCtrl.setOrganisationStatus(l_orgId,
+			orgCtrl.setStatus(l_orgId,
 			        E_OrgStatus.VALIDATED);
 		}
 
@@ -271,7 +271,7 @@ public class ManagementController extends BaseController {
 
 		final Long l_orgId = this.getOrgId(request);
 		if (l_orgId != null) {
-			orgCtrl.setOrganisationStatus(l_orgId,
+			orgCtrl.setStatus(l_orgId,
 			        E_OrgStatus.DISABLED);
 		}
 

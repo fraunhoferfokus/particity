@@ -38,9 +38,7 @@ public class ConfigController implements I_ConfigController {
 
 	@Override
 	public void delete(E_ConfigKey pk) {
-		Config entity = repo.findBy(pk);
-		if (entity != null)
-			repo.remove(entity);
+		repo.removeById(pk);
 	}
 
 	@Override
@@ -50,12 +48,12 @@ public class ConfigController implements I_ConfigController {
 
 	@Override
 	public List<I_ConfigModel> get(int from, int to) {
-		return (List) repo.findAll(from, to-from);
+		return repo.findAll(from, to-from);
 	}
 
 	@Override
 	public void update(E_ConfigKey key, String value) {
-		Config entity = repo.findBy(key);
+		I_ConfigModel entity = repo.findBy(key);
 		if (entity == null) {
 			entity = new Config();
 			entity.setName(key);

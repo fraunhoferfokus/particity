@@ -7,10 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
@@ -21,10 +21,25 @@ import de.particity.model.listener.SubscriptionListener;
 @Entity
 @Table(name=Subscription.TABLE)
 @EntityListeners(value=SubscriptionListener.class)
+@NamedQueries({
+    @NamedQuery(name = Subscription.getUsersBySubscriptions,
+                query = Subscription.getUsersBySubscriptions_Query),
+    @NamedQuery(name = Subscription.getByCategoryItems,
+                query = Subscription.getByCategoryItems_Query)
+})
 public class Subscription implements I_SubscriptionModel {
-	
+
 	public static final String TABLE = "pa_subscr";
 
+	public static final String getUsersBySubscriptions = "subscr.getUsers";
+	public static final String getByCategoryItems = "subscr.byCategories";
+	
+	public static final String getUsersBySubscriptions_Query = "select * from "+TABLE+" entry "
+			+ "GROUP BY entry.email ORDER by entry.created";
+	public static final String getByCategoryItems_Query = "select entry.* from "+TABLE+" entry "
+			+ "INNER JOIN PARTICITY_sub_citm map ON map.subId=entry.subId "
+			+ "WHERE entry.status=?1 AND map.itemId IN ([ ?2 ]) GROUP BY entry.subId ORDER by entry.created";
+	
 	@Id
 	private String uuid;
 	
