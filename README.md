@@ -1,6 +1,37 @@
 # particity
 Participatory marketplace for voluntary services/donations
 
+## About branch v095
+We are currently not on schedule for v0.9.5 because Liferay 7 is out and while migrating to the new and exciting features we were also
+facing the well known lack of documentation on latest changes. Due to the fact that we had rather complex requirements for the database tier
+it was decided to abandon Liferay's service-builder in favor of a more basic setup using JPA/Hibernate and Deltaspike. This change reduces
+code complexity by a huge deal and alongside our integration of CDI/Weld makes the whole platform a lot easier to develop and maintain
+while at the same time catching up with up to date standards of coding techniques and quality. In future terms this will also ease
+testing and maybe even porting things to other products.
+
+So long text, short message: Stay tuned, as we hope to be right on track soon.
+
+TODOs/DONEs
+ - [x] Update libraries to LR7
+ - [x] JPA models, controllers
+ - [x] Deltaspike integration
+ - [x] CDI integration
+ - [ ] Liquibase integration
+ - [x] ServiceBuilder removed
+ - [ ] Native Queries translated from ServiceBuilder 
+ - [x] JSPs updated for new backend
+ - [ ] Theme migration to LR7
+ - [ ] Layout migration to LR7
+ - [x] Compiles
+ - [ ] Deploys
+ - [ ] Installs
+ - [ ] Management tested
+ - [ ] Organisations tested
+ - [ ] Users tested
+ - [ ] Newsletter tested
+ - [ ] Search tested 
+ - [ ] TW/FB-Integration tested
+
 ## License
 Particity is released under a [3-clause BSD](http://opensource.org/licenses/BSD-3-Clause)
 
