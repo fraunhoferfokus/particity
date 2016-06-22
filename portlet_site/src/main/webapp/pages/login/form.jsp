@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.kernel.util.PortletKeys"%>
+<%@page import="com.liferay.portal.kernel.portlet.PortletURLFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
@@ -5,12 +7,9 @@
 <%@page import="java.io.StringWriter"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.Constants"%>
 <%@page import="javax.portlet.PortletRequest"%>
-<%@page import="com.liferay.portal.util.PortletKeys"%>
-<%@page import="com.liferay.portlet.PortletURLFactoryUtil"%>
 <%@page import="javax.portlet.PortletMode"%>
 <%@page import="javax.portlet.WindowState"%>
 <%@page import="javax.portlet.PortletURL"%>
-<%@page import="com.liferay.portal.model.User"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
 <%@ include file="../shared/init.jsp"%>

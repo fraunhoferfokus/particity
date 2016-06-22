@@ -135,6 +135,12 @@ public class SubscriptionController implements I_SubscriptionController {
 			repo.save(sub);
 		}
 	}
+
+	@Override
+	public List<I_SubscriptionModel> getAllSameUserByUuid(String uuid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

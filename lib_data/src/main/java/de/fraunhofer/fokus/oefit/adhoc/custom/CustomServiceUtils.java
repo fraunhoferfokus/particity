@@ -37,9 +37,13 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import de.particity.model.I_CategoryEntryModel;
+import de.particity.model.I_OfferModel;
 
 /**
  * Custom utility methods used by services and JSPs
@@ -127,6 +131,19 @@ public class CustomServiceUtils {
 			result.append(enums[0].name());
 			for (int i=1; i<enums.length; i++)
 				result.append(",").append(enums[i].name());
+		}
+		
+		return result.toString();
+	}
+	
+	public static String getCategoryEntriesAsString(List<I_CategoryEntryModel> catEntries) {
+		StringBuffer result = new StringBuffer();
+		
+		if (catEntries != null && catEntries.size() > 0) {
+			result.append(catEntries.get(0).getName());
+			for (int i=1; i<catEntries.size(); i++) {
+				result.append(", ").append(catEntries.get(i).getName());
+			}
 		}
 		
 		return result.toString();

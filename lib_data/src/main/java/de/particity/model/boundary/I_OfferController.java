@@ -63,4 +63,9 @@ public interface I_OfferController extends I_ModelController<I_OfferModel, Long>
 	List<I_OfferModel> get(int start, int end, String orderColumn,
 			String orderType);
 
+	int countByOrgId(long orgId);
+
+	List<I_OfferModel> get(long orgId, int start, int end, String orderColumn,
+			String orderType);
+
 }

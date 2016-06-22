@@ -16,7 +16,7 @@
 <%@ taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui"%>
 <%@ taglib prefix="liferay-util" uri="http://liferay.com/tld/util"%>
 
-<%@ taglib prefix="bform" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="bform" tagdir="/WEB-INF/tags"%> 
 
 <%@ taglib prefix="liferay-theme" uri="http://liferay.com/tld/theme"%>
 

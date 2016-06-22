@@ -200,6 +200,14 @@ public class CustomPersistanceServiceHandler {
 		return result;
 	}
 	
+	public static String getCategoryEntriesBySubscriptionAsString(I_SubscriptionModel subscription) {
+		return CustomServiceUtils.getCategoryEntriesAsString(subscription.getCategoryEntries());
+	}
+	
+	public static List<I_SubscriptionModel> getSubscriptionsByUuid(String uuid) {
+		return subCtrl.getAllSameUserByUuid(uuid);
+	}
+	
 	public static List<I_SubscriptionModel> getSubscriptions(int start, int end) {
 		return subCtrl.get(start, end);
 	}

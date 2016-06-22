@@ -1,18 +1,12 @@
+<%@page import="de.particity.model.I_CategoryEntryModel"%>
+<%@page import="de.particity.model.I_CategoryModel"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 <% 
@@ -61,28 +55,28 @@
 			<div class="col-xs-12 jumbotron">
 				<%
       
-      List<AHCategories> rootcats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH.getIntValue());
+      List<I_CategoryModel> rootcats = CustomCategoryServiceHandler.getCategoryByType(E_CategoryType.SEARCH);
       
-      List<AHCatEntries> childs;
-      for (AHCategories rootcat: rootcats) {
-        childs = AHCatEntriesLocalServiceUtil.getCategoryEntriesChildsSorted(rootcat.getCatId());
+      List<I_CategoryEntryModel> childs;
+      for (I_CategoryModel rootcat: rootcats) {
+        childs = CustomCategoryServiceHandler.getCategoryEntriesByCategoryIdSorted(rootcat.getId());
         if (childs != null && childs.size() > 0) {
           %>
-				<h4><%= rootcat.getName() %>&nbsp;&nbsp;<small><%= rootcat.getDescr() %></small>
+				<h4><%= rootcat.getName() %>&nbsp;&nbsp;<small><%= rootcat.getDescription() %></small>
 				</h4>
 				<div class="row">
 					<!-- start childs -->
 					<%
-          List<AHCatEntries> innerChilds;   
-          for (AHCatEntries child: childs) {
-            innerChilds = AHCatEntriesLocalServiceUtil.getChildEntriesById(child.getItemId());
+          List<I_CategoryEntryModel> innerChilds;   
+          for (I_CategoryEntryModel child: childs) {
+            innerChilds = CustomCategoryServiceHandler.getChildCategoryEntriesByCategoryEntryId(child.getId());
             if (innerChilds == null || innerChilds.size() == 0) {
             %>
 
 					<!-- div class="col-md-3"-->
 					<bform:bffield path="categories" directLabel="true"
 						label="<%= child.getName() %>"
-						value="<%= Long.toString(child.getItemId()) %>" type="checkbox"
+						value="<%= Long.toString(child.getId()) %>" type="checkbox"
 						required="false" />
 					<!-- /div-->
 
@@ -95,13 +89,13 @@
 						<div class="row">
 							<%
                  
-                 for (AHCatEntries innerChild: innerChilds) {
+                 for (I_CategoryEntryModel innerChild: innerChilds) {
                    %>
 							<!-- div class="col-md-3"-->
 
 							<bform:bffield path="categories" directLabel="true"
 								label="<%= innerChild.getName() %>"
-								value="<%= Long.toString(innerChild.getItemId()) %>"
+								value="<%= Long.toString(innerChild.getId()) %>"
 								type="checkbox" required="false" />
 
 							<!-- /div-->

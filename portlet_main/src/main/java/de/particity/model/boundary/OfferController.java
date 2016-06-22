@@ -263,6 +263,19 @@ public class OfferController implements I_OfferController {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public int countByOrgId(long orgId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<I_OfferModel> get(long orgId, int start, int end,
+			String orderColumn, String orderType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

@@ -1,3 +1,9 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler"%>
+<%@page import="de.particity.model.I_AddressModel"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOrgServiceHandler"%>
+<%@page import="de.particity.model.I_OrganizationModel"%>
+<%@page import="de.particity.model.I_OfferModel"%>
+<%@page import="com.liferay.portal.kernel.util.PortalUtil"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm"%>
@@ -8,34 +14,14 @@
 <%@page import="javax.portlet.PortletPreferences"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHAddr"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil"%>
-<%@page
-	import="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOrg"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType"%>
 <%@page import="com.liferay.portal.kernel.util.GetterUtil"%>
 <%@page import="java.util.LinkedList"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOffer"%>
 <%@page import="org.springframework.ui.Model"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 <% 
@@ -43,7 +29,7 @@
   
   String baseUrl = PortalUtil.getCurrentCompleteURL(request);
   
-  List<AHOffer> offers = CustomSearchServiceHandler.getLatestPublishedOffers(3);
+  List<I_OfferModel> offers = CustomSearchServiceHandler.getLatestPublishedOffers(3);
   
   String ctxPth = request.getContextPath();
 
@@ -90,23 +76,19 @@
 			  if (offers.size() > 0 ) {
 				  String count;
 				  String skipCount;
-				  AHOffer offer;
-				  AHOrg org;
+				  I_OfferModel offer;
+				  I_OrganizationModel org;
 				  for (int i=0; i<offers.size(); i++) {
 					  offer = offers.get(i);
-					  org = AHOrgLocalServiceUtil.getAHOrg(offer.getOrgId());
+					  org = offer.getOrg();
 					  count = Integer.toString(i);
 					  skipCount = Integer.toString(i+1);
-			      String offerId = Long.toString(offer.getOfferId());
+			      String offerId = Long.toString(offer.getId());
 			      //E_OfferType ofType = E_OfferType.findByValue(offer.getType());
-			      E_OfferWorkType ofWType = E_OfferWorkType.findByValue(offer.getWorkType());
+			      E_OfferWorkType ofWType = offer.getWorkType();
 			      String ofWHours = offer.getWorkTime();
-			      AHAddr addr = null;
-			      try {
-			        addr = AHAddrLocalServiceUtil.getAHAddr(offer.getAdressId());
-			      } catch (Throwable t) {
-			        log.error(t);
-			      }
+			      I_AddressModel addr = offer.getAddress();
+
 			      if (addr != null) {
 					  %>
 				<div id="latestmodal<%=count%>" class="searchmodal"></div>

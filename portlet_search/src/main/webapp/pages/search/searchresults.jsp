@@ -1,3 +1,7 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler"%>
+<%@page import="de.particity.model.I_OrganizationModel"%>
+<%@page import="de.particity.model.I_AddressModel"%>
+<%@page import="de.particity.model.I_OfferModel"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"%>
 <%@page
@@ -6,9 +10,6 @@
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomSearchServiceHandler"%>
 <%@page import="javax.portlet.RenderResponse"%>
 <%@page import="org.springframework.web.portlet.util.PortletUtils"%>
-<%@page import="com.liferay.portlet.PortletURLUtil"%>
-<%@page import="com.liferay.portal.service.persistence.PortletUtil"%>
-<%@page import="com.liferay.portlet.PortletURLFactoryUtil"%>
 <%@page import="javax.portlet.PortletURL"%>
 <%@page import="javax.portlet.RenderRequest"%>
 <%@page import="javax.portlet.ActionRequest"%>
@@ -17,34 +18,14 @@
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.Constants"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHAddr"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHAddrLocalServiceUtil"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil"%>
-<%@page
-	import="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOrg"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType"%>
 <%@page import="com.liferay.portal.kernel.util.GetterUtil"%>
 <%@page import="java.util.LinkedList"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOffer"%>
 <%@page import="org.springframework.ui.Model"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 <% 
@@ -148,7 +129,7 @@
   log.info("Got itemIds "+itemIdSb.toString());
   log.info("Got types "+typeSb.toString());*/
   
-  List<AHOffer> results = null;
+  List<I_OfferModel> results = null;
   Integer resultSize = -1;
   results = CustomSearchServiceHandler.searchByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId, resultSkip, resultSkip+maxOffers, lat, lon, dist);
   resultSize = CustomSearchServiceHandler.countByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId, lat, lon, dist);
@@ -284,32 +265,22 @@
 		<div class="col-xs-12">
 			<%
 				
-			    AHOffer offer;
+			    I_OfferModel offer;
 				  String count = "";
 				  String skipCount = "";
 			    for (int i=0; i< results.size(); i++) {
 			    	count = Integer.toString(i);
 			    	skipCount = Integer.toString(resultSkip+i+1);
 			    	offer = results.get(i);
-			    	String offerId = Long.toString(offer.getOfferId());
-			    	E_OfferType type = E_OfferType.findByValue(offer.getType());
+			    	String offerId = Long.toString(offer.getId());
+			    	E_OfferType type = offer.getType();
 			    	String updated = CustomServiceUtils.formatZoneDateTime(offer.getUpdated());
 			    	String expires = CustomServiceUtils.formatZoneDateTime(offer.getExpires());
-			    	E_OfferWorkType workType = E_OfferWorkType.findByValue(offer.getWorkType());
+			    	E_OfferWorkType workType = offer.getWorkType();
 			    	String workTime = offer.getWorkTime();
 			    	//String cats = AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(),E_CategoryType.SEARCH);
-			    	AHAddr addr = null;
-			    	try {
-			    		addr = AHAddrLocalServiceUtil.getAHAddr(offer.getAdressId());
-			    	} catch (Throwable t) {
-			    		log.error(t);
-			    	}
-			    	AHOrg org = null;
-			    	try {
-			    		org = AHOrgLocalServiceUtil.getAHOrg(offer.getOrgId());
-			    	} catch (Throwable t) {
-			    		log.error(t);
-			    	}
+			    	I_AddressModel addr = offer.getAddress();
+			        I_OrganizationModel org = offer.getOrg();
 			    	if (org == null)
 			    		continue;
 			    %>
@@ -362,7 +333,7 @@
 					<div class="row">
 						<div class="col-xs-12 offercats">
 							<strong><spring:message code="search.offer.categories" /></strong>:
-							<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH.getIntValue()) %>
+							<%= CustomOfferServiceHandler.getCategoryEntriesByOfferAsString(offer, E_CategoryType.SEARCH) %>
 						</div>
 					</div>
 				</div>

@@ -1,8 +1,7 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler"%>
+<%@page import="de.particity.model.I_CategoryModel"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.util.GetterUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
@@ -14,7 +13,7 @@
   String catIds = GetterUtil.getString(portletPreferences.getValue("categoryId", "-1"));
   catIds = ","+catIds+",";
 
-  List<AHCategories> cats = AHCategoriesLocalServiceUtil.getCategories(E_CategoryType.SEARCH.getIntValue());
+  List<I_CategoryModel> cats = CustomCategoryServiceHandler.getCategoryByType(E_CategoryType.SEARCH);
   
   %>
 
@@ -31,14 +30,14 @@
 
 		<%
 boolean selected;
-for (AHCategories cat: cats) {
+for (I_CategoryModel cat: cats) {
 	selected = false;
-	if (catIds.contains(","+Long.toString(cat.getCatId())+",")) {
+	if (catIds.contains(","+Long.toString(cat.getId())+",")) {
 		selected = true;
 	}
 	%>
 
-		<aui:option value="<%= Long.toString(cat.getCatId()) %>"
+		<aui:option value="<%= Long.toString(cat.getId()) %>"
 			selected="<%= selected %>"><%= cat.getName() %></aui:option>
 		<%
 }

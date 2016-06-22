@@ -1,40 +1,23 @@
 
+<%@page import="de.particity.model.I_OfferModel"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOrgServiceHandler"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayPortletURL"%>
-<%@page import="com.liferay.portlet.PortletURLFactoryUtil"%>
 <%@page import="javax.portlet.PortletURL"%>
 <%@page import="javax.portlet.RenderResponse"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.RegistrationForm"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil"%>
-<%@page
-	import="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOrg"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOffer"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.forms.OfferForm"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 
@@ -47,6 +30,7 @@
   String offerUrl = request.getParameter("offerUrl");
   
   OfferForm data = null;
+  I_OfferModel offer = null;
   Long offerId = ParamUtil.getLong(request, "offerId");
   if (offerId != null) {
 	  data = CustomOfferServiceHandler.getOffer(offerId);
@@ -141,9 +125,9 @@
 			/
 			<%= ofWHours %><br /> <strong><spring:message
 					code="search.offer.categories" /></strong>:
-			<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(data.getOfferId(), E_CategoryType.SEARCH.getIntValue()) %><br />
+			<%= CustomOfferServiceHandler.getCategoryEntriesByOfferAsString(data.getOfferId(), E_CategoryType.SEARCH) %><br />
 			<strong><spring:message code="search.offer.services" /></strong>:
-			<%= AHOfferLocalServiceUtil.getCategoriesByOfferAsString(data.getOfferId(), E_CategoryType.OFFERCATS.getIntValue()) %>
+			<%= CustomOfferServiceHandler.getCategoryEntriesByOfferAsString(data.getOfferId(), E_CategoryType.OFFERCATS) %>
 		</div>
 	</div>
 	<hr />

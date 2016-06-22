@@ -1,12 +1,6 @@
-<%@page import="com.liferay.portal.webserver.WebServerServletTokenUtil"%>
 <%@page import="com.liferay.portal.kernel.util.StringBundler"%>
-<%@page import="com.liferay.portal.service.LayoutSetLocalServiceUtil"%>
-<%@page import="com.liferay.portal.model.LayoutSet"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 <%

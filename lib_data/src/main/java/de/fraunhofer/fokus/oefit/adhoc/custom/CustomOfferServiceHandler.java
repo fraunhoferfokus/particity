@@ -330,18 +330,13 @@ public class CustomOfferServiceHandler {
 		return result;
 	}
 	
+	public static String getCategoryEntriesByOfferAsString(Long offerId, E_CategoryType type) {
+		List<I_CategoryEntryModel> catEntries = catEntryCtrl.getCategoryEntriesByOffer(offerId, type);
+		return CustomServiceUtils.getCategoryEntriesAsString(catEntries);
+	}
+	
 	public static String getCategoryEntriesByOfferAsString(I_OfferModel offer, E_CategoryType type) {
-		StringBuffer result = new StringBuffer();
-		
-		List<I_CategoryEntryModel> catEntries = catEntryCtrl.getCategoryEntriesByOffer(offer.getId(), type);
-		if (catEntries != null && catEntries.size() > 0) {
-			result.append(catEntries.get(0).getName());
-			for (int i=1; i<catEntries.size(); i++) {
-				result.append(", ").append(catEntries.get(i).getName());
-			}
-		}
-		
-		return result.toString();
+		return getCategoryEntriesByOfferAsString(offer.getId(), type);
 	}
 	
 	public static I_OfferModel getLastOfferForOrganization(long orgId) {
@@ -352,6 +347,9 @@ public class CustomOfferServiceHandler {
 		return offerCtrl.get(start, end, orderColumn, orderType);
 	}
 
+	public static List<I_OfferModel> getOfferForOrganization(long orgId, int start, int end, String orderColumn, String orderType) {
+		return offerCtrl.get(orgId, start, end, orderColumn, orderType);
+	}
 	
 	public static long countOffer() {
 		return offerCtrl.count();
@@ -363,6 +361,10 @@ public class CustomOfferServiceHandler {
 	
 	public static int countNewOffer() {
 		return offerCtrl.countByStatus(E_OfferStatus.NEW)+offerCtrl.countByStatus(E_OfferStatus.CHANGED);
+	}
+	
+	public static int countOffersForOrganization(long orgId) {
+		return offerCtrl.countByOrgId(orgId);
 	}
 
 }

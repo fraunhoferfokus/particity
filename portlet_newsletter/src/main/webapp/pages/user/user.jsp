@@ -1,3 +1,8 @@
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomCategoryServiceHandler"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPersistanceServiceHandler"%>
+<%@page import="de.particity.model.I_SubscriptionModel"%>
+<%@page import="com.liferay.portal.kernel.util.PortalUtil"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler"%>
 <%@page
@@ -5,15 +10,9 @@
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHSubscription"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHSubscriptionLocalServiceUtil"%>
 <%@page import="java.util.List"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 <% 
@@ -39,12 +38,12 @@
 	<%
 	if (isEnabled) {
     if (uuid != null) {
-		 List<AHSubscription> subscriptions = AHSubscriptionLocalServiceUtil.getSubscriptionsByUuid(uuid);
+		 List<I_SubscriptionModel> subscriptions = CustomPersistanceServiceHandler.getSubscriptionsByUuid(uuid);
 		 if (subscriptions.size() == 0) {
 		 %>
 	<div class="alert alert-info">
 		<spring:message code="user.news.empty" />
-	</div>
+	</div> 
 	   <%
 	     } else {
 		 
@@ -65,11 +64,11 @@
 				<th></th>
 			</tr>
 			<%
-			 for (AHSubscription subscription: subscriptions) {
+			 for (I_SubscriptionModel subscription: subscriptions) {
 				 
-				  String strCategories = AHSubscriptionLocalServiceUtil.getCategoriesBySubscriptionAsString(subscription.getSubId());
+				  String strCategories = CustomPersistanceServiceHandler.getCategoryEntriesBySubscriptionAsString(subscription);
 				  String createdDate = CustomServiceUtils.formatZoneDateTime(subscription.getCreated());
-				  E_SubscriptionStatus status = E_SubscriptionStatus.findByValue(subscription.getStatus());
+				  E_SubscriptionStatus status = subscription.getStatus();
 				 %>
 	
 			<tr>
@@ -82,7 +81,6 @@
 						   %> <a class="btn btn-info btn-lg"
 					href="<portlet:actionURL>
 	                         <portlet:param name="action" value="approveSub" />
-	                         <portlet:param name="subId" value="<%= Long.toString(subscription.getSubId()) %>" />
 	                         <portlet:param name="uuid" value="<%= uuid %>" />
 	                       </portlet:actionURL>"><span
 						class="glyphicon glyphicon-ok"></span>&nbsp;<spring:message
@@ -92,7 +90,6 @@
 						   %> <a class="btn btn-default btn-lg"
 					href="<portlet:actionURL>
 	                         <portlet:param name="action" value="deleteSub" />
-	                         <portlet:param name="subId" value="<%= Long.toString(subscription.getSubId()) %>" />
 	                         <portlet:param name="uuid" value="<%= uuid %>" />
 	                       </portlet:actionURL>"><span
 						class="glyphicon glyphicon-remove"></span>&nbsp;<spring:message

@@ -20,4 +20,6 @@ public interface I_SubscriptionController extends I_ModelController<I_Subscripti
 
 	void setSubscriptionStatus(String uuid, E_SubscriptionStatus validated);
 
+	List<I_SubscriptionModel> getAllSameUserByUuid(String uuid);
+
 }

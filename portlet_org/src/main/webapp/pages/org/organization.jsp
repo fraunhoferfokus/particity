@@ -1,4 +1,10 @@
 
+<%@page import="com.liferay.portal.kernel.model.User"%>
+<%@page import="com.liferay.portal.kernel.service.UserLocalServiceUtil"%>
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="de.particity.model.I_OfferModel"%>
+<%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomOfferServiceHandler"%>
+<%@page import="de.particity.model.I_OrganizationModel"%>
 <%@page
 	import="de.fraunhofer.fokus.oefit.adhoc.custom.CustomLockServiceHandler"%>
 <%@page
@@ -10,7 +16,6 @@
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType"%>
 <%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_TableColumn"%>
-<%@page import="com.liferay.portal.service.UserLocalServiceUtil"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_CategoryType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus"%>
@@ -19,26 +24,11 @@
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus"%>
 <%@page import="de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOffer"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOrgLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHOrg"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHOfferLocalServiceUtil"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCatEntries"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCatEntriesLocalServiceUtil"%>
-<%@page import="de.fraunhofer.fokus.oefit.particity.model.AHCategories"%>
 <%@page import="java.util.List"%>
-<%@page
-	import="de.fraunhofer.fokus.oefit.particity.service.AHCategoriesLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.log.LogFactoryUtil"%>
 <%@page import="com.liferay.portal.kernel.log.Log"%>
-<%@page import="com.liferay.portal.util.PortalUtil"%>
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.theme.ThemeDisplay"%>
 <%@ include file="../shared/init.jsp"%>
 
 <% 
@@ -47,7 +37,7 @@
   try {
  
   String userMail = user.getEmailAddress();
-  AHOrg organisation = null;
+  I_OrganizationModel organisation = null;
   if (userMail != null)
 	  organisation = CustomOrgServiceHandler.getOrgByLiferayUser(themeDisplay);
   
@@ -127,13 +117,13 @@
 
 	<%
 	
-  } else if (E_OrgStatus.findByValue(organisation.getStatus()).equals(E_OrgStatus.NEW) || E_OrgStatus.findByValue(organisation.getStatus()).equals(E_OrgStatus.CHANGED)) {
+  } else if (organisation.getStatus().equals(E_OrgStatus.NEW) || organisation.getStatus().equals(E_OrgStatus.CHANGED)) {
 	  %>
 	<div class="alert alert-warning">
 		<spring:message code="org.intern.neworg" />
 	</div>
 	<%
-  } else if (E_OrgStatus.findByValue(organisation.getStatus()).equals(E_OrgStatus.DISABLED)){
+  } else if (organisation.getStatus().equals(E_OrgStatus.DISABLED)){
 	    %>
 	<div class="alert alert-warning">
 		<spring:message code="org.intern.disabledorg" />
@@ -182,7 +172,7 @@
 			<div role="tabpanel" class="tab-pane <%=offerTabClass%>" id="offer">
 				<small><spring:message code="org.intern.tabs.offer.descr" /></small>
 				<%
-       int offerSize = AHOfferLocalServiceUtil.countOffersForOrganization(organisation.getOrgId());
+       int offerSize = CustomOfferServiceHandler.countOffersForOrganization(organisation.getId());
   
       
         if (offerSize == 0) {
@@ -363,33 +353,33 @@
         int pagesnum = offerSize/max;
         int pagenum = (start+max)/max;
         
-        List<AHOffer> offers = AHOfferLocalServiceUtil.getOffersForOrganization(organisation.getOrgId(), start, end, E_TableColumn.valueOf(offerColumn).getColName(), order.name());
+        List<I_OfferModel> offers = CustomOfferServiceHandler.getOfferForOrganization(organisation.getId(), start, end, E_TableColumn.valueOf(offerColumn).getColName(), order.name());
         
-        for (AHOffer offer: offers) {
-        	E_OfferType type = E_OfferType.findByValue(offer.getType());
-        	E_OfferStatus status = E_OfferStatus.findByValue(offer.getStatus());
+        for (I_OfferModel offer: offers) {
+        	E_OfferType type = offer.getType();
+        	E_OfferStatus status = offer.getStatus();
         	String title = offer.getTitle();
         	String hours = offer.getWorkTime();
         	//String strHours = hours > 0 ? hours+"h" : "-";
-        	E_OfferWorkType workType = E_OfferWorkType.findByValue(offer.getWorkType());
+        	E_OfferWorkType workType = offer.getWorkType();
         	if (workType == null)
         		workType = E_OfferWorkType.NONE;
-        	long updated = offer.getUpdated();
-        	long expires = offer.getExpires();
-        	long publish = offer.getPublish();
+        	LocalDateTime updated = offer.getUpdated();
+        	LocalDateTime expires = offer.getExpires();
+        	LocalDateTime publish = offer.getPublish();
         	String strUpdated = "";
         	String strExpires = "";
         	String strPublish = "";
-        	if (updated > 0) {
+        	if (updated != null) {
         		strUpdated =  CustomServiceUtils.formatZoneDateTime(updated);
         	} 
-        	if (expires > 0) {
+        	if (expires != null) {
         		  strExpires =  CustomServiceUtils.formatZoneDateTime(expires);
           } 
-        	if (publish > 0) {
+        	if (publish != null) {
                 strPublish = CustomServiceUtils.formatZoneDateTime(publish);
           } 
-        	String strCategories = AHOfferLocalServiceUtil.getCategoriesByOfferAsString(offer.getOfferId(), E_CategoryType.SEARCH.getIntValue());
+        	String strCategories = CustomOfferServiceHandler.getCategoryEntriesByOfferAsString(offer, E_CategoryType.SEARCH);
         	
         	String statusClass = "";
         	if (status.equals(E_OfferStatus.NEW) || status.equals(E_OfferStatus.CHANGED)) {
@@ -406,7 +396,7 @@
 							title="<spring:message code="org.intern.tabs.offer.item.action.view"/>"
 							href="<portlet:actionURL>
                          <portlet:param name="action" value="viewOffer" />
-                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
                        </portlet:actionURL>"><%= title %></a></td>
 						<td><%= strCategories %></td>
 						<td><spring:message code="<%= workType.getMsgProperty() %>" /></td>
@@ -427,7 +417,7 @@
 									<li><a
 										href="<portlet:actionURL>
                          <portlet:param name="action" value="viewOffer" />
-                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
                        </portlet:actionURL>"><span
 											class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>&nbsp;&nbsp;<spring:message
 												code="org.intern.tabs.offer.item.action.view" /></a></li>
@@ -436,7 +426,7 @@
                  String editIcon = "glyphicon-pencil";
                  String deleteIcon = "glyphicon-trash";
                  String textClass = "";
-                 boolean isLocked = CustomLockServiceHandler.isLocked(AHOffer.class.getName(), offer.getOfferId(), themeDisplay); 
+                 boolean isLocked = CustomLockServiceHandler.isLocked(I_OfferModel.class.getName(), offer.getId(), themeDisplay); 
                  if (isLocked) {
                 	 deleteIcon = "glyphicon-lock";
                 	 editIcon = "glyphicon-lock";
@@ -448,7 +438,7 @@
 									<li class="<%=textClass%>"><a
 										href="<portlet:actionURL>
                          <portlet:param name="action" value="editOffer" />
-                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
                        </portlet:actionURL>"><span
 											class="glyphicon <%= editIcon %>" aria-hidden="true"></span>&nbsp;&nbsp;<spring:message
 												code="org.intern.tabs.offer.item.action.edit" /></a></li>
@@ -456,14 +446,14 @@
 									<li><a
 										href="<portlet:actionURL>
                          <portlet:param name="action" value="copyOffer" />
-                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
                        </portlet:actionURL>"><span
 											class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>&nbsp;&nbsp;<spring:message
 												code="org.intern.tabs.offer.item.action.copy" /></a></li>
 									<li class="<%=textClass%>"><a class="<%= demoDisabled %>" 
 										onclick="createModal('#modal','<spring:message code="org.intern.tabs.offer.item.action.deleteHeader"/>','<spring:message code="org.intern.tabs.offer.item.action.deleteBody"/><%= offer.getTitle().replaceAll("'","") %>','<spring:message code="org.intern.tabs.offer.item.action.deleteAbort"/>','<spring:message code="org.intern.tabs.offer.item.action.deleteOk"/>','<portlet:actionURL>
                          <portlet:param name="action" value="deleteOffer" />
-                         <portlet:param name="offerId" value="<%= Long.toString(offer.getOfferId()) %>" />
+                         <portlet:param name="offerId" value="<%= Long.toString(offer.getId()) %>" />
                        </portlet:actionURL>')"><span
 											class="glyphicon <%= deleteIcon %>" aria-hidden="true"></span>&nbsp;&nbsp;<spring:message
 												code="org.intern.tabs.offer.item.action.delete" /></a></li>
@@ -555,7 +545,7 @@
 			<div role="tabpanel" class="tab-pane  <%=userTabClass%>" id="user">
 				<small><spring:message code="org.intern.tabs.user.descr" /></small>
 				<%
-          String userList = organisation.getUserlist();
+          String userList = organisation.getUserList();
           if (userList != null && userList.trim().length() > 0) {
         	  %>
 				<table class="table" style="margin-bottom: 50px;">
