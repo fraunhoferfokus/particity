@@ -140,16 +140,14 @@ public class OrganizationController implements I_OrganizationController {
 	}
 
 	@Override
-	public int countByStatus(E_OrgStatus status) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long countByStatus(E_OrgStatus status) {
+		return repo.countByStatus(status);
 	}
 
 	@Override
 	public List<I_OrganizationModel> get(int start, int end,
 			String orderColumn, String orderType) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findAll(orderColumn, orderType, start, end-start);
 	}
 	
 	

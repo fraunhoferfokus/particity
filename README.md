@@ -18,7 +18,7 @@ TODOs/DONEs
  - [x] CDI integration
  - [ ] Liquibase integration
  - [x] ServiceBuilder removed
- - [ ] Native Queries translated from ServiceBuilder 
+ - [x] Native Queries translated from ServiceBuilder 
  - [x] JSPs updated for new backend
  - [ ] Theme migration to LR7
  - [ ] Layout migration to LR7

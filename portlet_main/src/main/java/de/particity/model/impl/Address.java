@@ -1,5 +1,6 @@
 package de.particity.model.impl;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,8 +16,11 @@ public class Address implements I_AddressModel {
 	
 	public static final String TABLE = "pa_address";
 
+	public static final String TABLE_PK_COLNAME = "addressId";
+	
 	@Id
 	@GeneratedValue
+	@Column(name = TABLE_PK_COLNAME, unique = true, nullable = false)
 	private long id;
 	
 	private String street;

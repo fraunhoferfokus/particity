@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_TableColumn;
 import de.particity.model.I_OfferModel;
 import de.particity.model.impl.Address;
 import de.particity.model.impl.Offer;
@@ -22,24 +24,6 @@ import de.particity.model.map.OfferMapper;
 @MappingConfig(OfferMapper.class)
 public abstract class OfferRepository extends AbstractEntityRepository<I_OfferModel, Long> { //extends EntityRepository<I_OfferModel, Long> {
 
-	
-	//@Query("select count(p) from Person p where p.age > ?1")
-    //Long countAllOlderThan(int minAge);
-    
-
-    //@Query("select p from Person p where p.age between ?1 and ?2")
-    //QueryResult<Person> findAllByAge(int minAge, int maxAge);
-	
-	//    List<Person> findByLastNameLikeOrderByAgeAscLastNameDesc(String lastName);
-	
-	//    List<Person> findAllOrderByAgeAsc();
-	
-	//    List<Person> findByNameLike(String name, @FirstResult int start, @MaxResults int pageSize);
-	
-	//List<Person> findByNameLike(String name, @FirstResult int start, @MaxResults int pageSize);
-	
-	//@Query(named = Person.BY_MIN_AGE)
-    //Long countAllOlderThan(int minAge);
 	
 	public abstract void removeById(long id);
 
@@ -52,48 +36,48 @@ public abstract class OfferRepository extends AbstractEntityRepository<I_OfferMo
 	public abstract List<I_OfferModel> findByCategoryEntries(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, String entryIds);
 
 	@Query(named=Offer.countByCategoryEntries,isNative=true)
-	public abstract int countByCategoryEntries(E_OfferStatus status, LocalDateTime time,
+	public abstract long countByCategoryEntries(E_OfferStatus status, LocalDateTime time,
 			LocalDateTime time2, String categoryEntriesStr);
 
 	@Query(named=Offer.getByCategories,isNative=true)
 	public abstract List<I_OfferModel> findByCategories(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, String catIds, @FirstResult int start, @MaxResults int pageSize);
 
 	@Query(named=Offer.countByCategories,isNative=true)
-	public abstract int countByCategories(E_OfferStatus status, LocalDateTime time,
+	public abstract long countByCategories(E_OfferStatus status, LocalDateTime time,
 			LocalDateTime time2, String categoriesStr);
 	
 	@Query(named=Offer.getByTypes,isNative=true)
 	public abstract List<I_OfferModel> findByTypes(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, String typesStr, @FirstResult int start, @MaxResults int pageSize);
 
 	@Query(named=Offer.countByTypes,isNative=true)
-	public abstract int countByTypes(E_OfferStatus status, LocalDateTime time, LocalDateTime time2, String typesStr);
+	public abstract long countByTypes(E_OfferStatus status, LocalDateTime time, LocalDateTime time2, String typesStr);
 	
-	public abstract int countByStatusAndOrganization_id(E_OfferStatus status, long id);
+	public abstract long countByStatusAndOrganization_id(E_OfferStatus status, long id);
 
-	public abstract int countByStatus(E_OfferStatus status);
+	public abstract long countByStatus(E_OfferStatus status);
 
 	public abstract List<I_OfferModel> findByAddress_id(long id);
 	
-	public abstract int countByAddress_id(long id);
+	public abstract long countByAddress_id(long id);
 	
 	public abstract List<I_OfferModel> findByStatusAndOrganization_idOrderByPublishDesc(E_OfferStatus status, long id, @FirstResult int start, @MaxResults int pageSize);
 	
 	public abstract List<I_OfferModel> findByStatusOrderByPublishDesc(E_OfferStatus status, @FirstResult int start, @MaxResults int pageSize);
 
 	public List<I_OfferModel> findByVarious(String items, String types,
-			long orgId, Float lat, Float lon, Integer dist, int from, int to) {
-		return typedQuery(getOfferByTypesAndItemsAndOrgSQL(types, items, orgId, lat, lon, dist)).setFirstResult(from).setMaxResults(to-from).getResultList();
+			long orgId, Float lat, Float lon, Integer dist, int from, int to, String orderColumn, String orderType) {
+		return typedQuery(getOfferByTypesAndItemsAndOrgSQL(types, items, orgId, lat, lon, dist, null, null)).setFirstResult(from).setMaxResults(to-from).getResultList();
 	}
 
-	public int countByVarious(String items, String types,
+	public long countByVarious(String items, String types,
 			long orgId, Float lat, Float lon, Integer dist) {
 		
-		String sql = "select count(*) as COUNT_VALUE from ("+getOfferByTypesAndItemsAndOrgSQL(types, items, orgId, lat, lon, dist)+") x";
-		return ((Long) entityManager().createNativeQuery(sql, Integer.class).getSingleResult()).intValue();
+		String sql = "select count(*) as COUNT_VALUE from ("+getOfferByTypesAndItemsAndOrgSQL(types, items, orgId, lat, lon, dist, null, null)+") x";
+		return (Long) entityManager().createNativeQuery(sql, Integer.class).getSingleResult();
 	}
 
 	
-	private String getOfferByTypesAndItemsAndOrgSQL(String types, String categories, long orgId, Float lat, Float lon, Integer dist) {
+	private String getOfferByTypesAndItemsAndOrgSQL(String types, String categories, long orgId, Float lat, Float lon, Integer dist, String orderColumn, String orderType) {
 		
 		if (categories != null && categories.trim().length() == 0)
 			categories = null;
@@ -144,7 +128,12 @@ public abstract class OfferRepository extends AbstractEntityRepository<I_OfferMo
 		}
 		if (categories != null)
 			sql+=" GROUP BY offer.id";
-		sql+=" ORDER by offer.updated";
+		if (orderColumn == null)
+			orderColumn = E_TableColumn.OFFER_UPDATED.getColName();
+		if (orderType == null)
+			orderType = E_OrderType.DESC.toString();
+		
+		sql+=" ORDER by offer."+orderColumn;
 		
 		return sql;
 	}
@@ -157,4 +146,11 @@ public abstract class OfferRepository extends AbstractEntityRepository<I_OfferMo
 
 	abstract public I_OfferModel findFirstByOrg_idAndPublishLessThanOrderByPublishDesc(
 			long id, long publish);
+
+	public List<I_OfferModel> findAll(Long orgId, String orderColumn, String orderType,
+			int from, int to) {
+		return typedQuery(getOfferByTypesAndItemsAndOrgSQL(null, null, orgId, null, null, null, orderColumn, orderType)).setFirstResult(from).setMaxResults(to-from).getResultList();
+	}
+
+	public abstract long countByOrg_id(long orgId);
 }

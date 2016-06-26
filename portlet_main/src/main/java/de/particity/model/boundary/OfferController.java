@@ -136,8 +136,8 @@ public class OfferController implements I_OfferController {
 	}
 
 	@Override
-	public Integer countPublishedByOrg(long orgId) {
-		Integer result = null;
+	public long countPublishedByOrg(long orgId) {
+		long result = -1;
 		if (orgId >= 0)
 			result = repo.countByStatusAndOrganization_id(E_OfferStatus.VALIDATED, orgId);
 		else
@@ -146,22 +146,22 @@ public class OfferController implements I_OfferController {
 	}
 
 	@Override
-	public int countByCategories(Long[] catId) {
+	public long countByCategories(Long[] catId) {
 		return repo.countByCategories(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), CustomServiceUtils.arrToStr(catId));
 	}
 
 	@Override
-	public int countByCategoryEntries(String[] entryIds) {
+	public long countByCategoryEntries(String[] entryIds) {
 		return repo.countByCategoryEntries(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), CustomServiceUtils.arrToStr(entryIds));
 	}
 
 	@Override
-	public Integer countByTypes(E_OfferType[] itypes) {
+	public long countByTypes(E_OfferType[] itypes) {
 		return repo.countByTypes(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), CustomServiceUtils.arrToStr(itypes));
 	}
 
 	@Override
-	public Integer countByTypesAndCategoryEntriesAndOrg(String items, String types,
+	public long countByTypesAndCategoryEntriesAndOrg(String items, String types,
 			long orgId, Float lat, Float lon, Integer dist) {
 		return repo.countByVarious(items, types, orgId, lat, lon, dist);
 	}
@@ -198,11 +198,11 @@ public class OfferController implements I_OfferController {
 	public List<I_OfferModel> getByTypesAndCategoryEntriesAndOrg(String items,
 			String types, long orgId, int from, int to, Float lat, Float lon,
 			Integer dist) {
-		return repo.findByVarious(items, types, orgId, lat, lon, dist, from, to);
+		return repo.findByVarious(items, types, orgId, lat, lon, dist, from, to, null, null);
 	}
 
 	@Override
-	public int countByAddress(long id) {
+	public long countByAddress(long id) {
 		return repo.countByAddress_id(id);
 	}
 
@@ -252,29 +252,25 @@ public class OfferController implements I_OfferController {
 	}
 
 	@Override
-	public int countByStatus(E_OfferStatus status) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long countByStatus(E_OfferStatus status) {
+		return repo.countByStatus(status);
 	}
 
 	@Override
 	public List<I_OfferModel> get(int start, int end, String orderColumn,
 			String orderType) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findAll(null, orderColumn, orderType, start, end);
 	}
 
 	@Override
-	public int countByOrgId(long orgId) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long countByOrgId(long orgId) {
+		return repo.countByOrg_id(orgId);
 	}
 
 	@Override
 	public List<I_OfferModel> get(long orgId, int start, int end,
 			String orderColumn, String orderType) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findAll(orgId, orderColumn, orderType, start, end);
 	}
 	
 	

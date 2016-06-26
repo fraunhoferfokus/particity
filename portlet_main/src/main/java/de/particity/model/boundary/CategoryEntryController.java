@@ -1,5 +1,7 @@
 package de.particity.model.boundary;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -98,14 +100,48 @@ public class CategoryEntryController implements I_CategoryEntryController {
 
 	@Override
 	public Map<Long, String> getMapByCategoryId(long catId) {
-		// TODO Auto-generated method stub
-		return null;
+		final List<I_CategoryEntryModel> entries = this.getByCategorySorted(catId);
+		Map<Long, String> result = new HashMap<Long, String>();
+		if (entries != null) {
+			for (final I_CategoryEntryModel entry : entries) {
+				// restrict entries to depth 2
+				if (entry.getParentId() < 0) {
+					result.put(entry.getId(), entry.getName());
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public List<I_CategoryEntryModel> getByCategorySorted(long catId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<I_CategoryEntryModel> entries = repo.findByCategory_id(catId);
+		List<I_CategoryEntryModel> result = null;
+		
+		if (entries.size() > 0) {
+			result = new LinkedList<I_CategoryEntryModel>();
+			// add entries without childs first
+			for (final I_CategoryEntryModel entry : entries) {
+				if (entry.getParentId() < 0) {
+					final List<I_CategoryEntryModel> childs = this
+					        .getChildEntriesById(entry.getId());
+					if (childs == null || childs.size() == 0) {
+						result.add(entry);
+					}
+				}
+			}
+			// then add rest
+			if (result.size() != entries.size()) {
+				for (final I_CategoryEntryModel entry : entries) {
+					if (entry.getParentId() < 0 && !result.contains(entry)) {
+						result.add(entry);
+					}
+				}
+			}
+
+		}
+		
+		return result;
 	}
 
 	

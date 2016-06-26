@@ -1,5 +1,6 @@
 package de.particity.model.impl;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,9 +16,12 @@ public class Config implements I_ConfigModel {
 	
 	public static final String TABLE = "pa_config";
 
+	public static final String TABLE_PK_COLNAME = "configId";
 	@Id
     @Enumerated(EnumType.STRING)
+	@Column(name = TABLE_PK_COLNAME, unique = true, nullable = false)
 	private E_ConfigKey name;
+
 	private String value;
 	
 	/* (non-Javadoc)

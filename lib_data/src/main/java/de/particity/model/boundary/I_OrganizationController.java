@@ -27,7 +27,7 @@ public interface I_OrganizationController extends I_ModelController<I_Organizati
 
 	void setStatus(Long orgId, E_OrgStatus status);
 
-	int countByStatus(E_OrgStatus status);
+	long countByStatus(E_OrgStatus status);
 
 	List<I_OrganizationModel> get(int start, int end, String orderColumn,
 			String orderType);

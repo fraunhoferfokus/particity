@@ -130,7 +130,7 @@
   log.info("Got types "+typeSb.toString());*/
   
   List<I_OfferModel> results = null;
-  Integer resultSize = -1;
+  long resultSize = -1;
   results = CustomSearchServiceHandler.searchByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId, resultSkip, resultSkip+maxOffers, lat, lon, dist);
   resultSize = CustomSearchServiceHandler.countByTypesAndItemsAndOrg(typeSb.toString(), itemIdSb.toString(), orgId, lat, lon, dist);
   

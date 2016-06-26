@@ -1,5 +1,6 @@
 package de.particity.model.impl;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,8 +14,11 @@ public class Contact implements I_ContactModel {
 	
 	public static final String TABLE = "pa_contact";
 
+	public static final String TABLE_PK_COLNAME = "contactId";
+	
 	@Id
 	@GeneratedValue
+	@Column(name = TABLE_PK_COLNAME, unique = true, nullable = false)
 	private long id;
 
 	private String forename;

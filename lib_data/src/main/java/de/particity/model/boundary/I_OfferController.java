@@ -20,15 +20,15 @@ public interface I_OfferController extends I_ModelController<I_OfferModel, Long>
 	
 	void clearFromCategoryEntryId(long id);
 
-	Integer countPublishedByOrg(long orgId);
+	long countPublishedByOrg(long orgId);
 
-	int countByCategories(Long[] catId);
+	long countByCategories(Long[] catId);
 
-	int countByCategoryEntries(String[] itemIds);
+	long countByCategoryEntries(String[] itemIds);
 
-	Integer countByTypes(E_OfferType[] itypes);
+	long countByTypes(E_OfferType[] itypes);
 
-	Integer countByTypesAndCategoryEntriesAndOrg(String items, String types,
+	long countByTypesAndCategoryEntriesAndOrg(String items, String types,
 			long orgId, Float lat, Float lon, Integer dist);
 
 	List<I_OfferModel> getPublishedByOrg(long orgId, int from, int to);
@@ -44,7 +44,7 @@ public interface I_OfferController extends I_ModelController<I_OfferModel, Long>
 			String types, long orgId, int from, int to, Float lat, Float lon,
 			Integer dist);
 
-	int countByAddress(long id);
+	long countByAddress(long id);
 
 	List<I_OfferModel> findExpiredForOrg(long id, long minExpired, long now);
 
@@ -58,12 +58,12 @@ public interface I_OfferController extends I_ModelController<I_OfferModel, Long>
 
 	void addSocialStatus(Long offerId, int bitmask);
 
-	int countByStatus(E_OfferStatus status);
+	long countByStatus(E_OfferStatus status);
 
 	List<I_OfferModel> get(int start, int end, String orderColumn,
 			String orderType);
 
-	int countByOrgId(long orgId);
+	long countByOrgId(long orgId);
 
 	List<I_OfferModel> get(long orgId, int start, int end, String orderColumn,
 			String orderType);

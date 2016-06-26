@@ -59,7 +59,7 @@ public class CustomSearchServiceHandler {
 	 *
 	 * @return the number of published offers
 	 */
-	public static Integer countAllPublished() {
+	public static long countAllPublished() {
 		return countAllPublished(-1L);
 	}
 
@@ -69,7 +69,7 @@ public class CustomSearchServiceHandler {
 	 * @param orgId the organisation ID
 	 * @return the number of published offers for the given organisation
 	 */
-	public static Integer countAllPublished(final long orgId) {
+	public static long countAllPublished(final long orgId) {
 		return offerCtrl.countPublishedByOrg(orgId);
 	}
 
@@ -79,7 +79,7 @@ public class CustomSearchServiceHandler {
 	 * @param catId a list of categoriy IDs
 	 * @return the number of published offers for the specified categories
 	 */
-	public static int countByCategoriyId(final Long[] catId) {
+	public static long countByCategoriyId(final Long[] catId) {
 		return offerCtrl.countByCategories(catId);
 	}
 
@@ -89,7 +89,7 @@ public class CustomSearchServiceHandler {
 	 * @param itemIds a list of item IDs
 	 * @return the number of published offers for the specified item IDs
 	 */
-	public static int countByItemId(final String[] itemIds) {
+	public static long countByItemId(final String[] itemIds) {
 		return offerCtrl.countByCategoryEntries(itemIds);
 	}
 
@@ -99,7 +99,7 @@ public class CustomSearchServiceHandler {
 	 * @param types a list of types (E_OfferType)
 	 * @return the number of published offers for the given type array
 	 */
-	public static Integer countByOfferTypes(final E_OfferType[] types) {
+	public static long countByOfferTypes(final E_OfferType[] types) {
 		return offerCtrl.countByTypes(types);
 	}
 
@@ -111,7 +111,7 @@ public class CustomSearchServiceHandler {
 	 * @param orgId an organisation ID (or <code>-1</code>)
 	 * @return the number of published offers for the given parameters
 	 */
-	public static Integer countByTypesAndItemsAndOrg(final String types,
+	public static long countByTypesAndItemsAndOrg(final String types,
 	        final String items, final long orgId, Float lat, Float lon, Integer dist) {
 		return offerCtrl.countByTypesAndCategoryEntriesAndOrg(items,
 		        types, orgId, lat, lon, dist);

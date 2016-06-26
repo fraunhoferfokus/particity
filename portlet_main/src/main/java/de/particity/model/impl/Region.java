@@ -1,5 +1,6 @@
 package de.particity.model.impl;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,8 +14,11 @@ public class Region implements I_RegionModel {
 	
 	public static final String TABLE = "pa_region";
 
+	public static final String TABLE_PK_COLNAME = "regionId";
+	
 	@Id
 	@GeneratedValue
+	@Column(name = TABLE_PK_COLNAME, unique = true, nullable = false)
 	private long id;
 	
 	private String zip;

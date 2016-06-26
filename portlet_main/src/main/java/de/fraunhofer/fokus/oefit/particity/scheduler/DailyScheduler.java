@@ -199,7 +199,7 @@ public class DailyScheduler implements MessageListener {
 				for (int i = 0; i < addrSize; i += 5) {
 					addresses = addrCtrl.get(i, i + 5);
 					for (final I_AddressModel addr : addresses) {
-						final int size = offerCtrl
+						final long size = offerCtrl
 						        .countByAddress(addr.getId());
 						if (size <= 0) {
 							addrCtrl.delete(addr);

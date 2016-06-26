@@ -3,16 +3,21 @@ package de.particity.model.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
@@ -26,102 +31,133 @@ import de.particity.model.I_OrganizationModel;
 import de.particity.model.listener.OfferListener;
 
 @Entity
-@Table(name=Offer.TABLE)
-@EntityListeners(value=OfferListener.class)
+@Table(name = Offer.TABLE)
+@EntityListeners(value = OfferListener.class)
 @NamedQueries({
-    @NamedQuery(name = Offer.getByCategoryEntries,
-                query = Offer.getByCategoryEntries_Query),
-    @NamedQuery(name = Offer.getByCategories,
-                query = Offer.getByCategories_Query),
-    @NamedQuery(name = Offer.getByTypes,
-                query = Offer.getByTypes_Query),
-    @NamedQuery(name = Offer.getByExpiredAndOrg,
-                query = Offer.getByExpiredAndOrg_Query),
-    @NamedQuery(name = Offer.getByIssuerTime,
-                query = Offer.getByIssuerTime_Query),
-    @NamedQuery(name = Offer.countByCategories,
-                query = Offer.countByCategories_Query),
-    @NamedQuery(name = Offer.countByCategoryEntries,
-                query = Offer.countByCategoryEntries_Query),
-    @NamedQuery(name = Offer.countByTypes,
-                query = Offer.countByTypes_Query)
-})
+		@NamedQuery(name = Offer.getByCategoryEntries, query = Offer.getByCategoryEntries_Query),
+		@NamedQuery(name = Offer.getByCategories, query = Offer.getByCategories_Query),
+		@NamedQuery(name = Offer.getByTypes, query = Offer.getByTypes_Query),
+		@NamedQuery(name = Offer.getByExpiredAndOrg, query = Offer.getByExpiredAndOrg_Query),
+		@NamedQuery(name = Offer.getByIssuerTime, query = Offer.getByIssuerTime_Query),
+		@NamedQuery(name = Offer.countByCategories, query = Offer.countByCategories_Query),
+		@NamedQuery(name = Offer.countByCategoryEntries, query = Offer.countByCategoryEntries_Query),
+		@NamedQuery(name = Offer.countByTypes, query = Offer.countByTypes_Query) })
 public class Offer implements I_OfferModel {
-	
+
 	public static final String TABLE = "pa_offer";
-	
-	public static final String getByCategoryEntries 	= "offer.byCategoryEntries";
-	public static final String getByCategories 			= "offer.byCategories";
-	public static final String getByTypes 				= "offer.byTypes";
-	public static final String getByExpiredAndOrg		= "offer.byExpiredAndOrg";
-	public static final String getByIssuerTime		 	= "offer.getByIssuerTime";
-	public static final String countByCategories 		= "offer.countByCategories";
-	public static final String countByCategoryEntries 	= "offer.countByCategoryEntries";
-	public static final String countByTypes			 	= "offer.countByTypes";
-	
 
+	public static final String TABLE_PK_COLNAME = "offerId";
 
-	public static final String getByCategoryEntries_Query = "select offer.* from "+Offer.TABLE+" offer "
-			+ "INNER JOIN PARTICITY_offer_citm map ON map.offerId=offer.id "
-			+ "WHERE offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 AND map.itemId IN ([ ?4 ]) GROUP BY offer.id ORDER by offer.created";
+	public static final String getByCategoryEntries = "offer.byCategoryEntries";
+	public static final String getByCategories = "offer.byCategories";
+	public static final String getByTypes = "offer.byTypes";
+	public static final String getByExpiredAndOrg = "offer.byExpiredAndOrg";
+	public static final String getByIssuerTime = "offer.getByIssuerTime";
+	public static final String countByCategories = "offer.countByCategories";
+	public static final String countByCategoryEntries = "offer.countByCategoryEntries";
+	public static final String countByTypes = "offer.countByTypes";
 
-	public static final String getByCategories_Query = "select offer.* from PARTICITY_offer_citm map "
-			+ "INNER JOIN "+CategoryEntry.TABLE+" citm ON citm.itemId=map.itemId AND citm.catId IN ([ ?4 ]) "
-			+ "INNER JOIN "+Offer.TABLE+" offer ON map.offerId=offer.offerId "
-			+ "WHERE offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 GROUP BY offer.offerId ORDER by offer.created";
-	
-	public static final String getByTypes_Query = "select offer.* from "+Offer.TABLE+" offer WHERE offer.type_ IN ([ ?4 ]) "
-	+ "AND offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 ORDER by offer.created";
-	
-	public static final String getByExpiredAndOrg_Query = "select offer.* from "+Offer.TABLE+" offer "
-			+ "WHERE offer.orgId=?1 AND offer.expires >= ?2 AND offer.expires <= ?3 ORDER by offer.expires";
-	
-	public static final String getByIssuerTime_Query = "select offer.* from "+Offer.TABLE+" offer "
+	public static final String getByCategoryEntries_Query = "select offer.* from "
+			+ Offer.TABLE
+			+ " offer "
+			+ "INNER JOIN "
+			+ CategoryEntry.JOIN_TABLE_OFFER
+			+ " map ON map."
+			+ TABLE_PK_COLNAME
+			+ "="
+			+ TABLE_PK_COLNAME
+			+ " "
+			+ "WHERE offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 AND map.itemId IN ([ ?4 ]) GROUP BY offer."
+			+ TABLE_PK_COLNAME + " ORDER by offer.created";
+
+	public static final String getByCategories_Query = "select offer.* from "
+			+ CategoryEntry.JOIN_TABLE_OFFER
+			+ " map "
+			+ "INNER JOIN "
+			+ CategoryEntry.TABLE
+			+ " citm ON citm."
+			+ CategoryEntry.TABLE_PK_COLNAME
+			+ "=map."
+			+ CategoryEntry.TABLE_PK_COLNAME
+			+ " AND citm.category IN ([ ?4 ]) "
+			+ "INNER JOIN "
+			+ Offer.TABLE
+			+ " offer ON map."
+			+ TABLE_PK_COLNAME
+			+ "="
+			+ TABLE_PK_COLNAME
+			+ " "
+			+ "WHERE offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 GROUP BY offer."
+			+ TABLE_PK_COLNAME + " ORDER by offer.created";
+
+	public static final String getByTypes_Query = "select offer.* from "
+			+ Offer.TABLE
+			+ " offer WHERE offer.type IN ([ ?4 ]) "
+			+ "AND offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 ORDER by offer.created";
+
+	public static final String getByExpiredAndOrg_Query = "select offer.* from "
+			+ Offer.TABLE
+			+ " offer "
+			+ "WHERE offer.org=?1 AND offer.expires >= ?2 AND offer.expires <= ?3 ORDER by offer.expires";
+
+	public static final String getByIssuerTime_Query = "select offer.* from "
+			+ Offer.TABLE
+			+ " offer "
 			+ "WHERE offer.status=?1 AND offer.publish >= ?2 AND offer.publish < ?3 AND offer.expires > ?4 ORDER by offer.publish";
-	
-	public static final String countByCategories_Query = "select count(*) as COUNT_VALUE from ("+getByCategories_Query+") x";
-	public static final String countByCategoryEntries_Query = "select count(*) as COUNT_VALUE from ("+getByCategoryEntries_Query+") x";
-	public static final String countByTypes_Query = "select count(*) as COUNT_VALUE from ("+getByTypes_Query+") x";
-	
+
+	public static final String countByCategories_Query = "select count(*) as COUNT_VALUE from ("
+			+ getByCategories_Query + ") x";
+	public static final String countByCategoryEntries_Query = "select count(*) as COUNT_VALUE from ("
+			+ getByCategoryEntries_Query + ") x";
+	public static final String countByTypes_Query = "select count(*) as COUNT_VALUE from ("
+			+ getByTypes_Query + ") x";
+
 	@Id
 	@GeneratedValue
+	@Column(name = TABLE_PK_COLNAME, unique = true, nullable = false)
 	private long id;
-	
+
 	private String title;
 	private String description;
 	private String workTime;
-	
-    @Enumerated(EnumType.STRING)
+
+	@Enumerated(EnumType.STRING)
 	private E_OfferWorkType workType;
-    @Enumerated(EnumType.STRING)
-    private E_OfferType type;
-    @Enumerated(EnumType.STRING)
-    private E_OfferStatus status;
-	
-    private int socialStatus;
+	@Enumerated(EnumType.STRING)
+	private E_OfferType type;
+	@Enumerated(EnumType.STRING)
+	private E_OfferStatus status;
+
+	private int socialStatus;
 	private boolean contactAgency;
-	
+
 	private LocalDateTime created;
+
+	@OrderColumn
+	@OrderBy(value = "DESC")
 	private LocalDateTime updated;
 	private LocalDateTime expires;
 	private LocalDateTime publish;
-	
-	@ManyToOne(targetEntity=Address.class)
+
+	@ManyToOne(targetEntity = Address.class)
 	private I_AddressModel address;
 
-	@ManyToOne(targetEntity=Contact.class)
+	@ManyToOne(targetEntity = Contact.class)
 	private I_ContactModel contact;
-	
-	@ManyToOne(targetEntity=Contact.class)
+
+	@ManyToOne(targetEntity = Contact.class)
 	private I_ContactModel sndContact;
-	
-	@ManyToOne(targetEntity=Organization.class)
+
+	@ManyToOne(targetEntity = Organization.class)
 	private I_OrganizationModel org;
-	
-	@ManyToMany(targetEntity=CategoryEntry.class)
+
+	@ManyToMany(targetEntity = CategoryEntry.class)
+	@JoinTable(name = CategoryEntry.JOIN_TABLE_OFFER, joinColumns = { @JoinColumn(name = TABLE_PK_COLNAME, nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = CategoryEntry.TABLE_PK_COLNAME, nullable = false, updatable = false) })
 	private List<I_CategoryEntryModel> categoryEntries;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getId()
 	 */
 	@Override
@@ -129,7 +165,9 @@ public class Offer implements I_OfferModel {
 		return id;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#setId(long)
 	 */
 	@Override
@@ -137,7 +175,9 @@ public class Offer implements I_OfferModel {
 		this.id = id;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getTitle()
 	 */
 	@Override
@@ -145,7 +185,9 @@ public class Offer implements I_OfferModel {
 		return title;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#setTitle(java.lang.String)
 	 */
 	@Override
@@ -153,7 +195,9 @@ public class Offer implements I_OfferModel {
 		this.title = title;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getDescription()
 	 */
 	@Override
@@ -161,15 +205,20 @@ public class Offer implements I_OfferModel {
 		return description;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setDescription(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setDescription(java.lang.String)
 	 */
 	@Override
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getWorkTime()
 	 */
 	@Override
@@ -177,7 +226,9 @@ public class Offer implements I_OfferModel {
 		return workTime;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#setWorkTime(java.lang.String)
 	 */
 	@Override
@@ -185,7 +236,9 @@ public class Offer implements I_OfferModel {
 		this.workTime = workTime;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getWorkType()
 	 */
 	@Override
@@ -193,15 +246,21 @@ public class Offer implements I_OfferModel {
 		return workType;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setWorkType(de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferWorkType)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setWorkType(de.fraunhofer.fokus.
+	 * oefit.adhoc.custom.E_OfferWorkType)
 	 */
 	@Override
 	public void setWorkType(E_OfferWorkType workType) {
 		this.workType = workType;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getType()
 	 */
 	@Override
@@ -209,15 +268,21 @@ public class Offer implements I_OfferModel {
 		return type;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setType(de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setType(de.fraunhofer.fokus.oefit
+	 * .adhoc.custom.E_OfferType)
 	 */
 	@Override
 	public void setType(E_OfferType type) {
 		this.type = type;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getStatus()
 	 */
 	@Override
@@ -225,15 +290,21 @@ public class Offer implements I_OfferModel {
 		return status;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setStatus(de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setStatus(de.fraunhofer.fokus.oefit
+	 * .adhoc.custom.E_OfferStatus)
 	 */
 	@Override
 	public void setStatus(E_OfferStatus status) {
 		this.status = status;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getSocialStatus()
 	 */
 	@Override
@@ -241,7 +312,9 @@ public class Offer implements I_OfferModel {
 		return socialStatus;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#setSocialStatus(int)
 	 */
 	@Override
@@ -249,7 +322,9 @@ public class Offer implements I_OfferModel {
 		this.socialStatus = socialStatus;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#isContactAgency()
 	 */
 	@Override
@@ -257,7 +332,9 @@ public class Offer implements I_OfferModel {
 		return contactAgency;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#setContactAgency(boolean)
 	 */
 	@Override
@@ -265,7 +342,9 @@ public class Offer implements I_OfferModel {
 		this.contactAgency = contactAgency;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getCreated()
 	 */
 	@Override
@@ -273,15 +352,20 @@ public class Offer implements I_OfferModel {
 		return created;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setCreated(java.time.LocalDateTime)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setCreated(java.time.LocalDateTime)
 	 */
 	@Override
 	public void setCreated(LocalDateTime created) {
 		this.created = created;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getUpdated()
 	 */
 	@Override
@@ -289,15 +373,20 @@ public class Offer implements I_OfferModel {
 		return updated;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setUpdated(java.time.LocalDateTime)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setUpdated(java.time.LocalDateTime)
 	 */
 	@Override
 	public void setUpdated(LocalDateTime updated) {
 		this.updated = updated;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getExpires()
 	 */
 	@Override
@@ -305,15 +394,20 @@ public class Offer implements I_OfferModel {
 		return expires;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setExpires(java.time.LocalDateTime)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setExpires(java.time.LocalDateTime)
 	 */
 	@Override
 	public void setExpires(LocalDateTime expires) {
 		this.expires = expires;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getPublish()
 	 */
 	@Override
@@ -321,15 +415,20 @@ public class Offer implements I_OfferModel {
 		return publish;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setPublish(java.time.LocalDateTime)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setPublish(java.time.LocalDateTime)
 	 */
 	@Override
 	public void setPublish(LocalDateTime publish) {
 		this.publish = publish;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getAddress()
 	 */
 	@Override
@@ -337,15 +436,21 @@ public class Offer implements I_OfferModel {
 		return address;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setAddress(de.particity.model.impl.Address)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setAddress(de.particity.model.impl
+	 * .Address)
 	 */
 	@Override
 	public void setAddress(I_AddressModel address) {
 		this.address = address;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getContact()
 	 */
 	@Override
@@ -353,7 +458,9 @@ public class Offer implements I_OfferModel {
 		return contact;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#setContact(long)
 	 */
 	@Override
@@ -361,7 +468,9 @@ public class Offer implements I_OfferModel {
 		this.contact = contact;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getSndContact()
 	 */
 	@Override
@@ -369,15 +478,21 @@ public class Offer implements I_OfferModel {
 		return sndContact;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setSndContact(de.particity.model.impl.Contact)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setSndContact(de.particity.model
+	 * .impl.Contact)
 	 */
 	@Override
 	public void setSndContact(I_ContactModel sndContact) {
 		this.sndContact = sndContact;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getOrgId()
 	 */
 	@Override
@@ -385,15 +500,21 @@ public class Offer implements I_OfferModel {
 		return org;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setOrgId(de.particity.model.impl.Organization)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setOrgId(de.particity.model.impl
+	 * .Organization)
 	 */
 	@Override
 	public void setOrg(I_OrganizationModel org) {
 		this.org = org;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see de.particity.model.impl.I_OfferModel#getCategoryEntries()
 	 */
 	@Override
@@ -401,13 +522,15 @@ public class Offer implements I_OfferModel {
 		return categoryEntries;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.particity.model.impl.I_OfferModel#setCategoryEntries(java.util.List)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.particity.model.impl.I_OfferModel#setCategoryEntries(java.util.List)
 	 */
 	@Override
 	public void setCategoryEntries(List<I_CategoryEntryModel> categoryEntries) {
 		this.categoryEntries = categoryEntries;
 	}
-	
-	
+
 }

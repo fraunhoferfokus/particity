@@ -89,8 +89,7 @@ public class CategoryController implements I_CategoryController {
 
 	@Override
 	public List<I_CategoryModel> getByType(E_CategoryType type) {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findByType(type);
 	}
 	
 	

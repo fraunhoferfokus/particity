@@ -355,15 +355,15 @@ public class CustomOfferServiceHandler {
 		return offerCtrl.count();
 	}
 	
-	public static int countOfferByCategoryEntry(Long categoryEntryId) {
+	public static long countOfferByCategoryEntry(Long categoryEntryId) {
 		return offerCtrl.countByCategoryEntries(new String[]{Long.toString(categoryEntryId)});
 	}
 	
-	public static int countNewOffer() {
+	public static long countNewOffer() {
 		return offerCtrl.countByStatus(E_OfferStatus.NEW)+offerCtrl.countByStatus(E_OfferStatus.CHANGED);
 	}
 	
-	public static int countOffersForOrganization(long orgId) {
+	public static long countOffersForOrganization(long orgId) {
 		return offerCtrl.countByOrgId(orgId);
 	}
 

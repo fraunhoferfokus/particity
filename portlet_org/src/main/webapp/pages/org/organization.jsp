@@ -172,7 +172,7 @@
 			<div role="tabpanel" class="tab-pane <%=offerTabClass%>" id="offer">
 				<small><spring:message code="org.intern.tabs.offer.descr" /></small>
 				<%
-       int offerSize = CustomOfferServiceHandler.countOffersForOrganization(organisation.getId());
+       long offerSize = CustomOfferServiceHandler.countOffersForOrganization(organisation.getId());
   
       
         if (offerSize == 0) {
@@ -349,8 +349,8 @@
         int start = skip;
         int end = start+max;
         if (end >= offerSize)
-          end = offerSize;
-        int pagesnum = offerSize/max;
+          end = (int) offerSize;
+        int pagesnum = (int) offerSize/max;
         int pagenum = (start+max)/max;
         
         List<I_OfferModel> offers = CustomOfferServiceHandler.getOfferForOrganization(organisation.getId(), start, end, E_TableColumn.valueOf(offerColumn).getColName(), order.name());

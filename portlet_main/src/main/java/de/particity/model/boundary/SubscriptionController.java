@@ -138,8 +138,13 @@ public class SubscriptionController implements I_SubscriptionController {
 
 	@Override
 	public List<I_SubscriptionModel> getAllSameUserByUuid(String uuid) {
-		// TODO Auto-generated method stub
-		return null;
+		I_SubscriptionModel uuidSub = repo.findBy(uuid);
+		List<I_SubscriptionModel> result = new LinkedList<>();
+		
+		if (uuidSub != null)
+			result = getByMail(uuidSub.getEmail());
+		
+		return result;
 	}
 	
 	

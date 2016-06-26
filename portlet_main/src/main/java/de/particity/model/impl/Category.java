@@ -1,5 +1,6 @@
 package de.particity.model.impl;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,8 +17,11 @@ public class Category implements I_CategoryModel {
 	
 	public static final String TABLE = "pa_cat";
 
+	public static final String TABLE_PK_COLNAME = "categoryId";
+	
 	@Id
 	@GeneratedValue
+	@Column(name = TABLE_PK_COLNAME, unique = true, nullable = false)
 	private long id;
 	
 	private String name;

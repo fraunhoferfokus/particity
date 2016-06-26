@@ -166,7 +166,7 @@
 										<%
 				        Map<Long, String> selectValues = CustomCategoryServiceHandler.getEntryMapForCategoryId(category.getId());
 				        List<I_CategoryEntryModel> dependencies = null;
-				        int childOfferSize = 0;
+				        long childOfferSize = 0;
 				        for (I_CategoryEntryModel child: childs) {
 				        	childOfferSize = 0;
 				        	disabledStr = "";
@@ -193,7 +193,7 @@
 											<td><%= child.getDescription() %></td>
 											<td><%= parentStr %></td>
 											<td><a href="#"
-												onclick="createModal('#modal','<spring:message code="admin.form.addCatEntry.deleteHeader"/>','<spring:message code="admin.form.addCatEntry.deleteBody"/><%= Integer.toString(childOfferSize)%>','<spring:message code="admin.form.addCatEntry.deleteAbort"/>','<spring:message code="admin.form.addCatEntry.deleteOk"/>','<portlet:actionURL>
+												onclick="createModal('#modal','<spring:message code="admin.form.addCatEntry.deleteHeader"/>','<spring:message code="admin.form.addCatEntry.deleteBody"/><%= Long.toString(childOfferSize)%>','<spring:message code="admin.form.addCatEntry.deleteAbort"/>','<spring:message code="admin.form.addCatEntry.deleteOk"/>','<portlet:actionURL>
                                 <portlet:param name="action" value="removeCategoryEntry" />
                                 <portlet:param name="catId" value="<%= catId %>" />
                                 <portlet:param name="itemId" value="<%= Long.toString(child.getId()) %>" />
