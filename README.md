@@ -16,7 +16,7 @@ TODOs/DONEs
  - [x] JPA models, controllers
  - [x] Deltaspike integration
  - [x] CDI integration
- - [ ] Liquibase integration
+ - [x] Liquibase integration
  - [x] ServiceBuilder removed
  - [x] Native Queries translated from ServiceBuilder 
  - [x] JSPs updated for new backend

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<property name="tinystring" value="varchar(16)" />
+	<property name="shortstring" value="varchar(255)" />
+	<property name="mediumstring" value="varchar(4096)" />
+
+	<property name="longstring" value="text" dbms="postgresql,hsqldb" />
+	<property name="longstring" value="longtext" dbms="mysql" />
+	<property name="longstring" value="clob" dbms="oracle" />
+
+
+	<changeSet id="20160626-initial-1" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_address" />
+			</not>
+		</preConditions>
+		<comment>Create Address table</comment>
+		<createTable tableName="pa_address">
+			<column name="addressId" type="long">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="street" type="${shortstring}" />
+			<column name="number" type="${tinystring}" />
+			<column name="coordLat" type="float" />
+			<column name="coordLon" type="float" />
+			<column name="regionId" type="long" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-2" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_cat" />
+			</not>
+		</preConditions>
+		<comment>Create Category table</comment>
+		<createTable tableName="pa_cat">
+			<column name="categoryId" type="long">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="name" type="${shortstring}" />
+			<column name="description" type="${longstring}" />
+			<column name="type" type="${tinystring}" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-3" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_catentry" />
+			</not>
+		</preConditions>
+		<comment>Create CategoryEntry table</comment>
+		<createTable tableName="pa_catentry">
+			<column name="categoryEntryId" type="long">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="name" type="${shortstring}" />
+			<column name="description" type="${longstring}" />
+			<column name="parentId" type="long" />
+			<column name="categoryId" type="long" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-4" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_config" />
+			</not>
+		</preConditions>
+		<comment>Create Config table</comment>
+		<createTable tableName="pa_config">
+			<column name="configId" type="long">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="value" type="${longstring}" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-5" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_contact" />
+			</not>
+		</preConditions>
+		<comment>Create Contact table</comment>
+		<createTable tableName="pa_contact">
+			<column name="contactId" type="long">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="forename" type="${shortstring}" />
+			<column name="surname" type="${shortstring}" />
+			<column name="tel" type="${shortstring}" />
+			<column name="mobile" type="${shortstring}" />
+			<column name="fax" type="${shortstring}" />
+			<column name="email" type="${shortstring}" />
+			<column name="www" type="${shortstring}" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-6" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_offer" />
+			</not>
+		</preConditions>
+		<comment>Create Offer table</comment>
+		<createTable tableName="pa_offer">
+			<column name="offerId" type="long">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="title" type="${mediumstring}" />
+			<column name="description" type="${mediumstring}" />
+			<column name="workTime" type="${tinystring}" />
+			<column name="workType" type="${tinystring}" />
+			<column name="type" type="${tinystring}" />
+			<column name="status" type="${tinystring}" />
+			<column name="socialStatus" type="int" />
+			<column name="contactAgency" type="boolean" />
+			<column name="created" type="datetime" />
+			<column name="updated" type="datetime" />
+			<column name="expires" type="datetime" />
+			<column name="publish" type="datetime" />
+			<column name="addressId" type="long" />
+			<column name="contactId" type="long" />
+			<column name="sndContactId" type="long" />
+			<column name="orgId" type="long" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-7" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_org" />
+			</not>
+		</preConditions>
+		<comment>Create Organization table</comment>
+		<createTable tableName="pa_offer">
+			<column name="organizationId" type="long">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="name" type="${shortstring}" />
+			<column name="holder" type="${shortstring}" />
+			<column name="owner" type="${shortstring}" />
+			<column name="userList" type="${mediumstring}" />
+			<column name="description" type="${mediumstring}" />
+			<column name="legalStatus" type="${shortstring}" />
+			<column name="status" type="${tinystring}" />
+			<column name="logoLocation" type="${mediumstring}" />
+			<column name="created" type="datetime" />
+			<column name="updated" type="datetime" />
+			<column name="contactId" type="long" />
+			<column name="addressId" type="long" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-8" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_region" />
+			</not>
+		</preConditions>
+		<comment>Create Region table</comment>
+		<createTable tableName="pa_region">
+			<column name="regionId" type="long">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="zip" type="${shortstring}" />
+			<column name="city" type="${shortstring}" />
+			<column name="country" type="${shortstring}" />
+			<column name="permissions" type="int" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-9" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_subscr" />
+			</not>
+		</preConditions>
+		<comment>Create Region table</comment>
+		<createTable tableName="pa_subscr">
+			<column name="subscriptionId" type="${shortstring}">
+				<constraints nullable="false" primaryKey="true" unique="true" />
+			</column>
+			<column name="email" type="${shortstring}" />
+			<column name="status" type="${tinystring}" />
+			<column name="created" type="datetime" />
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-10" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_map_offer_sub" />
+			</not>
+		</preConditions>
+		<comment>Create mapping table offer2subscription</comment>
+		<createTable tableName="pa_map_offer_sub">
+			<column name="subscriptionId" type="String">
+				<constraints nullable="false" primaryKey="false" unique="false" />
+			</column>
+			<column name="categoryEntryId" type="long">
+				<constraints nullable="false" primaryKey="false" unique="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+	<changeSet id="20160626-initial-11" author="stampedev">
+		<preConditions>
+			<not>
+				<tableExists tableName="pa_map_offer_catentry" />
+			</not>
+		</preConditions>
+		<comment>Create mapping table offer2catentry</comment>
+		<createTable tableName="pa_map_offer_catentry">
+			<column name="offerId" type="long">
+				<constraints nullable="false" primaryKey="false" unique="false" />
+			</column>
+			<column name="categoryEntryId" type="long">
+				<constraints nullable="false" primaryKey="false" unique="false" />
+			</column>
+		</createTable>
+	</changeSet>
+
+</databaseChangeLog>

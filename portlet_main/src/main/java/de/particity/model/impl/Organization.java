@@ -9,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -68,9 +69,11 @@ public class Organization implements I_OrganizationModel {
 	private LocalDateTime updated;
 
 	@ManyToOne(targetEntity = Contact.class)
+	@JoinColumn(name="contactId")
 	private I_ContactModel contact;
 
 	@ManyToOne(targetEntity = Address.class)
+	@JoinColumn(name="addressId")
 	private I_AddressModel address;
 
 	/*

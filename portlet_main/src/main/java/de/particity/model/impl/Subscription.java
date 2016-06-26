@@ -30,7 +30,7 @@ import de.particity.model.listener.SubscriptionListener;
 public class Subscription implements I_SubscriptionModel {
 
 	public static final String TABLE = "pa_subscr";
-	public static final String TABLE_PK_COLNAME = "UUID";
+	public static final String TABLE_PK_COLNAME = "subscriptionId";
 
 	public static final String getUsersBySubscriptions = "subscr.getUsers";
 	public static final String getByCategoryItems = "subscr.byCategories";
@@ -65,7 +65,7 @@ public class Subscription implements I_SubscriptionModel {
 	private LocalDateTime created;
 
 	@ManyToMany(targetEntity = CategoryEntry.class)
-	@JoinTable(name = CategoryEntry.JOIN_TABLE_SUBSCR, joinColumns = { @JoinColumn(name = TABLE_PK_COLNAME, nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id", nullable = false, updatable = false) })
+	@JoinTable(name = CategoryEntry.JOIN_TABLE_SUBSCR, joinColumns = { @JoinColumn(name = TABLE_PK_COLNAME, nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = CategoryEntry.TABLE_PK_COLNAME, nullable = false, updatable = false) })
 	private List<I_CategoryEntryModel> categoryEntries;
 
 	/*

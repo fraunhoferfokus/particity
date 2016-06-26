@@ -24,11 +24,11 @@ import de.particity.model.I_SubscriptionModel;
 @NamedQueries({ @NamedQuery(name = CategoryEntry.getByTypeAndOffer, query = CategoryEntry.getByTypeAndOffer_Query) })
 public class CategoryEntry implements I_CategoryEntryModel {
 
-	public static final String JOIN_TABLE_OFFER = "pa_map_offer_cat";
+	public static final String JOIN_TABLE_OFFER = "pa_map_offer_catentry";
 
 	public static final String JOIN_TABLE_SUBSCR = "pa_map_offer_sub";
 
-	public static final String TABLE = "pa_cat";
+	public static final String TABLE = "pa_catentry";
 
 	public static final String TABLE_PK_COLNAME = "categoryEntryId";
 
@@ -38,7 +38,7 @@ public class CategoryEntry implements I_CategoryEntryModel {
 			+ CategoryEntry.TABLE + " entry " + "INNER JOIN "
 			+ CategoryEntry.JOIN_TABLE_OFFER + " map ON map."
 			+ TABLE_PK_COLNAME + "=entry." + TABLE_PK_COLNAME + " "
-			+ "INNER JOIN " + Category.TABLE + " cat ON entry.category=cat."
+			+ "INNER JOIN " + Category.TABLE + " cat ON entry.categoryId=cat."
 			+ Category.TABLE_PK_COLNAME + " AND cat.type=?1 " + "WHERE map."
 			+ Offer.TABLE_PK_COLNAME + "=?2";
 
@@ -53,6 +53,7 @@ public class CategoryEntry implements I_CategoryEntryModel {
 	private long parentId;
 
 	@ManyToOne(targetEntity = Category.class)
+	@JoinColumn(name="categoryId", nullable=false)
 	private I_CategoryModel category;
 
 	@ManyToMany(targetEntity = Subscription.class)

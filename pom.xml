@@ -44,6 +44,7 @@
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.2.5.RELEASE</org.springframework-version>
 		<deltaspike.version>1.6.1</deltaspike.version>
+        <liquibase.version>3.5.1</liquibase.version>
 	</properties>
 
 
@@ -376,6 +377,12 @@
 			    <artifactId>deltaspike-data-module-impl</artifactId>
 			    <version>${deltaspike.version}</version>
 			    <scope>runtime</scope>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.liquibase</groupId>
+			    <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
 			</dependency>
 
 		</dependencies>

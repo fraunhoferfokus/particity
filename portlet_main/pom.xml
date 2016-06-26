@@ -50,41 +50,41 @@
 									</includes>
 								</resource>
 								<resource>
-                                    <directory>${basedir}/../portlet_search/src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../portlet_newsletter/src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                 <resource>
-                                    <directory>${basedir}/../portlet_mgmt/src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../portlet_site/src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../portlet_init/src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../portlet_admin/src/main/resources</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
+									<directory>${basedir}/../portlet_search/src/main/resources</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_newsletter/src/main/resources</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_mgmt/src/main/resources</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_site/src/main/resources</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_init/src/main/resources</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_admin/src/main/resources</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
 								<!-- resource> </resource -->
 							</resources>
 						</configuration>
@@ -114,35 +114,35 @@
 									</includes>
 								</resource>
 								<resource>
-                                    <directory>${basedir}/../portlet_newsletter/src/main/webapp</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../portlet_mgmt/src/main/webapp</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../portlet_site/src/main/webapp</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../portlet_init/src/main/webapp</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
-                                <resource>
-                                    <directory>${basedir}/../portlet_admin/src/main/webapp</directory>
-                                    <includes>
-                                        <include>**/*</include>
-                                    </includes>
-                                </resource>
+									<directory>${basedir}/../portlet_newsletter/src/main/webapp</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_mgmt/src/main/webapp</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_site/src/main/webapp</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_init/src/main/webapp</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/../portlet_admin/src/main/webapp</directory>
+									<includes>
+										<include>**/*</include>
+									</includes>
+								</resource>
 							</resources>
 						</configuration>
 					</execution>
@@ -169,25 +169,25 @@
 			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
-            <groupId>de.fraunhofer.fokus.oefit</groupId>
-            <artifactId>portlet_mgmt</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.fraunhofer.fokus.oefit</groupId>
-            <artifactId>portlet_site</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.fraunhofer.fokus.oefit</groupId>
-            <artifactId>portlet_init</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>de.fraunhofer.fokus.oefit</groupId>
-            <artifactId>portlet_admin</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+			<groupId>de.fraunhofer.fokus.oefit</groupId>
+			<artifactId>portlet_mgmt</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.fraunhofer.fokus.oefit</groupId>
+			<artifactId>portlet_site</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.fraunhofer.fokus.oefit</groupId>
+			<artifactId>portlet_init</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.fraunhofer.fokus.oefit</groupId>
+			<artifactId>portlet_admin</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
 
 		<!-- LIFERAY MAIN -->
 		<dependency>
@@ -233,9 +233,9 @@
 			<artifactId>jstl</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-        </dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+		</dependency>
 
 
 		<!-- SPRING -->
@@ -296,41 +296,46 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<!-- DELTASPIKE -->
-		
+
 		<dependency>
-		    <groupId>org.apache.deltaspike.core</groupId>
-		    <artifactId>deltaspike-core-api</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.apache.deltaspike.core</groupId>
-		    <artifactId>deltaspike-core-impl</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.apache.deltaspike.modules</groupId>
-		    <artifactId>deltaspike-jpa-module-api</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.apache.deltaspike.modules</groupId>
-		    <artifactId>deltaspike-jpa-module-impl</artifactId>
+			<groupId>org.apache.deltaspike.core</groupId>
+			<artifactId>deltaspike-core-api</artifactId>
 		</dependency>
 
 		<dependency>
-		    <groupId>org.apache.deltaspike.modules</groupId>
-		    <artifactId>deltaspike-data-module-api</artifactId>
+			<groupId>org.apache.deltaspike.core</groupId>
+			<artifactId>deltaspike-core-impl</artifactId>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.apache.deltaspike.modules</groupId>
-		    <artifactId>deltaspike-data-module-impl</artifactId>
+			<groupId>org.apache.deltaspike.modules</groupId>
+			<artifactId>deltaspike-jpa-module-api</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.deltaspike.modules</groupId>
+			<artifactId>deltaspike-jpa-module-impl</artifactId>
+		</dependency>
 
-		
+		<dependency>
+			<groupId>org.apache.deltaspike.modules</groupId>
+			<artifactId>deltaspike-data-module-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.deltaspike.modules</groupId>
+			<artifactId>deltaspike-data-module-impl</artifactId>
+		</dependency>
+
+		<!-- LIQUIBASE -->
+
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

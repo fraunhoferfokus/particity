@@ -140,15 +140,19 @@ public class Offer implements I_OfferModel {
 	private LocalDateTime publish;
 
 	@ManyToOne(targetEntity = Address.class)
+	@JoinColumn(name="addressId")
 	private I_AddressModel address;
 
 	@ManyToOne(targetEntity = Contact.class)
+	@JoinColumn(name="contactId")
 	private I_ContactModel contact;
 
 	@ManyToOne(targetEntity = Contact.class)
+	@JoinColumn(name="sndContactId")
 	private I_ContactModel sndContact;
 
 	@ManyToOne(targetEntity = Organization.class)
+	@JoinColumn(name="orgId")
 	private I_OrganizationModel org;
 
 	@ManyToMany(targetEntity = CategoryEntry.class)
