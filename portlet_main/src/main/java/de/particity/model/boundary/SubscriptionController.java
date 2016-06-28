@@ -8,7 +8,6 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
 import de.particity.model.I_CategoryEntryModel;
 import de.particity.model.I_SubscriptionModel;
@@ -94,7 +93,7 @@ public class SubscriptionController implements I_SubscriptionController {
 	public void clearFromCategoryEntryId(long id) {
 		I_CategoryEntryModel catEntry = catEntryRepo.findBy(id);
 		if (catEntry != null) {
-			List<I_SubscriptionModel> subs = repo.findByCategoryItems(E_SubscriptionStatus.VALIDATED, Long.toString(id));
+			List<I_SubscriptionModel> subs = repo.findByCategoryItems(E_SubscriptionStatus.VALIDATED, new Long[]{ id });
 			if (subs != null) {
 				for (I_SubscriptionModel sub: subs) {
 					if (sub.getCategoryEntries().remove(catEntry))
@@ -123,8 +122,7 @@ public class SubscriptionController implements I_SubscriptionController {
 	@Override
 	public List<I_SubscriptionModel> getByCategoryEntries(
 			Long[] cats) {
-		String catStr = CustomServiceUtils.arrToStr(cats);
-		return repo.findByCategoryItems(E_SubscriptionStatus.VALIDATED, catStr);
+		return repo.findByCategoryItems(E_SubscriptionStatus.VALIDATED, cats);
 	}
 
 	@Override

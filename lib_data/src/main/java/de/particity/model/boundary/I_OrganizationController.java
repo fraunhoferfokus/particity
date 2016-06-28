@@ -2,6 +2,7 @@ package de.particity.model.boundary;
 
 import java.util.List;
 
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
 import de.particity.model.I_AddressModel;
 import de.particity.model.I_ContactModel;
@@ -30,6 +31,6 @@ public interface I_OrganizationController extends I_ModelController<I_Organizati
 	long countByStatus(E_OrgStatus status);
 
 	List<I_OrganizationModel> get(int start, int end, String orderColumn,
-			String orderType);
+			E_OrderType orderType);
 
 }

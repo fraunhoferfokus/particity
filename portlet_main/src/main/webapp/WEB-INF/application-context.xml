@@ -29,14 +29,14 @@
       <property name="packagesToScan" value="de.particity.model" />
       <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="generateDdl" value="true" />
+                <property name="generateDdl" value="false" />
                 <property name="showSql" value="true" />
             </bean>
       </property>
       <property name="jpaProperties">
         <props>
           <prop key="hibernate.show_sql">true</prop>
-          <prop key="hibernate.hbm2dll.auto">create</prop>
+          <!-- prop key="hibernate.hbm2dll.auto">create</prop-->
         </props>
       </property>
     </bean>

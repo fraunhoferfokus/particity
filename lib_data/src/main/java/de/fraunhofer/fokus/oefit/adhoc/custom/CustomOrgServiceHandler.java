@@ -526,7 +526,7 @@ public class CustomOrgServiceHandler {
 		return orgCtrl.get(orgId);
 	}
 	
-	public static List<I_OrganizationModel> getOrganisations(int start, int end, String orderColumn, String orderType) {
+	public static List<I_OrganizationModel> getOrganisations(int start, int end, String orderColumn, E_OrderType orderType) {
 		return orgCtrl.get(start, end, orderColumn, orderType);
 	}
 

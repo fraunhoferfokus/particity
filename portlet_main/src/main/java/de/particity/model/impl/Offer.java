@@ -57,60 +57,35 @@ public class Offer implements I_OfferModel {
 	public static final String countByCategoryEntries = "offer.countByCategoryEntries";
 	public static final String countByTypes = "offer.countByTypes";
 
-	public static final String getByCategoryEntries_Query = "select offer.* from "
-			+ Offer.TABLE
-			+ " offer "
-			+ "INNER JOIN "
-			+ CategoryEntry.JOIN_TABLE_OFFER
-			+ " map ON map."
-			+ TABLE_PK_COLNAME
-			+ "="
-			+ TABLE_PK_COLNAME
-			+ " "
-			+ "WHERE offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 AND map.itemId IN ([ ?4 ]) GROUP BY offer."
-			+ TABLE_PK_COLNAME + " ORDER by offer.created";
+	public static final String getByCategoryEntries_Query = "select offer from Offer offer "
+			+ "INNER JOIN offer.categoryEntries catEntry WHERE offer.status = :status AND "
+			+ "offer.publish <= :published AND offer.expires > :expires AND catEntry.id IN "
+			+ ":categoryEntryIds GROUP BY offer.id ORDER by offer.created";
 
-	public static final String getByCategories_Query = "select offer.* from "
-			+ CategoryEntry.JOIN_TABLE_OFFER
-			+ " map "
-			+ "INNER JOIN "
-			+ CategoryEntry.TABLE
-			+ " citm ON citm."
-			+ CategoryEntry.TABLE_PK_COLNAME
-			+ "=map."
-			+ CategoryEntry.TABLE_PK_COLNAME
-			+ " AND citm.category IN ([ ?4 ]) "
-			+ "INNER JOIN "
-			+ Offer.TABLE
-			+ " offer ON map."
-			+ TABLE_PK_COLNAME
-			+ "="
-			+ TABLE_PK_COLNAME
-			+ " "
-			+ "WHERE offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 GROUP BY offer."
-			+ TABLE_PK_COLNAME + " ORDER by offer.created";
+	public static final String getByCategories_Query = "select offer from Offer offer "
+			+ "INNER JOIN offer.categoryEntries catEntry WHERE catEntry.category.id IN :categoryIds "
+			+ "AND offer.status = :status AND offer.publish <= :published AND offer.expires > :expires GROUP BY offer.id "
+			+ "ORDER by offer.created";
 
-	public static final String getByTypes_Query = "select offer.* from "
-			+ Offer.TABLE
-			+ " offer WHERE offer.type IN ([ ?4 ]) "
-			+ "AND offer.status=?1 AND offer.publish <= ?2 AND offer.expires > ?3 ORDER by offer.created";
+	public static final String getByTypes_Query = "select offer from Offer offer "
+			+ "WHERE offer.type IN :types "
+			+ "AND offer.status = :status AND "
+			+ "offer.publish <= :published AND offer.expires > :expires ORDER by offer.created";
 
-	public static final String getByExpiredAndOrg_Query = "select offer.* from "
-			+ Offer.TABLE
-			+ " offer "
-			+ "WHERE offer.org=?1 AND offer.expires >= ?2 AND offer.expires <= ?3 ORDER by offer.expires";
+	public static final String getByExpiredAndOrg_Query = "select offer from Offer offer "
+			+ "WHERE offer.org.id = :orgId AND offer.expires >= :minExpired "
+			+ "AND offer.expires <= :maxExpired ORDER by offer.expires";
 
-	public static final String getByIssuerTime_Query = "select offer.* from "
-			+ Offer.TABLE
-			+ " offer "
-			+ "WHERE offer.status=?1 AND offer.publish >= ?2 AND offer.publish < ?3 AND offer.expires > ?4 ORDER by offer.publish";
+	public static final String getByIssuerTime_Query = "select offer from Offer offer "
+			+ "WHERE offer.status = :status AND offer.publish >= :minPublished "
+			+ "AND offer.publish < :maxPublished AND offer.expires > :expires ORDER by offer.publish";
 
-	public static final String countByCategories_Query = "select count(*) as COUNT_VALUE from ("
-			+ getByCategories_Query + ") x";
-	public static final String countByCategoryEntries_Query = "select count(*) as COUNT_VALUE from ("
-			+ getByCategoryEntries_Query + ") x";
-	public static final String countByTypes_Query = "select count(*) as COUNT_VALUE from ("
-			+ getByTypes_Query + ") x";
+	public static final String countByCategories_Query = "select count(offer) from Offer offer WHERE offer IN ("
+			+ getByCategories_Query + ")";
+	public static final String countByCategoryEntries_Query = "select count(offer) from Offer offer WHERE offer IN ("
+			+ getByCategoryEntries_Query + ")";
+	public static final String countByTypes_Query = "select count(offer) from Offer offer WHERE offer IN ("
+			+ getByTypes_Query + ")";
 
 	@Id
 	@GeneratedValue
@@ -140,19 +115,19 @@ public class Offer implements I_OfferModel {
 	private LocalDateTime publish;
 
 	@ManyToOne(targetEntity = Address.class)
-	@JoinColumn(name="addressId")
+	@JoinColumn(name = "addressId")
 	private I_AddressModel address;
 
 	@ManyToOne(targetEntity = Contact.class)
-	@JoinColumn(name="contactId")
+	@JoinColumn(name = "contactId")
 	private I_ContactModel contact;
 
 	@ManyToOne(targetEntity = Contact.class)
-	@JoinColumn(name="sndContactId")
+	@JoinColumn(name = "sndContactId")
 	private I_ContactModel sndContact;
 
 	@ManyToOne(targetEntity = Organization.class)
-	@JoinColumn(name="orgId")
+	@JoinColumn(name = "orgId")
 	private I_OrganizationModel org;
 
 	@ManyToMany(targetEntity = CategoryEntry.class)

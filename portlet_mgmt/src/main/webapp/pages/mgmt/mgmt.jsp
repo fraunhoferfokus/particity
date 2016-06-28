@@ -306,7 +306,7 @@
        
        try {
     	   //log.info("Got "+orgSize+" organisations, listing from "+start+"-"+end);
-    	   organisations = CustomOrgServiceHandler.getOrganisations(start, end, E_TableColumn.valueOf(orgColumn).getColName(), order.name());
+    	   organisations = CustomOrgServiceHandler.getOrganisations(start, end, E_TableColumn.valueOf(orgColumn).getColName(), order);
        } catch (Throwable t) {
     	   log.warn(t);
        }

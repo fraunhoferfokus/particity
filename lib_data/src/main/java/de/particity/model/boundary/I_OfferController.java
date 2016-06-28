@@ -24,9 +24,9 @@ public interface I_OfferController extends I_ModelController<I_OfferModel, Long>
 
 	long countByCategories(Long[] catId);
 
-	long countByCategoryEntries(String[] itemIds);
+	long countByCategoryEntries(Long[] entryIds);
 
-	long countByTypes(E_OfferType[] itypes);
+	long countByTypes(E_OfferType[] types);
 
 	long countByTypesAndCategoryEntriesAndOrg(String items, String types,
 			long orgId, Float lat, Float lon, Integer dist);
@@ -35,10 +35,10 @@ public interface I_OfferController extends I_ModelController<I_OfferModel, Long>
 
 	List<I_OfferModel> getByCategories(Long[] catId, int from, int to);
 
-	List<I_OfferModel> getByCategoryEntries(String[] itemIds, int from,
+	List<I_OfferModel> getByCategoryEntries(Long[] entryIds, int from,
 			int to);
 
-	List<I_OfferModel> getByTypes(E_OfferType[] itypes, int from, int to);
+	List<I_OfferModel> getByTypes(E_OfferType[] types, int from, int to);
 
 	List<I_OfferModel> getByTypesAndCategoryEntriesAndOrg(String items,
 			String types, long orgId, int from, int to, Float lat, Float lon,

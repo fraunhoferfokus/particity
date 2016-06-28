@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomPortalServiceHandler;
 import de.fraunhofer.fokus.oefit.adhoc.custom.CustomServiceUtils;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_ConfigKey;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
 import de.particity.model.I_AddressModel;
 import de.particity.model.I_ContactModel;
@@ -146,8 +147,17 @@ public class OrganizationController implements I_OrganizationController {
 
 	@Override
 	public List<I_OrganizationModel> get(int start, int end,
-			String orderColumn, String orderType) {
-		return repo.findAll(orderColumn, orderType, start, end-start);
+			String orderColumn, E_OrderType orderType) {
+		List<I_OrganizationModel> result = null;
+		switch (orderType) {
+			case ASC:
+				result =  repo.fetchAll(start, end-start).orderAsc(orderColumn, true).getResultList();
+				break;
+			case DESC:
+				result =  repo.fetchAll(start, end-start).orderDesc(orderColumn, true).getResultList();
+				break;
+		}
+		return result;
 	}
 	
 	

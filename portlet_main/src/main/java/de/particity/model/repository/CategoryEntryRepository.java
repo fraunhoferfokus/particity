@@ -2,8 +2,6 @@ package de.particity.model.repository;
 
 import java.util.List;
 
-import javax.persistence.NamedQuery;
-
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.FirstResult;
 import org.apache.deltaspike.data.api.MaxResults;
@@ -31,6 +29,6 @@ public interface CategoryEntryRepository extends EntityRepository<I_CategoryEntr
 	List<I_CategoryEntryModel> findByParentId(long parentId);
 
 	@Query(named=CategoryEntry.getByTypeAndOffer)
-	List<I_CategoryEntryModel> getCategoryEntriesByOffer(E_CategoryType type, long offerId);
+	List<I_CategoryEntryModel> getCategoryEntriesByOffer(E_CategoryType catType, long offerId);
 
 }

@@ -34,13 +34,9 @@ public class CategoryEntry implements I_CategoryEntryModel {
 
 	public static final String getByTypeAndOffer = "categoryEntry.byTypeAndOffer";
 
-	public static final String getByTypeAndOffer_Query = "select * from "
-			+ CategoryEntry.TABLE + " entry " + "INNER JOIN "
-			+ CategoryEntry.JOIN_TABLE_OFFER + " map ON map."
-			+ TABLE_PK_COLNAME + "=entry." + TABLE_PK_COLNAME + " "
-			+ "INNER JOIN " + Category.TABLE + " cat ON entry.categoryId=cat."
-			+ Category.TABLE_PK_COLNAME + " AND cat.type=?1 " + "WHERE map."
-			+ Offer.TABLE_PK_COLNAME + "=?2";
+	public static final String getByTypeAndOffer_Query = "select entry from "
+			+ "CategoryEntry entry INNER JOIN entry.offers offer "
+			+ "INNER JOIN entry.category cat WHERE cat.type = :catType AND offer.id = :offerId";
 
 	@Id
 	@GeneratedValue
@@ -53,7 +49,7 @@ public class CategoryEntry implements I_CategoryEntryModel {
 	private long parentId;
 
 	@ManyToOne(targetEntity = Category.class)
-	@JoinColumn(name="categoryId", nullable=false)
+	@JoinColumn(name = "categoryId", nullable = false)
 	private I_CategoryModel category;
 
 	@ManyToMany(targetEntity = Subscription.class)

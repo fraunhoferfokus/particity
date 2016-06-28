@@ -356,7 +356,7 @@ public class CustomOfferServiceHandler {
 	}
 	
 	public static long countOfferByCategoryEntry(Long categoryEntryId) {
-		return offerCtrl.countByCategoryEntries(new String[]{Long.toString(categoryEntryId)});
+		return offerCtrl.countByCategoryEntries(new Long[]{ categoryEntryId });
 	}
 	
 	public static long countNewOffer() {

@@ -124,7 +124,7 @@ public class OfferController implements I_OfferController {
 
 	@Override
 	public void clearFromCategoryEntryId(long id) {
-		List<I_OfferModel> offers = repo.findByCategoryEntries(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), Long.toString(id));
+		List<I_OfferModel> offers = repo.findByCategoryEntries(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), new Long[]{ id });
 		I_CategoryEntryModel catEntry = catEntryRepo.findBy(id);
 		if (offers != null && catEntry != null) {
 			for (I_OfferModel offer: offers) {
@@ -147,17 +147,17 @@ public class OfferController implements I_OfferController {
 
 	@Override
 	public long countByCategories(Long[] catId) {
-		return repo.countByCategories(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), CustomServiceUtils.arrToStr(catId));
+		return repo.countByCategories(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), catId);
+	}
+	
+	@Override
+	public long countByCategoryEntries(Long[] entryIds) {
+		return repo.countByCategoryEntries(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), entryIds);
 	}
 
 	@Override
-	public long countByCategoryEntries(String[] entryIds) {
-		return repo.countByCategoryEntries(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), CustomServiceUtils.arrToStr(entryIds));
-	}
-
-	@Override
-	public long countByTypes(E_OfferType[] itypes) {
-		return repo.countByTypes(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), CustomServiceUtils.arrToStr(itypes));
+	public long countByTypes(E_OfferType[] types) {
+		return repo.countByTypes(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), types);
 	}
 
 	@Override
@@ -179,13 +179,13 @@ public class OfferController implements I_OfferController {
 	@Override
 	public List<I_OfferModel> getByCategories(Long[] catId, int from,
 			int to) {
-		return repo.findByCategories(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), CustomServiceUtils.arrToStr(catId), from, to-from);
+		return repo.findByCategories(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), catId, from, to-from);
 	}
 
 	@Override
-	public List<I_OfferModel> getByCategoryEntries(String[] entryIds,
+	public List<I_OfferModel> getByCategoryEntries(Long[] entryIds,
 			int from, int to) {
-		return repo.findByCategoryEntries(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), CustomServiceUtils.arrToStr(entryIds), from, to-from);
+		return repo.findByCategoryEntries(E_OfferStatus.VALIDATED, CustomServiceUtils.time(), CustomServiceUtils.time(), entryIds, from, to-from);
 	}
 
 	@Override

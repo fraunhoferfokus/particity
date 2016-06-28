@@ -16,7 +16,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
-import javax.persistence.criteria.Order;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
 import de.particity.model.I_AddressModel;
@@ -39,11 +38,9 @@ public class Organization implements I_OrganizationModel {
 	public static final String getByUserListEntry = "org.byUser";
 	public static final String orderByCustom = "org.orderBy";
 
-	public static final String getByUserListEntry_Query = "select * from "
-			+ TABLE + " org WHERE org.userList LIKE '%?1%'";
+	public static final String getByUserListEntry_Query = "select org from Organization org WHERE org.userList LIKE '%:user%'";
 
-	public static final String orderByCustom_Query = "select * from " + TABLE
-			+ " org ORDER BY ?1 ?2";
+	public static final String orderByCustom_Query = "select org from Organization org";
 
 	@Id
 	@GeneratedValue

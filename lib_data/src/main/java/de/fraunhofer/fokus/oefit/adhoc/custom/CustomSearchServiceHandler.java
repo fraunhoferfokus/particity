@@ -89,7 +89,7 @@ public class CustomSearchServiceHandler {
 	 * @param itemIds a list of item IDs
 	 * @return the number of published offers for the specified item IDs
 	 */
-	public static long countByItemId(final String[] itemIds) {
+	public static long countByItemId(final Long[] itemIds) {
 		return offerCtrl.countByCategoryEntries(itemIds);
 	}
 
@@ -162,7 +162,7 @@ public class CustomSearchServiceHandler {
 	 * @param to end index
 	 * @return a list of published offers with size() <= to-from for the specified item IDs
 	 */
-	public static List<I_OfferModel> searchByItemId(final String[] itemIds,
+	public static List<I_OfferModel> searchByItemId(final Long[] itemIds,
 	        final int from, final int to) {
 		return offerCtrl.getByCategoryEntries(itemIds, from,
 		        to);

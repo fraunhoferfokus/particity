@@ -35,23 +35,14 @@ public class Subscription implements I_SubscriptionModel {
 	public static final String getUsersBySubscriptions = "subscr.getUsers";
 	public static final String getByCategoryItems = "subscr.byCategories";
 
-	public static final String getUsersBySubscriptions_Query = "select * from "
-			+ TABLE + " entry " + "GROUP BY entry.email ORDER by entry.created";
-	public static final String getByCategoryItems_Query = "select entry.* from "
-			+ TABLE
-			+ " entry "
-			+ "INNER JOIN "
-			+ CategoryEntry.JOIN_TABLE_SUBSCR
-			+ " map ON map."
-			+ TABLE_PK_COLNAME
-			+ "=entry."
-			+ TABLE_PK_COLNAME
-			+ " "
-			+ "WHERE entry.status=?1 AND map."
-			+ CategoryEntry.TABLE_PK_COLNAME
-			+ " IN ([ ?2 ]) GROUP BY entry."
-			+ TABLE_PK_COLNAME
-			+ " ORDER by entry.created";
+	public static final String getUsersBySubscriptions_Query = "select sub from Subscription sub "
+			+ "GROUP BY sub.email ORDER by sub.created";
+	
+	public static final String getByCategoryItems_Query = "select sub from "
+			+ "Subscription sub "
+			+ "INNER JOIN sub.categoryEntries categoryEntry "
+			+ "WHERE sub.status = :status AND "
+			+ "categoryEntry.id IN :categoryEntryIds GROUP BY sub.uuid ORDER by sub.created";
 
 	@Id
 	@Column(name = TABLE_PK_COLNAME, unique = true, nullable = false)

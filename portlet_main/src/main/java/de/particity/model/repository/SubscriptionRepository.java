@@ -26,9 +26,9 @@ public interface SubscriptionRepository extends EntityRepository<I_SubscriptionM
 	
 	List<I_SubscriptionModel> findByEmail(String email);
 
-	@Query(named=Subscription.getUsersBySubscriptions, isNative=true)
+	@Query(named=Subscription.getUsersBySubscriptions)
 	List<I_SubscriptionModel> findUsers();
 	
-	@Query(named=Subscription.getByCategoryItems, isNative=true)
-	List<I_SubscriptionModel> findByCategoryItems(E_SubscriptionStatus status, String categoryItems);
+	@Query(named=Subscription.getByCategoryItems)
+	List<I_SubscriptionModel> findByCategoryItems(E_SubscriptionStatus status, Long[] categoryEntryIds);
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
+import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrderType;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_TableColumn;
 import de.particity.model.I_OfferModel;
@@ -29,28 +30,28 @@ public abstract class OfferRepository extends AbstractEntityRepository<I_OfferMo
 
 	public abstract List<I_OfferModel> findAllOrderByPublishDesc(@FirstResult int start, @MaxResults int pageSize);
 
-	@Query(named=Offer.getByCategoryEntries,isNative=true)
-	public abstract List<I_OfferModel> findByCategoryEntries(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, String entryIds, @FirstResult int start, @MaxResults int pageSize);
+	@Query(named=Offer.getByCategoryEntries)
+	public abstract List<I_OfferModel> findByCategoryEntries(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, Long[] categoryEntryIds, @FirstResult int start, @MaxResults int pageSize);
 	
-	@Query(named=Offer.getByCategoryEntries,isNative=true)
-	public abstract List<I_OfferModel> findByCategoryEntries(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, String entryIds);
+	@Query(named=Offer.getByCategoryEntries)
+	public abstract List<I_OfferModel> findByCategoryEntries(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, Long[] categoryEntryIds);
 
-	@Query(named=Offer.countByCategoryEntries,isNative=true)
-	public abstract long countByCategoryEntries(E_OfferStatus status, LocalDateTime time,
-			LocalDateTime time2, String categoryEntriesStr);
+	@Query(named=Offer.countByCategoryEntries)
+	public abstract long countByCategoryEntries(E_OfferStatus status, LocalDateTime published,
+			LocalDateTime expires, Long[] categoryEntryIds);
 
-	@Query(named=Offer.getByCategories,isNative=true)
-	public abstract List<I_OfferModel> findByCategories(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, String catIds, @FirstResult int start, @MaxResults int pageSize);
+	@Query(named=Offer.getByCategories)
+	public abstract List<I_OfferModel> findByCategories(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, Long[] categoryIds, @FirstResult int start, @MaxResults int pageSize);
 
-	@Query(named=Offer.countByCategories,isNative=true)
-	public abstract long countByCategories(E_OfferStatus status, LocalDateTime time,
-			LocalDateTime time2, String categoriesStr);
+	@Query(named=Offer.countByCategories)
+	public abstract long countByCategories(E_OfferStatus status, LocalDateTime published,
+			LocalDateTime expires, Long[] categoryIds);
 	
-	@Query(named=Offer.getByTypes,isNative=true)
-	public abstract List<I_OfferModel> findByTypes(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, String typesStr, @FirstResult int start, @MaxResults int pageSize);
+	@Query(named=Offer.getByTypes)
+	public abstract List<I_OfferModel> findByTypes(E_OfferStatus status, LocalDateTime published, LocalDateTime expires, String types, @FirstResult int start, @MaxResults int pageSize);
 
-	@Query(named=Offer.countByTypes,isNative=true)
-	public abstract long countByTypes(E_OfferStatus status, LocalDateTime time, LocalDateTime time2, String typesStr);
+	@Query(named=Offer.countByTypes)
+	public abstract long countByTypes(E_OfferStatus status, LocalDateTime published, LocalDateTime expired, E_OfferType[] types);
 	
 	public abstract long countByStatusAndOrganization_id(E_OfferStatus status, long id);
 
@@ -64,11 +65,17 @@ public abstract class OfferRepository extends AbstractEntityRepository<I_OfferMo
 	
 	public abstract List<I_OfferModel> findByStatusOrderByPublishDesc(E_OfferStatus status, @FirstResult int start, @MaxResults int pageSize);
 
+	/*
+	 * TODO - write as PSQL / NamedQuery and/or QueryResult
+	 */
 	public List<I_OfferModel> findByVarious(String items, String types,
 			long orgId, Float lat, Float lon, Integer dist, int from, int to, String orderColumn, String orderType) {
 		return typedQuery(getOfferByTypesAndItemsAndOrgSQL(types, items, orgId, lat, lon, dist, null, null)).setFirstResult(from).setMaxResults(to-from).getResultList();
 	}
 
+	/*
+	 * TODO - write as PSQL / NamedQuery and/or QueryResult
+	 */
 	public long countByVarious(String items, String types,
 			long orgId, Float lat, Float lon, Integer dist) {
 		
@@ -76,7 +83,9 @@ public abstract class OfferRepository extends AbstractEntityRepository<I_OfferMo
 		return (Long) entityManager().createNativeQuery(sql, Integer.class).getSingleResult();
 	}
 
-	
+	/*
+	 * TODO - write as PSQL / NamedQuery and/or QueryResult
+	 */
 	private String getOfferByTypesAndItemsAndOrgSQL(String types, String categories, long orgId, Float lat, Float lon, Integer dist, String orderColumn, String orderType) {
 		
 		if (categories != null && categories.trim().length() == 0)
@@ -138,11 +147,11 @@ public abstract class OfferRepository extends AbstractEntityRepository<I_OfferMo
 		return sql;
 	}
 
-	@Query(named=Offer.getByExpiredAndOrg,isNative=true)
-	public abstract List<I_OfferModel> findByExpiresAndOrgId(long id, long minExpired, long now);
+	@Query(named=Offer.getByExpiredAndOrg)
+	public abstract List<I_OfferModel> findByExpiresAndOrgId(long id, long minExpired, long maxExpired);
 	
-	@Query(named=Offer.getByIssuerTime,isNative=true)
-	public abstract List<I_OfferModel> findByIssuerTime(E_OfferStatus status, long minPublish, long maxPublish, long minExpires);
+	@Query(named=Offer.getByIssuerTime)
+	public abstract List<I_OfferModel> findByIssuerTime(E_OfferStatus status, long minPublished, long maxPublished, long minExpires);
 
 	abstract public I_OfferModel findFirstByOrg_idAndPublishLessThanOrderByPublishDesc(
 			long id, long publish);
