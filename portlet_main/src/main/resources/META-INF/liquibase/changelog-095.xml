@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
-        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
 	<property name="tinystring" value="varchar(16)" />
 	<property name="shortstring" value="varchar(255)" />
@@ -13,220 +11,438 @@
 	<property name="longstring" value="longtext" dbms="mysql" />
 	<property name="longstring" value="clob" dbms="oracle" />
 
-
-	<changeSet id="20160626-initial-1" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_address" />
-			</not>
-		</preConditions>
-		<comment>Create Address table</comment>
+	<changeSet author="stampede (generated)" id="1467225695695-209"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createTable tableName="hibernate_sequence">
+			<column name="next_val" type="BIGINT" />
+		</createTable>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-210"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
 		<createTable tableName="pa_address">
-			<column name="addressId" type="long">
-				<constraints nullable="false" primaryKey="true" unique="true" />
+			<column name="addressId" type="BIGINT">
+				<constraints nullable="false" />
 			</column>
-			<column name="street" type="${shortstring}" />
-			<column name="number" type="${tinystring}" />
-			<column name="coordLat" type="float" />
-			<column name="coordLon" type="float" />
-			<column name="regionId" type="long" />
+			<column name="coordLat" type="FLOAT(12)">
+				<constraints nullable="false" />
+			</column>
+			<column name="coordLon" type="FLOAT(12)">
+				<constraints nullable="false" />
+			</column>
+			<column name="number" type="VARCHAR(255)" />
+			<column name="street" type="VARCHAR(255)" />
+			<column name="regionId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
 	</changeSet>
-
-	<changeSet id="20160626-initial-2" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_cat" />
-			</not>
-		</preConditions>
-		<comment>Create Category table</comment>
+	<changeSet author="stampede (generated)" id="1467225695695-211"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
 		<createTable tableName="pa_cat">
-			<column name="categoryId" type="long">
-				<constraints nullable="false" primaryKey="true" unique="true" />
+			<column name="categoryId" type="BIGINT">
+				<constraints nullable="false" />
 			</column>
-			<column name="name" type="${shortstring}" />
-			<column name="description" type="${longstring}" />
-			<column name="type" type="${tinystring}" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+			<column name="type" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-
-	<changeSet id="20160626-initial-3" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_catentry" />
-			</not>
-		</preConditions>
-		<comment>Create CategoryEntry table</comment>
+	<changeSet author="stampede (generated)" id="1467225695695-212"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
 		<createTable tableName="pa_catentry">
-			<column name="categoryEntryId" type="long">
-				<constraints nullable="false" primaryKey="true" unique="true" />
+			<column name="categoryEntryId" type="BIGINT">
+				<constraints nullable="false" />
 			</column>
-			<column name="name" type="${shortstring}" />
-			<column name="description" type="${longstring}" />
-			<column name="parentId" type="long" />
-			<column name="categoryId" type="long" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+			<column name="parentId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="categoryId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
 		</createTable>
 	</changeSet>
-
-	<changeSet id="20160626-initial-4" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_config" />
-			</not>
-		</preConditions>
-		<comment>Create Config table</comment>
+	<changeSet author="stampede (generated)" id="1467225695695-213"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
 		<createTable tableName="pa_config">
-			<column name="configId" type="long">
-				<constraints nullable="false" primaryKey="true" unique="true" />
+			<column name="configId" type="VARCHAR(255)">
+				<constraints nullable="false" />
 			</column>
-			<column name="value" type="${longstring}" />
+			<column name="value" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-
-	<changeSet id="20160626-initial-5" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_contact" />
-			</not>
-		</preConditions>
-		<comment>Create Contact table</comment>
+	<changeSet author="stampede (generated)" id="1467225695695-214"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
 		<createTable tableName="pa_contact">
-			<column name="contactId" type="long">
-				<constraints nullable="false" primaryKey="true" unique="true" />
+			<column name="contactId" type="BIGINT">
+				<constraints nullable="false" />
 			</column>
-			<column name="forename" type="${shortstring}" />
-			<column name="surname" type="${shortstring}" />
-			<column name="tel" type="${shortstring}" />
-			<column name="mobile" type="${shortstring}" />
-			<column name="fax" type="${shortstring}" />
-			<column name="email" type="${shortstring}" />
-			<column name="www" type="${shortstring}" />
+			<column name="email" type="VARCHAR(255)" />
+			<column name="fax" type="VARCHAR(255)" />
+			<column name="forename" type="VARCHAR(255)" />
+			<column name="mobile" type="VARCHAR(255)" />
+			<column name="surname" type="VARCHAR(255)" />
+			<column name="tel" type="VARCHAR(255)" />
+			<column name="www" type="VARCHAR(255)" />
 		</createTable>
 	</changeSet>
-
-	<changeSet id="20160626-initial-6" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_offer" />
-			</not>
-		</preConditions>
-		<comment>Create Offer table</comment>
-		<createTable tableName="pa_offer">
-			<column name="offerId" type="long">
-				<constraints nullable="false" primaryKey="true" unique="true" />
-			</column>
-			<column name="title" type="${mediumstring}" />
-			<column name="description" type="${mediumstring}" />
-			<column name="workTime" type="${tinystring}" />
-			<column name="workType" type="${tinystring}" />
-			<column name="type" type="${tinystring}" />
-			<column name="status" type="${tinystring}" />
-			<column name="socialStatus" type="int" />
-			<column name="contactAgency" type="boolean" />
-			<column name="created" type="datetime" />
-			<column name="updated" type="datetime" />
-			<column name="expires" type="datetime" />
-			<column name="publish" type="datetime" />
-			<column name="addressId" type="long" />
-			<column name="contactId" type="long" />
-			<column name="sndContactId" type="long" />
-			<column name="orgId" type="long" />
-		</createTable>
-	</changeSet>
-
-	<changeSet id="20160626-initial-7" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_org" />
-			</not>
-		</preConditions>
-		<comment>Create Organization table</comment>
-		<createTable tableName="pa_offer">
-			<column name="organizationId" type="long">
-				<constraints nullable="false" primaryKey="true" unique="true" />
-			</column>
-			<column name="name" type="${shortstring}" />
-			<column name="holder" type="${shortstring}" />
-			<column name="owner" type="${shortstring}" />
-			<column name="userList" type="${mediumstring}" />
-			<column name="description" type="${mediumstring}" />
-			<column name="legalStatus" type="${shortstring}" />
-			<column name="status" type="${tinystring}" />
-			<column name="logoLocation" type="${mediumstring}" />
-			<column name="created" type="datetime" />
-			<column name="updated" type="datetime" />
-			<column name="contactId" type="long" />
-			<column name="addressId" type="long" />
-		</createTable>
-	</changeSet>
-
-	<changeSet id="20160626-initial-8" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_region" />
-			</not>
-		</preConditions>
-		<comment>Create Region table</comment>
-		<createTable tableName="pa_region">
-			<column name="regionId" type="long">
-				<constraints nullable="false" primaryKey="true" unique="true" />
-			</column>
-			<column name="zip" type="${shortstring}" />
-			<column name="city" type="${shortstring}" />
-			<column name="country" type="${shortstring}" />
-			<column name="permissions" type="int" />
-		</createTable>
-	</changeSet>
-
-	<changeSet id="20160626-initial-9" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_subscr" />
-			</not>
-		</preConditions>
-		<comment>Create Region table</comment>
-		<createTable tableName="pa_subscr">
-			<column name="subscriptionId" type="${shortstring}">
-				<constraints nullable="false" primaryKey="true" unique="true" />
-			</column>
-			<column name="email" type="${shortstring}" />
-			<column name="status" type="${tinystring}" />
-			<column name="created" type="datetime" />
-		</createTable>
-	</changeSet>
-
-	<changeSet id="20160626-initial-10" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_map_offer_sub" />
-			</not>
-		</preConditions>
-		<comment>Create mapping table offer2subscription</comment>
-		<createTable tableName="pa_map_offer_sub">
-			<column name="subscriptionId" type="String">
-				<constraints nullable="false" primaryKey="false" unique="false" />
-			</column>
-			<column name="categoryEntryId" type="long">
-				<constraints nullable="false" primaryKey="false" unique="false" />
-			</column>
-		</createTable>
-	</changeSet>
-
-	<changeSet id="20160626-initial-11" author="stampedev">
-		<preConditions>
-			<not>
-				<tableExists tableName="pa_map_offer_catentry" />
-			</not>
-		</preConditions>
-		<comment>Create mapping table offer2catentry</comment>
+	<changeSet author="stampede (generated)" id="1467225695695-215"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
 		<createTable tableName="pa_map_offer_catentry">
-			<column name="offerId" type="long">
-				<constraints nullable="false" primaryKey="false" unique="false" />
+			<column name="offerId" type="BIGINT">
+				<constraints nullable="false" />
 			</column>
-			<column name="categoryEntryId" type="long">
-				<constraints nullable="false" primaryKey="false" unique="false" />
+			<column name="categoryEntryId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="subscriptionId" type="VARCHAR(255)">
+				<constraints nullable="false" />
 			</column>
 		</createTable>
 	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-216"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createTable tableName="pa_map_offer_sub">
+			<column name="categoryEntryId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="offerId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="subscriptionId" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-217"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createTable tableName="pa_offer">
+			<column name="offerId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="contactAgency" type="BIT(1)">
+				<constraints nullable="false" />
+			</column>
+			<column name="created" type="datetime(6)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="expires" type="datetime(6)" />
+			<column name="publish" type="datetime(6)" />
+			<column name="socialStatus" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="status" type="VARCHAR(255)" />
+			<column name="title" type="VARCHAR(255)" />
+			<column name="type" type="VARCHAR(255)" />
+			<column name="updated" type="datetime(6)" />
+			<column name="workTime" type="VARCHAR(255)" />
+			<column name="workType" type="VARCHAR(255)" />
+			<column name="addressId" type="BIGINT" />
+			<column name="contactId" type="BIGINT" />
+			<column name="orgId" type="BIGINT" />
+			<column name="sndContactId" type="BIGINT" />
+		</createTable>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-218"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createTable tableName="pa_org">
+			<column name="organizationId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="created" type="datetime(6)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="holder" type="VARCHAR(255)" />
+			<column name="legalStatus" type="VARCHAR(255)" />
+			<column name="logoLocation" type="VARCHAR(255)" />
+			<column name="name" type="VARCHAR(255)" />
+			<column name="owner" type="VARCHAR(255)" />
+			<column name="status" type="VARCHAR(255)" />
+			<column name="updated" type="datetime(6)" />
+			<column name="userList" type="VARCHAR(255)" />
+			<column name="addressId" type="BIGINT" />
+			<column name="contactId" type="BIGINT" />
+		</createTable>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-219"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createTable tableName="pa_region">
+			<column name="regionId" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="city" type="VARCHAR(255)" />
+			<column name="country" type="VARCHAR(255)" />
+			<column name="permissions" type="INT">
+				<constraints nullable="false" />
+			</column>
+			<column name="zip" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-220"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createTable tableName="pa_subscr">
+			<column name="subscriptionId" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="created" type="datetime(6)" />
+			<column name="email" type="VARCHAR(255)" />
+			<column name="status" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
 
+	<changeSet author="stampede (generated)" id="1467225695695-429"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="addressId" constraintName="PRIMARY"
+			tableName="pa_address" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-430"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="categoryId" constraintName="PRIMARY"
+			tableName="pa_cat" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-431"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="categoryEntryId"
+			constraintName="PRIMARY" tableName="pa_catentry" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-432"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="configId" constraintName="PRIMARY"
+			tableName="pa_config" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-433"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="contactId" constraintName="PRIMARY"
+			tableName="pa_contact" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-434"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="offerId" constraintName="PRIMARY"
+			tableName="pa_offer" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-435"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="organizationId"
+			constraintName="PRIMARY" tableName="pa_org" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-436"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="regionId" constraintName="PRIMARY"
+			tableName="pa_region" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-437"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addPrimaryKey columnNames="subscriptionId"
+			constraintName="PRIMARY" tableName="pa_subscr" />
+	</changeSet>
+
+	<changeSet author="stampede (generated)" id="1467225695695-613"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FK1sbwy3io5n1pa9o404hm5vd9t"
+			tableName="pa_map_offer_catentry">
+			<column name="categoryEntryId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-614"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FK33sd9713t0drl51xfgvqdxjba"
+			tableName="pa_catentry">
+			<column name="categoryId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-615"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FK41j01yjt0rl6q0pbnqlfxpelr"
+			tableName="pa_org">
+			<column name="contactId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-616"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FK5ww6wkb7l8f7laaa70ogrk6fg"
+			tableName="pa_offer">
+			<column name="addressId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-617"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FK6vam2ulu18ssxvstukspw7mqu"
+			tableName="pa_org">
+			<column name="addressId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-618"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FK7p6s14lpmak65lyyx09btgc0t"
+			tableName="pa_map_offer_sub">
+			<column name="subscriptionId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-619"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FKhr1cd59tnw54v1ya1dno108b8"
+			tableName="pa_map_offer_catentry">
+			<column name="offerId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-620"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FKi4hxehfpdv9sol4xv28ojss1n"
+			tableName="pa_map_offer_sub">
+			<column name="offerId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-621"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FKiappsk0u75tpo2nue692ujg7h"
+			tableName="pa_address">
+			<column name="regionId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-622"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FKiiu6g0ej13iev50k0y6sqwfpo"
+			tableName="pa_offer">
+			<column name="sndContactId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-623"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FKjd9oaw84e9svq5qrp27fwusnn"
+			tableName="pa_offer">
+			<column name="contactId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-624"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FKk4g5qdynmfqm7la5yhwwfxct1"
+			tableName="pa_map_offer_catentry">
+			<column name="subscriptionId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-625"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FKmq7tqkwg2jjlelwmgibctk316"
+			tableName="pa_map_offer_sub">
+			<column name="categoryEntryId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-626"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<createIndex indexName="FKnphd7l6e51h1rra0u1u92idh7"
+			tableName="pa_offer">
+			<column name="orgId" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1218"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="categoryEntryId"
+			baseTableName="pa_map_offer_catentry" constraintName="FK1sbwy3io5n1pa9o404hm5vd9t"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="categoryEntryId"
+			referencedTableName="pa_catentry" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1219"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="categoryId"
+			baseTableName="pa_catentry" constraintName="FK33sd9713t0drl51xfgvqdxjba"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="categoryId"
+			referencedTableName="pa_cat" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1220"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="contactId"
+			baseTableName="pa_org" constraintName="FK41j01yjt0rl6q0pbnqlfxpelr"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="contactId"
+			referencedTableName="pa_contact" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1221"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="addressId"
+			baseTableName="pa_offer" constraintName="FK5ww6wkb7l8f7laaa70ogrk6fg"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="addressId"
+			referencedTableName="pa_address" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1222"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="addressId"
+			baseTableName="pa_org" constraintName="FK6vam2ulu18ssxvstukspw7mqu"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="addressId"
+			referencedTableName="pa_address" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1223"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="subscriptionId"
+			baseTableName="pa_map_offer_sub" constraintName="FK7p6s14lpmak65lyyx09btgc0t"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="subscriptionId"
+			referencedTableName="pa_subscr" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1224"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="offerId"
+			baseTableName="pa_map_offer_catentry" constraintName="FKhr1cd59tnw54v1ya1dno108b8"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="offerId"
+			referencedTableName="pa_offer" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1225"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="offerId"
+			baseTableName="pa_map_offer_sub" constraintName="FKi4hxehfpdv9sol4xv28ojss1n"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="offerId"
+			referencedTableName="pa_offer" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1226"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="regionId"
+			baseTableName="pa_address" constraintName="FKiappsk0u75tpo2nue692ujg7h"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="regionId"
+			referencedTableName="pa_region" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1227"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="sndContactId"
+			baseTableName="pa_offer" constraintName="FKiiu6g0ej13iev50k0y6sqwfpo"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="contactId"
+			referencedTableName="pa_contact" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1228"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="contactId"
+			baseTableName="pa_offer" constraintName="FKjd9oaw84e9svq5qrp27fwusnn"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="contactId"
+			referencedTableName="pa_contact" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1229"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="subscriptionId"
+			baseTableName="pa_map_offer_catentry" constraintName="FKk4g5qdynmfqm7la5yhwwfxct1"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="subscriptionId"
+			referencedTableName="pa_subscr" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1230"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="categoryEntryId"
+			baseTableName="pa_map_offer_sub" constraintName="FKmq7tqkwg2jjlelwmgibctk316"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="categoryEntryId"
+			referencedTableName="pa_catentry" />
+	</changeSet>
+	<changeSet author="stampede (generated)" id="1467225695695-1231"
+		objectQuotingStrategy="QUOTE_ALL_OBJECTS">
+		<addForeignKeyConstraint baseColumnNames="orgId"
+			baseTableName="pa_offer" constraintName="FKnphd7l6e51h1rra0u1u92idh7"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="organizationId"
+			referencedTableName="pa_org" />
+	</changeSet>
 </databaseChangeLog>

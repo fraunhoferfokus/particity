@@ -36,7 +36,7 @@
       <property name="jpaProperties">
         <props>
           <prop key="hibernate.show_sql">true</prop>
-          <!-- prop key="hibernate.hbm2dll.auto">create</prop-->
+          <!--  prop key="hibernate.hbm2dll.auto">create</prop-->
         </props>
       </property>
     </bean>
@@ -47,10 +47,10 @@
 
     <tx:annotation-driven />
 
-	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+	<!--  bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
 	      <property name="dataSource" ref="dataSource" />
 	      <property name="changeLog" value="classpath:/META-INF/liquibase/changelog.xml" />
 	      <property name="contexts" value="production" />
-	 </bean>
+	 </bean-->
 	
 </beans>

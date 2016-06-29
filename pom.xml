@@ -44,7 +44,7 @@
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.2.5.RELEASE</org.springframework-version>
 		<deltaspike.version>1.6.1</deltaspike.version>
-        <liquibase.version>3.5.1</liquibase.version>
+		<liquibase.version>3.5.1</liquibase.version>
 	</properties>
 
 
@@ -106,10 +106,10 @@
 				<version>2.0.0</version>
 			</dependency>
 			<dependency>
-                <groupId>com.liferay</groupId>
-                <artifactId>com.liferay.journal.api</artifactId>
-                <version>2.0.1</version>
-            </dependency>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.journal.api</artifactId>
+				<version>2.0.1</version>
+			</dependency>
 			<dependency>
 				<groupId>com.liferay</groupId>
 				<artifactId>com.liferay.portal.spring.extender</artifactId>
@@ -364,25 +364,25 @@
 				<version>${deltaspike.version}</version>
 				<scope>runtime</scope>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.apache.deltaspike.modules</groupId>
-			    <artifactId>deltaspike-data-module-api</artifactId>
-			    <version>${deltaspike.version}</version>
-			    <scope>compile</scope>
+				<groupId>org.apache.deltaspike.modules</groupId>
+				<artifactId>deltaspike-data-module-api</artifactId>
+				<version>${deltaspike.version}</version>
+				<scope>compile</scope>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.apache.deltaspike.modules</groupId>
-			    <artifactId>deltaspike-data-module-impl</artifactId>
-			    <version>${deltaspike.version}</version>
-			    <scope>runtime</scope>
+				<groupId>org.apache.deltaspike.modules</groupId>
+				<artifactId>deltaspike-data-module-impl</artifactId>
+				<version>${deltaspike.version}</version>
+				<scope>runtime</scope>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.liquibase</groupId>
-			    <artifactId>liquibase-core</artifactId>
-                <version>${liquibase.version}</version>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>${liquibase.version}</version>
 			</dependency>
 
 		</dependencies>
@@ -613,4 +613,5 @@
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</repository>
 	</repositories>
+
 </project>
