@@ -1,10 +1,13 @@
 package de.particity.model.map;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.deltaspike.data.api.mapping.SimpleQueryInOutMapperBase;
 
 import de.particity.model.I_ConfigModel;
 import de.particity.model.impl.Config;
 
+@ApplicationScoped
 public class ConfigMapper extends SimpleQueryInOutMapperBase<Config, I_ConfigModel> {
 
 	@Override

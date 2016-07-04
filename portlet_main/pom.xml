@@ -271,7 +271,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		
 		<!-- HIBERNATE -->
 		<dependency>
 			<groupId>org.springframework</groupId>

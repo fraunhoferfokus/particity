@@ -1,10 +1,13 @@
 package de.particity.model.map;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.deltaspike.data.api.mapping.SimpleQueryInOutMapperBase;
 
 import de.particity.model.I_CategoryModel;
 import de.particity.model.impl.Category;
 
+@ApplicationScoped
 public class CategoryMapper extends SimpleQueryInOutMapperBase<Category, I_CategoryModel> {
 
 	@Override

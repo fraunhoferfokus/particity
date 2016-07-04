@@ -6,16 +6,16 @@ import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.FirstResult;
 import org.apache.deltaspike.data.api.MaxResults;
 import org.apache.deltaspike.data.api.Query;
+import org.apache.deltaspike.data.api.Repository;
 import org.apache.deltaspike.data.api.mapping.MappingConfig;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_SubscriptionStatus;
 import de.particity.model.I_SubscriptionModel;
 import de.particity.model.impl.Subscription;
 import de.particity.model.map.SubscriptionMapper;
 
-@Repository
+@Repository(forEntity=Subscription.class)
 @Transactional
 @MappingConfig(SubscriptionMapper.class)
 public interface SubscriptionRepository extends EntityRepository<I_SubscriptionModel, String> {

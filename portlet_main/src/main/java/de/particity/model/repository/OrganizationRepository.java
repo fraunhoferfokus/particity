@@ -7,17 +7,17 @@ import org.apache.deltaspike.data.api.FirstResult;
 import org.apache.deltaspike.data.api.MaxResults;
 import org.apache.deltaspike.data.api.Query;
 import org.apache.deltaspike.data.api.QueryResult;
+import org.apache.deltaspike.data.api.Repository;
 import org.apache.deltaspike.data.api.SingleResultType;
 import org.apache.deltaspike.data.api.mapping.MappingConfig;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OrgStatus;
 import de.particity.model.I_OrganizationModel;
 import de.particity.model.impl.Organization;
 import de.particity.model.map.OrganizationMapper;
 
-@Repository
+@Repository(forEntity=Organization.class)
 @Transactional
 @MappingConfig(OrganizationMapper.class)
 public interface OrganizationRepository extends EntityRepository<I_OrganizationModel, Long> {

@@ -1,10 +1,13 @@
 package de.particity.model.map;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.deltaspike.data.api.mapping.SimpleQueryInOutMapperBase;
 
 import de.particity.model.I_AddressModel;
 import de.particity.model.impl.Address;
 
+@ApplicationScoped
 public class AddressMapper extends SimpleQueryInOutMapperBase<Address, I_AddressModel> {
 
 	@Override

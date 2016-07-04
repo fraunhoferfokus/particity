@@ -5,14 +5,15 @@ import java.util.List;
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.FirstResult;
 import org.apache.deltaspike.data.api.MaxResults;
+import org.apache.deltaspike.data.api.Repository;
 import org.apache.deltaspike.data.api.mapping.MappingConfig;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import de.particity.model.I_RegionModel;
+import de.particity.model.impl.Region;
 import de.particity.model.map.RegionMapper;
 
-@Repository
+@Repository(forEntity=Region.class)
 @Transactional
 @MappingConfig(RegionMapper.class)
 public interface RegionRepository extends EntityRepository<I_RegionModel, Long> {

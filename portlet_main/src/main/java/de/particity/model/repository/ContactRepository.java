@@ -5,14 +5,15 @@ import java.util.List;
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.FirstResult;
 import org.apache.deltaspike.data.api.MaxResults;
+import org.apache.deltaspike.data.api.Repository;
 import org.apache.deltaspike.data.api.mapping.MappingConfig;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import de.particity.model.I_ContactModel;
+import de.particity.model.impl.Contact;
 import de.particity.model.map.ContactMapper;
 
-@Repository
+@Repository(forEntity=Contact.class)
 @Transactional
 @MappingConfig(ContactMapper.class)
 public interface ContactRepository extends EntityRepository<I_ContactModel, Long> {

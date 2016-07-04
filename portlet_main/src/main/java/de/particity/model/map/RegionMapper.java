@@ -1,10 +1,13 @@
 package de.particity.model.map;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.deltaspike.data.api.mapping.SimpleQueryInOutMapperBase;
 
 import de.particity.model.I_RegionModel;
 import de.particity.model.impl.Region;
 
+@ApplicationScoped
 public class RegionMapper extends SimpleQueryInOutMapperBase<Region, I_RegionModel> {
 
 	@Override

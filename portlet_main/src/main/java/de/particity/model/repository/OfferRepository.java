@@ -7,9 +7,9 @@ import org.apache.deltaspike.data.api.AbstractEntityRepository;
 import org.apache.deltaspike.data.api.FirstResult;
 import org.apache.deltaspike.data.api.MaxResults;
 import org.apache.deltaspike.data.api.Query;
+import org.apache.deltaspike.data.api.Repository;
 import org.apache.deltaspike.data.api.mapping.MappingConfig;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.apache.deltaspike.jpa.api.transaction.Transactional;
 
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferStatus;
 import de.fraunhofer.fokus.oefit.adhoc.custom.E_OfferType;
@@ -20,7 +20,7 @@ import de.particity.model.impl.Address;
 import de.particity.model.impl.Offer;
 import de.particity.model.map.OfferMapper;
 
-@Repository
+@Repository(forEntity=Offer.class)
 @Transactional
 @MappingConfig(OfferMapper.class)
 public abstract class OfferRepository extends AbstractEntityRepository<I_OfferModel, Long> { //extends EntityRepository<I_OfferModel, Long> {

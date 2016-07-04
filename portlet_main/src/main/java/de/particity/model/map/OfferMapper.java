@@ -1,10 +1,13 @@
 package de.particity.model.map;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.deltaspike.data.api.mapping.SimpleQueryInOutMapperBase;
 
 import de.particity.model.I_OfferModel;
 import de.particity.model.impl.Offer;
 
+@ApplicationScoped
 public class OfferMapper extends SimpleQueryInOutMapperBase<Offer, I_OfferModel> {
 
 	@Override

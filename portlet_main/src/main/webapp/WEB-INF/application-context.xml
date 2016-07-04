@@ -26,7 +26,7 @@
     
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
       <property name="dataSource" ref="dataSource"/>
-      <property name="packagesToScan" value="de.particity.model" />
+      <property name="packagesToScan" value="de.particity.model.impl" />
       <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="generateDdl" value="false" />
@@ -47,10 +47,10 @@
 
     <tx:annotation-driven />
 
-	<!--  bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+	<bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
 	      <property name="dataSource" ref="dataSource" />
 	      <property name="changeLog" value="classpath:/META-INF/liquibase/changelog.xml" />
 	      <property name="contexts" value="production" />
-	 </bean-->
+	 </bean>
 	
 </beans>

@@ -1,10 +1,13 @@
 package de.particity.model.map;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.apache.deltaspike.data.api.mapping.SimpleQueryInOutMapperBase;
 
 import de.particity.model.I_ContactModel;
 import de.particity.model.impl.Contact;
 
+@ApplicationScoped
 public class ContactMapper extends SimpleQueryInOutMapperBase<Contact, I_ContactModel> {
 
 	@Override
